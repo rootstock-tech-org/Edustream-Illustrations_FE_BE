@@ -1,0 +1,34 @@
+'use client';
+import { useLabModes } from '@/viz/three/lab-modes';
+
+/** Toggles for Anatomy callouts and Learning-mode hover explanations. */
+export function LabToggles() {
+  const anatomy = useLabModes((s) => s.anatomy);
+  const learning = useLabModes((s) => s.learning);
+  const crossSection = useLabModes((s) => s.crossSection);
+  const toggleAnatomy = useLabModes((s) => s.toggleAnatomy);
+  const toggleLearning = useLabModes((s) => s.toggleLearning);
+  const toggleCrossSection = useLabModes((s) => s.toggleCrossSection);
+
+  return (
+    <div className="flex items-center gap-1.5">
+      <Toggle on={crossSection} onClick={toggleCrossSection} label="Cross-section" />
+      <Toggle on={anatomy} onClick={toggleAnatomy} label="Anatomy" />
+      <Toggle on={learning} onClick={toggleLearning} label="Learning" />
+    </div>
+  );
+}
+
+function Toggle({ on, onClick, label }: { on: boolean; onClick: () => void; label: string }) {
+  return (
+    <button
+      onClick={onClick}
+      aria-pressed={on}
+      className={`rounded-full px-3 py-1 text-xs transition ${
+        on ? 'bg-accent/90 text-white shadow-[0_0_18px_rgba(223,37,49,0.45)]' : 'bg-white/5 text-ink-muted ring-1 ring-white/10 hover:text-ink'
+      }`}
+    >
+      {label}
+    </button>
+  );
+}

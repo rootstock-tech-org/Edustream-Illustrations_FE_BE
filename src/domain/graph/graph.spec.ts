@@ -1,0 +1,39 @@
+import type { SiUnit } from '@/domain/units';
+
+/**
+ * Renderer-agnostic description of a plot. The Recharts renderer and the
+ * accessible data-table are BOTH generated from this one model, guaranteeing
+ * the visual and the screen-reader representations never diverge (Risk R3).
+ */
+export interface GraphSpec {
+  readonly id: string;
+  readonly title: string;
+  readonly x: GraphAxis;
+  readonly y: GraphAxis;
+  readonly series: readonly GraphSeries[];
+  readonly annotations?: readonly GraphAnnotation[];
+}
+
+export interface GraphAxis {
+  readonly label: string;
+  readonly unit: SiUnit;
+  /** Optional display scaling (value/scale shown to the user). */
+  readonly scale?: number;
+}
+
+export interface GraphSeries {
+  readonly id: string;
+  readonly label: string;
+  readonly points: readonly GraphPoint[];
+  /** Token name resolved to a CSS variable by the renderer (not raw hex). */
+  readonly colorToken?: string;
+}
+
+export interface GraphPoint {
+  readonly x: number;
+  readonly y: number;
+}
+
+export type GraphAnnotation =
+  | { readonly kind: 'vline'; readonly x: number; readonly label: string; readonly colorToken?: string }
+  | { readonly kind: 'point'; readonly x: number; readonly y: number; readonly label: string; readonly colorToken?: string };
