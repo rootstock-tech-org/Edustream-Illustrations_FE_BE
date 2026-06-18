@@ -1,28 +1,30 @@
 'use client';
 import { useMemo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Html } from '@react-three/drei';
 import type { Group, Mesh, MeshStandardMaterial } from 'three';
 import type { DeviceGeometry } from './geometry';
 import type { TransistorVisual } from './scene.types';
 import { ChannelField } from './ChannelField';
+import { CalloutLabel } from './CalloutLabel';
 import { damp } from './anim';
 import { color } from './palette';
 
 /**
- * A lateral MOSFET cross-section as in the reference: a body (yellow p-substrate
- * for NMOS / blue n-well for PMOS), two diffusion regions left & right (green n⁺
- * / pink p⁺), a gray polysilicon GATE on top over a thin oxide, and a channel
- * beneath the gate. Source/drain ROLE is assigned by the wiring (outer terminal
- * = source at its rail, inner terminal = drain at the shared Output), never by
- * left/right. Dimensions track W (depth) / L (channel length) / Tox.
+ * Surface features of one MOSFET, BUILT INTO the shared silicon (the body block
+ * — p-substrate or n-well — is owned by the scene, not this component). It draws
+ * the two diffusion regions sunk into the silicon surface (n⁺ for NMOS, p⁺ for
+ * PMOS), the channel between them, and the gate STACK over the channel:
+ *   metal contact → polysilicon gate → gate oxide → channel.
+ * Source/drain ROLE is assigned by the wiring (outer = source at its rail, inner
+ * = drain at the shared output). Dimensions track W (depth) / L (gate length) /
+ * Tox. The local origin sits on the silicon SURFACE (y = 0).
  */
-const BODY_H = 0.45;
-const DIFF_W = 0.5;
-export const gateLength = (g: DeviceGeometry) => 0.4 + g.channelLength * 0.3;
-export const deviceHalfWidth = (g: DeviceGeometry) => (2 * DIFF_W + gateLength(g) + 0.3) / 2;
-/** X distance from device centre to a source/drain contact (for the wiring). */
-export const terminalX = (g: DeviceGeometry) => deviceHalfWidth(g) - DIFF_W / 2;
+const DIFF_W = 0.62; // wider diffusions — the transistor is the hero (hierarchy #1)
+const DIFF_DEPTH = 0.4; // how far the diffusion is implanted into the silicon
+export const gateLength = (g: DeviceGeometry) => 0.52 + g.channelLength * 0.32;
+/** X offset from device centre to a source/drain contact (for the wiring). */
+export const terminalX = (g: DeviceGeometry) => gateLength(g) / 2 + DIFF_W / 2 + 0.08;
+export const deviceHalfWidth = (g: DeviceGeometry) => terminalX(g) + DIFF_W / 2 + 0.1;
 
 export function ParametricTransistor({
   position,
@@ -37,106 +39,104 @@ export function ParametricTransistor({
   heat: number;
   reducedMotion: boolean;
 }) {
-  const body = useRef<Mesh>(null);
   const diffL = useRef<Mesh>(null);
   const diffR = useRef<Mesh>(null);
   const contactL = useRef<Mesh>(null);
   const contactR = useRef<Mesh>(null);
+  const channel = useRef<Mesh>(null);
   const oxide = useRef<Mesh>(null);
   const gate = useRef<Group>(null);
-  const channel = useRef<Mesh>(null);
   const chanMat = useRef<MeshStandardMaterial>(null);
 
   const isP = visual.type === 'pmos';
   const diffusion = useMemo(() => color(isP ? 'pplus' : 'nplus'), [isP]);
-  const bodyColor = useMemo(() => color(isP ? 'nwell' : 'substrate'), [isP]);
   const carrier = visual.tint;
   const poly = color('poly');
   const oxideCol = color('oxide');
   const contactCol = color('contact');
 
-  const cur = useRef({ gl: 0.7, depth: 1.0, tox: 0.08, bw: 1.6 });
+  const cur = useRef({ gl: 0.7, depth: 1.0, tox: 0.06 });
 
   useFrame((_, dt) => {
     const k = reducedMotion ? 1e3 : 7;
     const c = cur.current;
     c.gl = damp(c.gl, gateLength(geometry), k, dt);
-    c.depth = damp(c.depth, geometry.bodyWidth, k, dt);
-    c.tox = damp(c.tox, Math.max(0.04, geometry.oxideGap * 0.7), k, dt);
-    c.bw = damp(c.bw, 2 * DIFF_W + c.gl + 0.3, k, dt);
-    const sx = c.bw / 2 - DIFF_W / 2;
+    c.depth = damp(c.depth, geometry.bodyWidth * 0.86, k, dt);
+    c.tox = damp(c.tox, Math.max(0.04, geometry.oxideGap * 0.6), k, dt);
+    const tx = c.gl / 2 + DIFF_W / 2 + 0.08;
 
-    if (body.current) body.current.scale.set(c.bw, BODY_H, c.depth);
-    if (diffL.current) { diffL.current.scale.set(DIFF_W, 0.22, c.depth * 0.92); diffL.current.position.x = -sx; }
-    if (diffR.current) { diffR.current.scale.set(DIFF_W, 0.22, c.depth * 0.92); diffR.current.position.x = sx; }
-    if (contactL.current) contactL.current.position.x = -sx;
-    if (contactR.current) contactR.current.position.x = sx;
-    if (channel.current) channel.current.scale.set(c.gl + DIFF_W, 0.07, c.depth * 0.82);
-    if (oxide.current) { oxide.current.scale.set(c.gl + 0.1, c.tox, c.depth * 0.85); oxide.current.position.y = 0.1 + c.tox / 2; }
-    if (gate.current) { gate.current.scale.set(c.gl + 0.06, 1, c.depth * 0.82); gate.current.position.y = 0.1 + c.tox + 0.09; }
+    // Sit the diffusions slightly proud of the silicon surface so their tops are
+    // never coplanar with the substrate/n-well (avoids z-fighting on rotation).
+    if (diffL.current) { diffL.current.scale.set(DIFF_W, DIFF_DEPTH, c.depth); diffL.current.position.set(-tx, -DIFF_DEPTH / 2 + 0.04, 0); }
+    if (diffR.current) { diffR.current.scale.set(DIFF_W, DIFF_DEPTH, c.depth); diffR.current.position.set(tx, -DIFF_DEPTH / 2 + 0.04, 0); }
+    if (contactL.current) contactL.current.position.x = -tx;
+    if (contactR.current) contactR.current.position.x = tx;
+    if (channel.current) channel.current.scale.set(c.gl + DIFF_W * 0.5, 0.07, c.depth * 0.96);
+    if (oxide.current) { oxide.current.scale.set(c.gl + 0.12, c.tox, c.depth * 0.9); oxide.current.position.y = 0.02 + c.tox / 2; }
+    if (gate.current) { gate.current.scale.set(c.gl + 0.04, 1, c.depth * 0.82); gate.current.position.y = 0.02 + c.tox + 0.15; }
 
     if (chanMat.current) {
-      chanMat.current.opacity = damp(chanMat.current.opacity, 0.06 + visual.channelDensity * 0.92, reducedMotion ? 1e3 : 6, dt);
+      chanMat.current.opacity = damp(chanMat.current.opacity, 0.06 + visual.channelDensity * 0.9, reducedMotion ? 1e3 : 6, dt);
       chanMat.current.emissiveIntensity = damp(chanMat.current.emissiveIntensity, 0.3 + visual.channelDensity * 1.4 + visual.activity * 1.8, 6, dt);
     }
   });
 
   return (
     <group position={position}>
-      <mesh ref={body} position={[0, -BODY_H / 2, 0]}>
+      {/* Diffusion regions implanted into the silicon surface — bright, so the
+          transistor pops against the muted substrate (hierarchy #1). */}
+      <mesh ref={diffL} position={[-1, -DIFF_DEPTH / 2 + 0.04, 0]}>
         <boxGeometry args={[1, 1, 1]} />
-        <meshStandardMaterial color={bodyColor} roughness={0.85} metalness={0.04} />
+        <meshStandardMaterial color={diffusion} emissive={diffusion} emissiveIntensity={0.2 + visual.activity * 0.3} roughness={0.5} metalness={0.05} polygonOffset polygonOffsetFactor={-3} polygonOffsetUnits={-3} />
+      </mesh>
+      <mesh ref={diffR} position={[1, -DIFF_DEPTH / 2 + 0.04, 0]}>
+        <boxGeometry args={[1, 1, 1]} />
+        <meshStandardMaterial color={diffusion} emissive={diffusion} emissiveIntensity={0.2 + visual.activity * 0.3} roughness={0.5} metalness={0.05} polygonOffset polygonOffsetFactor={-3} polygonOffsetUnits={-3} />
       </mesh>
 
-      {/* Inversion channel under the gate, bridging the diffusions */}
-      <mesh ref={channel} position={[0, 0, 0]}>
+      {/* Inversion channel between the diffusions, under the gate */}
+      <mesh ref={channel} position={[0, -0.015, 0]}>
         <boxGeometry args={[1, 1, 1]} />
         <meshStandardMaterial ref={chanMat} color={carrier} emissive={carrier} emissiveIntensity={0.6} transparent opacity={0.2} depthWrite={false} />
       </mesh>
 
-      {/* Source / drain diffusions */}
-      <mesh ref={diffL} position={[-1, -0.01, 0]}>
-        <boxGeometry args={[1, 1, 1]} />
-        <meshStandardMaterial color={diffusion} emissive={diffusion} emissiveIntensity={0.05 + visual.activity * 0.2} roughness={0.6} metalness={0.05} />
-      </mesh>
-      <mesh ref={diffR} position={[1, -0.01, 0]}>
-        <boxGeometry args={[1, 1, 1]} />
-        <meshStandardMaterial color={diffusion} emissive={diffusion} emissiveIntensity={0.05 + visual.activity * 0.2} roughness={0.6} metalness={0.05} />
-      </mesh>
-
       {/* Metal contacts on the diffusions */}
-      <mesh ref={contactL} position={[-1, 0.18, 0]}>
+      <mesh ref={contactL} position={[-1, 0.16, 0]}>
         <boxGeometry args={[0.22, 0.12, 0.45]} />
         <meshStandardMaterial color={contactCol} metalness={0.4} roughness={0.5} />
       </mesh>
-      <mesh ref={contactR} position={[1, 0.18, 0]}>
+      <mesh ref={contactR} position={[1, 0.16, 0]}>
         <boxGeometry args={[0.22, 0.12, 0.45]} />
         <meshStandardMaterial color={contactCol} metalness={0.4} roughness={0.5} />
       </mesh>
 
-      {/* Thin gate oxide */}
-      <mesh ref={oxide} position={[0, 0.12, 0]}>
+      {/* Gate stack: thin oxide → poly gate → metal contact, over the channel */}
+      <mesh ref={oxide} position={[0, 0.05, 0]}>
         <boxGeometry args={[1, 1, 1]} />
-        <meshStandardMaterial color={oxideCol} roughness={0.5} metalness={0.1} emissive={oxideCol} emissiveIntensity={0.1} />
+        <meshStandardMaterial color={oxideCol} roughness={0.5} metalness={0.1} emissive={oxideCol} emissiveIntensity={0.12} />
       </mesh>
-
-      {/* Polysilicon gate (gray) on top */}
-      <group ref={gate} position={[0, 0.3, 0]}>
+      {/* Polysilicon gate — taller/iconic so the device reads as a transistor */}
+      <group ref={gate} position={[0, 0.24, 0]}>
         <mesh>
-          <boxGeometry args={[1, 0.16, 1]} />
-          <meshStandardMaterial color={poly} metalness={0.45} roughness={0.5} />
+          <boxGeometry args={[1, 0.26, 1]} />
+          <meshStandardMaterial color={poly} metalness={0.5} roughness={0.45} />
+        </mesh>
+        <mesh position={[0, 0.21, 0]}>
+          <boxGeometry args={[0.34, 0.14, 0.42]} />
+          <meshStandardMaterial color={contactCol} metalness={0.4} roughness={0.5} />
         </mesh>
       </group>
 
       <ChannelField visual={visual} geometry={geometry} heat={heat} reducedMotion={reducedMotion} />
 
-      <Html center distanceFactor={9} position={[0, 0.85, 0]}>
+      {/* Device label in the outer-top lane, leader to the gate — never on the device */}
+      <CalloutLabel anchor={[0, 0.5, 0.2]} position={[isP ? 0.7 : -0.7, 1.25, 0]}>
         <span className="flex select-none items-center gap-1.5 whitespace-nowrap rounded-md bg-black/55 px-2 py-0.5 text-[10px] backdrop-blur-sm">
           <span className="inline-block h-2 w-2 rounded-full" style={{ background: diffusion }} />
           <span className="eyebrow text-[9px] text-white">{isP ? 'pMOS' : 'nMOS'}</span>
           <span style={{ color: visual.regionAccent }}>{visual.region}</span>
         </span>
-      </Html>
+      </CalloutLabel>
     </group>
   );
 }

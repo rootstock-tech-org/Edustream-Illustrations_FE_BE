@@ -17,64 +17,94 @@ import { damp } from './anim';
  * "Cross-section" view (low-fov telephoto ≈ flat textbook diagram). The
  * cross-section auto-engages whenever Anatomy or Learning is on.
  */
+const DEVICE_FOV = 40;
+
 function CameraRig({ cross, reducedMotion }: { cross: boolean; reducedMotion: boolean }) {
   const cam = useThree((s) => s.camera) as PerspectiveCamera;
   useFrame((_, dt) => {
     const k = reducedMotion ? 1e3 : 4;
-    const target = cross
-      ? { x: 0, y: 0.1, z: 12, fov: 22 }
-      : { x: 0, y: 1.4, z: 9.5, fov: 40 };
-    cam.position.x = damp(cam.position.x, target.x, k, dt);
-    cam.position.y = damp(cam.position.y, target.y, k, dt);
-    cam.position.z = damp(cam.position.z, target.z, k, dt);
-    cam.fov = damp(cam.fov, target.fov, k, dt);
-    cam.updateProjectionMatrix();
+    if (cross) {
+      // Cross-section: front-locked (OrbitControls is disabled), so the rig owns
+      // the camera — ease it to the flat textbook view.
+      cam.position.x = damp(cam.position.x, 0, k, dt);
+      cam.position.y = damp(cam.position.y, 0.2, k, dt);
+      cam.position.z = damp(cam.position.z, 10, k, dt);
+      cam.fov = damp(cam.fov, 22, k, dt);
+      cam.updateProjectionMatrix();
+    } else if (Math.abs(cam.fov - DEVICE_FOV) > 0.05) {
+      // Device view: OrbitControls owns the POSITION (so the user can rotate
+      // freely) — the rig only restores the fov after leaving cross-section.
+      cam.fov = damp(cam.fov, DEVICE_FOV, k, dt);
+      cam.updateProjectionMatrix();
+    }
   });
   return null;
 }
 
 export type { SceneData } from './scene.types';
 
-const NMOS_X = -1.4; // nMOS on the left
-const PMOS_X = 1.4; // pMOS on the right
-const DEVICE_Y = 0;
+const NMOS_X = -2.4; // nMOS (over p-substrate, left)
+const PMOS_X = 2.4; // pMOS (over n-well, right)
+const DEVICE_Y = 0; // silicon surface
+const NMOS_BODY_X = -3.7; // p⁺ body tap (substrate) → GND
+const PMOS_WELL_X = 3.8; // n⁺ well contact (n-well) → VDD
+// Substrate/well are thinned + muted so they RECEDE (hierarchy #5). The
+// transistors read as the heroes against a recessive silicon base.
+const SUB_H = 0.6;
+const WELL_H = 0.42;
+const WELL_LEFT = 0.1;
+const SUBSTRATE_MUTED = '#b3a468';
+const NWELL_MUTED = '#62679e';
 
 /**
- * The interactive CMOS inverter stage in the reference layout: nMOS (left,
- * p-substrate) and pMOS (right, n-well) side-by-side on a shared p-substrate,
- * their inner drains meeting at the centred OUTPUT, sources reaching outward to
- * GND (left) and VDD (right), with the shared INPUT gate over both. Current
- * flows along VDD→pMOS→Output (Input=0) or Output→nMOS→GND (Input=1).
+ * Physically-correct CMOS inverter (per the reference cross-section). One
+ * foundational P-SUBSTRATE owns the scene; the N-WELL is EMBEDDED in its right
+ * half (substrate wraps it below and to the left). NMOS n⁺ diffusions are
+ * implanted in the p-substrate (left); PMOS p⁺ diffusions in the n-well (right).
+ * Body taps are reserved: p⁺→GND in the substrate, n⁺→VDD in the n-well. The
+ * shared inner drains meet at the centred OUTPUT; INPUT drives both gates.
  */
 function Stage({ data }: { data: SceneData }) {
   const accent = color('accent');
   const rim = data.pullUp.activity + data.pullDown.activity;
   const cross = useLabModes(crossSectionActive);
-  const depth = data.geometry.bodyWidth + 0.6;
+  const depth = data.geometry.bodyWidth + 0.5;
+  const contactCol = color('contact');
 
   return (
     <>
       <CameraRig cross={cross} reducedMotion={data.reducedMotion} />
-      <ambientLight intensity={0.65} />
+      <ambientLight intensity={0.7} />
       <directionalLight position={[3, 8, 7]} intensity={3.0} color="#ffffff" />
       <pointLight position={[-6, 2, 4]} intensity={20} color="#dfe8ff" />
       <pointLight position={[0, 0, 6]} intensity={2 + rim * 12} color={accent} distance={20} />
       <pointLight position={[0, 0, 3]} intensity={data.heat * 30} color="#ffffff" distance={14} />
 
-      {/* Shared p-substrate base under both devices */}
-      <mesh position={[0, DEVICE_Y - 0.72, 0]}>
-        <boxGeometry args={[6.4, 0.7, depth]} />
-        <meshStandardMaterial color={color('substrate')} roughness={0.9} metalness={0.03} />
+      {/* Foundational P-SUBSTRATE — recessive base (muted + thin) */}
+      <mesh position={[0, DEVICE_Y - SUB_H / 2, 0]}>
+        <boxGeometry args={[10.4, SUB_H, depth]} />
+        <meshStandardMaterial color={SUBSTRATE_MUTED} roughness={0.95} metalness={0.02} />
       </mesh>
+      {/* N-WELL — embedded in the substrate's right half. Its faces are kept
+          OFF the substrate's planes (top raised slightly, back pulled inside,
+          front nudged forward) and biased forward via polygonOffset, so the two
+          silicon volumes never z-fight (no flicker on rotation). */}
+      <mesh position={[(WELL_LEFT + 5.0) / 2, 0.012 - WELL_H / 2, 0.12]}>
+        <boxGeometry args={[5.0 - WELL_LEFT, WELL_H, depth - 0.2]} />
+        <meshStandardMaterial color={NWELL_MUTED} roughness={0.9} metalness={0.03} polygonOffset polygonOffsetFactor={-2} polygonOffsetUnits={-2} />
+      </mesh>
+
+      {/* Body taps (reserved): p⁺→GND in substrate, n⁺→VDD in n-well */}
+      <BodyTap x={NMOS_BODY_X} depth={depth} diff={color('pplus')} contactCol={contactCol} />
+      <BodyTap x={PMOS_WELL_X} depth={depth} diff={color('nplus')} contactCol={contactCol} />
 
       <Wiring
         geometry={data.geometry}
         nmosX={NMOS_X}
         pmosX={PMOS_X}
         deviceY={DEVICE_Y}
-        /* Drive the current pulses by which device is CONDUCTING (channel
-           formed), so Input=0 lights VDD→Output and Input=1 lights Output→GND;
-           at the trip point both conduct = the genuine switching short-circuit. */
+        nmosBodyX={NMOS_BODY_X}
+        pmosWellX={PMOS_WELL_X}
         pullUpActivity={data.pullUp.channelDensity}
         pullDownActivity={data.pullDown.channelDensity}
         voutIntensity={data.voutIntensity}
@@ -87,8 +117,37 @@ function Stage({ data }: { data: SceneData }) {
       <DeviceHandles geometry={data.geometry} position={[PMOS_X, DEVICE_Y, 0]} />
       <AnatomyOverlay geometry={data.geometry} deviceX={NMOS_X} deviceY={DEVICE_Y} />
 
-      <OrbitControls makeDefault enablePan={false} enableRotate={!cross} enableZoom={!cross} minDistance={6} maxDistance={20} target={[0, DEVICE_Y, 0]} />
+      <OrbitControls
+        makeDefault
+        enablePan={false}
+        enableRotate={!cross}
+        enableZoom={!cross}
+        enableDamping
+        dampingFactor={0.08}
+        rotateSpeed={0.9}
+        minDistance={5}
+        maxDistance={22}
+        minPolarAngle={0.3}
+        maxPolarAngle={Math.PI / 2 + 0.15}
+        target={[0, 0.2, 0]}
+      />
     </>
+  );
+}
+
+/** A body/well contact tap: a small diffusion implanted in the silicon + metal. */
+function BodyTap({ x, depth, diff, contactCol }: { x: number; depth: number; diff: string; contactCol: string }) {
+  return (
+    <group position={[x, 0, 0]}>
+      <mesh position={[0, -0.16, 0]}>
+        <boxGeometry args={[0.42, 0.32, depth * 0.7]} />
+        <meshStandardMaterial color={diff} roughness={0.6} metalness={0.05} />
+      </mesh>
+      <mesh position={[0, 0.16, 0]}>
+        <boxGeometry args={[0.24, 0.14, 0.45]} />
+        <meshStandardMaterial color={contactCol} metalness={0.4} roughness={0.5} />
+      </mesh>
+    </group>
   );
 }
 
@@ -96,7 +155,7 @@ export function DeviceScene({ data }: { data: SceneData }) {
   const light = useThemeStore((s) => s.theme === 'light');
   const bg = light ? '#eef1ec' : '#09100c';
   return (
-    <Canvas camera={{ position: [0, 1.4, 9.5], fov: 40 }} dpr={[1, 2]} gl={{ antialias: true, alpha: false }} frameloop={data.reducedMotion ? 'demand' : 'always'}>
+    <Canvas camera={{ position: [0, 0.8, 8.0], fov: 40 }} dpr={[1, 2]} gl={{ antialias: true, alpha: false }} frameloop={data.reducedMotion ? 'demand' : 'always'}>
       <color attach="background" args={[bg]} />
       <fog attach="fog" args={[bg, 12, 24]} />
       <Stage data={data} />

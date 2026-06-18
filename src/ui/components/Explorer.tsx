@@ -57,8 +57,9 @@ export function Explorer() {
       {/* HERO: the interactive device */}
       <section className="relative h-[62vh] min-h-[30rem] w-full overflow-hidden rounded-3xl glass">
         <DeviceSceneCard />
+        {/* Metrics: slim horizontal strip along the bottom — no longer steals horizontal space. */}
         {result && (
-          <div className="pointer-events-none absolute right-4 top-4 flex flex-col gap-2">
+          <div className="pointer-events-none absolute bottom-3 left-1/2 flex -translate-x-1/2 flex-row gap-2">
             <FloatingChip label="Vout" value={formatQuantity(result.operatingPoint.outputVoltage.quantity)} />
             <FloatingChip label="I_D" value={formatQuantity(result.operatingPoint.current.quantity)} />
             <FloatingChip label="Delay" value={formatQuantity(result.metrics.propagationDelay.quantity)} />

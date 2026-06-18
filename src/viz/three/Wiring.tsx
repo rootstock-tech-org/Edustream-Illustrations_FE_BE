@@ -1,11 +1,12 @@
 'use client';
 import { useMemo } from 'react';
-import { Line, Html } from '@react-three/drei';
+import { Line } from '@react-three/drei';
 import { color } from './palette';
 import type { DeviceGeometry } from './geometry';
 import { terminalX } from './ParametricTransistor';
 import { WireFlow } from './WireFlow';
 import { InlineVoltageEditor } from './InlineVoltageEditor';
+import { CalloutLabel } from './CalloutLabel';
 
 /**
  * Reference CMOS-inverter wiring (horizontal). nMOS on the left, pMOS on the
@@ -24,6 +25,8 @@ export function Wiring({
   nmosX,
   pmosX,
   deviceY,
+  nmosBodyX,
+  pmosWellX,
   pullUpActivity,
   pullDownActivity,
   voutIntensity,
@@ -33,6 +36,8 @@ export function Wiring({
   nmosX: number;
   pmosX: number;
   deviceY: number;
+  nmosBodyX: number;
+  pmosWellX: number;
   pullUpActivity: number;
   pullDownActivity: number;
   voutIntensity: number;
@@ -43,10 +48,11 @@ export function Wiring({
 
   const tx = terminalX(geometry);
   const cY = deviceY + 0.24; // contact height
-  const gndX = nmosX - tx - 0.7;
-  const vddX = pmosX + tx + 0.7;
-  const gateTopY = deviceY + 0.62;
-  const inputY = deviceY + 1.25;
+  // Rails reach out past the body taps (p⁺→GND, n⁺→VDD) so the body is tied.
+  const gndX = nmosBodyX - 0.35;
+  const vddX = pmosWellX + 0.35;
+  const gateTopY = deviceY + 0.42; // meets the gate's metal contact
+  const inputY = deviceY + 1.1;
 
   // Terminals.
   const nSrc: P3 = [nmosX - tx, cY, 0];
@@ -60,7 +66,7 @@ export function Wiring({
   const wNDrnOut: P3[] = [nDrn, out];
   const wPDrnOut: P3[] = [pDrn, out];
   const wVddSrc: P3[] = [[vddX, cY, 0], pSrc];
-  const wOutStub: P3[] = [out, [0, deviceY - 0.95, 0]];
+  const wOutStub: P3[] = [out, [0, deviceY + 0.58, 0.35]];
 
   // Input (shared gate) — a metal comb to both gates.
   const wInput: P3[] = [[0, inputY, 0], [0, deviceY + 0.95, 0]];
@@ -85,15 +91,20 @@ export function Wiring({
         <meshStandardMaterial color={color('vdd')} emissive={color('vdd')} emissiveIntensity={0.3} metalness={0.4} roughness={0.5} />
       </mesh>
 
-      {/* Power & input metal wires */}
+      {/* Thin, recessive metal wires — supporting, not dominating (hierarchy #3/#4) */}
       {[wGndSrc, wNDrnOut, wPDrnOut, wVddSrc, wOutStub, wInput, wInN, wInP].map((pts, i) => (
-        <Line key={i} points={pts} color={metal} lineWidth={i >= 5 ? 4 : 3.5} />
+        <Line key={i} points={pts} color={metal} lineWidth={i >= 5 ? 2.5 : 2} transparent opacity={0.85} />
       ))}
 
-      {/* OUTPUT — centred junction of both drains */}
+      {/* OUTPUT — the shared drain junction: an immediately identifiable glowing
+          node + soft halo (hierarchy #2). */}
       <mesh position={out}>
-        <sphereGeometry args={[0.14, 18, 18]} />
-        <meshStandardMaterial color={voutColor} emissive={voutColor} emissiveIntensity={0.25 + voutIntensity * 1.0} metalness={0.4} roughness={0.4} />
+        <sphereGeometry args={[0.2, 22, 22]} />
+        <meshStandardMaterial color={voutColor} emissive={voutColor} emissiveIntensity={0.4 + voutIntensity * 1.1} metalness={0.3} roughness={0.35} />
+      </mesh>
+      <mesh position={out}>
+        <sphereGeometry args={[0.34, 18, 18]} />
+        <meshBasicMaterial color={voutColor} transparent opacity={0.12} depthWrite={false} />
       </mesh>
       {/* INPUT node */}
       <mesh position={[0, inputY, 0]}>
@@ -102,20 +113,20 @@ export function Wiring({
       </mesh>
 
       {/* CURRENT — red pulses, conducting half only, flowing toward GND */}
-      <WireFlow points={wVddSrc.slice().reverse() as P3[]} activity={pullUpActivity} colorHex={accent} count={4} size={0.05} reducedMotion={reducedMotion} />
-      <WireFlow points={wPDrnOut} activity={pullUpActivity} colorHex={accent} count={3} size={0.05} reducedMotion={reducedMotion} />
-      <WireFlow points={wNDrnOut.slice().reverse() as P3[]} activity={pullDownActivity} colorHex={accent} count={3} size={0.05} reducedMotion={reducedMotion} />
-      <WireFlow points={wGndSrc} activity={pullDownActivity} colorHex={accent} count={4} size={0.05} reducedMotion={reducedMotion} />
+      <WireFlow points={wVddSrc.slice().reverse() as P3[]} activity={pullUpActivity} colorHex={accent} count={3} size={0.038} reducedMotion={reducedMotion} />
+      <WireFlow points={wPDrnOut} activity={pullUpActivity} colorHex={accent} count={2} size={0.038} reducedMotion={reducedMotion} />
+      <WireFlow points={wNDrnOut.slice().reverse() as P3[]} activity={pullDownActivity} colorHex={accent} count={2} size={0.038} reducedMotion={reducedMotion} />
+      <WireFlow points={wGndSrc} activity={pullDownActivity} colorHex={accent} count={3} size={0.038} reducedMotion={reducedMotion} />
 
-      {/* Labels / editable voltages */}
-      <Html center distanceFactor={9} position={[gndX, cY - 0.4, 0]}>
+      {/* Labels in clear margins, tied to their node by a leader line */}
+      <CalloutLabel anchor={[gndX, cY, 0]} position={[gndX - 0.7, 0.5, 0]}>
         <span className="eyebrow select-none rounded-md bg-black/65 px-2 py-0.5 text-[9px] text-white ring-1 ring-black/10 dark:ring-white/10 backdrop-blur-sm">GND</span>
-      </Html>
-      <InlineVoltageEditor position={[vddX, cY + 0.4, 0]} paramKey="VDD" label="VDD" />
-      <InlineVoltageEditor position={[0, inputY + 0.28, 0]} paramKey="Vin" label="INPUT" />
-      <Html center distanceFactor={9} position={[0, deviceY - 1.2, 0]}>
+      </CalloutLabel>
+      <CalloutLabel anchor={[0, cY, 0]} position={[0, deviceY - 1.0, 0]}>
         <span className="eyebrow select-none rounded-md bg-black/60 px-1.5 py-0.5 text-[9px] text-white ring-1 ring-black/10 dark:ring-white/10 backdrop-blur-sm">OUTPUT</span>
-      </Html>
+      </CalloutLabel>
+      <InlineVoltageEditor position={[vddX + 0.5, cY + 0.5, 0]} paramKey="VDD" label="VDD" />
+      <InlineVoltageEditor position={[0, inputY + 0.35, 0]} paramKey="Vin" label="INPUT" />
     </group>
   );
 }
