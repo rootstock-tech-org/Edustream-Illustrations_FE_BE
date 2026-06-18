@@ -27,7 +27,7 @@ export function ParameterControl({ descriptor, value, onChange }: Props) {
           id={id}
           value={String(value)}
           onChange={(e) => onChange(e.target.value)}
-          className="rounded-md bg-white/5 px-2 py-1.5 text-sm text-ink ring-1 ring-white/10"
+          className="rounded-md bg-black/[0.04] dark:bg-white/5 px-2 py-1.5 text-sm text-ink ring-1 ring-black/10 dark:ring-white/10"
         >
           {kind.options.map((o) => (
             <option key={o.value} value={o.value}>

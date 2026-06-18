@@ -26,7 +26,7 @@ export function GraphDataTable({ spec, maxRows = 16 }: { spec: GraphSpec; maxRow
       </thead>
       <tbody className="font-mono tabular-nums">
         {rows.map((i) => (
-          <tr key={i} className="border-t border-white/5">
+          <tr key={i} className="border-t border-black/5 dark:border-white/5">
             <td className="px-2 py-1 text-left">{primary?.points[i]?.x.toPrecision(3)}</td>
             {spec.series.map((s) => (
               <td key={s.id} className="px-2 py-1 text-right">{s.points[i]?.y.toPrecision(3)}</td>

@@ -50,14 +50,14 @@ export function MonteCarloPanel() {
             onChange={(e) => setTotal(Number(e.target.value))}
             disabled={running}
             aria-label="Sample count"
-            className="rounded-md bg-surface px-2 py-1.5 text-sm text-ink ring-1 ring-white/10"
+            className="rounded-md bg-surface px-2 py-1.5 text-sm text-ink ring-1 ring-black/10 dark:ring-white/10"
           >
             {[300, 600, 1200].map((n) => (
               <option key={n} value={n}>{n} samples</option>
             ))}
           </select>
           {running ? (
-            <button onClick={cancel} className="rounded-md bg-surface px-3 py-1.5 text-sm text-ink-muted ring-1 ring-white/10">
+            <button onClick={cancel} className="rounded-md bg-surface px-3 py-1.5 text-sm text-ink-muted ring-1 ring-black/10 dark:ring-white/10">
               Stop ({progress}%)
             </button>
           ) : (
@@ -73,7 +73,7 @@ export function MonteCarloPanel() {
       ) : (
         <div className="flex flex-col gap-5">
           {/* Yield + spec limit */}
-          <div className="rounded-lg bg-surface p-3 ring-1 ring-white/10">
+          <div className="rounded-lg bg-surface p-3 ring-1 ring-black/10 dark:ring-white/10">
             <div className="flex items-baseline justify-between">
               <span className="text-sm text-ink">Yield @ delay ≤ spec</span>
               <span className="font-mono text-lg tabular-nums" style={{ color: 'rgb(var(--nmos))' }}>

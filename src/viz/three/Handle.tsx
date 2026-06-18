@@ -85,7 +85,7 @@ export function Handle({
           onFocus={() => setActive(true)}
           onBlur={() => setActive(false)}
           className={`flex items-center gap-1 whitespace-nowrap rounded-md px-1.5 py-0.5 text-[10px] backdrop-blur-sm transition ${
-            active ? 'bg-accent/90 ring-1 ring-white/30' : 'bg-black/55 ring-1 ring-white/15'
+            active ? 'bg-accent/90 ring-1 ring-white/30' : 'bg-black/55 ring-1 ring-black/15 dark:ring-white/15'
           }`}
         >
           <span className="eyebrow text-[9px] text-white">{label}</span>

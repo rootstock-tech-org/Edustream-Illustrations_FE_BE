@@ -18,7 +18,7 @@ export function ImpactCard() {
 
       <div className="flex flex-wrap gap-1.5">
         {impact.whatChanged.map((c) => (
-          <span key={c.key} className="rounded-md bg-surface px-2 py-1 text-xs ring-1 ring-white/10">
+          <span key={c.key} className="rounded-md bg-surface px-2 py-1 text-xs ring-1 ring-black/10 dark:ring-white/10">
             <span className="text-ink-muted">{c.label}: </span>
             <span className="font-mono text-ink">{c.from} → {c.to}</span>
             {c.percent !== null && <Pct value={c.percent} />}

@@ -46,7 +46,7 @@ export function OutputPanel({ onInspect }: Props) {
         {op.transistors.map((t) => (
           <span
             key={t.id}
-            className="rounded-md bg-white/5 px-2 py-1 text-xs ring-1 ring-white/10"
+            className="rounded-md bg-black/[0.04] dark:bg-white/5 px-2 py-1 text-xs ring-1 ring-black/10 dark:ring-white/10"
           >
             <span className="text-ink-muted">{t.id}</span>{' '}
             <span className="font-medium text-ink">{t.region}</span>{' '}

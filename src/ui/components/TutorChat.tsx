@@ -53,7 +53,7 @@ export function TutorChat() {
             <button
               key={s}
               onClick={() => send(s)}
-              className="rounded-full bg-surface px-2 py-1 text-[11px] text-ink-muted ring-1 ring-white/10 hover:text-ink"
+              className="rounded-full bg-surface px-2 py-1 text-[11px] text-ink-muted ring-1 ring-black/10 dark:ring-white/10 hover:text-ink"
             >
               {s}
             </button>
@@ -74,7 +74,7 @@ export function TutorChat() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Ask a question…"
-          className="min-w-0 flex-1 rounded-md bg-surface px-2 py-1.5 text-sm text-ink ring-1 ring-white/10"
+          className="min-w-0 flex-1 rounded-md bg-surface px-2 py-1.5 text-sm text-ink ring-1 ring-black/10 dark:ring-white/10"
         />
         <button
           type="submit"

@@ -1,39 +1,40 @@
 /**
- * Device-material palette matching the CMOS cross-section reference legend:
- *   POLY GATE pink · GATE OXIDE gray · P+ DIFFUSION light-green ·
- *   N+ DIFFUSION dark-green · METAL purple · CONTACT gold · WELL blue ·
- *   SUBSTRATE tan. These textbook colours make each structure self-evident.
- *   The red accent stays for the VDD rail / energized current only.
+ * Device-material palette matching the CMOS layout/cross-section reference:
+ *   p-substrate = yellow, n-well = blue, n⁺ diffusion = green, p⁺ diffusion =
+ *   pink, polysilicon gate = gray, gate oxide = thin yellow, metal = silver,
+ *   contacts = dark. These make the academically-correct structure self-evident.
+ *   The red accent is reserved for the live current (not a static region).
  */
 export const PALETTE: Record<string, string> = {
-  surface: '#000000',
-  ink: '#ffffff',
-  'ink-muted': '#a1a6b0',
-  accent: '#df2531',
+  surface: '#09100c',
+  ink: '#fcfbf9',
+  'ink-muted': '#96a898',
+  accent: '#7ae582', // brand mint — handles / selection / rim glow
+  current: '#16bac5', // brand teal — drain–source CURRENT (distinct from green n⁺)
 
   // Reference legend
-  well: '#9fb8d4', // WELL — light steel blue (PMOS body)
-  substrate: '#d6c7a0', // SUBSTRATE — tan/beige (NMOS body / p-substrate)
-  pplus: '#a8d65e', // P+ DIFFUSION — light yellow-green (PMOS S/D)
-  nplus: '#2f8f4f', // N+ DIFFUSION — dark green (NMOS S/D)
-  oxide: '#abacb2', // GATE OXIDE — gray
-  poly: '#ef8aa0', // POLY GATE — pink
-  contact: '#e2a83a', // CONTACT — gold
-  metal: '#6a40b8', // METAL — purple (VIN / VOUT / interconnect)
-  vdd: '#e23b3b', // VDD rail — red
+  substrate: '#ecd98f', // p-type substrate — yellow
+  nwell: '#8a8fce', // n-well — blue/periwinkle (PMOS body)
+  nplus: '#5cb85c', // n⁺ diffusion — green (NMOS S/D)
+  pplus: '#e57a92', // p⁺ diffusion — pink (PMOS S/D)
+  poly: '#9a9ca3', // polysilicon gate — gray
+  oxide: '#e0c24a', // gate oxide — thin yellow
+  metal: '#b9bdc6', // metal interconnect — silver
+  contact: '#2c2c33', // contact — dark
+
+  vdd: '#e23b3b', // VDD rail accent — red
   gnd: '#1c1c20', // GND rail — near-black
 
-  // Carriers (channel glow) — cool electrons / warm holes
+  // Carriers (channel glow)
   electron: '#bfe6ff',
   hole: '#ffcf9e',
 
   // legacy aliases
-  steel: '#cdd2da',
-  nmos: '#2f8f4f',
-  pmos: '#a8d65e',
-  gate: '#ef8aa0',
-  'gate-cap': '#e2a83a',
-  nwell: '#9fb8d4',
+  steel: '#b9bdc6',
+  nmos: '#5cb85c',
+  pmos: '#e57a92',
+  gate: '#9a9ca3',
+  'gate-cap': '#2c2c33',
   heat: '#ffffff',
 };
 

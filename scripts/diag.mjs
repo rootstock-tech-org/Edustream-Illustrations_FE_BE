@@ -1,0 +1,10 @@
+import { chromium } from 'playwright';
+const b = await chromium.launch({ args: ['--use-gl=angle','--use-angle=swiftshader','--ignore-gpu-blocklist','--enable-unsafe-swiftshader'] });
+const p = await b.newPage({ viewport: { width: 1400, height: 900 } });
+p.on('console', m => { if (m.type()==='error') console.log('PAGE ERR:', m.text().slice(0,300)); });
+p.on('pageerror', e => console.log('PAGEERROR:', String(e).slice(0,300)));
+await p.goto('http://localhost:3138', { waitUntil: 'domcontentloaded' });
+await p.waitForTimeout(4000);
+const hasCanvas = await p.locator('canvas').count();
+console.log('canvas count:', hasCanvas);
+await b.close();

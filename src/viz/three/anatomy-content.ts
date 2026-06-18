@@ -13,15 +13,15 @@ export interface RegionInfo {
 export const REGION_INFO: Readonly<Record<string, RegionInfo>> = {
   source: {
     term: 'Source',
-    what: 'A heavily-doped terminal region.',
+    what: 'The OUTER diffusion — the terminal tied to the supply rail.',
     does: 'Supplies the carriers that flow through the channel.',
-    why: 'Defines one end of the conduction path; referenced by V_GS.',
+    why: 'Source is defined by its CONNECTION (VDD for PMOS, GND for NMOS), not by left/right.',
   },
   drain: {
     term: 'Drain',
-    what: 'A heavily-doped terminal region opposite the source.',
+    what: 'The INNER diffusion — the terminal tied to the shared output.',
     does: 'Collects the carriers that traverse the channel.',
-    why: 'The drain current I_D is what the circuit uses.',
+    why: 'Drain is the terminal connected to VOUT, where both devices’ drains meet.',
   },
   gate: {
     term: 'Gate',

@@ -19,9 +19,15 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
+// Set the theme class before paint to avoid a flash (default light).
+const themeScript = `try{if(localStorage.getItem('theme')==='dark')document.documentElement.classList.add('dark');}catch(e){}`;
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${sans.variable} ${display.variable}`}>
+    <html lang="en" className={`${sans.variable} ${display.variable}`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body className="min-h-dvh font-sans antialiased">{children}</body>
     </html>
   );

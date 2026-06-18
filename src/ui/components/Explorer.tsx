@@ -14,6 +14,7 @@ import { PerfHud } from './PerfHud';
 import { ModeTabs } from './ModeTabs';
 import { LabToggles } from './LabToggles';
 import { LearningCard } from './LearningCard';
+import { ThemeToggle } from './ThemeToggle';
 import { PresetGallery } from './PresetGallery';
 import { ChallengePanel } from './ChallengePanel';
 import { MonteCarloPanel } from './MonteCarloPanel';
@@ -37,7 +38,7 @@ export function Explorer() {
     <main className="mx-auto flex max-w-[1700px] flex-col gap-5 p-3 md:p-5">
       <header className="glass flex flex-wrap items-center justify-between gap-3 rounded-2xl px-5 py-3">
         <div className="flex items-center gap-3">
-          <span className="grid h-8 w-8 place-items-center rounded-lg bg-accent text-sm font-bold text-white shadow-[0_0_20px_rgba(223,37,49,0.5)]">◆</span>
+          <span className="grid h-8 w-8 place-items-center rounded-lg bg-brand text-sm font-bold text-white shadow-[0_0_20px_rgba(122,229,130,0.4)]">◆</span>
           <div>
             <h1 className="eyebrow text-sm text-ink">Probe Station</h1>
             <p className="text-xs text-ink-muted">Interactive semiconductor laboratory</p>
@@ -49,6 +50,7 @@ export function Explorer() {
           <PerfHud />
           <PresetGallery />
           <DevicePicker />
+          <ThemeToggle />
         </div>
       </header>
 

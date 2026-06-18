@@ -21,7 +21,7 @@ export function ChallengePanel() {
           <button
             key={c.id}
             onClick={() => startChallenge(c.id)}
-            className="flex flex-col items-start gap-1 rounded-lg bg-surface p-3 text-left ring-1 ring-white/10 transition hover:ring-accent/60"
+            className="flex flex-col items-start gap-1 rounded-lg bg-surface p-3 text-left ring-1 ring-black/10 dark:ring-white/10 transition hover:ring-accent/60"
           >
             <span className="text-sm font-medium text-ink">{c.title}</span>
             <span className="text-xs text-ink-muted">{c.description}</span>
@@ -76,10 +76,10 @@ export function ChallengePanel() {
         <button onClick={() => askTutor(challenge?.title, evaluation)} className="rounded-md bg-accent px-2.5 py-1 text-xs font-medium text-surface">
           Ask tutor why
         </button>
-        <button onClick={resetToBaseline} className="rounded-md bg-surface px-2.5 py-1 text-xs text-ink-muted ring-1 ring-white/10 hover:text-ink">
+        <button onClick={resetToBaseline} className="rounded-md bg-surface px-2.5 py-1 text-xs text-ink-muted ring-1 ring-black/10 dark:ring-white/10 hover:text-ink">
           Reset
         </button>
-        <button onClick={exitChallenge} className="rounded-md bg-surface px-2.5 py-1 text-xs text-ink-muted ring-1 ring-white/10 hover:text-ink">
+        <button onClick={exitChallenge} className="rounded-md bg-surface px-2.5 py-1 text-xs text-ink-muted ring-1 ring-black/10 dark:ring-white/10 hover:text-ink">
           Change challenge
         </button>
       </div>
@@ -113,7 +113,7 @@ function Meter({
         <span className="text-ink-muted">{label}</span>
         <span className={met ? 'text-nmos' : 'text-ink-muted'}>{detail}</span>
       </div>
-      <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/8">
+      <div className="h-1.5 w-full overflow-hidden rounded-full bg-black/[0.05] dark:bg-white/8">
         <div className="h-full rounded-full transition-[width] duration-300" style={{ width: `${pct}%`, background: color }} />
       </div>
       <div className="flex justify-between font-mono text-[10px] text-ink-muted">

@@ -11,6 +11,8 @@ const config: Config = {
         ink: 'rgb(var(--ink) / <alpha-value>)',
         'ink-muted': 'rgb(var(--ink-muted) / <alpha-value>)',
         accent: 'rgb(var(--accent) / <alpha-value>)',
+        brand: 'rgb(var(--brand) / <alpha-value>)',
+        secondary: 'rgb(var(--secondary) / <alpha-value>)',
         highlight: 'rgb(var(--highlight) / <alpha-value>)',
         nmos: 'rgb(var(--nmos) / <alpha-value>)',
         pmos: 'rgb(var(--pmos) / <alpha-value>)',

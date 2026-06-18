@@ -55,7 +55,7 @@ export function InlineVoltageEditor({
             setDraft(String(Number(value)));
             setEditing(true);
           }}
-          className="flex items-center gap-1 rounded-md bg-black/65 px-2 py-0.5 text-[10px] ring-1 ring-white/10 backdrop-blur-sm transition hover:ring-accent/60"
+          className="flex items-center gap-1 rounded-md bg-black/65 px-2 py-0.5 text-[10px] ring-1 ring-black/10 dark:ring-white/10 backdrop-blur-sm transition hover:ring-accent/60"
         >
           <span className="eyebrow text-[9px] text-accent">{label}</span>
           <span className="font-mono text-white">{Number(value).toFixed(2)} V</span>

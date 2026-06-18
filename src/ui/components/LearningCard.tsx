@@ -30,19 +30,19 @@ export function LearningCard() {
             <button onClick={() => setSelected(null)} className="text-ink-muted hover:text-ink" aria-label="Close">✕</button>
           </div>
           <p className="mt-2 text-sm text-ink">{info.what}</p>
-          <p className="mt-2 text-xs text-ink-muted"><span className="text-white/80">Does — </span>{info.does}</p>
-          <p className="mt-1 text-xs text-ink-muted"><span className="text-white/80">Why — </span>{info.why}</p>
+          <p className="mt-2 text-xs text-ink-muted"><span className="font-medium text-ink">Does — </span>{info.does}</p>
+          <p className="mt-1 text-xs text-ink-muted"><span className="font-medium text-ink">Why — </span>{info.why}</p>
           <div className="mt-3 flex items-center justify-between">
-            <button onClick={() => step(-1)} className="rounded-md bg-white/5 px-2.5 py-1 text-xs text-ink-muted ring-1 ring-white/10 hover:text-ink">‹ Prev</button>
+            <button onClick={() => step(-1)} className="rounded-md bg-black/[0.04] dark:bg-white/5 px-2.5 py-1 text-xs text-ink-muted ring-1 ring-black/10 dark:ring-white/10 hover:text-ink">‹ Prev</button>
             <span className="font-mono text-[10px] text-ink-muted">{idx + 1} / {ANATOMY_NODES.length}</span>
-            <button onClick={() => step(1)} className="rounded-md bg-accent px-2.5 py-1 text-xs font-medium text-white">Next ›</button>
+            <button onClick={() => step(1)} className="rounded-md bg-accent px-2.5 py-1 text-xs font-medium text-surface">Next ›</button>
           </div>
         </>
       ) : (
         <>
           <p className="eyebrow text-[11px] text-accent">Learning mode</p>
           <p className="mt-2 text-sm text-ink-muted">Click any region of the device — gate, oxide, source, drain, channel, or substrate — to learn what it is, what it does, and why it matters.</p>
-          <button onClick={() => step(1)} className="mt-3 rounded-md bg-accent px-3 py-1 text-xs font-medium text-white">Start tour ›</button>
+          <button onClick={() => step(1)} className="mt-3 rounded-md bg-accent px-3 py-1 text-xs font-medium text-surface">Start tour ›</button>
         </>
       )}
     </div>

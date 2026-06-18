@@ -15,7 +15,7 @@ export function DevicePicker() {
           className={`rounded-full px-3 py-1.5 text-sm transition ${
             d.id === deviceId
               ? 'bg-accent text-surface'
-              : 'bg-white/5 text-ink-muted ring-1 ring-white/10 hover:text-ink'
+              : 'bg-black/[0.04] dark:bg-white/5 text-ink-muted ring-1 ring-black/10 dark:ring-white/10 hover:text-ink'
           }`}
         >
           {d.name}

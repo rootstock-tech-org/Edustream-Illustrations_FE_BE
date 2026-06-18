@@ -32,7 +32,7 @@ export function PresetGallery() {
     <>
       <button
         onClick={() => setOpen(true)}
-        className="rounded-full bg-white/5 px-3 py-1 text-sm text-ink-muted ring-1 ring-white/10 hover:text-ink"
+        className="rounded-full bg-black/[0.04] dark:bg-white/5 px-3 py-1 text-sm text-ink-muted ring-1 ring-black/10 dark:ring-white/10 hover:text-ink"
       >
         Presets
       </button>

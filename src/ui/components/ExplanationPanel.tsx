@@ -39,14 +39,14 @@ function ExplanationNode({ explanation, defaultOpen = false }: { explanation: Ex
         {e.summary}{' '}
         <span className="font-mono text-accent">= {formatQuantity(e.result)}</span>
         {e.regionOfOperation && (
-          <span className="ml-2 rounded bg-white/5 px-1.5 py-0.5 text-[10px] uppercase text-ink-muted">
+          <span className="ml-2 rounded bg-black/[0.04] dark:bg-white/5 px-1.5 py-0.5 text-[10px] uppercase text-ink-muted">
             {e.regionOfOperation}
           </span>
         )}
       </summary>
 
       <div className="mt-2 flex flex-col gap-2 text-xs">
-        <div className="overflow-x-auto rounded bg-black/30 p-2 text-ink">
+        <div className="overflow-x-auto rounded bg-black/[0.05] p-2 text-ink dark:bg-black/30">
           <Equation latex={e.latex} block />
         </div>
 
@@ -70,7 +70,7 @@ function ExplanationNode({ explanation, defaultOpen = false }: { explanation: Ex
         )}
 
         {e.children.length > 0 && (
-          <div className="mt-1 flex flex-col gap-2 border-l border-white/10 pl-2">
+          <div className="mt-1 flex flex-col gap-2 border-l border-black/10 dark:border-white/10 pl-2">
             {e.children.map((child, i) => (
               <ExplanationNode key={`${child.formulaId}-${i}`} explanation={child} />
             ))}

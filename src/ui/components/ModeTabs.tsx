@@ -12,7 +12,7 @@ const MODES: ReadonlyArray<{ id: LearningMode; label: string }> = [
 export function ModeTabs() {
   const { mode, setMode } = useLearning();
   return (
-    <div role="tablist" aria-label="Mode" className="flex rounded-full bg-white/5 p-0.5 ring-1 ring-white/10">
+    <div role="tablist" aria-label="Mode" className="flex rounded-full bg-black/[0.04] dark:bg-white/5 p-0.5 ring-1 ring-black/10 dark:ring-white/10">
       {MODES.map((m) => (
         <button
           key={m.id}

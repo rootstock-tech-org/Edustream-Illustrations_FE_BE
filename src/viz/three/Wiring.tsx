@@ -1,97 +1,120 @@
 'use client';
-import { useRef } from 'react';
-import { useFrame } from '@react-three/fiber';
+import { useMemo } from 'react';
 import { Line, Html } from '@react-three/drei';
-import type { MeshStandardMaterial } from 'three';
 import { color } from './palette';
+import type { DeviceGeometry } from './geometry';
+import { terminalX } from './ParametricTransistor';
 import { WireFlow } from './WireFlow';
 import { InlineVoltageEditor } from './InlineVoltageEditor';
-import { damp } from './anim';
 
 /**
- * The CMOS inverter wiring, tightened so PMOS and NMOS read as ONE coupled
- * circuit: VDD ▸ PMOS ▸ VOUT ▸ NMOS ▸ GND on a thin, recessive backbone with the
- * shared VOUT node directly between the devices. Two visual languages keep gate
- * signal and channel current distinct:
- *   • CURRENT  — red pulses on the VDD→OUT→GND path (only the conducting half).
- *   • VIN SIGNAL — purple pulses on the gate wires, riding the actual L-bend.
+ * Reference CMOS-inverter wiring (horizontal). nMOS on the left, pMOS on the
+ * right; terminal ROLE is structural:
+ *   nMOS: source = OUTER-left → GND,   drain = INNER-right → OUTPUT
+ *   pMOS: drain  = INNER-left → OUTPUT, source = OUTER-right → VDD
+ * OUTPUT is the centred junction of the two drains; INPUT is the shared gate
+ * over both. Current rides the conducting half only:
+ *   Input=0 → VDD → pMOS → Output ;  Input=1 → Output → nMOS → GND.
+ * (Bulk ties — pMOS n-well→VDD, nMOS substrate→GND — are reserved for later.)
  */
-const VDD_Y = 1.7;
-const GND_Y = -1.7;
-const VIN_X = -2.1;
-const VIN_NODE_Y = 0.2;
-const GATE_P_Y = 1.12; // PMOS gate (device at +0.8)
-const GATE_N_Y = -0.48; // NMOS gate (device at -0.8)
+type P3 = [number, number, number];
 
 export function Wiring({
+  geometry,
+  nmosX,
+  pmosX,
+  deviceY,
   pullUpActivity,
   pullDownActivity,
-  fieldStrength,
+  voutIntensity,
   reducedMotion,
 }: {
+  geometry: DeviceGeometry;
+  nmosX: number;
+  pmosX: number;
+  deviceY: number;
   pullUpActivity: number;
   pullDownActivity: number;
-  fieldStrength: number;
+  voutIntensity: number;
   reducedMotion: boolean;
 }) {
-  const topMat = useRef<MeshStandardMaterial>(null);
-  const botMat = useRef<MeshStandardMaterial>(null);
-  const accent = color('accent');
   const metal = color('metal');
-  const vddCol = color('vdd');
-  const gndCol = color('gnd');
+  const accent = color('current'); // teal current pulses (brand, distinct from diffusions)
 
-  useFrame((_, dt) => {
-    if (topMat.current) topMat.current.emissiveIntensity = damp(topMat.current.emissiveIntensity, 0.04 + pullUpActivity * 0.9, 6, dt);
-    if (botMat.current) botMat.current.emissiveIntensity = damp(botMat.current.emissiveIntensity, 0.04 + pullDownActivity * 0.9, 6, dt);
-  });
+  const tx = terminalX(geometry);
+  const cY = deviceY + 0.24; // contact height
+  const gndX = nmosX - tx - 0.7;
+  const vddX = pmosX + tx + 0.7;
+  const gateTopY = deviceY + 0.62;
+  const inputY = deviceY + 1.25;
 
-  const vinToP: [number, number, number][] = [[VIN_X, VIN_NODE_Y, 0], [VIN_X, GATE_P_Y, 0], [-0.12, GATE_P_Y, 0]];
-  const vinToN: [number, number, number][] = [[VIN_X, VIN_NODE_Y, 0], [VIN_X, GATE_N_Y, 0], [-0.12, GATE_N_Y, 0]];
+  // Terminals.
+  const nSrc: P3 = [nmosX - tx, cY, 0];
+  const nDrn: P3 = [nmosX + tx, cY, 0];
+  const pDrn: P3 = [pmosX - tx, cY, 0];
+  const pSrc: P3 = [pmosX + tx, cY, 0];
+  const out: P3 = [0, cY, 0];
+
+  // Power path.
+  const wGndSrc: P3[] = [[gndX, cY, 0], nSrc];
+  const wNDrnOut: P3[] = [nDrn, out];
+  const wPDrnOut: P3[] = [pDrn, out];
+  const wVddSrc: P3[] = [[vddX, cY, 0], pSrc];
+  const wOutStub: P3[] = [out, [0, deviceY - 0.95, 0]];
+
+  // Input (shared gate) — a metal comb to both gates.
+  const wInput: P3[] = [[0, inputY, 0], [0, deviceY + 0.95, 0]];
+  const wInN: P3[] = [[0, deviceY + 0.95, 0], [nmosX, deviceY + 0.95, 0], [nmosX, gateTopY, 0]];
+  const wInP: P3[] = [[0, deviceY + 0.95, 0], [pmosX, deviceY + 0.95, 0], [pmosX, gateTopY, 0]];
+
+  const voutColor = useMemo(() => {
+    const t = Math.max(0, Math.min(1, voutIntensity));
+    const lerp = (a: number, b: number) => Math.round(a + (b - a) * t);
+    return `rgb(${lerp(120, 255)},${lerp(120, 255)},${lerp(140, 255)})`;
+  }, [voutIntensity]);
 
   return (
     <group>
-      {/* VDD (red) / GND (black) rails — slimmer */}
-      <mesh position={[0, VDD_Y, 0]}>
-        <boxGeometry args={[3.6, 0.09, 0.34]} />
-        <meshStandardMaterial color={vddCol} emissive={vddCol} emissiveIntensity={0.12 + fieldStrength * 0.5} metalness={0.5} roughness={0.4} />
+      {/* GND (left) & VDD (right) metal terminals */}
+      <mesh position={[gndX, cY, 0]}>
+        <boxGeometry args={[0.32, 0.3, 0.5]} />
+        <meshStandardMaterial color={color('gnd')} metalness={0.4} roughness={0.5} />
       </mesh>
-      <mesh position={[0, GND_Y, 0]}>
-        <boxGeometry args={[3.6, 0.09, 0.34]} />
-        <meshStandardMaterial color={gndCol} metalness={0.4} roughness={0.6} />
-      </mesh>
-
-      {/* Thin, recessive purple backbone (supports the story, doesn't dominate) */}
-      <mesh position={[0, VDD_Y / 2, 0]}>
-        <cylinderGeometry args={[0.022, 0.022, VDD_Y, 10]} />
-        <meshStandardMaterial ref={topMat} color={metal} emissive={accent} emissiveIntensity={0.04} metalness={0.4} roughness={0.5} />
-      </mesh>
-      <mesh position={[0, GND_Y / 2, 0]}>
-        <cylinderGeometry args={[0.022, 0.022, -GND_Y, 10]} />
-        <meshStandardMaterial ref={botMat} color={metal} emissive={accent} emissiveIntensity={0.04} metalness={0.4} roughness={0.5} />
+      <mesh position={[vddX, cY, 0]}>
+        <boxGeometry args={[0.32, 0.3, 0.5]} />
+        <meshStandardMaterial color={color('vdd')} emissive={color('vdd')} emissiveIntensity={0.3} metalness={0.4} roughness={0.5} />
       </mesh>
 
-      {/* CURRENT — red pulses on the conducting half of the backbone */}
-      <WireFlow points={[[0, VDD_Y - 0.06, 0], [0, 0.16, 0]]} activity={pullUpActivity} colorHex={accent} count={5} size={0.055} reducedMotion={reducedMotion} />
-      <WireFlow points={[[0, -0.16, 0], [0, GND_Y + 0.06, 0]]} activity={pullDownActivity} colorHex={accent} count={5} size={0.055} reducedMotion={reducedMotion} />
+      {/* Power & input metal wires */}
+      {[wGndSrc, wNDrnOut, wPDrnOut, wVddSrc, wOutStub, wInput, wInN, wInP].map((pts, i) => (
+        <Line key={i} points={pts} color={metal} lineWidth={i >= 5 ? 4 : 3.5} />
+      ))}
 
-      {/* VIN bus — one node forks to BOTH gates (purple metal) */}
-      <Line points={vinToP} color={metal} lineWidth={4} />
-      <Line points={vinToN} color={metal} lineWidth={4} />
-      <mesh position={[VIN_X, VIN_NODE_Y, 0]}>
+      {/* OUTPUT — centred junction of both drains */}
+      <mesh position={out}>
+        <sphereGeometry args={[0.14, 18, 18]} />
+        <meshStandardMaterial color={voutColor} emissive={voutColor} emissiveIntensity={0.25 + voutIntensity * 1.0} metalness={0.4} roughness={0.4} />
+      </mesh>
+      {/* INPUT node */}
+      <mesh position={[0, inputY, 0]}>
         <sphereGeometry args={[0.11, 16, 16]} />
-        <meshStandardMaterial color={metal} emissive={metal} emissiveIntensity={0.6} />
+        <meshStandardMaterial color={metal} metalness={0.5} roughness={0.4} />
       </mesh>
 
-      {/* VIN SIGNAL — purple pulses riding the gate wires to both gates */}
-      <WireFlow points={vinToP} activity={0.5} colorHex={metal} count={4} size={0.04} reducedMotion={reducedMotion} />
-      <WireFlow points={vinToN} activity={0.5} colorHex={metal} count={4} size={0.04} reducedMotion={reducedMotion} />
+      {/* CURRENT — red pulses, conducting half only, flowing toward GND */}
+      <WireFlow points={wVddSrc.slice().reverse() as P3[]} activity={pullUpActivity} colorHex={accent} count={4} size={0.05} reducedMotion={reducedMotion} />
+      <WireFlow points={wPDrnOut} activity={pullUpActivity} colorHex={accent} count={3} size={0.05} reducedMotion={reducedMotion} />
+      <WireFlow points={wNDrnOut.slice().reverse() as P3[]} activity={pullDownActivity} colorHex={accent} count={3} size={0.05} reducedMotion={reducedMotion} />
+      <WireFlow points={wGndSrc} activity={pullDownActivity} colorHex={accent} count={4} size={0.05} reducedMotion={reducedMotion} />
 
-      {/* Editable voltages + ground */}
-      <InlineVoltageEditor position={[-1.5, VDD_Y + 0.05, 0]} paramKey="VDD" label="VDD" />
-      <InlineVoltageEditor position={[VIN_X - 0.1, VIN_NODE_Y, 0]} paramKey="Vin" label="VIN" />
-      <Html center distanceFactor={9} position={[-1.5, GND_Y - 0.05, 0]}>
-        <span className="eyebrow select-none rounded-md bg-black/65 px-2 py-0.5 text-[9px] text-white ring-1 ring-white/10 backdrop-blur-sm">GND</span>
+      {/* Labels / editable voltages */}
+      <Html center distanceFactor={9} position={[gndX, cY - 0.4, 0]}>
+        <span className="eyebrow select-none rounded-md bg-black/65 px-2 py-0.5 text-[9px] text-white ring-1 ring-black/10 dark:ring-white/10 backdrop-blur-sm">GND</span>
+      </Html>
+      <InlineVoltageEditor position={[vddX, cY + 0.4, 0]} paramKey="VDD" label="VDD" />
+      <InlineVoltageEditor position={[0, inputY + 0.28, 0]} paramKey="Vin" label="INPUT" />
+      <Html center distanceFactor={9} position={[0, deviceY - 1.2, 0]}>
+        <span className="eyebrow select-none rounded-md bg-black/60 px-1.5 py-0.5 text-[9px] text-white ring-1 ring-black/10 dark:ring-white/10 backdrop-blur-sm">OUTPUT</span>
       </Html>
     </group>
   );

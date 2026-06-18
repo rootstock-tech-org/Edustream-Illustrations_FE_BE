@@ -25,7 +25,7 @@ function Toggle({ on, onClick, label }: { on: boolean; onClick: () => void; labe
       onClick={onClick}
       aria-pressed={on}
       className={`rounded-full px-3 py-1 text-xs transition ${
-        on ? 'bg-accent/90 text-white shadow-[0_0_18px_rgba(223,37,49,0.45)]' : 'bg-white/5 text-ink-muted ring-1 ring-white/10 hover:text-ink'
+        on ? 'bg-accent/90 text-surface shadow-[0_0_18px_rgba(122,229,130,0.45)]' : 'bg-black/[0.04] dark:bg-white/5 text-ink-muted ring-1 ring-black/10 dark:ring-white/10 hover:text-ink'
       }`}
     >
       {label}

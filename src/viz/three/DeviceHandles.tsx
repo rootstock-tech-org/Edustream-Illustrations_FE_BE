@@ -1,28 +1,26 @@
 'use client';
 import type { DeviceGeometry } from './geometry';
+import { gateLength, deviceHalfWidth } from './ParametricTransistor';
 import { Handle } from './Handle';
 
 /**
- * The on-device geometry grips. Attached near the (un-mirrored) pull-up device,
- * they edit the SHARED W / L / Tox of the inverter directly. Dragging a grip
- * updates the parameter live, which flows through the existing pipeline to the
- * graphs and explanations — the device is the control panel.
+ * On-device geometry grips (attached to the pMOS): W resizes the device width
+ * (depth), L the gate/channel length (horizontal), Tox the gate oxide. Each
+ * edits the shared inverter parameter live.
  */
 export function DeviceHandles({ geometry, position }: { geometry: DeviceGeometry; position: [number, number, number] }) {
-  const L = geometry.channelLength;
-  const gateLen = 0.42 + L * 0.5;
-  const depth = geometry.bodyWidth * 1.15;
-  const tox = geometry.oxideGap;
+  const gl = gateLength(geometry);
+  const hw = deviceHalfWidth(geometry);
+  const depth = geometry.bodyWidth;
 
-  const fz = depth / 2 * 0.55;
   return (
     <group position={position}>
-      {/* Gate length — out to the RIGHT of the gate */}
-      <Handle position={[gateLen / 2 + 0.5, 0.2, fz]} axis="x" paramKey="L" label="L" dim={[[-0.35, 0, 0], [0.35, 0, 0]]} />
-      {/* Oxide thickness — out to the LEFT, above the oxide */}
-      <Handle position={[-gateLen / 2 - 0.5, 0.24 + tox, fz]} axis="y" paramKey="Tox" label="Tox" dim={[[0, -0.22, 0], [0, 0.22, 0]]} />
-      {/* Width / depth — at the FRONT-bottom edge */}
-      <Handle position={[0, -0.18, depth / 2 + 0.35]} axis="x" paramKey="W" label="W" dim={[[0, 0, -0.4], [0, 0, 0.4]]} />
+      {/* Width (depth) — drag at the front edge */}
+      <Handle position={[0, 0.05, depth / 2 + 0.35]} axis="x" paramKey="W" label="W" dim={[[0, 0, -0.35], [0, 0, 0.35]]} />
+      {/* Channel length — drag horizontally at the gate's right edge */}
+      <Handle position={[gl / 2 + 0.3, 0.35, 0]} axis="x" paramKey="L" label="L" dim={[[-0.3, 0, 0], [0.3, 0, 0]]} />
+      {/* Oxide thickness — drag vertically above the gate */}
+      <Handle position={[-(hw + 0.35), 0.3, 0]} axis="y" paramKey="Tox" label="Tox" dim={[[0, -0.25, 0], [0, 0.25, 0]]} />
     </group>
   );
 }

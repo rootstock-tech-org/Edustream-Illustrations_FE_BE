@@ -75,7 +75,7 @@ export function DeviceSceneCard() {
 
   return (
     <div
-      className="relative h-full min-h-[20rem] w-full overflow-hidden rounded-xl ring-1 ring-white/5"
+      className="relative h-full min-h-[20rem] w-full overflow-hidden rounded-xl ring-1 ring-black/5 dark:ring-white/5"
       role="img"
       aria-label={`3D device stage. Output ${data.voutIntensity > 0.5 ? 'high' : 'low'}; pull-up ${data.pullUp.region}, pull-down ${data.pullDown.region}.`}
     >

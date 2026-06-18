@@ -13,7 +13,7 @@ import { Vector3, type Group, type Mesh } from 'three';
 export function WireFlow({
   points,
   activity,
-  colorHex = '#df2531',
+  colorHex = '#16bac5',
   count = 6,
   size = 0.05,
   reducedMotion,

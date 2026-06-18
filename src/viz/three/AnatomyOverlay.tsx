@@ -4,58 +4,46 @@ import { useFrame } from '@react-three/fiber';
 import { Html, Line } from '@react-three/drei';
 import type { Mesh } from 'three';
 import type { DeviceGeometry } from './geometry';
+import { terminalX } from './ParametricTransistor';
 import { useLabModes } from './lab-modes';
 import { REGION_INFO } from './anatomy-content';
 import { color } from './palette';
 
 /**
- * Engineering-textbook callouts: each region's label sits in a clear lane to the
- * left or right of the device, connected by a thin leader line to an anchor on
- * the actual structure — no overlapping chips on the device. In Learning mode
- * the callouts are clickable (click-to-pin); the selected region's leader +
- * anchor highlight and the others dim, isolating one structure at a time.
+ * Engineering callouts on the nMOS. SOURCE labels the OUTER (toward GND)
+ * diffusion and DRAIN the INNER (toward OUTPUT) diffusion, so the structural
+ * rule "source = terminal at its rail, drain = terminal at the shared node" is
+ * taught — not left/right. Learning mode pins one region and dims the rest.
  */
+interface Geo {
+  dx: number;
+  dy: number;
+  tx: number;
+  fz: number;
+}
 interface RegionDef {
   key: string;
-  lane: 'left' | 'right';
-  order: number;
   anchor: (g: Geo) => [number, number, number];
-}
-interface Geo {
-  deviceY: number;
-  sx: number;
-  frontZ: number;
+  label: (g: Geo) => [number, number, number];
 }
 
-const LEFT_X = -3.6;
-const RIGHT_X = 3.6;
-const STEP = 0.82;
-
-// Anchors sit on the FRONT face of each real structure (z = frontZ) so the
-// leader lines connect to what's actually visible, not the device's centre.
 const REGIONS: RegionDef[] = [
-  { key: 'gate', lane: 'left', order: 0, anchor: (g) => [-0.1, g.deviceY + 0.36, g.frontZ * 0.5] }, // pink poly gate
-  { key: 'oxide', lane: 'left', order: 1, anchor: (g) => [0.2, g.deviceY + 0.18, g.frontZ] }, // gray oxide slab
-  { key: 'source', lane: 'left', order: 2, anchor: (g) => [-g.sx, g.deviceY + 0.1, g.frontZ] }, // left diffusion
-  { key: 'substrate', lane: 'left', order: 3, anchor: (g) => [-g.sx * 0.4, g.deviceY - 0.34, g.frontZ] }, // body
-  { key: 'drain', lane: 'right', order: 0, anchor: (g) => [g.sx, g.deviceY + 0.1, g.frontZ] }, // right diffusion
-  { key: 'channel', lane: 'right', order: 1, anchor: (g) => [0, g.deviceY - 0.04, g.frontZ * 0.5] }, // under the gate
+  { key: 'source', anchor: (g) => [g.dx - g.tx, g.dy + 0.14, g.fz], label: (g) => [g.dx - 2.5, g.dy + 0.0, 0] },
+  { key: 'channel', anchor: (g) => [g.dx, g.dy + 0.02, g.fz], label: (g) => [g.dx - 2.5, g.dy + 0.85, 0] },
+  { key: 'substrate', anchor: (g) => [g.dx, g.dy - 0.32, g.fz], label: (g) => [g.dx - 2.5, g.dy - 0.85, 0] },
+  { key: 'gate', anchor: (g) => [g.dx, g.dy + 0.4, g.fz], label: (g) => [g.dx - 0.3, g.dy + 1.75, 0] },
+  { key: 'oxide', anchor: (g) => [g.dx + 0.1, g.dy + 0.18, g.fz], label: (g) => [g.dx + 1.1, g.dy + 1.5, 0] },
+  { key: 'drain', anchor: (g) => [g.dx + g.tx, g.dy + 0.14, g.fz], label: (g) => [g.dx + 1.6, g.dy + 0.9, 0] },
 ];
 
-export function AnatomyOverlay({ geometry, deviceY }: { geometry: DeviceGeometry; deviceY: number }) {
+export function AnatomyOverlay({ geometry, deviceX, deviceY }: { geometry: DeviceGeometry; deviceX: number; deviceY: number }) {
   const anatomy = useLabModes((s) => s.anatomy);
   const learning = useLabModes((s) => s.learning);
   const selected = useLabModes((s) => s.selected);
   const setSelected = useLabModes((s) => s.setSelected);
   if (!anatomy && !learning) return null;
 
-  const L = geometry.channelLength;
-  const span = 1.25 + L * 1.0;
-  const padX = 0.42 + L * 0.08;
-  const depth = geometry.bodyWidth * 1.05;
-  const g: Geo = { deviceY, sx: span / 2 - padX / 2, frontZ: depth / 2 + 0.04 };
-
-  const labelY = (lane: 'left' | 'right', order: number) => deviceY + (lane === 'left' ? 1.3 : 0.9) - order * STEP;
+  const g: Geo = { dx: deviceX, dy: deviceY, tx: terminalX(geometry), fz: geometry.bodyWidth / 2 + 0.04 };
 
   return (
     <>
@@ -63,23 +51,21 @@ export function AnatomyOverlay({ geometry, deviceY }: { geometry: DeviceGeometry
         const info = REGION_INFO[r.key];
         if (!info) return null;
         const a = r.anchor(g);
-        const lx = r.lane === 'left' ? LEFT_X : RIGHT_X;
-        const ly = labelY(r.lane, r.order);
-        const labelPos: [number, number, number] = [lx, ly, 0];
+        const lp = r.label(g);
         const isSel = selected === r.key;
         const dimmed = learning && selected != null && !isSel;
         const lineColor = isSel ? color('accent') : '#9aa0ac';
 
         return (
           <group key={r.key}>
-            <Line points={[a, [lx + (r.lane === 'left' ? 0.45 : -0.45), ly, 0]]} color={lineColor} lineWidth={isSel ? 2.5 : 1} transparent opacity={dimmed ? 0.25 : 0.9} />
+            <Line points={[a, lp]} color={lineColor} lineWidth={isSel ? 2.5 : 1} transparent opacity={dimmed ? 0.25 : 0.85} />
             {isSel && <Anchor position={a} />}
-            <Html center distanceFactor={8} position={labelPos} zIndexRange={[40, 0]}>
+            <Html center distanceFactor={8} position={lp} zIndexRange={[40, 0]}>
               <button
                 onClick={() => learning && setSelected(isSel ? null : r.key)}
                 style={{ opacity: dimmed ? 0.4 : 1, cursor: learning ? 'pointer' : 'default' }}
                 className={`flex items-center gap-1.5 whitespace-nowrap rounded-md px-2 py-0.5 text-[10px] backdrop-blur-sm transition ${
-                  isSel ? 'bg-accent/90 ring-1 ring-white/30' : 'bg-black/70 ring-1 ring-white/15'
+                  isSel ? 'bg-accent/90 ring-1 ring-white/30' : 'bg-black/70 ring-1 ring-black/15 dark:ring-white/15'
                 }`}
               >
                 <span className="inline-block h-1.5 w-1.5 rounded-full" style={{ background: isSel ? '#fff' : color('accent') }} />
@@ -93,7 +79,6 @@ export function AnatomyOverlay({ geometry, deviceY }: { geometry: DeviceGeometry
   );
 }
 
-/** Pulsing ring at the selected region's anchor. */
 function Anchor({ position }: { position: [number, number, number] }) {
   const ref = useRef<Mesh>(null);
   const t = useRef(0);
