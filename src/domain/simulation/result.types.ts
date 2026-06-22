@@ -50,8 +50,9 @@ export interface TransferCurve {
   readonly points: readonly SweepPoint[];
 }
 
-/** The complete result of simulating a device at a parameter set. */
+/** The complete result of simulating a GATE device at a parameter set. */
 export interface SimulationResult {
+  readonly kind: 'gate';
   readonly deviceId: string;
   readonly engineId: string;
   readonly operatingPoint: OperatingPoint;

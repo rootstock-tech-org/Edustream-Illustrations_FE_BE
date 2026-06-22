@@ -73,7 +73,7 @@ export function Handle({
         <sphereGeometry args={[0.075, 16, 16]} />
         <meshStandardMaterial color="#ffffff" emissive={color('accent')} emissiveIntensity={active ? 1.4 : 0.55} metalness={0.3} roughness={0.3} />
       </mesh>
-      <Html center distanceFactor={8} position={[0, 0.24, 0]}>
+      <Html center distanceFactor={8} position={[0, 0.26, 0]} zIndexRange={[15, 0]}>
         <button
           role="slider"
           aria-label={`${label}, drag or arrow keys to adjust`}
@@ -84,13 +84,16 @@ export function Handle({
           onKeyDown={onKeyDown}
           onFocus={() => setActive(true)}
           onBlur={() => setActive(false)}
-          className={`flex items-center gap-1 whitespace-nowrap rounded-md px-1.5 py-0.5 text-[10px] backdrop-blur-sm transition ${
-            active ? 'bg-accent/90 ring-1 ring-white/30' : 'bg-black/45 ring-1 ring-black/15 dark:ring-white/15'
+          className={`flex items-center gap-1 whitespace-nowrap rounded-md text-[10px] transition focus-visible:opacity-100 ${
+            active
+              ? 'bg-accent/90 px-1.5 py-0.5 opacity-100 ring-1 ring-white/30 backdrop-blur-sm'
+              : 'px-0 py-0 opacity-0'
           }`}
         >
+          {/* label + value surface ONLY on hover/focus, so idle grips never
+              print text over the device geometry (no overlap) */}
           <span className="eyebrow text-[9px] text-white">{label}</span>
-          {/* value only when hovered/focused — idle chip stays tiny, off the geometry */}
-          {active && <span className="font-mono text-white">{display}</span>}
+          {active && <span className="font-mono text-white" style={{ color: '#7df9ff', textShadow: '0 0 8px rgba(125,249,255,0.55)' }}>{display}</span>}
         </button>
       </Html>
     </group>

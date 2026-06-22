@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import type { SimulationResult } from '@/domain/simulation/result.types';
+import type { AnyResult } from '@/domain/simulation/transistor/transistor.types';
 import type { ParameterValues } from '@/domain/parameters/parameter.schema';
 
 export type SimulationStatus = 'idle' | 'running' | 'ready' | 'error';
@@ -11,17 +11,17 @@ export type SimulationStatus = 'idle' | 'running' | 'ready' | 'error';
  */
 interface SimulationStore {
   status: SimulationStatus;
-  result: SimulationResult | null;
+  result: AnyResult | null;
   /** Parameter values that produced `result` (for before/after impact diffs). */
   valuesUsed: ParameterValues | null;
   /** The prior result and its values, for structured-impact comparison. */
-  previousResult: SimulationResult | null;
+  previousResult: AnyResult | null;
   previousValues: ParameterValues | null;
   error: string | null;
   elapsedMs: number | null;
   seq: number;
   _markRunning: (seq: number) => void;
-  _applyResult: (result: SimulationResult, values: ParameterValues, elapsedMs: number, seq: number) => void;
+  _applyResult: (result: AnyResult, values: ParameterValues, elapsedMs: number, seq: number) => void;
   _applyError: (message: string, seq: number) => void;
 }
 

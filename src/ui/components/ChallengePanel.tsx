@@ -4,13 +4,13 @@ import { listChallenges, getChallenge } from '@/domain/learning/challenges';
 import { evaluateChallenge, type ChallengeEvaluation } from '@/domain/learning/challenge.evaluator';
 import { METRIC_LABEL } from '@/domain/learning/metrics';
 import { useLearning } from '@/ui/hooks/useLearning';
-import { useSimulation } from '@/ui/hooks/useSimulation';
+import { useGateResult } from '@/ui/hooks/useSimulation';
 import { useTutorStore } from '@/state/tutor.store';
 
 /** Guided-mode panel: pick a challenge, then see live, engine-scored progress. */
 export function ChallengePanel() {
   const { activeChallengeId, baseline, startChallenge, exitChallenge, resetToBaseline } = useLearning();
-  const { result } = useSimulation();
+  const result = useGateResult();
 
   if (!activeChallengeId) {
     return (

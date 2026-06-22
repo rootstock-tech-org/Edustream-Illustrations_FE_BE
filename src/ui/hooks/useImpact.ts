@@ -14,6 +14,9 @@ export function useImpact(): StructuredImpact | null {
 
   return useMemo(() => {
     if (!prevResult || !prevValues || !curResult || !curValues) return null;
+    // Structured impact is a gate-result diff; single transistors have no
+    // before/after metric panel (their teaching surface is the I–V family).
+    if (prevResult.kind !== 'gate' || curResult.kind !== 'gate') return null;
     return buildImpact({
       descriptors: device.parameterSchema.groups.flatMap((g) => g.parameters),
       prevValues,

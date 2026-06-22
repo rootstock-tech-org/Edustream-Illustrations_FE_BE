@@ -47,6 +47,7 @@ export class AnalyticalEngine implements SimulationEngine {
     const metrics = this.metrics(netlist, device.characteristicVectors, vdd, cload);
 
     return {
+      kind: 'gate',
       deviceId: device.id,
       engineId: this.id,
       operatingPoint,

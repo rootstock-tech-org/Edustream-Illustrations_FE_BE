@@ -29,13 +29,17 @@ export const useLearningStore = create<LearningStore>((set, get) => ({
   baselineValues: null,
   setMode: (mode) =>
     set(mode === 'guided' ? { mode } : { mode, activeChallengeId: null }),
-  startChallenge: (id) =>
+  startChallenge: (id) => {
+    // Challenges are gate-circuit goals; the baseline is only meaningful for a
+    // gate result (single transistors don't expose Guided mode).
+    const r = useSimulationStore.getState().result;
     set({
       mode: 'guided',
       activeChallengeId: id,
-      baseline: useSimulationStore.getState().result,
+      baseline: r && r.kind === 'gate' ? r : null,
       baselineValues: { ...useDeviceStore.getState().values },
-    }),
+    });
+  },
   exitChallenge: () => set({ activeChallengeId: null, baseline: null, baselineValues: null }),
   resetToBaseline: () => {
     const values = get().baselineValues;

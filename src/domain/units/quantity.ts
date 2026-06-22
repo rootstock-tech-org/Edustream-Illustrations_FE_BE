@@ -17,6 +17,7 @@ export type SiUnit =
   | '1' // dimensionless
   | 'V' // volt
   | 'A' // ampere
+  | 'A/V' // transconductance gₘ (siemens)
   | 'A/V^2' // transconductance parameter k'
   | 'F' // farad
   | 'F/m^2' // capacitance per area

@@ -1,120 +1,241 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { Explanation } from '@/domain/explainability/explanation.types';
 import { formatQuantity } from '@/domain/units';
-import { useSimulation } from '@/ui/hooks/useSimulation';
+import { useGateResult, useTransistorResult } from '@/ui/hooks/useSimulation';
 import { useDevice } from '@/ui/hooks/useDevice';
+import { useLabModes } from '@/viz/three/lab-modes';
 import { DevicePicker } from './DevicePicker';
 import { ParameterPanel } from './ParameterPanel';
 import { OutputPanel } from './OutputPanel';
+import { TransistorOutputs } from './TransistorOutputs';
 import { ExplanationPanel } from './ExplanationPanel';
 import { ImpactCard } from './ImpactCard';
 import { TutorChat } from './TutorChat';
-import { PerfHud } from './PerfHud';
-import { ModeTabs } from './ModeTabs';
-import { LabToggles } from './LabToggles';
-import { LearningCard } from './LearningCard';
 import { ThemeToggle } from './ThemeToggle';
-import { PresetGallery } from './PresetGallery';
-import { ChallengePanel } from './ChallengePanel';
+import { LearningCard } from './LearningCard';
 import { MonteCarloPanel } from './MonteCarloPanel';
-import { useLearning } from '@/ui/hooks/useLearning';
+import { AssessmentPanel } from './AssessmentPanel';
+import { CircuitSchematic } from './CircuitSchematic';
 import { GraphPanel } from '@/viz/graph/GraphPanel';
+import { TransistorGraphPanel } from '@/viz/graph/TransistorGraphPanel';
 import { DeviceSceneCard } from '@/viz/three/DeviceSceneCard';
+import { SingleTransistorCard } from '@/viz/three/SingleTransistorCard';
+
+type Tab = 'explore' | 'analyze' | 'variation' | 'learn';
+const TABS: ReadonlyArray<{ id: Tab; label: string }> = [
+  { id: 'explore', label: 'Explore' },
+  { id: 'analyze', label: 'Analyze' },
+  { id: 'variation', label: 'Variation' },
+  { id: 'learn', label: 'Learn' },
+];
 
 /**
- * Device-as-laboratory layout: the interactive device is the hero (full-width,
- * tall), with live readouts floating beside it. Graphs, explanations, and the
- * tutor become a secondary instrument deck; precise sliders live in a collapsed
- * drawer (the accessible, fine-control fallback). Pure composition.
+ * Probe Station — a laboratory bench, not a scrolling page. Fixed full-height
+ * shell: LEFT = controls, CENTER = the live device (with its CMOS schematic
+ * nav-aid and L/W dimension callouts), RIGHT = the instrument readout that swaps
+ * per tab (Explore · Analyze · Variation · Learn). All physics/graphs/sims are
+ * the existing engine — this is pure composition.
  */
 export function Explorer() {
-  const { result } = useSimulation();
-  const { setParameter } = useDevice();
-  const { mode } = useLearning();
+  const { device, setParameter } = useDevice();
+  const isTransistor = device.kind === 'transistor';
+  const gateResult = useGateResult();
+  const txResult = useTransistorResult();
+  const [tab, setTab] = useState<Tab>('explore');
   const [inspected, setInspected] = useState<{ title: string; explanation: Explanation } | null>(null);
 
+  const crossSection = useLabModes((s) => s.crossSection);
+  const setCrossSection = useLabModes((s) => s.setCrossSection);
+
+  // The Learn tab IS learning mode (anatomy callouts + clickable regions).
+  useEffect(() => {
+    useLabModes.getState().setLearning(tab === 'learn');
+  }, [tab]);
+
+  const onInspect = (title: string, explanation: Explanation) => setInspected({ title, explanation });
+
   return (
-    <main className="mx-auto flex max-w-[1700px] flex-col gap-5 p-3 md:p-5">
-      <header className="glass flex flex-wrap items-center justify-between gap-3 rounded-2xl px-5 py-3">
+    <main className="flex h-[100dvh] flex-col gap-3 overflow-hidden p-3 md:p-4">
+      {/* ── top bar ── */}
+      <header className="glass flex items-center justify-between gap-3 rounded-2xl px-4 py-2.5">
         <div className="flex items-center gap-3">
-          <span className="grid h-8 w-8 place-items-center rounded-lg bg-brand text-sm font-bold text-white shadow-[0_0_20px_rgba(122,229,130,0.4)]">◆</span>
-          <div>
+          <span className="grid h-8 w-8 place-items-center rounded-lg bg-brand text-sm font-bold text-white shadow-[0_0_20px_var(--accent-glow)]">◆</span>
+          <div className="leading-tight">
             <h1 className="eyebrow text-sm text-ink">Probe Station</h1>
-            <p className="text-xs text-ink-muted">Interactive semiconductor laboratory</p>
+            <p className="hidden text-[11px] text-ink-muted sm:block">Interactive semiconductor laboratory</p>
           </div>
         </div>
-        <div className="flex flex-wrap items-center gap-3">
-          <ModeTabs />
-          <LabToggles />
-          <PerfHud />
-          <PresetGallery />
+        <div className="flex items-center gap-3">
           <DevicePicker />
           <ThemeToggle />
         </div>
       </header>
 
-      {/* HERO: the interactive device */}
-      <section className="relative h-[62vh] min-h-[30rem] w-full overflow-hidden rounded-3xl glass">
-        <DeviceSceneCard />
-        {/* Metrics: slim horizontal strip along the bottom — no longer steals horizontal space. */}
-        {result && (
-          <div className="pointer-events-none absolute bottom-3 left-1/2 flex -translate-x-1/2 flex-row gap-2">
-            <FloatingChip label="Vout" value={formatQuantity(result.operatingPoint.outputVoltage.quantity)} />
-            <FloatingChip label="I_D" value={formatQuantity(result.operatingPoint.current.quantity)} />
-            <FloatingChip label="Delay" value={formatQuantity(result.metrics.propagationDelay.quantity)} />
-            <FloatingChip label="Power" value={formatQuantity(result.metrics.totalPower.quantity)} />
+      {/* ── lab bench: a persistent LEFT sidebar (nav + controls + info), then
+          the device + instruments. The sidebar shows from `md` up; at md–xl the
+          instruments stack under the device, and at `xl` they move to a 3rd
+          column. ── */}
+      <div className="grid min-h-0 flex-1 grid-cols-1 gap-3 overflow-y-auto md:grid-cols-[minmax(220px,250px)_minmax(0,1fr)] md:overflow-hidden">
+        {/* LEFT — workspace nav + controls + info */}
+        <aside className="glass flex min-h-0 flex-col overflow-hidden rounded-2xl">
+          {/* vertical workspace nav */}
+          <nav role="tablist" aria-label="Workspace" className="flex flex-col gap-1 p-2.5">
+            {TABS.map((t) => {
+              const active = tab === t.id;
+              return (
+                <button
+                  key={t.id}
+                  role="tab"
+                  aria-selected={active}
+                  onClick={() => setTab(t.id)}
+                  className={`flex items-center gap-2.5 rounded-xl px-3 py-2 text-sm font-medium transition ${
+                    active
+                      ? 'bg-accent text-white shadow-[0_0_18px_var(--accent-glow)]'
+                      : 'text-ink-muted hover:bg-black/[0.04] hover:text-ink dark:hover:bg-white/5'
+                  }`}
+                >
+                  <span className={`h-1.5 w-1.5 rounded-full ${active ? 'bg-white' : 'bg-current opacity-50'}`} />
+                  {t.label}
+                </button>
+              );
+            })}
+          </nav>
+
+          {/* controls — gets the flexible, scrollable middle */}
+          <div className="border-t border-[color:var(--hairline)] px-4 pb-2 pt-2.5">
+            <h2 className="eyebrow text-[11px] text-accent">Controls</h2>
           </div>
-        )}
-        <div className="pointer-events-none absolute left-4 top-4 max-w-[16rem]">
-          <p className="eyebrow text-[10px] text-accent">Drag the device</p>
-          <p className="text-xs text-ink-muted">Grab the W / L / Tox grips, or click VDD / VIN to edit. Everything updates live.</p>
-        </div>
-        <LearningCard />
-      </section>
+          <div className="min-h-0 flex-1 overflow-y-auto px-4 pb-4">
+            <ParameterPanel />
+          </div>
 
-      {/* Advanced settings — the device is the primary control surface; these
-          sliders are the precise / accessible fallback (collapsed by default). */}
-      <details className="glass rounded-2xl px-5 py-3">
-        <summary className="eyebrow cursor-pointer text-[11px] text-ink-muted">Advanced settings — precise sliders</summary>
-        <div className="mt-4">
-          <ParameterPanel />
-        </div>
-      </details>
+          {/* informative panel pinned below the controls */}
+          <InfoPanel />
+        </aside>
 
-      {/* Secondary instrument deck */}
-      <div className="grid grid-cols-1 gap-5 xl:grid-cols-[minmax(0,1fr)_380px]">
-        <section className="flex flex-col gap-5">
-          {mode === 'variation' ? (
-            <MonteCarloPanel />
-          ) : (
-            result && (
-              <div className="glass rounded-2xl p-5">
-                <GraphPanel result={result} onScrubInput={(vin) => setParameter('Vin', vin)} />
-              </div>
-            )
-          )}
+        {/* device + instruments: stacked (md) → two columns (xl) */}
+        <div className="flex min-h-0 flex-col gap-3 overflow-y-auto xl:grid xl:grid-cols-[minmax(0,1fr)_344px] xl:overflow-hidden">
+          {/* CENTER — the device bench */}
+          <section className="relative min-h-[22rem] shrink-0 overflow-hidden rounded-2xl glass xl:min-h-0">
+          {isTransistor ? <SingleTransistorCard /> : <DeviceSceneCard />}
+
+          {/* stage toolbar */}
+          <div className="absolute left-3 top-3 flex gap-2">
+            <StageToggle on={crossSection} onClick={() => setCrossSection(!crossSection)} label="Cross-section" />
+          </div>
+
+          {/* CMOS schematic — connectivity reference + navigation aid (borderless,
+              floats cleanly on the stage) */}
+          <div className="pointer-events-none absolute right-3 top-3 w-[150px]">
+            <p className="eyebrow mb-1 text-center text-[8px] text-ink-muted">Circuit · tap a device</p>
+            <div className="pointer-events-auto">
+              <CircuitSchematic className="h-auto w-full" />
+            </div>
+          </div>
+
         </section>
 
-        <aside className="flex flex-col gap-5">
-          {mode === 'guided' && <ChallengePanel />}
-          <ImpactCard />
-          <OutputPanel onInspect={(title, explanation) => setInspected({ title, explanation })} />
-          <div className="glass rounded-2xl p-5">
-            <ExplanationPanel title={inspected?.title ?? 'Derivation'} explanation={inspected?.explanation ?? null} />
-          </div>
-          <TutorChat />
-        </aside>
+          {/* RIGHT — instrument readout (swaps per tab) */}
+          <aside className="flex flex-col gap-3 xl:min-h-0 xl:overflow-y-auto xl:pr-0.5">
+          {tab === 'explore' && (
+            <>
+              {isTransistor ? (
+                <TransistorOutputs onInspect={onInspect} />
+              ) : (
+                <>
+                  <ImpactCard />
+                  <OutputPanel onInspect={onInspect} />
+                </>
+              )}
+              {inspected && (
+                <div className="glass rounded-2xl p-4">
+                  <ExplanationPanel title={inspected.title} explanation={inspected.explanation} />
+                </div>
+              )}
+              <TutorChat />
+            </>
+          )}
+
+          {tab === 'analyze' && (
+            <>
+              {isTransistor
+                ? txResult && (
+                    <div className="glass rounded-2xl p-4">
+                      <TransistorGraphPanel result={txResult} />
+                    </div>
+                  )
+                : gateResult && (
+                    <div className="glass rounded-2xl p-4">
+                      <GraphPanel result={gateResult} onScrubInput={(vin) => setParameter('Vin', vin)} />
+                    </div>
+                  )}
+              {!isTransistor && <AssessmentPanel />}
+            </>
+          )}
+
+          {tab === 'variation' &&
+            (isTransistor ? (
+              <Placeholder title="Process Variation" body="Monte-Carlo process variation is a gate-circuit study. Switch to the CMOS Inverter to sample threshold / length / oxide spread." />
+            ) : (
+              <MonteCarloPanel />
+            ))}
+
+          {tab === 'learn' && <LearningCard />}
+          </aside>
+        </div>
       </div>
     </main>
   );
 }
 
-function FloatingChip({ label, value }: { label: string; value: string }) {
+/** Informative panel pinned below the controls — what this device is + live status. */
+function InfoPanel() {
+  const { device } = useDevice();
+  const gate = useGateResult();
+  const tx = useTransistorResult();
+
+  const status = tx
+    ? `Region · ${tx.operatingPoint.region}`
+    : gate
+      ? `Vout · ${formatQuantity(gate.operatingPoint.outputVoltage.quantity)}`
+      : null;
+
   return (
-    <div className="glass-2 flex min-w-[7rem] flex-col rounded-xl px-3 py-1.5">
-      <span className="eyebrow text-[8px] text-ink-muted">{label}</span>
-      <span className="font-mono text-sm tabular-nums text-ink">{value}</span>
+    <div className="border-t border-[color:var(--hairline)] p-4">
+      <p className="eyebrow text-[10px] text-accent">{device.name}</p>
+      <p className="mt-1.5 text-xs leading-relaxed text-ink-muted">{device.description}</p>
+      {status && (
+        <div className="mt-2.5 inline-flex items-center gap-1.5 rounded-full bg-black/[0.04] px-2.5 py-1 text-[11px] font-medium text-ink ring-1 ring-black/5 dark:bg-white/5 dark:ring-white/10">
+          <span className="h-1.5 w-1.5 rounded-full bg-accent shadow-[0_0_8px_var(--accent-glow)]" />
+          {status}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function StageToggle({ on, onClick, label }: { on: boolean; onClick: () => void; label: string }) {
+  return (
+    <button
+      onClick={onClick}
+      aria-pressed={on}
+      className={`rounded-full px-3 py-1 text-xs transition ${
+        on
+          ? 'bg-accent text-white shadow-[0_0_16px_var(--accent-glow)]'
+          : 'bg-[var(--glass-fill-3)] text-ink-muted ring-1 ring-[color:var(--hairline)] backdrop-blur-md hover:text-ink'
+      }`}
+    >
+      {label}
+    </button>
+  );
+}
+
+function Placeholder({ title, body }: { title: string; body: string }) {
+  return (
+    <div className="glass rounded-2xl p-5">
+      <h2 className="text-sm font-semibold text-ink">{title}</h2>
+      <p className="mt-2 text-xs text-ink-muted">{body}</p>
     </div>
   );
 }

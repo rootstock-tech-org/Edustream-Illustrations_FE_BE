@@ -27,6 +27,8 @@ export interface GraphSeries {
   readonly points: readonly GraphPoint[];
   /** Token name resolved to a CSS variable by the renderer (not raw hex). */
   readonly colorToken?: string;
+  /** Stroke opacity 0..1 — used to fan a family of curves by one varying bias. */
+  readonly opacity?: number;
 }
 
 export interface GraphPoint {

@@ -8,6 +8,7 @@ import {
   CartesianGrid,
   Tooltip,
   ReferenceLine,
+  Legend,
   Customized,
   ResponsiveContainer,
 } from 'recharts';
@@ -82,6 +83,9 @@ export function GraphView({
             contentStyle={{ background: 'rgb(var(--surface-elevated))', border: 'none', borderRadius: 8, fontSize: 12 }}
             labelFormatter={(v: number) => `${spec.x.label}: ${v.toFixed(3)}`}
           />
+          {spec.series.length > 1 && (
+            <Legend wrapperStyle={{ fontSize: 11, color: 'rgb(var(--ink-muted))' }} />
+          )}
           {spec.series.map((s) => (
             <Line
               key={s.id}
@@ -89,6 +93,7 @@ export function GraphView({
               dataKey={s.id}
               name={s.label}
               stroke={token(s.colorToken)}
+              strokeOpacity={s.opacity ?? 1}
               dot={false}
               strokeWidth={2}
               isAnimationActive={false}

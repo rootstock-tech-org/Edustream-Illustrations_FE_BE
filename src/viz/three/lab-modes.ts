@@ -15,6 +15,8 @@ export interface LabModesStore {
   toggleAnatomy: () => void;
   toggleLearning: () => void;
   toggleCrossSection: () => void;
+  setLearning: (on: boolean) => void;
+  setCrossSection: (on: boolean) => void;
   setHovered: (region: string | null) => void;
   setSelected: (region: string | null) => void;
 }
@@ -28,9 +30,15 @@ export const useLabModes = create<LabModesStore>((set) => ({
   toggleAnatomy: () => set((s) => ({ anatomy: !s.anatomy })),
   toggleLearning: () => set((s) => ({ learning: !s.learning, hovered: null, selected: null })),
   toggleCrossSection: () => set((s) => ({ crossSection: !s.crossSection })),
+  setLearning: (on) => set({ learning: on, hovered: null, selected: null }),
+  setCrossSection: (on) => set({ crossSection: on }),
   setHovered: (region) => set({ hovered: region }),
   setSelected: (region) => set({ selected: region }),
 }));
 
-/** The cross-section view is on when requested OR when teaching modes are on. */
-export const crossSectionActive = (s: LabModesStore) => s.crossSection || s.anatomy || s.learning;
+/**
+ * The flat, camera-locked cross-section view is on ONLY when explicitly
+ * requested (the Cross-section toggle). Learning mode no longer forces it, so
+ * the device stays fully rotatable / draggable while its anatomy is explored.
+ */
+export const crossSectionActive = (s: LabModesStore) => s.crossSection || s.anatomy;

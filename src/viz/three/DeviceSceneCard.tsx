@@ -1,6 +1,6 @@
 'use client';
 import dynamic from 'next/dynamic';
-import { useSimulation } from '@/ui/hooks/useSimulation';
+import { useGateResult } from '@/ui/hooks/useSimulation';
 import { useDevice } from '@/ui/hooks/useDevice';
 import { useVizStore } from '@/state/viz.store';
 import {
@@ -14,6 +14,7 @@ import {
 } from '@/viz/mappers/encoding';
 import { deviceGeometry } from './geometry';
 import { color } from './palette';
+import { formatLength } from './DimensionLines';
 import type { SceneData, TransistorVisual } from './scene.types';
 import type { TransistorState } from '@/domain/simulation/result.types';
 
@@ -30,7 +31,7 @@ const num = (v: number | string | undefined) => (v == null ? 0 : typeof v === 'n
  * receives only ready-to-draw values.
  */
 export function DeviceSceneCard() {
-  const { result } = useSimulation();
+  const result = useGateResult();
   const { values } = useDevice();
   const reducedMotion = useVizStore((s) => s.reducedMotion);
 
@@ -70,6 +71,8 @@ export function DeviceSceneCard() {
     leakageVisibility: leakageVisibility(result.metrics.leakage.quantity.value),
     pullUp: aggregate('pmos'),
     pullDown: aggregate('nmos'),
+    lLabel: formatLength(num(values.L)),
+    wLabel: formatLength(num(values.W)),
     reducedMotion,
   };
 

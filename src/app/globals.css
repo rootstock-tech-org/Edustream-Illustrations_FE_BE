@@ -10,56 +10,59 @@
  * viz/three/palette.ts and adapt via the scene background only.
  */
 :root {
-  /* LIGHT (default) */
-  --surface: 248 249 246;
+  /* LIGHT (default) — RootStock: forest-green brand, blue/cyan interactive */
+  --surface: 247 248 250;        /* #F7F8FA background */
   --surface-elevated: 255 255 255;
-  --ink: 24 34 26;
-  --ink-muted: 92 108 94;
-  --accent: 65 91 62;        /* #415b3e forest */
-  --brand: 65 91 62;
-  --secondary: 18 148 157;   /* teal */
+  --ink: 17 24 39;               /* #111827 */
+  --ink-muted: 107 114 128;      /* #6B7280 */
+  --accent: 24 75 138;           /* #184B8A tech blue — interactive/active */
+  --brand: 27 61 57;             /* #1B3D39 deep forest green — identity */
+  --secondary: 47 168 216;       /* #2FA8D8 cyan */
   --highlight: 255 255 255;
-  --nmos: 65 91 62;
-  --pmos: 18 148 157;
+  --nmos: 71 97 67;              /* #476143 tech green */
+  --pmos: 24 75 138;            /* #184B8A tech blue */
 
-  --glass-fill: rgba(255, 255, 255, 0.62);
-  --glass-fill-2: rgba(255, 255, 255, 0.78);
-  --glass-fill-3: rgba(252, 251, 249, 0.94);
-  --glass-border: rgba(24, 44, 28, 0.10);
-  --glass-shadow: 0 18px 50px rgba(30, 50, 34, 0.12);
+  --glass-fill: rgba(255, 255, 255, 0.68);
+  --glass-fill-2: rgba(255, 255, 255, 0.84);
+  --glass-fill-3: rgba(255, 255, 255, 0.95);
+  --glass-border: rgba(17, 24, 39, 0.09);
+  --glass-shadow: 0 18px 50px rgba(17, 24, 39, 0.10);
   --glass-inset: rgba(255, 255, 255, 0.5);
-  --aurora-1: rgba(65, 91, 62, 0.10);
-  --aurora-2: rgba(122, 229, 130, 0.12);
-  --subtle: rgba(24, 44, 28, 0.05);
-  --hairline: rgba(24, 44, 28, 0.12);
-  --accent-glow: rgba(65, 91, 62, 0.5);
+  --aurora-1: rgba(24, 75, 138, 0.10);
+  --aurora-2: rgba(53, 200, 255, 0.12);
+  --subtle: rgba(17, 24, 39, 0.05);
+  --hairline: rgba(17, 24, 39, 0.10);
+  --accent-glow: rgba(53, 200, 255, 0.45);
 
-  --font-mono: var(--font-display), ui-monospace, SFMono-Regular, Menlo, monospace;
+  /* Numeric readouts use a true monospace (was the geometric display face) so
+     figures stay aligned and legible — the serif display face is for text. */
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
 }
 
 .dark {
-  --surface: 9 16 12;
-  --surface-elevated: 20 30 24;
-  --ink: 252 251 249;
-  --ink-muted: 150 168 152;
-  --accent: 122 229 130;     /* #7ae582 mint */
-  --brand: 65 91 62;
-  --secondary: 22 186 197;
+  /* DARK — RootStock dark palette: #0E1116 canvas, electric-blue interactive */
+  --surface: 14 17 22;          /* #0E1116 */
+  --surface-elevated: 29 36 48;  /* #1D2430 card */
+  --ink: 245 247 250;           /* #F5F7FA */
+  --ink-muted: 139 151 168;
+  --accent: 53 200 255;          /* #35C8FF electric blue */
+  --brand: 37 83 44;            /* #25532C evergreen */
+  --secondary: 47 168 216;       /* #2FA8D8 cyan */
   --highlight: 255 255 255;
-  --nmos: 122 229 130;
-  --pmos: 22 186 197;
+  --nmos: 80 200 120;
+  --pmos: 53 200 255;
 
   --glass-fill: rgba(255, 255, 255, 0.035);
   --glass-fill-2: rgba(255, 255, 255, 0.06);
-  --glass-fill-3: rgba(16, 26, 20, 0.78);
-  --glass-border: rgba(255, 255, 255, 0.10);
+  --glass-fill-3: rgba(21, 26, 34, 0.82);
+  --glass-border: rgba(255, 255, 255, 0.09);
   --glass-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
   --glass-inset: rgba(255, 255, 255, 0.06);
-  --aurora-1: rgba(122, 229, 130, 0.10);
-  --aurora-2: rgba(65, 91, 62, 0.22);
+  --aurora-1: rgba(53, 200, 255, 0.10);
+  --aurora-2: rgba(24, 75, 138, 0.22);
   --subtle: rgba(255, 255, 255, 0.05);
   --hairline: rgba(255, 255, 255, 0.10);
-  --accent-glow: rgba(122, 229, 130, 0.5);
+  --accent-glow: rgba(53, 200, 255, 0.5);
 }
 
 html,

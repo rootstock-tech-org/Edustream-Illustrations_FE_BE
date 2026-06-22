@@ -1,6 +1,7 @@
 'use client';
 import { useMemo, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
+import { Edges } from '@react-three/drei';
 import type { Group, Mesh, MeshStandardMaterial } from 'three';
 import type { DeviceGeometry } from './geometry';
 import type { TransistorVisual } from './scene.types';
@@ -54,6 +55,7 @@ export function ParametricTransistor({
   const poly = color('poly');
   const oxideCol = color('oxide');
   const contactCol = color('contact');
+  const edge = color('edge');
 
   const cur = useRef({ gl: 0.7, depth: 1.0, tox: 0.06 });
 
@@ -88,10 +90,12 @@ export function ParametricTransistor({
       <mesh ref={diffL} position={[-1, -DIFF_DEPTH / 2 + 0.04, 0]}>
         <boxGeometry args={[1, 1, 1]} />
         <meshStandardMaterial color={diffusion} emissive={diffusion} emissiveIntensity={0.2 + visual.activity * 0.3} roughness={0.5} metalness={0.05} polygonOffset polygonOffsetFactor={-3} polygonOffsetUnits={-3} />
+        <Edges threshold={15} color={edge} />
       </mesh>
       <mesh ref={diffR} position={[1, -DIFF_DEPTH / 2 + 0.04, 0]}>
         <boxGeometry args={[1, 1, 1]} />
         <meshStandardMaterial color={diffusion} emissive={diffusion} emissiveIntensity={0.2 + visual.activity * 0.3} roughness={0.5} metalness={0.05} polygonOffset polygonOffsetFactor={-3} polygonOffsetUnits={-3} />
+        <Edges threshold={15} color={edge} />
       </mesh>
 
       {/* Inversion channel between the diffusions, under the gate */}
@@ -104,37 +108,43 @@ export function ParametricTransistor({
       <mesh ref={contactL} position={[-1, 0.16, 0]}>
         <boxGeometry args={[0.22, 0.12, 0.45]} />
         <meshStandardMaterial color={contactCol} metalness={0.4} roughness={0.5} />
+        <Edges threshold={15} color={edge} />
       </mesh>
       <mesh ref={contactR} position={[1, 0.16, 0]}>
         <boxGeometry args={[0.22, 0.12, 0.45]} />
         <meshStandardMaterial color={contactCol} metalness={0.4} roughness={0.5} />
+        <Edges threshold={15} color={edge} />
       </mesh>
 
       {/* Gate stack: thin oxide → poly gate → metal contact, over the channel */}
       <mesh ref={oxide} position={[0, 0.05, 0]}>
         <boxGeometry args={[1, 1, 1]} />
         <meshStandardMaterial color={oxideCol} roughness={0.5} metalness={0.1} emissive={oxideCol} emissiveIntensity={0.12} />
+        <Edges threshold={15} color={edge} />
       </mesh>
       {/* Polysilicon gate — taller/iconic so the device reads as a transistor */}
       <group ref={gate} position={[0, 0.24, 0]}>
         <mesh>
           <boxGeometry args={[1, 0.26, 1]} />
           <meshStandardMaterial color={poly} metalness={0.5} roughness={0.45} />
+          <Edges threshold={15} color={edge} />
         </mesh>
         <mesh position={[0, 0.21, 0]}>
           <boxGeometry args={[0.34, 0.14, 0.42]} />
           <meshStandardMaterial color={contactCol} metalness={0.4} roughness={0.5} />
+          <Edges threshold={15} color={edge} />
         </mesh>
       </group>
 
       <ChannelField visual={visual} geometry={geometry} heat={heat} reducedMotion={reducedMotion} />
 
-      {/* Device label in the outer-top lane, leader to the gate — never on the device */}
-      <CalloutLabel anchor={[0, 0.5, 0.2]} position={[isP ? 0.7 : -0.7, 1.25, 0]}>
-        <span className="flex select-none items-center gap-1.5 whitespace-nowrap rounded-md bg-black/55 px-2 py-0.5 text-[10px] backdrop-blur-sm">
+      {/* Device label in the outer-top lane, leader to the gate — parked well
+          clear of the geometry so it never overlaps the device. */}
+      <CalloutLabel anchor={[0, 0.5, 0.2]} position={[isP ? 0.5 : -0.5, 1.6, 0]}>
+        <span className="flex select-none items-center gap-1.5 whitespace-nowrap rounded-md bg-black/65 px-2 py-0.5 text-[10px] ring-1 ring-white/10 backdrop-blur-sm">
           <span className="inline-block h-2 w-2 rounded-full" style={{ background: diffusion }} />
           <span className="eyebrow text-[9px] text-white">{isP ? 'pMOS' : 'nMOS'}</span>
-          <span style={{ color: visual.regionAccent }}>{visual.region}</span>
+          <span style={{ color: visual.regionAccent, textShadow: `0 0 8px ${visual.regionAccent}88` }}>{visual.region}</span>
         </span>
       </CalloutLabel>
     </group>

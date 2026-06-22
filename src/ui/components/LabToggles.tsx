@@ -1,19 +1,16 @@
 'use client';
 import { useLabModes } from '@/viz/three/lab-modes';
 
-/** Toggles for Anatomy callouts and Learning-mode hover explanations. */
+/** Toggles for the flat cross-section view and Learning-mode hover explanations. */
 export function LabToggles() {
-  const anatomy = useLabModes((s) => s.anatomy);
   const learning = useLabModes((s) => s.learning);
   const crossSection = useLabModes((s) => s.crossSection);
-  const toggleAnatomy = useLabModes((s) => s.toggleAnatomy);
   const toggleLearning = useLabModes((s) => s.toggleLearning);
   const toggleCrossSection = useLabModes((s) => s.toggleCrossSection);
 
   return (
     <div className="flex items-center gap-1.5">
       <Toggle on={crossSection} onClick={toggleCrossSection} label="Cross-section" />
-      <Toggle on={anatomy} onClick={toggleAnatomy} label="Anatomy" />
       <Toggle on={learning} onClick={toggleLearning} label="Learning" />
     </div>
   );

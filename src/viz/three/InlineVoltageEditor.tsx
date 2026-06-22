@@ -57,7 +57,9 @@ export function InlineVoltageEditor({
           }}
           className="flex items-center gap-1 rounded-md bg-black/65 px-2 py-0.5 text-[10px] ring-1 ring-black/10 dark:ring-white/10 backdrop-blur-sm transition hover:ring-accent/60"
         >
-          <span className="eyebrow text-[9px] text-accent">{label}</span>
+          {/* glow-cyan on the dark chip so it stays legible in both themes
+              (light-theme --accent is a dark blue that vanishes on black) */}
+          <span className="eyebrow text-[9px]" style={{ color: '#7df9ff', textShadow: '0 0 8px rgba(125,249,255,0.55)' }}>{label}</span>
           <span className="font-mono text-white">{Number(value).toFixed(2)} V</span>
           <span className="text-ink-muted">✎</span>
         </button>

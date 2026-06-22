@@ -1,12 +1,13 @@
 import type { Metadata, Viewport } from 'next';
-import { Open_Sans, Orbitron } from 'next/font/google';
+import { Open_Sans, Lora } from 'next/font/google';
 import './globals.css';
 
-// Open Sans (body, per the reference) + Orbitron (wide geometric display for
-// instrument labels). Self-hosted by next/font — no layout shift, no runtime
-// fetch. System fallbacks keep the build resilient offline.
+// Open Sans (body, per the reference) + Lora (an elegant serif for the display
+// face — headings + instrument labels, replacing the previous geometric face).
+// Self-hosted by next/font — no layout shift, no runtime fetch. System
+// fallbacks keep the build resilient offline.
 const sans = Open_Sans({ subsets: ['latin'], variable: '--font-sans', display: 'swap' });
-const display = Orbitron({ subsets: ['latin'], weight: ['500', '700'], variable: '--font-display', display: 'swap' });
+const display = Lora({ subsets: ['latin'], weight: ['400', '500', '600', '700'], variable: '--font-display', display: 'swap' });
 
 export const metadata: Metadata = {
   title: 'Probe Station — Semiconductor Explorer',

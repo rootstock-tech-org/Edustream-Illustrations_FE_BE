@@ -1,40 +1,42 @@
 /**
- * Device-material palette matching the CMOS layout/cross-section reference:
- *   p-substrate = yellow, n-well = blue, n⁺ diffusion = green, p⁺ diffusion =
- *   pink, polysilicon gate = gray, gate oxide = thin yellow, metal = silver,
- *   contacts = dark. These make the academically-correct structure self-evident.
- *   The red accent is reserved for the live current (not a static region).
+ * Device-material palette, harmonised with the RootStock app palette while
+ * keeping the academic structure legible via a clean N/P convention:
+ *   N-type → blue/cyan (n-well, n⁺), P-type → green (p-substrate, p⁺),
+ *   polysilicon = slate, oxide = pale cyan, metal = cool silver, contacts =
+ *   navy graphite. Power/current ride the electric-blue accent. Every block also
+ *   carries a thin structural EDGE (see `edge`) so the geometry reads crisply.
  */
 export const PALETTE: Record<string, string> = {
-  surface: '#09100c',
-  ink: '#fcfbf9',
-  'ink-muted': '#96a898',
-  accent: '#7ae582', // brand mint — handles / selection / rim glow
-  current: '#16bac5', // brand teal — drain–source CURRENT (distinct from green n⁺)
+  surface: '#0e1116',
+  ink: '#f5f7fa',
+  'ink-muted': '#8b97a8',
+  accent: '#35c8ff', // electric blue — handles / selection / rim glow
+  current: '#2fa8d8', // cyan — drain–source CURRENT
+  edge: '#39465a', // thin structural outline on every block
 
-  // Reference legend
-  substrate: '#ecd98f', // p-type substrate — yellow
-  nwell: '#8a8fce', // n-well — blue/periwinkle (PMOS body)
-  nplus: '#5cb85c', // n⁺ diffusion — green (NMOS S/D)
-  pplus: '#e57a92', // p⁺ diffusion — pink (PMOS S/D)
-  poly: '#9a9ca3', // polysilicon gate — gray
-  oxide: '#e0c24a', // gate oxide — thin yellow
-  metal: '#b9bdc6', // metal interconnect — silver
-  contact: '#2c2c33', // contact — dark
+  // N-type = blue/cyan, P-type = green
+  substrate: '#7e8c63', // p-type substrate — sage green
+  nwell: '#3f5e8c', // n-well — tech blue (PMOS body)
+  nplus: '#2fa8d8', // n⁺ diffusion — cyan (NMOS S/D)
+  pplus: '#6fae5a', // p⁺ diffusion — green (PMOS S/D)
+  poly: '#7c8696', // polysilicon gate — slate
+  oxide: '#86d7e6', // gate oxide — pale cyan
+  metal: '#aeb6c2', // metal interconnect — cool silver
+  contact: '#1d2430', // contact — navy graphite
 
-  vdd: '#e23b3b', // VDD rail accent — red
-  gnd: '#1c1c20', // GND rail — near-black
+  vdd: '#35c8ff', // VDD rail accent — electric blue (power)
+  gnd: '#222a36', // GND rail — graphite
 
-  // Carriers (channel glow)
-  electron: '#bfe6ff',
-  hole: '#ffcf9e',
+  // Carriers (channel glow): electrons cool cyan, holes green
+  electron: '#7df9ff',
+  hole: '#9be08a',
 
   // legacy aliases
-  steel: '#b9bdc6',
-  nmos: '#5cb85c',
-  pmos: '#e57a92',
-  gate: '#9a9ca3',
-  'gate-cap': '#2c2c33',
+  steel: '#aeb6c2',
+  nmos: '#2fa8d8',
+  pmos: '#6fae5a',
+  gate: '#7c8696',
+  'gate-cap': '#1d2430',
   heat: '#ffffff',
 };
 

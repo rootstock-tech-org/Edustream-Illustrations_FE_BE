@@ -28,6 +28,26 @@ function buildSnapshot(): TutorSnapshot | null {
     .flatMap((g) => g.parameters)
     .map((p) => ({ label: p.label, value: String(values[p.key] ?? '') }));
 
+  // Single-transistor devices ground the tutor on the I–V operating point
+  // (same snapshot shape — outputs + region — so the route is unchanged).
+  if (result.kind === 'transistor') {
+    const t = result.operatingPoint;
+    return {
+      deviceName: device.name,
+      conceptIds: Array.from(
+        new Set([device.conceptId, 'threshold-voltage', 'transconductance', 'subthreshold-conduction'].filter((id) => getConcept(id))),
+      ),
+      params,
+      outputs: [
+        { label: 'Drain Current I_D', value: formatQuantity(t.drainCurrent.quantity) },
+        { label: 'Transconductance gₘ', value: formatQuantity(t.transconductance.quantity) },
+        { label: 'Threshold V_th', value: formatQuantity(t.threshold.quantity) },
+        { label: 'Overdrive V_ov', value: formatQuantity(t.overdrive) },
+      ],
+      regions: [{ id: result.type.toUpperCase(), region: t.region }],
+    };
+  }
+
   const op = result.operatingPoint;
   const m = result.metrics;
   const outputs = [

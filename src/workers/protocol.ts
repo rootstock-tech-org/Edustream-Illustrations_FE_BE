@@ -1,8 +1,11 @@
 import type { ParameterValues } from '@/domain/parameters/parameter.schema';
-import type { SimulationResult } from '@/domain/simulation/result.types';
+import type { AnyResult } from '@/domain/simulation/transistor/transistor.types';
 import { AnalyticalEngine } from '@/domain/simulation/analytical/analytical.engine';
+import { simulateTransistor } from '@/domain/simulation/transistor/transistor.engine';
 import { getDevice } from '@/domain/devices/registry';
 import { runMonteCarlo, type MonteCarloSample } from '@/domain/simulation/montecarlo';
+
+export type { AnyResult } from '@/domain/simulation/transistor/transistor.types';
 
 /**
  * Versioned, typed RPC contract between the main thread and the simulation
@@ -39,7 +42,7 @@ export interface SimulateResult {
   readonly kind: 'result';
   readonly id: number;
   readonly version: number;
-  readonly result: SimulationResult;
+  readonly result: AnyResult;
   /** Wall-clock compute time (ms) for the perf HUD. */
   readonly elapsedMs: number;
 }
@@ -90,11 +93,16 @@ export function runSimulation(request: SimulateRequest): WorkerResponse {
   try {
     const start = performance.now();
     const device = getDevice(request.deviceId);
-    const result = engine.simulate({
-      device,
-      values: request.values,
-      ...(request.options ? { options: request.options } : {}),
-    });
+    // Single transistors and gates share the same MOSFET model but different
+    // surrounding circuits, so they dispatch to different solvers here.
+    const result: AnyResult =
+      device.kind === 'transistor'
+        ? simulateTransistor(device, request.values)
+        : engine.simulate({
+            device,
+            values: request.values,
+            ...(request.options ? { options: request.options } : {}),
+          });
     return { kind: 'result', id: request.id, version: PROTOCOL_VERSION, result, elapsedMs: performance.now() - start };
   } catch (err) {
     return failure(request.id, err);

@@ -25,5 +25,8 @@ export interface SceneData {
   readonly leakageVisibility: number; // 0..1
   readonly pullUp: TransistorVisual; // PMOS, drawn on top
   readonly pullDown: TransistorVisual; // NMOS, drawn on bottom
+  /** Pre-formatted geometry dimension labels (e.g. "180 nm", "1 µm"). */
+  readonly lLabel: string;
+  readonly wLabel: string;
   readonly reducedMotion: boolean;
 }

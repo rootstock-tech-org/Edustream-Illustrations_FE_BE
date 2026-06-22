@@ -1,5 +1,5 @@
 import type { ParameterValues } from '@/domain/parameters/parameter.schema';
-import { getDevice } from '@/domain/devices/registry';
+import { getGateDevice } from '@/domain/devices/registry';
 import { AnalyticalEngine } from './analytical/analytical.engine';
 
 /**
@@ -26,7 +26,7 @@ export function runMonteCarlo(
   count: number,
   seed: number,
 ): MonteCarloSample[] {
-  const device = getDevice(deviceId);
+  const device = getGateDevice(deviceId);
   const rand = mulberry32(seed);
   const gauss = gaussian(rand);
 

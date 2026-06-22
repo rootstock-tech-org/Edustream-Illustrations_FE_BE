@@ -11,10 +11,14 @@ import { buildMosfetParams, standardCmosSchema } from './shared';
  *   pull-up:   MA ∥ MB in PARALLEL (output high when A OR B is low)
  */
 export const nand2: DeviceDefinition = {
+  kind: 'gate',
   id: 'nand2',
   name: 'NAND Gate',
   description: '2-input NAND: series NMOS pull-down, parallel PMOS pull-up.',
   conceptId: 'nand-gate',
+  // Hidden from the primary learning flow (Phase 1 = NMOS → PMOS → Inverter).
+  // Implementation retained; re-expose by removing this flag.
+  hidden: true,
   parameterSchema: standardCmosSchema,
   sweepInput: 'A',
   characteristicVectors: [

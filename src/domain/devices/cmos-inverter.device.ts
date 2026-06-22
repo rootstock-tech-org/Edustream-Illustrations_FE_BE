@@ -7,6 +7,7 @@ import { buildMosfetParams, standardCmosSchema } from './shared';
  * The simplest static-CMOS gate and the canonical teaching device.
  */
 export const cmosInverter: DeviceDefinition = {
+  kind: 'gate',
   id: 'cmos-inverter',
   name: 'CMOS Inverter',
   description: 'Complementary NMOS/PMOS pair implementing logical NOT.',

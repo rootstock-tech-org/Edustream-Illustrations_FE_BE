@@ -1,7 +1,7 @@
 'use client';
 import { formatQuantity } from '@/domain/units';
 import type { Explanation } from '@/domain/explainability/explanation.types';
-import { useSimulation } from '@/ui/hooks/useSimulation';
+import { useGateResult, useSimulation } from '@/ui/hooks/useSimulation';
 
 interface Props {
   onInspect: (title: string, explanation: Explanation) => void;
@@ -9,7 +9,8 @@ interface Props {
 
 /** The six required device outputs, each linking to its derivation. */
 export function OutputPanel({ onInspect }: Props) {
-  const { result, status } = useSimulation();
+  const result = useGateResult();
+  const { status } = useSimulation();
 
   if (!result) {
     return <p className="text-sm text-ink-muted">{status === 'error' ? 'Simulation error.' : 'Computing…'}</p>;
