@@ -140,7 +140,7 @@ export function ParametricTransistor({
 
       {/* Device label in the outer-top lane, leader to the gate — parked well
           clear of the geometry so it never overlaps the device. */}
-      <CalloutLabel anchor={[0, 0.5, 0.2]} position={[isP ? 0.5 : -0.5, 1.6, 0]}>
+      <CalloutLabel anchor={[0, 0.5, 0.2]} position={[isP ? 0.45 : -0.45, 1.45, 0]}>
         <span className="flex select-none items-center gap-1.5 whitespace-nowrap rounded-md bg-black/65 px-2 py-0.5 text-[10px] ring-1 ring-white/10 backdrop-blur-sm">
           <span className="inline-block h-2 w-2 rounded-full" style={{ background: diffusion }} />
           <span className="eyebrow text-[9px] text-white">{isP ? 'pMOS' : 'nMOS'}</span>

@@ -127,8 +127,6 @@ function Stage({ data }: { data: SceneData }) {
           position={[NMOS_X, DEVICE_Y, 0]}
           gateLength={gateLength(data.geometry)}
           width={data.geometry.bodyWidth * 0.86}
-          lLabel={data.lLabel}
-          wLabel={data.wLabel}
         />
       )}
 
@@ -147,6 +145,10 @@ function Stage({ data }: { data: SceneData }) {
         maxDistance={22}
         minPolarAngle={0.3}
         maxPolarAngle={Math.PI / 2 + 0.15}
+        // Bound the spin so device labels can never swing into the fixed
+        // top-right schematic (still a clearly interactive 3D tilt/parallax).
+        minAzimuthAngle={-0.45}
+        maxAzimuthAngle={0.45}
         target={[0, 0.2, 0]}
       />
     </>
@@ -176,7 +178,7 @@ export function DeviceScene({ data }: { data: SceneData }) {
   const light = useThemeStore((s) => s.theme === 'light');
   const bg = light ? '#eef1f5' : '#0e1116';
   return (
-    <Canvas camera={{ position: [0, 0.9, 9.6], fov: 40 }} dpr={[1, 2]} gl={{ antialias: true, alpha: false }} frameloop={data.reducedMotion ? 'demand' : 'always'}>
+    <Canvas camera={{ position: [0, 0.9, 10.4], fov: 40 }} dpr={[1, 2]} gl={{ antialias: true, alpha: false }} frameloop={data.reducedMotion ? 'demand' : 'always'}>
       <color attach="background" args={[bg]} />
       <fog attach="fog" args={[bg, 18, 42]} />
       <Stage data={data} />

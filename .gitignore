@@ -9,3 +9,6 @@ next-env.d.ts
 .DS_Store
 /screenshots
 tsconfig.domain.json
+
+# KT handover docs (screenshots + PDF) — keep local, do not commit
+/docs/kt/

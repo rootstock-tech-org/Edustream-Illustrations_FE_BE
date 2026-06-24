@@ -4,7 +4,9 @@
       "Bash(npx tsc *)",
       "Bash(echo \"tsc=$?\")",
       "Bash(npx eslint *)",
-      "Bash(echo \"eslint=$?\")"
+      "Bash(echo \"eslint=$?\")",
+      "Bash(node scripts/kt-pdf.mjs)",
+      "Bash(node -e \"import\\('marked'\\).then\\(m=>console.log\\('import ok', typeof m.marked\\)\\).catch\\(e=>console.log\\('ERR', e.code\\)\\)\")"
     ]
   }
 }

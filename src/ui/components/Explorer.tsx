@@ -17,6 +17,7 @@ import { LearningCard } from './LearningCard';
 import { MonteCarloPanel } from './MonteCarloPanel';
 import { AssessmentPanel } from './AssessmentPanel';
 import { CircuitSchematic } from './CircuitSchematic';
+import { formatLength } from '@/viz/three/DimensionLines';
 import { GraphPanel } from '@/viz/graph/GraphPanel';
 import { TransistorGraphPanel } from '@/viz/graph/TransistorGraphPanel';
 import { DeviceSceneCard } from '@/viz/three/DeviceSceneCard';
@@ -38,8 +39,10 @@ const TABS: ReadonlyArray<{ id: Tab; label: string }> = [
  * the existing engine — this is pure composition.
  */
 export function Explorer() {
-  const { device, setParameter } = useDevice();
+  const { device, values, setParameter } = useDevice();
   const isTransistor = device.kind === 'transistor';
+  const lLabel = formatLength(Number(values.L));
+  const wLabel = formatLength(Number(values.W));
   const gateResult = useGateResult();
   const txResult = useTransistorResult();
   const [tab, setTab] = useState<Tab>('explore');
@@ -123,6 +126,19 @@ export function Explorer() {
           {/* stage toolbar */}
           <div className="absolute left-3 top-3 flex gap-2">
             <StageToggle on={crossSection} onClick={() => setCrossSection(!crossSection)} label="Cross-section" />
+          </div>
+
+          {/* fixed L / W readout — pinned in the top-left margin (where no
+              rotating 3D label travels), so the dimension VALUES never collide
+              with another chip or the geometry. The on-device brackets show
+              WHICH spans these measure. */}
+          <div className="pointer-events-none absolute left-3 top-12 flex flex-col gap-1 font-mono text-[10px]">
+            <span className="inline-flex items-center gap-1.5 self-start rounded-md bg-black/65 px-2 py-0.5 text-white ring-1 ring-white/10 backdrop-blur-sm">
+              L <span style={{ color: '#7df9ff', textShadow: '0 0 8px rgba(125,249,255,0.55)' }}>{lLabel}</span>
+            </span>
+            <span className="inline-flex items-center gap-1.5 self-start rounded-md bg-black/65 px-2 py-0.5 text-white ring-1 ring-white/10 backdrop-blur-sm">
+              W <span style={{ color: '#7df9ff', textShadow: '0 0 8px rgba(125,249,255,0.55)' }}>{wLabel}</span>
+            </span>
           </div>
 
           {/* CMOS schematic — connectivity reference + navigation aid (borderless,

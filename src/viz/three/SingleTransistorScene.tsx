@@ -150,8 +150,6 @@ function Stage({ data }: { data: SingleTransistorData }) {
         <DimensionLines
           gateLength={gateLength(data.geometry)}
           width={data.geometry.bodyWidth * 0.86}
-          lLabel={data.lLabel}
-          wLabel={data.wLabel}
         />
       )}
 
@@ -175,6 +173,10 @@ function Stage({ data }: { data: SingleTransistorData }) {
         maxDistance={16}
         minPolarAngle={0.3}
         maxPolarAngle={Math.PI / 2 + 0.15}
+        // Bound the spin so device labels can never swing into the fixed
+        // top-right schematic (still a clearly interactive 3D tilt/parallax).
+        minAzimuthAngle={-0.45}
+        maxAzimuthAngle={0.45}
         target={[0, 0.3, 0]}
       />
     </>
