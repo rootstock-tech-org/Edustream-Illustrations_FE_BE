@@ -118,8 +118,8 @@ function Stage({ data }: { data: SceneData }) {
         reducedMotion={data.reducedMotion}
       />
 
-      <ParametricTransistor position={[NMOS_X, DEVICE_Y, 0]} geometry={data.geometry} visual={data.pullDown} heat={data.heat} reducedMotion={data.reducedMotion} />
-      <ParametricTransistor position={[PMOS_X, DEVICE_Y, 0]} geometry={data.geometry} visual={data.pullUp} heat={data.heat} reducedMotion={data.reducedMotion} />
+      <ParametricTransistor position={[NMOS_X, DEVICE_Y, 0]} geometry={data.geometry} visual={data.pullDown} reducedMotion={data.reducedMotion} />
+      <ParametricTransistor position={[PMOS_X, DEVICE_Y, 0]} geometry={data.geometry} visual={data.pullUp} reducedMotion={data.reducedMotion} />
 
       {/* L / W engineering dimension callouts on the nMOS */}
       {!cross && (

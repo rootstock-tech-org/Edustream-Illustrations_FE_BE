@@ -5,7 +5,6 @@ import { Edges } from '@react-three/drei';
 import type { Group, Mesh, MeshStandardMaterial } from 'three';
 import type { DeviceGeometry } from './geometry';
 import type { TransistorVisual } from './scene.types';
-import { ChannelField } from './ChannelField';
 import { CalloutLabel } from './CalloutLabel';
 import { damp } from './anim';
 import { color } from './palette';
@@ -31,13 +30,11 @@ export function ParametricTransistor({
   position,
   geometry,
   visual,
-  heat,
   reducedMotion,
 }: {
   position: [number, number, number];
   geometry: DeviceGeometry;
   visual: TransistorVisual;
-  heat: number;
   reducedMotion: boolean;
 }) {
   const diffL = useRef<Mesh>(null);
@@ -135,8 +132,6 @@ export function ParametricTransistor({
           <Edges threshold={15} color={edge} />
         </mesh>
       </group>
-
-      <ChannelField visual={visual} geometry={geometry} heat={heat} reducedMotion={reducedMotion} />
 
       {/* Device label in the outer-top lane, leader to the gate — parked well
           clear of the geometry so it never overlaps the device. */}

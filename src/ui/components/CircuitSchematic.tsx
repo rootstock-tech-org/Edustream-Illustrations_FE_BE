@@ -86,9 +86,11 @@ export function CircuitSchematic({ className = '' }: { className?: string }) {
         <text x={VOUT_X + 5} y={OUT_Y + 4}>Vout</text>
         <text x={162} y={OUT_Y + 32} fontSize={9} fill={INK}>CL</text>
       </g>
-      <g fontSize={10} fontWeight={600}>
-        <text x={CX + 22} y={PMOS_Y + 4} fill={pmosOn ? ACC : 'rgb(var(--ink))'} style={pmosOn ? GLOW : undefined} className="cursor-pointer" onClick={() => setDevice('pmos')}>PMOS</text>
-        <text x={CX + 22} y={NMOS_Y + 4} fill={nmosOn ? ACC : 'rgb(var(--ink))'} style={nmosOn ? GLOW : undefined} className="cursor-pointer" onClick={() => setDevice('nmos')}>NMOS</text>
+      {/* device labels on the LEFT (gate side) — keeps them clear of the GND
+          symbol & Vout/CL on the right, which was causing confusion */}
+      <g fontSize={10} fontWeight={600} textAnchor="end">
+        <text x={CX - 32} y={PMOS_Y + 4} fill={pmosOn ? ACC : 'rgb(var(--ink))'} style={pmosOn ? GLOW : undefined} className="cursor-pointer" onClick={() => setDevice('pmos')}>PMOS</text>
+        <text x={CX - 32} y={NMOS_Y + 4} fill={nmosOn ? ACC : 'rgb(var(--ink))'} style={nmosOn ? GLOW : undefined} className="cursor-pointer" onClick={() => setDevice('nmos')}>NMOS</text>
       </g>
     </svg>
   );

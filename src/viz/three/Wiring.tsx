@@ -112,11 +112,13 @@ export function Wiring({
         <meshStandardMaterial color={metal} metalness={0.5} roughness={0.4} />
       </mesh>
 
-      {/* CURRENT — red pulses, conducting half only, flowing toward GND */}
-      <WireFlow points={wVddSrc.slice().reverse() as P3[]} activity={pullUpActivity} colorHex={accent} count={3} size={0.038} reducedMotion={reducedMotion} />
+      {/* CURRENT — conventional current, conducting half only. Pull-up charges the
+          output: VDD → pMOS → OUTPUT. Pull-down discharges it: OUTPUT → nMOS → GND.
+          (WireFlow runs points[0] → points[last], so orient each wire accordingly.) */}
+      <WireFlow points={wVddSrc} activity={pullUpActivity} colorHex={accent} count={3} size={0.038} reducedMotion={reducedMotion} />
       <WireFlow points={wPDrnOut} activity={pullUpActivity} colorHex={accent} count={2} size={0.038} reducedMotion={reducedMotion} />
       <WireFlow points={wNDrnOut.slice().reverse() as P3[]} activity={pullDownActivity} colorHex={accent} count={2} size={0.038} reducedMotion={reducedMotion} />
-      <WireFlow points={wGndSrc} activity={pullDownActivity} colorHex={accent} count={3} size={0.038} reducedMotion={reducedMotion} />
+      <WireFlow points={wGndSrc.slice().reverse() as P3[]} activity={pullDownActivity} colorHex={accent} count={3} size={0.038} reducedMotion={reducedMotion} />
 
       {/* Labels in clear margins, tied to their node by a leader line */}
       <CalloutLabel anchor={[gndX, cY, 0]} position={[gndX - 0.7, 0.5, 0]}>

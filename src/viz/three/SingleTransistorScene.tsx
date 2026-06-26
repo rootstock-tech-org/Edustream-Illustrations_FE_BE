@@ -128,7 +128,7 @@ function Stage({ data }: { data: SingleTransistorData }) {
         </mesh>
       </group>
 
-      <ParametricTransistor position={[0, 0, 0]} geometry={data.geometry} visual={data.visual} heat={data.heat} reducedMotion={data.reducedMotion} />
+      <ParametricTransistor position={[0, 0, 0]} geometry={data.geometry} visual={data.visual} reducedMotion={data.reducedMotion} />
 
       {/* Terminal callouts — NAMES ONLY, parked in clear margins with leader
           lines so nothing sits on the geometry (live V_GS / V_DS / region read
