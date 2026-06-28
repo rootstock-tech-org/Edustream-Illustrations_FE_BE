@@ -20,6 +20,7 @@ interface Geo {
   dy: number;
   tx: number;
   fz: number;
+  o: number; // OUTER direction along x (+1 if the device sits right-of-centre, −1 if left)
 }
 interface RegionDef {
   key: string;
@@ -27,13 +28,17 @@ interface RegionDef {
   label: (g: Geo) => [number, number, number];
 }
 
+// Anchors/labels are expressed in the OUTER direction `o` (away from the centred
+// OUTPUT), so SOURCE stays on the outer/rail side and DRAIN on the inner/output
+// side, and the label cluster stays in the open outer margin — whichever side of
+// the scene the nMOS is placed on (photo: nMOS on the right → o = +1).
 const REGIONS: RegionDef[] = [
-  { key: 'source', anchor: (g) => [g.dx - g.tx, g.dy + 0.14, g.fz], label: (g) => [g.dx - 2.5, g.dy + 0.0, 0] },
-  { key: 'channel', anchor: (g) => [g.dx, g.dy + 0.02, g.fz], label: (g) => [g.dx - 2.5, g.dy + 0.85, 0] },
-  { key: 'substrate', anchor: (g) => [g.dx, g.dy - 0.32, g.fz], label: (g) => [g.dx - 2.5, g.dy - 0.85, 0] },
-  { key: 'gate', anchor: (g) => [g.dx, g.dy + 0.4, g.fz], label: (g) => [g.dx - 0.3, g.dy + 1.75, 0] },
-  { key: 'oxide', anchor: (g) => [g.dx + 0.1, g.dy + 0.18, g.fz], label: (g) => [g.dx + 1.1, g.dy + 1.5, 0] },
-  { key: 'drain', anchor: (g) => [g.dx + g.tx, g.dy + 0.14, g.fz], label: (g) => [g.dx + 1.6, g.dy + 0.9, 0] },
+  { key: 'source', anchor: (g) => [g.dx + g.o * g.tx, g.dy + 0.14, g.fz], label: (g) => [g.dx + g.o * 2.5, g.dy + 0.0, 0] },
+  { key: 'channel', anchor: (g) => [g.dx, g.dy + 0.02, g.fz], label: (g) => [g.dx + g.o * 2.5, g.dy + 0.85, 0] },
+  { key: 'substrate', anchor: (g) => [g.dx, g.dy - 0.32, g.fz], label: (g) => [g.dx + g.o * 2.5, g.dy - 0.85, 0] },
+  { key: 'gate', anchor: (g) => [g.dx, g.dy + 0.4, g.fz], label: (g) => [g.dx - g.o * 0.3, g.dy + 1.75, 0] },
+  { key: 'oxide', anchor: (g) => [g.dx - g.o * 0.1, g.dy + 0.18, g.fz], label: (g) => [g.dx - g.o * 1.1, g.dy + 1.5, 0] },
+  { key: 'drain', anchor: (g) => [g.dx - g.o * g.tx, g.dy + 0.14, g.fz], label: (g) => [g.dx - g.o * 1.6, g.dy + 0.9, 0] },
 ];
 
 export function AnatomyOverlay({ geometry, deviceX, deviceY }: { geometry: DeviceGeometry; deviceX: number; deviceY: number }) {
@@ -43,7 +48,7 @@ export function AnatomyOverlay({ geometry, deviceX, deviceY }: { geometry: Devic
   const setSelected = useLabModes((s) => s.setSelected);
   if (!anatomy && !learning) return null;
 
-  const g: Geo = { dx: deviceX, dy: deviceY, tx: terminalX(geometry), fz: geometry.bodyWidth / 2 + 0.04 };
+  const g: Geo = { dx: deviceX, dy: deviceY, tx: terminalX(geometry), fz: geometry.bodyWidth / 2 + 0.04, o: Math.sign(deviceX) || 1 };
 
   return (
     <>

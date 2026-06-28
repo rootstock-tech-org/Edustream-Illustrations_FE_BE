@@ -60,8 +60,8 @@ export interface SingleTransistorData {
 
 const SUB_H = 0.6;
 const WELL_H = 0.42;
-const SUBSTRATE_MUTED = '#8a986d'; // muted sage (p-substrate)
-const NWELL_MUTED = '#46618c'; // muted tech blue (n-well)
+const SUBSTRATE_MUTED = '#dad9d3'; // pale gray p-substrate (per photo)
+const NWELL_MUTED = '#e6a88e'; // warm salmon n-well (per photo)
 
 const GLOW_CYAN = '#7df9ff'; // neon-cyan signal colour — glow text on dark chips
 

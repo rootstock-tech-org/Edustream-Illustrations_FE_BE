@@ -9,10 +9,13 @@ import { InlineVoltageEditor } from './InlineVoltageEditor';
 import { CalloutLabel } from './CalloutLabel';
 
 /**
- * Reference CMOS-inverter wiring (horizontal). nMOS on the left, pMOS on the
- * right; terminal ROLE is structural:
- *   nMOS: source = OUTER-left → GND,   drain = INNER-right → OUTPUT
- *   pMOS: drain  = INNER-left → OUTPUT, source = OUTER-right → VDD
+ * Reference CMOS-inverter wiring (horizontal), matching the textbook photo:
+ * pMOS (in the n-well) on the LEFT tied to VDD/1 V, nMOS on the RIGHT tied to
+ * GND/0 V. Terminal ROLE is structural — SOURCE = OUTER (toward the rail),
+ * DRAIN = INNER (toward the centred OUTPUT) — derived from sign(x) below, so the
+ * topology holds whichever way round the devices sit:
+ *   pMOS: source = OUTER → VDD,  drain = INNER → OUTPUT
+ *   nMOS: source = OUTER → GND,  drain = INNER → OUTPUT
  * OUTPUT is the centred junction of the two drains; INPUT is the shared gate
  * over both. Current rides the conducting half only:
  *   Input=0 → VDD → pMOS → Output ;  Input=1 → Output → nMOS → GND.
@@ -48,17 +51,27 @@ export function Wiring({
 
   const tx = terminalX(geometry);
   const cY = deviceY + 0.24; // contact height
-  // Rails reach out past the body taps (p⁺→GND, n⁺→VDD) so the body is tied.
-  const gndX = nmosBodyX - 0.35;
-  const vddX = pmosWellX + 0.35;
+  // Rails reach OUTWARD past the body taps (p⁺→GND, n⁺→VDD) so the body is tied
+  // AND the source–rail wire spans cleanly over the tap. The offset follows the
+  // tap's own side (sign), so the rails stay outboard whichever way the devices
+  // are mirrored — otherwise a flipped layout drops the rail inboard of the
+  // source and the connection collapses to a stub.
+  const gndX = nmosBodyX + (Math.sign(nmosBodyX) || -1) * 0.35;
+  const vddX = pmosWellX + (Math.sign(pmosWellX) || 1) * 0.35;
   const gateTopY = deviceY + 0.42; // meets the gate's metal contact
   const inputY = deviceY + 1.1;
 
-  // Terminals.
-  const nSrc: P3 = [nmosX - tx, cY, 0];
-  const nDrn: P3 = [nmosX + tx, cY, 0];
-  const pDrn: P3 = [pmosX - tx, cY, 0];
-  const pSrc: P3 = [pmosX + tx, cY, 0];
+  // Terminal ROLE is structural, not positional: for EACH device the SOURCE sits
+  // on the OUTER side (toward its own supply rail) and the DRAIN on the INNER side
+  // (toward the shared OUTPUT at x=0). Deriving the sides from sign(x) keeps the
+  // wiring correct whichever way round the nMOS/pMOS are placed (e.g. pMOS-left /
+  // nMOS-right per the reference photo, or the mirror image).
+  const nOuter = Math.sign(nmosX) || 1;
+  const pOuter = Math.sign(pmosX) || 1;
+  const nSrc: P3 = [nmosX + nOuter * tx, cY, 0]; // outer → GND
+  const nDrn: P3 = [nmosX - nOuter * tx, cY, 0]; // inner → OUTPUT
+  const pSrc: P3 = [pmosX + pOuter * tx, cY, 0]; // outer → VDD
+  const pDrn: P3 = [pmosX - pOuter * tx, cY, 0]; // inner → OUTPUT
   const out: P3 = [0, cY, 0];
 
   // Power path.
