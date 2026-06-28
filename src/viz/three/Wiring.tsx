@@ -19,7 +19,8 @@ import { CalloutLabel } from './CalloutLabel';
  * OUTPUT is the centred junction of the two drains; INPUT is the shared gate
  * over both. Current rides the conducting half only:
  *   Input=0 → VDD → pMOS → Output ;  Input=1 → Output → nMOS → GND.
- * (Bulk ties — pMOS n-well→VDD, nMOS substrate→GND — are reserved for later.)
+ * Body/well taps are intentionally omitted to match the academically-approved
+ * reference (only S/D terminals, gates, and I/O are drawn).
  */
 type P3 = [number, number, number];
 
@@ -51,11 +52,9 @@ export function Wiring({
 
   const tx = terminalX(geometry);
   const cY = deviceY + 0.24; // contact height
-  // Rails reach OUTWARD past the body taps (p⁺→GND, n⁺→VDD) so the body is tied
-  // AND the source–rail wire spans cleanly over the tap. The offset follows the
-  // tap's own side (sign), so the rails stay outboard whichever way the devices
-  // are mirrored — otherwise a flipped layout drops the rail inboard of the
-  // source and the connection collapses to a stub.
+  // Rail terminals sit OUTBOARD of each transistor's source (the offset follows
+  // the device's own side via sign, so the rails stay outboard whichever way the
+  // nMOS/pMOS are placed). nmosBodyX / pmosWellX mark those outer rail positions.
   const gndX = nmosBodyX + (Math.sign(nmosBodyX) || -1) * 0.35;
   const vddX = pmosWellX + (Math.sign(pmosWellX) || 1) * 0.35;
   const gateTopY = deviceY + 0.42; // meets the gate's metal contact
@@ -109,6 +108,7 @@ export function Wiring({
         <Line key={i} points={pts} color={metal} lineWidth={i >= 5 ? 2.5 : 2} transparent opacity={0.85} />
       ))}
 
+
       {/* OUTPUT — the shared drain junction: an immediately identifiable glowing
           node + soft halo (hierarchy #2). */}
       <mesh position={out}>
@@ -125,13 +125,11 @@ export function Wiring({
         <meshStandardMaterial color={metal} metalness={0.5} roughness={0.4} />
       </mesh>
 
-      {/* CURRENT — conventional current, conducting half only. Pull-up charges the
-          output: VDD → pMOS → OUTPUT. Pull-down discharges it: OUTPUT → nMOS → GND.
-          (WireFlow runs points[0] → points[last], so orient each wire accordingly.) */}
-      <WireFlow points={wVddSrc} activity={pullUpActivity} colorHex={accent} count={3} size={0.038} reducedMotion={reducedMotion} />
+      {/* CURRENT — pulses ride ONLY the drain↔OUTPUT links. The supply rails
+          (VDD → pMOS source on the left, GND → nMOS source on the right) are left
+          as STATIC wires — the connection is shown, but no flow animates on them. */}
       <WireFlow points={wPDrnOut} activity={pullUpActivity} colorHex={accent} count={2} size={0.038} reducedMotion={reducedMotion} />
       <WireFlow points={wNDrnOut.slice().reverse() as P3[]} activity={pullDownActivity} colorHex={accent} count={2} size={0.038} reducedMotion={reducedMotion} />
-      <WireFlow points={wGndSrc.slice().reverse() as P3[]} activity={pullDownActivity} colorHex={accent} count={3} size={0.038} reducedMotion={reducedMotion} />
 
       {/* Labels in clear margins, tied to their node by a leader line */}
       <CalloutLabel anchor={[gndX, cY, 0]} position={[gndX - 0.7, 0.5, 0]}>

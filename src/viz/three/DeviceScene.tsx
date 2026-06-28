@@ -76,7 +76,6 @@ function Stage({ data }: { data: SceneData }) {
   const cross = useLabModes(crossSectionActive);
   const learning = useLabModes((s) => s.learning);
   const depth = data.geometry.bodyWidth + 0.5;
-  const contactCol = color('contact');
   const edge = color('edge');
 
   return (
@@ -104,9 +103,10 @@ function Stage({ data }: { data: SceneData }) {
         <Edges threshold={15} color={edge} />
       </mesh>
 
-      {/* Body taps (reserved): p⁺→GND in substrate, n⁺→VDD in n-well */}
-      <BodyTap x={NMOS_BODY_X} depth={depth} diff={color('pplus')} contactCol={contactCol} />
-      <BodyTap x={PMOS_WELL_X} depth={depth} diff={color('nplus')} contactCol={contactCol} />
+      {/* Body/well taps are intentionally omitted to match the academically-approved
+          reference, which shows only the source/drain terminals, gates, and I/O.
+          (Wells are still implicitly biased: n-well at VDD via the pMOS source,
+          p-substrate at GND via the nMOS source.) */}
 
       <Wiring
         geometry={data.geometry}
@@ -165,30 +165,11 @@ function Stage({ data }: { data: SceneData }) {
   );
 }
 
-/** A body/well contact tap: a small diffusion implanted in the silicon + metal. */
-function BodyTap({ x, depth, diff, contactCol }: { x: number; depth: number; diff: string; contactCol: string }) {
-  const edge = color('edge');
-  return (
-    <group position={[x, 0, 0]}>
-      <mesh position={[0, -0.16, 0]}>
-        <boxGeometry args={[0.42, 0.32, depth * 0.7]} />
-        <meshStandardMaterial color={diff} roughness={0.6} metalness={0.05} />
-        <Edges threshold={15} color={edge} />
-      </mesh>
-      <mesh position={[0, 0.16, 0]}>
-        <boxGeometry args={[0.24, 0.14, 0.45]} />
-        <meshStandardMaterial color={contactCol} metalness={0.4} roughness={0.5} />
-        <Edges threshold={15} color={edge} />
-      </mesh>
-    </group>
-  );
-}
-
 export function DeviceScene({ data }: { data: SceneData }) {
   const light = useThemeStore((s) => s.theme === 'light');
   const bg = light ? '#eef1f5' : '#0e1116';
   return (
-    <Canvas camera={{ position: [0, 0.9, 10.4], fov: 40 }} dpr={[1, 2]} gl={{ antialias: true, alpha: false }} frameloop={data.reducedMotion ? 'demand' : 'always'}>
+    <Canvas camera={{ position: [0, 0.9, 12.6], fov: 40 }} dpr={[1, 2]} gl={{ antialias: true, alpha: false }} frameloop={data.reducedMotion ? 'demand' : 'always'}>
       <color attach="background" args={[bg]} />
       <fog attach="fog" args={[bg, 18, 42]} />
       <Stage data={data} />
