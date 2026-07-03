@@ -17,6 +17,10 @@ export function ParameterPanel() {
               descriptor={p}
               value={values[p.key] ?? 0}
               onChange={(v) => setParameter(p.key, v)}
+              // Every numeric input is fixed to exactly 2 decimals (NMOS, PMOS and
+              // CMOS inverter alike). Log-scale params (e.g. doping) opt out
+              // automatically inside ParameterControl.
+              exact2
             />
           ))}
         </fieldset>

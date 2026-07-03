@@ -8,7 +8,6 @@ import type { TransistorVisual } from './scene.types';
 import { ParametricTransistor, terminalX, gateLength } from './ParametricTransistor';
 import { CalloutLabel } from './CalloutLabel';
 import { DimensionLines } from './DimensionLines';
-import { DeviceHandles } from './DeviceHandles';
 import { AnatomyOverlay } from './AnatomyOverlay';
 import { useLabModes, crossSectionActive } from './lab-modes';
 import { damp } from './anim';
@@ -114,15 +113,17 @@ function Stage({ data }: { data: SingleTransistorData }) {
         </mesh>
       )}
 
-      {/* Body / well tap → the substrate (NMOS) or n-well (PMOS) contact */}
+      {/* Body / well tap → the substrate (NMOS) or n-well (PMOS) contact. The
+          metal contact MUST sit ON the p⁺/n⁺ tap (ohmic body contact), so it's
+          tall enough to rest on the diffusion top (y≈0) with no air gap. */}
       <group position={[bodyX, 0, 0]}>
         <mesh position={[0, -0.16, 0]}>
           <boxGeometry args={[0.42, 0.32, depth * 0.6]} />
           <meshStandardMaterial color={color(isP ? 'nplus' : 'pplus')} roughness={0.6} metalness={0.05} />
           <Edges threshold={15} color={edge} />
         </mesh>
-        <mesh position={[0, 0.16, 0]}>
-          <boxGeometry args={[0.24, 0.14, 0.45]} />
+        <mesh position={[0, 0.11, 0]}>
+          <boxGeometry args={[0.24, 0.24, 0.45]} />
           <meshStandardMaterial color={contactCol} metalness={0.4} roughness={0.5} />
           <Edges threshold={15} color={edge} />
         </mesh>
@@ -139,9 +140,27 @@ function Stage({ data }: { data: SingleTransistorData }) {
           <CalloutLabel anchor={[0, 0.55, 0]} position={[0.35, 2.15, 0]}>{chip('Gate', true)}</CalloutLabel>
           <CalloutLabel anchor={[-tx, cY, 0]} position={[-tx - 0.55, 0.85, 0.6]}>{chip('Source')}</CalloutLabel>
           <CalloutLabel anchor={[tx, cY, 0]} position={[tx + 0.65, 0.85, 0.6]}>{chip('Drain')}</CalloutLabel>
-          <CalloutLabel anchor={[bodyX, -0.1, 0]} position={[bodyX + 0.1, -0.78, 0.6]}>
-            {chip(isP ? 'Body (n-well)' : 'Body (p-sub)')}
+          {/* Bulk CONTACT — the metal tap into the body (a SEPARATE terminal),
+              p⁺ for NMOS / n⁺ for PMOS. Labelled from the TOP of the far-left
+              block, like Source/Drain/Gate. */}
+          <CalloutLabel anchor={[bodyX, 0.23, 0]} position={[bodyX - 0.2, 1.0, 0.4]}>
+            {chip(isP ? 'Bulk contact (n⁺)' : 'Bulk contact (p⁺)')}
           </CalloutLabel>
+          {/* Body REGION — the doped bulk the device sits in (p-substrate for
+              NMOS, the n-well for PMOS), distinct from its contact above. */}
+          <CalloutLabel
+            anchor={isP ? [tx + 0.7, -0.12, depth / 2 - 0.1] : [tx + 0.7, -0.3, depth / 2 - 0.1]}
+            position={[tx + 0.7, -0.92, depth / 2 + 0.3]}
+          >
+            {chip(isP ? 'Body (n-well)' : 'Body (p-substrate)')}
+          </CalloutLabel>
+          {/* PMOS only: the p-substrate WAFER the n-well is embedded in (the gray
+              slabs flanking the well) — a separate region from the n-well body. */}
+          {isP && (
+            <CalloutLabel anchor={[3.0, -0.3, depth / 2 - 0.1]} position={[3.0, -0.95, depth / 2 + 0.3]}>
+              {chip('p-Substrate')}
+            </CalloutLabel>
+          )}
         </>
       )}
 
@@ -153,9 +172,8 @@ function Stage({ data }: { data: SingleTransistorData }) {
         />
       )}
 
-      {/* On-device W / L / Tox drag-grips (drag to adjust — pairs with the
-          type/slider controls). Hidden in the flat/teaching views. */}
-      {!cross && !teaching && <DeviceHandles geometry={data.geometry} position={[0, 0, 0]} />}
+      {/* On-device W/L/Tox drag-grips removed (the white spheres); geometry is
+          still editable from Controls → Geometry. */}
 
       {/* Engineering anatomy callouts (source/drain/gate/oxide/channel/body),
           shared with the inverter — self-hides unless Anatomy/Learning is on. */}

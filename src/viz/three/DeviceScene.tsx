@@ -4,9 +4,7 @@ import { OrbitControls, Edges } from '@react-three/drei';
 import type { PerspectiveCamera } from 'three';
 import { color } from './palette';
 import type { SceneData } from './scene.types';
-import { ParametricTransistor, gateLength } from './ParametricTransistor';
-import { DimensionLines } from './DimensionLines';
-import { DeviceHandles } from './DeviceHandles';
+import { ParametricTransistor } from './ParametricTransistor';
 import { AnatomyOverlay } from './AnatomyOverlay';
 import { RegionLabels } from './RegionLabels';
 import { Wiring } from './Wiring';
@@ -131,16 +129,8 @@ function Stage({ data }: { data: SceneData }) {
         <RegionLabels geometry={data.geometry} nmosX={NMOS_X} pmosX={PMOS_X} deviceY={DEVICE_Y} wellX={-(WELL_LEFT + 5.0) / 2} />
       )}
 
-      {/* L / W engineering dimension callouts on the nMOS */}
-      {!cross && (
-        <DimensionLines
-          position={[NMOS_X, DEVICE_Y, 0]}
-          gateLength={gateLength(data.geometry)}
-          width={data.geometry.bodyWidth * 0.86}
-        />
-      )}
-
-      <DeviceHandles geometry={data.geometry} position={[PMOS_X, DEVICE_Y, 0]} />
+      {/* On-device W/L/Tox drag-grips removed (the white spheres above the n-well);
+          geometry is still editable from Controls → Geometry. */}
       <AnatomyOverlay geometry={data.geometry} deviceX={NMOS_X} deviceY={DEVICE_Y} />
 
       <OrbitControls

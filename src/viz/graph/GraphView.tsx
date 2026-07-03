@@ -8,11 +8,12 @@ import {
   CartesianGrid,
   Tooltip,
   ReferenceLine,
+  ReferenceArea,
   Legend,
   Customized,
   ResponsiveContainer,
 } from 'recharts';
-import type { GraphSpec } from '@/domain/graph/graph.spec';
+import type { GraphSpec, GraphAnnotation } from '@/domain/graph/graph.spec';
 
 const token = (name?: string) => (name ? `rgb(var(--${name}))` : 'rgb(var(--accent))');
 
@@ -67,6 +68,22 @@ export function GraphView({
           onMouseLeave={() => (dragging.current = false)}
         >
           <CartesianGrid stroke="rgb(var(--ink-muted) / 0.12)" />
+          {/* Operating-region bands — painted first so they sit BEHIND the curve. */}
+          {spec.annotations
+            ?.filter((a): a is Extract<GraphAnnotation, { kind: 'band' }> => a.kind === 'band')
+            .map((a, i) => (
+              <ReferenceArea
+                key={`band-${i}`}
+                x1={a.x0}
+                x2={a.x1}
+                fill={token(a.colorToken)}
+                fillOpacity={0.12}
+                stroke={token(a.colorToken)}
+                strokeOpacity={0.25}
+                ifOverflow="extendDomain"
+                label={{ value: a.code, position: 'insideTop', fill: token(a.colorToken), fontSize: 10, dy: 3 }}
+              />
+            ))}
           <XAxis
             dataKey="x"
             type="number"

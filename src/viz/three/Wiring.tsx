@@ -78,7 +78,16 @@ export function Wiring({
   const wNDrnOut: P3[] = [nDrn, out];
   const wPDrnOut: P3[] = [pDrn, out];
   const wVddSrc: P3[] = [[vddX, cY, 0], pSrc];
-  const wOutStub: P3[] = [out, [0, deviceY + 0.58, 0.35]];
+  // VDD label sits outboard of its rail (mirrors the GND callout) with a leader
+  // back to the VDD rail node, so its connection to the pMOS source is visible.
+  const vddLabelPos: P3 = [vddX + 0.75, deviceY + 0.66, 0];
+  // OUTPUT lead: tap straight off the grey OUTPUT node, route FORWARD over the
+  // surface (above the silicon, so it is never hidden) then DOWN the front face
+  // (in front of the substrate), so the OUTPUT label clearly hangs off the
+  // sphere — not the body behind it.
+  const frontZ = geometry.bodyWidth / 2 + 0.4;
+  const outTap: P3 = [0, deviceY - 0.85, frontZ];
+  const wOutLead: P3[] = [out, [0, cY, frontZ], outTap];
 
   // Input (shared gate) — a metal comb to both gates.
   const wInput: P3[] = [[0, inputY, 0], [0, deviceY + 0.95, 0]];
@@ -93,19 +102,26 @@ export function Wiring({
 
   return (
     <group>
-      {/* GND (left) & VDD (right) metal terminals */}
-      <mesh position={[gndX, cY, 0]}>
-        <boxGeometry args={[0.32, 0.3, 0.5]} />
+      {/* GND (left) & VDD (right) metal terminals — dropped so they sit ON the
+          surface and rise to meet the wire bus (not floating in air). */}
+      <mesh position={[gndX, deviceY + 0.1, 0]}>
+        <boxGeometry args={[0.32, 0.34, 0.5]} />
         <meshStandardMaterial color={color('gnd')} metalness={0.4} roughness={0.5} />
       </mesh>
-      <mesh position={[vddX, cY, 0]}>
-        <boxGeometry args={[0.32, 0.3, 0.5]} />
+      <mesh position={[vddX, deviceY + 0.1, 0]}>
+        <boxGeometry args={[0.32, 0.34, 0.5]} />
         <meshStandardMaterial color={color('vdd')} emissive={color('vdd')} emissiveIntensity={0.3} metalness={0.4} roughness={0.5} />
       </mesh>
 
-      {/* Thin, recessive metal wires — supporting, not dominating (hierarchy #3/#4) */}
-      {[wGndSrc, wNDrnOut, wPDrnOut, wVddSrc, wOutStub, wInput, wInN, wInP].map((pts, i) => (
-        <Line key={i} points={pts} color={metal} lineWidth={i >= 5 ? 2.5 : 2} transparent opacity={0.85} />
+      {/* Thin, recessive metal wires — supply rails + gate comb (supporting, not dominating) */}
+      {[wGndSrc, wVddSrc, wInput, wInN, wInP].map((pts, i) => (
+        <Line key={i} points={pts} color={metal} lineWidth={i >= 2 ? 2.5 : 2} transparent opacity={0.85} />
+      ))}
+      {/* OUTPUT connection — bold + solid: BOTH inner drains tie into the grey
+          OUTPUT node (pMOS drain ─ OUTPUT ─ nMOS drain), and the OUTPUT lead taps
+          off that node and routes to its label. */}
+      {[wPDrnOut, wNDrnOut, wOutLead].map((pts, i) => (
+        <Line key={`out-${i}`} points={pts} color={metal} lineWidth={3.5} />
       ))}
 
 
@@ -135,10 +151,15 @@ export function Wiring({
       <CalloutLabel anchor={[gndX, cY, 0]} position={[gndX - 0.7, 0.5, 0]}>
         <span className="eyebrow select-none rounded-md bg-black/65 px-2 py-0.5 text-[9px] text-white ring-1 ring-black/10 dark:ring-white/10 backdrop-blur-sm">GND</span>
       </CalloutLabel>
-      <CalloutLabel anchor={[0, cY, 0]} position={[0, deviceY - 1.0, 0]}>
+      {/* OUTPUT label — hangs off the end of the OUTPUT lead (which taps the grey
+          node), so it reads as the node's output, not a body contact. */}
+      <CalloutLabel anchor={outTap} position={[0, deviceY - 1.15, frontZ]}>
         <span className="eyebrow select-none rounded-md bg-black/60 px-1.5 py-0.5 text-[9px] text-white ring-1 ring-black/10 dark:ring-white/10 backdrop-blur-sm">OUTPUT</span>
       </CalloutLabel>
-      <InlineVoltageEditor position={[vddX + 0.5, cY + 0.5, 0]} paramKey="VDD" label="VDD" />
+      {/* VDD — leader from the rail node up to the editable chip, so the supply
+          connection to the pMOS source reads clearly (like the GND callout). */}
+      <Line points={[[vddX, cY, 0], vddLabelPos]} color="#9aa0ac" lineWidth={1} transparent opacity={0.5} />
+      <InlineVoltageEditor position={vddLabelPos} paramKey="VDD" label="VDD" />
       <InlineVoltageEditor position={[0, inputY + 0.35, 0]} paramKey="Vin" label="INPUT" />
     </group>
   );

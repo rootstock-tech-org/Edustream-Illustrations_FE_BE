@@ -6,6 +6,9 @@ interface Props {
   descriptor: ParameterDescriptor;
   value: number | string;
   onChange: (value: number | string) => void;
+  /** Geometry section: lock the typed box to EXACTLY 2 decimal places (display
+   *  units) — value rounded to 2 dp on entry and always shown as e.g. 180.00. */
+  exact2?: boolean;
 }
 
 /**
@@ -15,7 +18,7 @@ interface Props {
  * number box (shown in the parameter's display units). Adding a device with new
  * parameters needs no new UI code. Contains zero domain logic.
  */
-export function ParameterControl({ descriptor, value, onChange }: Props) {
+export function ParameterControl({ descriptor, value, onChange, exact2 = false }: Props) {
   const id = useId();
   const { kind, label } = descriptor;
 
@@ -29,7 +32,15 @@ export function ParameterControl({ descriptor, value, onChange }: Props) {
     kind.type === 'continuous'
       ? kind.display?.symbol ?? (descriptor.unit === '1' ? '' : descriptor.unit)
       : '';
-  const scaledStr = String(Number((numeric / scale).toPrecision(4)));
+  // Log-scale params (e.g. doping ~1e23) can't sensibly be fixed to 2 decimals,
+  // so exact-2-dp mode only applies to ordinary linear params.
+  const isLog = kind.type === 'continuous' && kind.logScale === true;
+  const exact = exact2 && !isLog;
+  // exact → always exactly 2 decimals (keep trailing zeros: 180 → "180.00").
+  // Otherwise the prior behaviour: 4 significant figures.
+  const scaledStr = exact
+    ? (numeric / scale).toFixed(2)
+    : String(Number((numeric / scale).toPrecision(4)));
   const [text, setText] = useState(scaledStr);
   const focused = useRef(false);
   useEffect(() => {
@@ -61,16 +72,20 @@ export function ParameterControl({ descriptor, value, onChange }: Props) {
   const display = formatDisplay(descriptor, numeric);
 
   // Log-scale sliders operate on a normalized [0,1] track mapped to a decade range.
-  const isLog = kind.logScale === true;
   const sliderValue = isLog ? toLog(numeric, kind.min, kind.max) : numeric;
   const sliderMin = isLog ? 0 : kind.min;
   const sliderMax = isLog ? 1 : kind.max;
   const sliderStep = isLog ? 0.001 : kind.step;
 
-  const commitTyped = (raw: string) => {
+  const commitTyped = (input: string) => {
+    // exact2 → never let the box hold more than 2 decimals: truncate the typed
+    // text immediately so a 3rd decimal digit simply can't be entered.
+    const raw = exact ? limitDecimals(input, 2) : input;
     setText(raw);
     const n = Number(raw);
-    if (raw.trim() !== '' && Number.isFinite(n)) onChange(n * scale); // SI; setter clamps
+    if (raw.trim() === '' || !Number.isFinite(n)) return;
+    const rounded = exact ? Math.round(n * 100) / 100 : n; // lock to 2 dp in display units
+    onChange(rounded * scale); // SI; setter clamps to range
   };
 
   return (
@@ -84,7 +99,9 @@ export function ParameterControl({ descriptor, value, onChange }: Props) {
           <input
             type="number"
             inputMode="decimal"
-            step={isLog ? 'any' : Number((kind.step / scale).toPrecision(4))}
+            // exact → 0.01 step so the box takes EXACTLY 2-decimal values
+            // (e.g. L = 180.25 nm); other params keep their natural step.
+            step={isLog ? 'any' : exact ? 0.01 : Number((kind.step / scale).toPrecision(4))}
             value={text}
             aria-label={`${label} value`}
             onFocus={() => (focused.current = true)}
@@ -115,6 +132,13 @@ export function ParameterControl({ descriptor, value, onChange }: Props) {
       />
     </div>
   );
+}
+
+/** Truncate a typed numeric string to at most `max` decimal places (no rounding),
+ *  so the field can never hold more than `max` decimals while the user types. */
+function limitDecimals(s: string, max: number): string {
+  const dot = s.indexOf('.');
+  return dot === -1 ? s : s.slice(0, dot + 1 + max);
 }
 
 function formatDisplay(descriptor: ParameterDescriptor, value: number): string {

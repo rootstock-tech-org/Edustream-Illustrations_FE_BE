@@ -22,6 +22,7 @@ import { GraphPanel } from '@/viz/graph/GraphPanel';
 import { TransistorGraphPanel } from '@/viz/graph/TransistorGraphPanel';
 import { DeviceSceneCard } from '@/viz/three/DeviceSceneCard';
 import { SingleTransistorCard } from '@/viz/three/SingleTransistorCard';
+import { FabricationSection } from './FabricationSection';
 
 type Tab = 'explore' | 'analyze' | 'variation' | 'learn';
 const TABS: ReadonlyArray<{ id: Tab; label: string }> = [
@@ -47,6 +48,7 @@ export function Explorer() {
   const txResult = useTransistorResult();
   const [tab, setTab] = useState<Tab>('explore');
   const [inspected, setInspected] = useState<{ title: string; explanation: Explanation } | null>(null);
+  const [fabOpen, setFabOpen] = useState(false);
 
   const crossSection = useLabModes((s) => s.crossSection);
   const setCrossSection = useLabModes((s) => s.setCrossSection);
@@ -57,6 +59,9 @@ export function Explorer() {
   }, [tab]);
 
   const onInspect = (title: string, explanation: Explanation) => setInspected({ title, explanation });
+
+  // Fabrication walkthrough fully replaces the bench while open.
+  if (fabOpen) return <FabricationSection onClose={() => setFabOpen(false)} />;
 
   return (
     <main className="flex h-[100dvh] flex-col gap-3 overflow-hidden p-3 md:p-4">
@@ -70,6 +75,12 @@ export function Explorer() {
           </div>
         </div>
         <div className="flex items-center gap-3">
+          <button
+            onClick={() => setFabOpen(true)}
+            className="rounded-lg bg-brand px-3 py-1.5 text-sm font-medium text-white shadow-[0_0_18px_var(--accent-glow)] transition hover:opacity-90"
+          >
+            Fabrication
+          </button>
           <DevicePicker />
           <ThemeToggle />
         </div>

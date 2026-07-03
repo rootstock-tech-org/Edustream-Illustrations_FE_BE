@@ -38,4 +38,8 @@ export interface GraphPoint {
 
 export type GraphAnnotation =
   | { readonly kind: 'vline'; readonly x: number; readonly label: string; readonly colorToken?: string }
-  | { readonly kind: 'point'; readonly x: number; readonly y: number; readonly label: string; readonly colorToken?: string };
+  | { readonly kind: 'point'; readonly x: number; readonly y: number; readonly label: string; readonly colorToken?: string }
+  /** A shaded x-range marking an operating region (e.g. an inverter's
+   *  cutoff / saturation / linear bands). `code` is the short on-chart tag,
+   *  `label` the full description shown in the legend. */
+  | { readonly kind: 'band'; readonly x0: number; readonly x1: number; readonly code: string; readonly label: string; readonly colorToken?: string };

@@ -101,14 +101,16 @@ export function ParametricTransistor({
         <meshStandardMaterial ref={chanMat} color={carrier} emissive={carrier} emissiveIntensity={0.6} transparent opacity={0.2} depthWrite={false} />
       </mesh>
 
-      {/* Metal contacts on the diffusions */}
-      <mesh ref={contactL} position={[-1, 0.16, 0]}>
-        <boxGeometry args={[0.22, 0.12, 0.45]} />
+      {/* Metal contacts — tall enough to BRIDGE the diffusion surface up to the
+          wire bus (no floating gap): the bottom sits in the diffusion (y≈0.03)
+          and the top meets the metal wire at y≈0.25 (bus is at 0.24). */}
+      <mesh ref={contactL} position={[-1, 0.14, 0]}>
+        <boxGeometry args={[0.22, 0.22, 0.45]} />
         <meshStandardMaterial color={contactCol} metalness={0.4} roughness={0.5} />
         <Edges threshold={15} color={edge} />
       </mesh>
-      <mesh ref={contactR} position={[1, 0.16, 0]}>
-        <boxGeometry args={[0.22, 0.12, 0.45]} />
+      <mesh ref={contactR} position={[1, 0.14, 0]}>
+        <boxGeometry args={[0.22, 0.22, 0.45]} />
         <meshStandardMaterial color={contactCol} metalness={0.4} roughness={0.5} />
         <Edges threshold={15} color={edge} />
       </mesh>
