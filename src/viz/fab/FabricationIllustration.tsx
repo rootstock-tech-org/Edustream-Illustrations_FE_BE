@@ -84,7 +84,7 @@ export function FabricationIllustration({ stage }: { stage: FabStage }) {
   const idx = FAB_STAGES.indexOf(stage);
   const ge = (s: FabStage) => idx >= FAB_STAGES.indexOf(s);
   const at = (s: FabStage) => stage === s;
-  const preSTI = !ge('sti'); // wafer … stifill: flat films, then trenches
+  const preSTI = !ge('sti'); // wafer … fill: flat films, then trenches
 
   const sdColor = (k: 'p' | 'n') => (k === 'p' ? C.pplus : C.nplus);
 
@@ -119,12 +119,12 @@ export function FabricationIllustration({ stage }: { stage: FabStage }) {
         </>
       )}
       {preSTI &&
-        (at('trench') || at('stifill')) &&
+        (at('trench') || at('fill')) &&
         STIS.map(([x0, x1], k) => (
           <g key={`tr-${k}`}>
             {/* trench cut through films + into silicon */}
             <rect x={x0} y={SURF - 16} width={x1 - x0} height={46 + 16} fill={C.bg} />
-            {at('stifill') && (
+            {at('fill') && (
               <>
                 {/* HDP oxide overfilling the trench (bump above surface) */}
                 <rect x={x0 - 3} y={SURF - 14} width={x1 - x0 + 6} height={58} rx="3" fill={C.sti} stroke={C.stiEdge} strokeWidth="0.75" />
@@ -137,7 +137,7 @@ export function FabricationIllustration({ stage }: { stage: FabStage }) {
       {ge('sti') && (
         <>
           {/* wells (hatched) */}
-          {ge('wells') &&
+          {ge('pwell') &&
             ACTIVE.map((a, k) => (
               <path key={`well-${k}`} d={tub(a.x0, a.x1, 82)} fill={`url(#${a.kind === 'p' ? 'fabNwell' : 'fabPwell'})`} stroke={C.edge} strokeWidth="0.6" opacity="0.95" />
             ))}
@@ -149,7 +149,7 @@ export function FabricationIllustration({ stage }: { stage: FabStage }) {
       )}
 
       {/* implant arrows on the active implant stages */}
-      {at('wells') && (
+      {(at('pwell') || at('nwell')) && (
         <>
           <Arrows x0={58} x1={222} color="#7ac043" count={6} />
           <Arrows x0={298} x1={462} color="#e0479b" count={6} />
@@ -186,8 +186,8 @@ export function FabricationIllustration({ stage }: { stage: FabStage }) {
               <path d={`M ${a.gate + GHW} ${SURF - 30} L ${a.gate + GHW} ${SURF - 4} L ${a.gate + GHW + 11} ${SURF - 4} Q ${a.gate + GHW + 11} ${SURF - 22} ${a.gate + GHW} ${SURF - 30} Z`} fill={C.spacer} />
             </>
           )}
-          {ge('poly') && <rect x={a.gate - GHW} y={SURF - 32} width={GHW * 2} height="28" rx="2" fill={C.poly} stroke={C.polyEdge} strokeWidth="0.8" />}
-          {ge('salicide') && (
+          {ge('gate') && <rect x={a.gate - GHW} y={SURF - 32} width={GHW * 2} height="28" rx="2" fill={C.poly} stroke={C.polyEdge} strokeWidth="0.8" />}
+          {ge('silicide') && (
             <>
               <rect x={a.gate - GHW} y={SURF - 35} width={GHW * 2} height="4" fill={C.salicide} />
               <rect x={a.gate - 66} y={SURF - 2} width={36} height="4" fill={C.salicide} />
@@ -232,7 +232,7 @@ export function FabricationIllustration({ stage }: { stage: FabStage }) {
       )}
 
       {/* region labels */}
-      {ge('wells') && !ge('contact') && (
+      {ge('pwell') && !ge('contact') && (
         <>
           <text x="140" y={SURF + 54} textAnchor="middle" fontSize="11" fill={C.label}>n-well</text>
           <text x="380" y={SURF + 54} textAnchor="middle" fontSize="11" fill={C.label}>p-well</text>
@@ -241,7 +241,7 @@ export function FabricationIllustration({ stage }: { stage: FabStage }) {
       {ge('sti') && !ge('contact') && (
         <text x="260" y={SURF + 24} textAnchor="middle" fontSize="9" fill="#7a6f1e">STI</text>
       )}
-      {ge('poly') && !ge('contact') && (
+      {ge('gate') && !ge('contact') && (
         <>
           <text x="140" y={SURF - 40} textAnchor="middle" fontSize="9" fill={C.polyEdge}>PMOS</text>
           <text x="380" y={SURF - 40} textAnchor="middle" fontSize="9" fill={C.polyEdge}>NMOS</text>
