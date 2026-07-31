@@ -1,6 +1,7 @@
 import type { SiUnit } from '@/domain/units';
 import type { ParameterValues, ParameterDescriptor } from '@/domain/parameters/parameter.schema';
 import type { SimulationResult } from '@/domain/simulation/result.types';
+import type { TransistorResult } from '@/domain/simulation/transistor/transistor.types';
 import { findFormulaValue } from './derivation-query';
 import { narrativeFor } from './tradeoffs';
 
@@ -50,9 +51,9 @@ export interface ImpactInput {
 
 const pct = (from: number, to: number) => (from !== 0 ? ((to - from) / Math.abs(from)) * 100 : 0);
 
-export function buildImpact(input: ImpactInput): StructuredImpact | null {
-  const { descriptors, prevValues, prevResult, curValues, curResult } = input;
-
+/** Diffs the raw parameter values and picks the curated mechanism narrative
+ *  for the dominant change — shared by the gate and single-transistor builders. */
+function diffParams(descriptors: readonly ParameterDescriptor[], prevValues: ParameterValues, curValues: ParameterValues) {
   const changes: ParamChange[] = [];
   for (const d of descriptors) {
     const a = prevValues[d.key];
@@ -71,6 +72,15 @@ export function buildImpact(input: ImpactInput): StructuredImpact | null {
     .filter((c) => c.percent !== null)
     .sort((x, y) => Math.abs(y.percent!) - Math.abs(x.percent!))[0];
   const narrative = primary ? narrativeFor(primary.key, primary.percent! > 0 ? 'increase' : 'decrease') : null;
+  return { changes, narrative };
+}
+
+export function buildImpact(input: ImpactInput): StructuredImpact | null {
+  const { descriptors, prevValues, prevResult, curValues, curResult } = input;
+
+  const diff = diffParams(descriptors, prevValues, curValues);
+  if (!diff) return null;
+  const { changes, narrative } = diff;
 
   // Device impact: the device-level quantities that actually moved, measured
   // from the inputs (W/L) and the derivation tree (k', V_th). Only meaningful
@@ -93,6 +103,40 @@ export function buildImpact(input: ImpactInput): StructuredImpact | null {
     physical: narrative?.physical ?? null,
     deviceImpact,
     circuitImpact,
+    tradeoff: narrative?.tradeoff ?? null,
+  };
+}
+
+export interface TransistorImpactInput {
+  readonly descriptors: readonly ParameterDescriptor[];
+  readonly prevValues: ParameterValues;
+  readonly prevResult: TransistorResult;
+  readonly curValues: ParameterValues;
+  readonly curResult: TransistorResult;
+}
+
+/** Same "what changed" card for a single transistor (NMOS/PMOS/MOSFET) — the
+ *  device impact is I_D / g_m / V_th (its own operating point), and there is
+ *  no circuit-level metric (delay/leakage/power) for a lone device. */
+export function buildTransistorImpact(input: TransistorImpactInput): StructuredImpact | null {
+  const { descriptors, prevValues, prevResult, curValues, curResult } = input;
+
+  const diff = diffParams(descriptors, prevValues, curValues);
+  if (!diff) return null;
+  const { changes, narrative } = diff;
+
+  const deviceImpact: ImpactLine[] = [];
+  const pOp = prevResult.operatingPoint;
+  const cOp = curResult.operatingPoint;
+  pushIfChanged(deviceImpact, 'Drain current I_D', pOp.drainCurrent.quantity.value, cOp.drainCurrent.quantity.value, 'A');
+  pushIfChanged(deviceImpact, 'Transconductance g_m', pOp.transconductance.quantity.value, cOp.transconductance.quantity.value, 'A/V');
+  pushIfChanged(deviceImpact, 'Threshold V_th', pOp.threshold.quantity.value, cOp.threshold.quantity.value, 'V');
+
+  return {
+    whatChanged: changes,
+    physical: narrative?.physical ?? null,
+    deviceImpact,
+    circuitImpact: [],
     tradeoff: narrative?.tradeoff ?? null,
   };
 }

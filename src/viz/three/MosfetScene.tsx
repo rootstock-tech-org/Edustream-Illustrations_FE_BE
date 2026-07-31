@@ -8,13 +8,18 @@ import type { TransistorVisual } from './scene.types';
 import { CalloutLabel } from './CalloutLabel';
 import { terminalX, gateLength } from './ParametricTransistor';
 import { damp } from './anim';
+import { useLabModes, crossSectionActive } from './lab-modes';
+import { AnatomyOverlay } from './AnatomyOverlay';
+import { useThemeStore } from '@/ui/theme';
 
 /**
  * The generic MOSFET stage — a standalone tab, independent from the
  * NMOS/PMOS/CMOS-Inverter scenes (no shared component is modified here). It
  * draws the textbook single-device anatomy and labels it exactly like the
  * classic cross-section diagram: Source, Gate, Drain, n+ diffusions, the
- * Channel region, Gate oxide and the P-Type Bulk.
+ * Channel region, Gate oxide and the P-Type Bulk. It also honours the same
+ * toolbar "Cross-section" toggle the other device stages use (flat,
+ * camera-locked front view), which previously had no effect here.
  */
 export interface MosfetSceneData {
   readonly geometry: DeviceGeometry;
@@ -26,11 +31,17 @@ export interface MosfetSceneData {
 
 const DEVICE_FOV = 40;
 
-function CameraRig({ reducedMotion }: { reducedMotion: boolean }) {
+function CameraRig({ cross, reducedMotion }: { cross: boolean; reducedMotion: boolean }) {
   const cam = useThree((s) => s.camera) as PerspectiveCamera;
   useFrame((_, dt) => {
     const k = reducedMotion ? 1e3 : 4;
-    if (Math.abs(cam.fov - DEVICE_FOV) > 0.05) {
+    if (cross) {
+      cam.position.x = damp(cam.position.x, 0, k, dt);
+      cam.position.y = damp(cam.position.y, 0.3, k, dt);
+      cam.position.z = damp(cam.position.z, 8.5, k, dt);
+      cam.fov = damp(cam.fov, 30, k, dt);
+      cam.updateProjectionMatrix();
+    } else if (Math.abs(cam.fov - DEVICE_FOV) > 0.05) {
       cam.fov = damp(cam.fov, DEVICE_FOV, k, dt);
       cam.updateProjectionMatrix();
     }
@@ -58,12 +69,18 @@ function Stage({ data }: { data: MosfetSceneData }) {
   const poly = color('poly');
   const contact = color('contact');
   const carrier = data.visual.tint;
+  const cross = useLabModes(crossSectionActive);
+  // In teaching modes AnatomyOverlay supplies the clickable region labels
+  // (and feeds the sidebar Learning card), so the plain names step aside.
+  const anatomy = useLabModes((s) => s.anatomy);
+  const learning = useLabModes((s) => s.learning);
+  const teaching = anatomy || learning;
 
   const gateTopY = 0.03 + oxH + 0.3;
 
   return (
     <>
-      <CameraRig reducedMotion={data.reducedMotion} />
+      <CameraRig cross={cross} reducedMotion={data.reducedMotion} />
       <ambientLight intensity={0.7} />
       <directionalLight position={[3, 8, 7]} intensity={3.0} color="#ffffff" />
       <pointLight position={[-6, 2, 4]} intensity={18} color="#dfe8ff" />
@@ -127,20 +144,32 @@ function Stage({ data }: { data: MosfetSceneData }) {
         <Edges threshold={15} color={edge} />
       </mesh>
 
-      {/* labels — named exactly like the reference cross-section diagram */}
-      <CalloutLabel anchor={[0, gateTopY + 0.15, 0.2]} position={[0, 2.1, 0.3]}>{chip('Gate')}</CalloutLabel>
-      <CalloutLabel anchor={[-tx, 0.87, 0.25]} position={[-tx - 0.5, 1.7, 0.5]}>{chip('Source')}</CalloutLabel>
-      <CalloutLabel anchor={[tx, 0.87, 0.25]} position={[tx + 0.5, 1.7, 0.5]}>{chip('Drain')}</CalloutLabel>
-      <CalloutLabel anchor={[-tx, -0.1, depth / 2 - 0.1]} position={[-tx, -0.85, depth / 2 + 0.3]}>{chip('n+')}</CalloutLabel>
-      <CalloutLabel anchor={[tx, -0.1, depth / 2 - 0.1]} position={[tx, -0.85, depth / 2 + 0.3]}>{chip('n+')}</CalloutLabel>
-      <CalloutLabel anchor={[0, -0.03, depth / 2 - 0.1]} position={[0, -0.95, depth / 2 + 0.4]}>{chip('Channel region')}</CalloutLabel>
-      <CalloutLabel anchor={[gl / 2 + 0.1, 0.05, 0]} position={[gl / 2 + 1.1, 0.6, -0.6]}>{chip('Gate oxide')}</CalloutLabel>
-      <CalloutLabel anchor={[0, -BULK_H + 0.2, 0]} position={[0, -BULK_H - 0.9, 0]}>{chip('Bulk')}</CalloutLabel>
-      <CalloutLabel anchor={[0, -BULK_H / 2, -(depth + 0.6) / 2 + 0.1]} position={[0, -BULK_H / 2, -(depth + 0.6) / 2 - 0.4]} leader={false}>{chip('P-Type')}</CalloutLabel>
+      {/* labels — stuck to the surface directly over their own region with a
+          short stem, named like the reference cross-section diagram. Hidden
+          in teaching modes, where AnatomyOverlay labels the regions instead. */}
+      {!teaching && (
+        <>
+          <CalloutLabel anchor={[0, gateTopY + 0.15, 0.2]} position={[0, gateTopY + 0.55, 0.2]}>{chip('Gate')}</CalloutLabel>
+          <CalloutLabel anchor={[-tx, 0.87, 0.25]} position={[-tx, 1.25, 0.25]}>{chip('Source')}</CalloutLabel>
+          <CalloutLabel anchor={[tx, 0.87, 0.25]} position={[tx, 1.25, 0.25]}>{chip('Drain')}</CalloutLabel>
+          <CalloutLabel anchor={[-tx, -0.1, depth / 2 - 0.1]} position={[-tx, 0.25, depth / 2 - 0.1]}>{chip('n+')}</CalloutLabel>
+          <CalloutLabel anchor={[tx, -0.1, depth / 2 - 0.1]} position={[tx, 0.25, depth / 2 - 0.1]}>{chip('n+')}</CalloutLabel>
+          <CalloutLabel anchor={[0, -0.03, depth / 2 - 0.1]} position={[0, 0.35, depth / 2 - 0.1]}>{chip('Channel region')}</CalloutLabel>
+          <CalloutLabel anchor={[gl / 2 + 0.1, 0.05, 0]} position={[gl / 2 + 0.55, 0.3, 0]}>{chip('Gate oxide')}</CalloutLabel>
+          <CalloutLabel anchor={[0, -BULK_H + 0.2, 0]} position={[0, -BULK_H + 0.6, 0]}>{chip('Bulk')}</CalloutLabel>
+          <CalloutLabel anchor={[0, -BULK_H / 2, -(depth + 0.6) / 2 + 0.1]} position={[0, -BULK_H / 2, -(depth + 0.6) / 2 + 0.1]} leader={false}>{chip('P-Type')}</CalloutLabel>
+        </>
+      )}
+
+      {/* Engineering anatomy callouts (source/drain/gate/oxide/channel/substrate)
+          — clicking one in Learning mode feeds the sidebar Learning card. */}
+      <AnatomyOverlay geometry={data.geometry} deviceX={0} deviceY={0} />
 
       <OrbitControls
         makeDefault
         enablePan={false}
+        enableRotate={!cross}
+        enableZoom={!cross}
         enableDamping
         dampingFactor={0.08}
         rotateSpeed={0.9}
@@ -155,9 +184,12 @@ function Stage({ data }: { data: MosfetSceneData }) {
 }
 
 export function MosfetScene({ data }: { data: MosfetSceneData }) {
+  const light = useThemeStore((s) => s.theme === 'light');
+  const bg = light ? '#eef1f5' : '#0e1116';
   return (
     <Canvas camera={{ position: [4.2, 3.4, 7.4], fov: DEVICE_FOV }} dpr={[1, 2]} gl={{ antialias: true }}>
-      <color attach="background" args={[color('surface')]} />
+      <color attach="background" args={[bg]} />
+      <fog attach="fog" args={[bg, 11, 22]} />
       <Stage data={data} />
     </Canvas>
   );

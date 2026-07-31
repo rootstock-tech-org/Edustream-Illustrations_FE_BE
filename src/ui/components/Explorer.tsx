@@ -169,7 +169,10 @@ export function Explorer() {
           {tab === 'explore' && (
             <>
               {isTransistor ? (
-                <TransistorOutputs onInspect={onInspect} />
+                <>
+                  <ImpactCard />
+                  <TransistorOutputs onInspect={onInspect} />
+                </>
               ) : (
                 <>
                   <ImpactCard />

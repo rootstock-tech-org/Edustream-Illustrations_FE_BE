@@ -38,9 +38,11 @@ export function ImpactCard() {
         </Row>
       )}
 
-      <Row icon="⛓" label="Circuit impact">
-        <DeltaList lines={impact.circuitImpact} />
-      </Row>
+      {impact.circuitImpact.length > 0 && (
+        <Row icon="⛓" label="Circuit impact">
+          <DeltaList lines={impact.circuitImpact} />
+        </Row>
+      )}
 
       {impact.tradeoff && (
         <Row icon="⚖" label="Design tradeoff">

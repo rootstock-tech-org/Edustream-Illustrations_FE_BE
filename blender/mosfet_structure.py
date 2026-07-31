@@ -1,20 +1,15 @@
 """
-MOSFET STRUCTURE — a fabrication-accurate, fully labeled 3D cross-section (Blender)
+MOSFET STRUCTURE — a clean, textbook-style labeled 3D cross-section (Blender)
 ====================================================================================
-A single n-channel MOSFET built and labeled like a real fab cross-section (the
-self-aligned LDD poly-gate architecture from Sedra/Smith, Streetman and every
-real sub-micron process flow), not a simplified cartoon:
+Matches the classic n-channel MOSFET cross-section diagram: P-type substrate,
+two N-type diffusions (source/drain), a thin N-type channel, a Metal Oxide
+Insulator (SiO2) that overhangs the gate on both sides, a Metal Electrode
+(gate) on top, flat metal contact pads on source/drain, a depletion-layer
+boundary curving into the substrate, and a substrate/body contact underneath.
 
-  P-substrate -> deep n+ source/drain -> shallow n- LDD extensions (self-aligned
-  to the gate, tucked *under* the sidewall spacers) -> thin gate oxide -> poly
-  gate (defines the channel length) -> nitride sidewall spacers -> self-aligned
-  silicide caps (blocked over the spacers, exactly like real salicide) ->
-  tungsten contacts -> a separate p+ body/bulk tap for the 4th terminal.
-
-Every part gets a camera-facing text label + leader line, named exactly like a
-textbook diagram: Gate, Source, Drain, Gate Oxide, n+ Source/Drain, LDD (n-)
-Extension, Channel (Inversion Layer), Sidewall Spacer, Silicide, Tungsten
-Contact, Body / Bulk (p+), P-Substrate.
+Every part gets a camera-facing text label + leader line: Source (S),
+Gate (G), Drain (D), SiO2, Metal Electrode, N, N-type Channel,
+P-type Substrate, Depletion Layer, Substrate.
 
 Companion piece to cmos_fabrication.py (same helper style / material system)
 but this one is a single static/turntable labeled device, not a 25-step
@@ -49,7 +44,7 @@ OUT_NAME = "mosfet_structure_"
 START = 1
 END = START + int(DURATION_S * FPS)
 
-HD = 1.9                               # half-depth (Y) of the device body
+HD = 1.7                               # half-depth (Y) of the device body
 
 # ─────────────────────────────────────────────────────────────────────────────
 # MATERIALS
@@ -93,16 +88,12 @@ def mat(name, color, metallic=0.1, rough=0.55, alpha=1.0, emis=None, emis_str=0.
 
 
 MAT = {
-    "substrate": mat("substrate", "#c9c2ad", 0.05, 0.8),          # p-substrate — bulk Si
-    "nplus": mat("nplus", "#e6963c", 0.05, 0.6),                  # n+ deep source/drain
-    "ldd": mat("ldd", "#f0c48a", 0.05, 0.65),                     # n- LDD extension (lighter = lighter doping)
-    "pplus": mat("pplus", "#5ea95b", 0.05, 0.6),                  # p+ body/bulk tap
-    "channel": mat("channel", "#5fd8ff", 0.1, 0.35, emis="#3fc0ff", emis_str=1.6),  # inversion layer
-    "oxide": mat("oxide", "#a9cfe0", 0.1, 0.3, alpha=0.92),       # gate oxide (SiO2)
-    "gate": mat("gate", "#c9532e", 0.15, 0.45),                   # polysilicon gate
-    "spacer": mat("spacer", "#6fa96b", 0.05, 0.6),                # nitride sidewall spacer
-    "silicide": mat("silicide", "#53a6a0", 0.55, 0.3),            # self-aligned silicide (CoSi2/NiSi)
-    "tungsten": mat("tungsten", "#8a929e", 0.85, 0.3),            # W contact plug
+    "substrate": mat("substrate", "#e8c977", 0.05, 0.7),          # p-type substrate — warm gold
+    "n": mat("n", "#8fc7e8", 0.08, 0.4),                          # N-type source/drain diffusions
+    "channel": mat("channel", "#5fd8ff", 0.1, 0.35, emis="#3fc0ff", emis_str=1.6),  # N-type channel
+    "oxide": mat("oxide", "#dcecf5", 0.1, 0.25, alpha=0.95),      # Metal Oxide Insulator (SiO2)
+    "metal": mat("metal", "#e9edf0", 0.75, 0.3),                  # Metal Electrode + contact pads
+    "depletion": mat("depletion", "#bfe4f2", 0.05, 0.45, emis="#bfe4f2", emis_str=0.2),  # depletion region
     "leader": mat("leader", "#333333", 0.0, 0.6, emis="#333333", emis_str=0.5),
     "label": mat("label", "#ffffff", 0.0, 0.5, emis="#ffffff", emis_str=1.2),
 }
@@ -178,140 +169,137 @@ def label(name, text, pos, size=0.32):
 
 
 # ─────────────────────────────────────────────────────────────────────────────
-# BUILD THE DEVICE  (X = width, Y = depth, Z = up)  — self-aligned LDD MOSFET
+# BUILD THE DEVICE  (X = width, Y = depth, Z = up)  — matches the classic
+# textbook cross-section: N regions, overhanging SiO2, flat metal electrodes
 # ─────────────────────────────────────────────────────────────────────────────
-GH = 0.95                              # gate/channel half-length -> defines L
-LDD_W = 0.34                           # LDD extension width (under the spacer)
-SPACER_W = LDD_W                       # spacer footprint == LDD footprint (self-aligned)
-NP_OUT = 2.55                          # outer edge of the deep n+ source/drain
-GATE_H = 0.58                          # poly gate height
-SPACER_H = 0.4                         # spacer height (shorter than the gate)
-OX_H = 0.055                           # gate oxide thickness (exaggerated for legibility)
-OX_OVERHANG = 0.18                     # SiO2 peeks out past the gate edge on both sides
+GH = 1.0                               # half-length of the channel/gate core
+OX_OVERHANG = 0.4                      # SiO2 clearly overhangs the gate on both sides
+OX_HALF = GH + OX_OVERHANG             # half-width of the oxide bar
+OX_H = 0.14                            # oxide bar thickness (a clearly visible flat layer)
+GATE_H = 0.34                          # metal electrode height (flat bar, like the diagram)
 SUB_TOP = 0.0                          # silicon surface
-SUB_BOT = -1.05                        # a snug base slab, not a huge block
+SUB_BOT = -1.5                         # P-type substrate body
 
-OX_HALF = GH + OX_OVERHANG             # half-width of the visible oxide strip
-sp0, sp1 = OX_HALF, OX_HALF + SPACER_W  # right-side spacer span (starts past the oxide)
-np0, np1 = sp1, NP_OUT                 # right-side deep n+ span
+N_GAP = 0.12                           # N regions tuck slightly under the oxide's outer edge
+NP_IN = OX_HALF - N_GAP                # inner edge of the N regions
+N_WIDTH = 1.4                          # width of each N region
+NP_OUT = NP_IN + N_WIDTH               # outer edge of the N regions
+N_DEPTH = -0.6                         # how deep the N diffusions go
 
-# separate p+ BODY / BULK tap — the 4th terminal, sits just past the drain-mirror
-BODY_X0, BODY_X1 = -(NP_OUT + 1.2), -(NP_OUT + 0.4)
-SUB_X0, SUB_X1 = BODY_X0 - 0.45, NP_OUT + 0.45
+PAD_W, PAD_H = 0.55, 0.3               # source/drain flat metal contact pads
+BODY_PAD_W, BODY_PAD_H = 0.9, 0.18     # substrate/body contact pad, hangs off the bottom
 
-box("substrate", SUB_X0, SUB_X1, -HD, HD, SUB_BOT, SUB_TOP, MAT["substrate"], bevel=0.03)
+SUB_X0, SUB_X1 = -(NP_OUT + 0.55), NP_OUT + 0.55
 
-# LDD (n-) extensions — self-aligned to the GATE edge, shallow, sit *under* the spacer
-box("ldd_R", GH, sp1, -HD, HD, -0.22, SUB_TOP, MAT["ldd"], bevel=0.012)
-box("ldd_L", -sp1, -GH, -HD, HD, -0.22, SUB_TOP, MAT["ldd"], bevel=0.012)
+substrate_obj = box("substrate", SUB_X0, SUB_X1, -HD, HD, SUB_BOT, SUB_TOP, MAT["substrate"], bevel=0.05)
 
-# deep n+ source / drain — self-aligned to the SPACER outer edge, deeper
-box("nplus_drain", np0, np1, -HD, HD, -0.7, SUB_TOP, MAT["nplus"], bevel=0.018)
-box("nplus_source", -np1, -np0, -HD, HD, -0.7, SUB_TOP, MAT["nplus"], bevel=0.018)
+# N-type source / drain diffusions
+box("n_drain", NP_IN, NP_OUT, -HD, HD, N_DEPTH, SUB_TOP, MAT["n"], bevel=0.03)
+box("n_source", -NP_OUT, -NP_IN, -HD, HD, N_DEPTH, SUB_TOP, MAT["n"], bevel=0.03)
 
-# inversion channel — thin conducting sliver between the two LDD regions,
-# directly under the gate oxide (this is what the gate voltage switches on)
-box("channel", -GH, GH, -HD, HD, -0.03, SUB_TOP, MAT["channel"], bevel=0)
 
-# gate oxide — wider than the gate/channel, overhanging both edges (matches the
-# classic cross-section where the SiO2 strip peeks out past the metal electrode)
-box("gate_oxide", -OX_HALF, OX_HALF, -HD, HD, SUB_TOP, OX_H, MAT["oxide"], bevel=0)
+def carve_groove(obj, cutter):
+    """Boolean-cut a void into obj using cutter (cutter stays live but hidden)."""
+    mod = obj.modifiers.new("groove_cut", "BOOLEAN")
+    mod.operation = "DIFFERENCE"
+    mod.object = cutter
+    if hasattr(mod, "solver"):
+        mod.solver = "EXACT"
+    cutter.hide_render = True
+    cutter.hide_viewport = True
 
-# polysilicon gate
-box("gate", -GH, GH, -HD, HD, OX_H, OX_H + GATE_H, MAT["gate"], bevel=0.02)
 
-# nitride sidewall spacers — flank the gate, taper suggested via two stacked boxes
-box("spacer_R_lo", sp0, sp1, -HD, HD, SUB_TOP, SPACER_H, MAT["spacer"], bevel=0.012)
-box("spacer_R_hi", sp0, sp0 + SPACER_W * 0.45, -HD, HD, SPACER_H, SPACER_H + 0.16, MAT["spacer"], bevel=0.012)
-box("spacer_L_lo", -sp1, -sp0, -HD, HD, SUB_TOP, SPACER_H, MAT["spacer"], bevel=0.012)
-box("spacer_L_hi", -(sp0 + SPACER_W * 0.45), -sp0, -HD, HD, SPACER_H, SPACER_H + 0.16, MAT["spacer"], bevel=0.012)
+# depletion layer — a shallow curved groove carved into the substrate's front
+# face right below the channel/junctions, matching the classic textbook bowl
+DEPL_RX, DEPL_RY, DEPL_RZ = NP_OUT * 0.78, 0.55, 0.42
+DEPL_Z = -0.68
 
-# self-aligned silicide — forms on exposed silicon/poly, BLOCKED over the
-# spacers (real salicide process), so it caps the gate top and the outer n+ only
-box("silicide_gate", -GH, GH, -HD, HD, OX_H + GATE_H, OX_H + GATE_H + 0.1, MAT["silicide"], bevel=0.01)
-box("silicide_drain", np0, np1, -HD, HD, SUB_TOP, 0.09, MAT["silicide"], bevel=0)
-box("silicide_source", -np1, -np0, -HD, HD, SUB_TOP, 0.09, MAT["silicide"], bevel=0)
+bpy.ops.mesh.primitive_uv_sphere_add(radius=1, location=(0, -HD, DEPL_Z))
+depl_cutter = bpy.context.active_object
+depl_cutter.name = "depletion_cutter"
+depl_cutter.scale = (DEPL_RX, DEPL_RY, DEPL_RZ)
+carve_groove(substrate_obj, depl_cutter)
 
-# tungsten contacts landing on the silicide (Gate / Source / Drain)
-cyl("contact_gate", 0, 0, OX_H + GATE_H + 0.1, OX_H + GATE_H + 0.85, 0.24, MAT["tungsten"])
-cyl("contact_drain", (np0 + np1) / 2, 0, 0.09, 0.8, 0.28, MAT["tungsten"])
-cyl("contact_source", -(np0 + np1) / 2, 0, 0.09, 0.8, 0.28, MAT["tungsten"])
+DEPL_FILL = 0.9
+bpy.ops.mesh.primitive_uv_sphere_add(radius=1, location=(0, -HD + DEPL_RY * (1 - DEPL_FILL), DEPL_Z))
+depletion = bpy.context.active_object
+depletion.name = "depletion_layer"
+depletion.scale = (DEPL_RX * DEPL_FILL, DEPL_RY * DEPL_FILL, DEPL_RZ * DEPL_FILL)
+depletion.data.materials.append(MAT["depletion"])
+bpy.ops.object.shade_smooth()
 
-box("pplus_body", BODY_X0, BODY_X1, -HD, HD, -0.4, SUB_TOP, MAT["pplus"], bevel=0.015)
-box("silicide_body", BODY_X0, BODY_X1, -HD, HD, SUB_TOP, 0.09, MAT["silicide"], bevel=0)
-cyl("contact_body", (BODY_X0 + BODY_X1) / 2, 0, 0.09, 0.8, 0.26, MAT["tungsten"])
+# N-type channel — thin conducting sliver right under the oxide
+box("channel", -GH, GH, -HD, HD, -0.05, SUB_TOP, MAT["channel"], bevel=0)
+
+# Metal Oxide Insulator (SiO2) — wide bar overhanging both edges
+box("oxide", -OX_HALF, OX_HALF, -HD, HD, SUB_TOP, OX_H, MAT["oxide"], bevel=0.015)
+
+# Metal Electrode (Gate) — narrower bar sitting on top of the oxide
+box("gate", -GH, GH, -HD, HD, OX_H, OX_H + GATE_H, MAT["metal"], bevel=0.03)
+
+# Source / Drain metal contact pads — flat pads sitting directly on the N regions
+DRAIN_CX = (NP_IN + NP_OUT) / 2
+SOURCE_CX = -DRAIN_CX
+box("contact_drain", DRAIN_CX - PAD_W / 2, DRAIN_CX + PAD_W / 2, -HD, HD, SUB_TOP, PAD_H, MAT["metal"], bevel=0.03)
+box("contact_source", SOURCE_CX - PAD_W / 2, SOURCE_CX + PAD_W / 2, -HD, HD, SUB_TOP, PAD_H, MAT["metal"], bevel=0.03)
+
+# Substrate (body) contact — small pad hanging off the bottom, centered
+box("contact_body", -BODY_PAD_W / 2, BODY_PAD_W / 2, -HD * 0.5, HD * 0.5,
+    SUB_BOT - BODY_PAD_H, SUB_BOT, MAT["metal"], bevel=0.02)
 
 # ─────────────────────────────────────────────────────────────────────────────
 # LABELS + LEADER LINES
 # ─────────────────────────────────────────────────────────────────────────────
-GATE_TOP = Vector((0, -HD * 0.3, OX_H + GATE_H + 0.85))
-DRN_TOP = Vector(((np0 + np1) / 2, -HD * 0.3, 0.8))
-SRC_TOP = Vector((-(np0 + np1) / 2, -HD * 0.3, 0.8))
-BODY_TOP = Vector(((BODY_X0 + BODY_X1) / 2, -HD * 0.3, 0.8))
+GATE_TOP = Vector((0, -HD * 0.3, OX_H + GATE_H))
+DRN_TOP = Vector((DRAIN_CX, -HD * 0.3, PAD_H))
+SRC_TOP = Vector((SOURCE_CX, -HD * 0.3, PAD_H))
+BODY_BOT = Vector((0, -HD * 0.3, SUB_BOT - BODY_PAD_H))
 
-GATE_LABEL = Vector((0, -HD - 1.0, 1.85))
-DRN_LABEL = Vector(((np0 + np1) / 2, -HD - 1.0, 1.55))
-SRC_LABEL = Vector((-(np0 + np1) / 2, -HD - 1.0, 1.55))
-BODY_LABEL = Vector(((BODY_X0 + BODY_X1) / 2, -HD - 1.0, 1.55))
+GATE_LABEL = Vector((0, -HD - 1.0, 1.55))
+DRN_LABEL = Vector((DRAIN_CX, -HD - 1.0, 1.25))
+SRC_LABEL = Vector((SOURCE_CX, -HD - 1.0, 1.25))
 
 leader("leader_gate", GATE_LABEL + Vector((0, 0, -0.2)), GATE_TOP, MAT["leader"])
 leader("leader_drain", DRN_LABEL + Vector((0, 0, -0.2)), DRN_TOP, MAT["leader"])
 leader("leader_source", SRC_LABEL + Vector((0, 0, -0.2)), SRC_TOP, MAT["leader"])
-leader("leader_body", BODY_LABEL + Vector((0, 0, -0.2)), BODY_TOP, MAT["leader"])
 
-label("lbl_gate", "Gate (G)", GATE_LABEL, 0.28)
+label("lbl_gate", "Gate (G)", GATE_LABEL, 0.26)
 label("lbl_drain", "Drain (D)", DRN_LABEL, 0.24)
 label("lbl_source", "Source (S)", SRC_LABEL, 0.24)
-label("lbl_body", "Body / Bulk (B)", BODY_LABEL, 0.22)
 
-# structural / doping labels — smaller tags with short leaders, front-face side
+# structural labels — matching the reference diagram's tags
 GOX_TARGET = Vector((OX_HALF - 0.02, -HD, OX_H / 2))
-GOX_LABEL = Vector((OX_HALF + 1.35, -HD - 1.1, 0.7))
+GOX_LABEL = Vector((OX_HALF + 1.2, -HD - 1.0, 0.75))
 leader("leader_oxide", GOX_LABEL + Vector((-0.3, 0, -0.2)), GOX_TARGET, MAT["leader"])
-label("lbl_oxide", "Gate Oxide (SiO2)", GOX_LABEL, 0.19)
+label("lbl_oxide", "SiO2", GOX_LABEL, 0.22)
 
-CHAN_TARGET = Vector((0, -HD, -0.015))
-CHAN_LABEL = Vector((-1.1, -HD - 1.35, -0.95))
-leader("leader_channel", CHAN_LABEL + Vector((0.3, 0, 0.3)), CHAN_TARGET, MAT["leader"])
-label("lbl_channel", "Channel (Inversion Layer)", CHAN_LABEL, 0.19)
+ME_TARGET = Vector((0, -HD, OX_H + GATE_H * 0.5))
+ME_LABEL = Vector((0, -HD - 1.0, 2.1))
+leader("leader_metal_electrode", ME_LABEL + Vector((0, 0, -0.2)), ME_TARGET, MAT["leader"])
+label("lbl_metal_electrode", "Metal Electrode", ME_LABEL, 0.22)
 
-LDD_TARGET = Vector(((sp0 + sp1) / 2, -HD, -0.1))
-LDD_LABEL = Vector((sp1 + 1.1, -HD - 1.15, -0.6))
-leader("leader_ldd", LDD_LABEL + Vector((-0.3, 0, 0.2)), LDD_TARGET, MAT["leader"])
-label("lbl_ldd", "LDD (n-) Extension", LDD_LABEL, 0.19)
+CHAN_TARGET = Vector((0, -HD, -0.025))
+CHAN_LABEL = Vector((-1.3, -HD - 1.3, -0.75))
+leader("leader_channel", CHAN_LABEL + Vector((0.3, 0, 0.25)), CHAN_TARGET, MAT["leader"])
+label("lbl_channel", "N-type Channel", CHAN_LABEL, 0.2)
 
-SPC_TARGET = Vector((sp0 + SPACER_W * 0.3, -HD, SPACER_H * 0.6))
-SPC_LABEL = Vector((sp0 + 1.9, -HD - 0.85, 1.65))
-leader("leader_spacer", SPC_LABEL + Vector((-0.3, 0, -0.2)), SPC_TARGET, MAT["leader"])
-label("lbl_spacer", "Sidewall Spacer (Si3N4)", SPC_LABEL, 0.19)
+label("lbl_n_r", "N", Vector((DRAIN_CX, -HD - 0.35, N_DEPTH * 0.5)), 0.24)
 
-SIL_TARGET = Vector(((np0 + np1) / 2, -HD, 0.09))
-SIL_LABEL = Vector((np1 + 0.8, -HD - 1.35, 0.45))
-leader("leader_silicide", SIL_LABEL + Vector((-0.3, 0, -0.15)), SIL_TARGET, MAT["leader"])
-label("lbl_silicide", "Silicide (Self-Aligned)", SIL_LABEL, 0.19)
+N_LABEL_L = Vector((SOURCE_CX, -HD - 0.35, N_DEPTH * 0.5))
+label("lbl_n_l", "N", N_LABEL_L, 0.24)
 
-W_TARGET = Vector(((np0 + np1) / 2, 0, 0.5))
-W_LABEL = Vector((np1 + 2.0, HD + 1.0, 1.9))
-leader("leader_w", W_LABEL + Vector((-0.3, 0, -0.2)), W_TARGET, MAT["leader"])
-label("lbl_w", "Tungsten Contact", W_LABEL, 0.19)
+DEPL_TARGET = Vector((NP_OUT * 0.35, -HD, DEPL_Z))
+DEPL_LABEL = Vector((NP_OUT + 1.1, -HD - 1.4, -0.35))
+leader("leader_depletion", DEPL_LABEL + Vector((-0.3, 0, 0.2)), DEPL_TARGET, MAT["leader"])
+label("lbl_depletion", "Depletion Layer", DEPL_LABEL, 0.2)
 
-NP_TARGET_R = Vector(((np0 + np1) / 2, HD, -0.35))
-NP_LABEL_R = Vector(((np0 + np1) / 2, HD + 1.3, -1.15))
-leader("leader_np_r", NP_LABEL_R + Vector((0, 0, 0.3)), NP_TARGET_R, MAT["leader"])
-label("lbl_np_r", "n+ Drain (Deep)", NP_LABEL_R, 0.19)
+PTYPE_LABEL = Vector((0, -HD - 0.05, SUB_BOT * 0.4))
+label("lbl_ptype", "P-type Substrate", PTYPE_LABEL, 0.26)
 
-NP_TARGET_L = Vector((-(np0 + np1) / 2, HD, -0.35))
-NP_LABEL_L = Vector((-(np0 + np1) / 2, HD + 1.3, -1.15))
-leader("leader_np_l", NP_LABEL_L + Vector((0, 0, 0.3)), NP_TARGET_L, MAT["leader"])
-label("lbl_np_l", "n+ Source (Deep)", NP_LABEL_L, 0.19)
-
-PB_TARGET = Vector(((BODY_X0 + BODY_X1) / 2, HD, -0.2))
-PB_LABEL = Vector(((BODY_X0 + BODY_X1) / 2 - 0.4, HD + 1.3, -1.0))
-leader("leader_pb", PB_LABEL + Vector((0.2, 0, 0.2)), PB_TARGET, MAT["leader"])
-label("lbl_pb", "p+ Body Tap", PB_LABEL, 0.17)
-
-PTYPE_LABEL = Vector((NP_OUT * 0.7, -HD - 0.05, SUB_BOT * 0.55))
-label("lbl_ptype", "P-Substrate", PTYPE_LABEL, 0.24)
+SUBCON_TARGET = Vector((0, -HD * 0.3, SUB_BOT - BODY_PAD_H))
+SUBCON_LABEL = Vector((0, -HD - 1.0, SUB_BOT - 1.1))
+leader("leader_subcon", SUBCON_LABEL + Vector((0, 0, 0.25)), SUBCON_TARGET, MAT["leader"])
+label("lbl_subcon", "Substrate", SUBCON_LABEL, 0.22)
 
 # ─────────────────────────────────────────────────────────────────────────────
 # WORLD + LIGHTS + GROUND
@@ -342,7 +330,7 @@ key.rotation_euler = (math.radians(52), 0, math.radians(35))
 fill = add_light("Fill", "AREA", (-18, -8, 12), 1200, (0.75, 0.82, 1.0))
 rim = add_light("Rim", "AREA", (0, 20, 10), 1500, (1.0, 0.9, 0.75))
 
-bpy.ops.mesh.primitive_plane_add(size=90, location=(0, 0, SUB_BOT - 0.06))
+bpy.ops.mesh.primitive_plane_add(size=90, location=(0, 0, SUB_BOT - BODY_PAD_H - 0.08))
 ground = bpy.context.active_object
 ground.name = "ground"
 ground.data.materials.append(mat("ground", "#0c1524", 0.0, 0.9))
@@ -351,7 +339,7 @@ ground.data.materials.append(mat("ground", "#0c1524", 0.0, 0.9))
 # CAMERA  (gentle turntable, aiming at the device)
 # ─────────────────────────────────────────────────────────────────────────────
 target = bpy.data.objects.new("CamTarget", None)
-target.location = (-0.3, 0, 0.15)
+target.location = (0, 0, -0.25)
 scene.collection.objects.link(target)
 
 cam_data = bpy.data.cameras.new("Camera")
@@ -367,8 +355,8 @@ con.up_axis = "UP_Z"
 KEYS = 8
 for k in range(KEYS + 1):
     f = START + int((END - START) * k / KEYS)
-    ang = math.radians(32) + math.radians(60) * (k / KEYS)
-    rad, hgt = 10.5, 4.4
+    ang = math.radians(35) + (2 * math.pi * 1.1) * (k / KEYS)
+    rad, hgt = 8.6, 6.2
     cam.location = (rad * math.cos(ang), -rad * math.sin(ang), hgt)
     cam.keyframe_insert("location", frame=f)
 

@@ -1,6 +1,6 @@
 'use client';
 import { useMemo } from 'react';
-import { buildImpact, type StructuredImpact } from '@/domain/education/impact';
+import { buildImpact, buildTransistorImpact, type StructuredImpact } from '@/domain/education/impact';
 import { useSimulationStore } from '@/state/simulation.store';
 import { useDevice } from './useDevice';
 
@@ -14,15 +14,13 @@ export function useImpact(): StructuredImpact | null {
 
   return useMemo(() => {
     if (!prevResult || !prevValues || !curResult || !curValues) return null;
-    // Structured impact is a gate-result diff; single transistors have no
-    // before/after metric panel (their teaching surface is the I–V family).
-    if (prevResult.kind !== 'gate' || curResult.kind !== 'gate') return null;
-    return buildImpact({
-      descriptors: device.parameterSchema.groups.flatMap((g) => g.parameters),
-      prevValues,
-      prevResult,
-      curValues,
-      curResult,
-    });
+    const descriptors = device.parameterSchema.groups.flatMap((g) => g.parameters);
+    if (prevResult.kind === 'gate' && curResult.kind === 'gate') {
+      return buildImpact({ descriptors, prevValues, prevResult, curValues, curResult });
+    }
+    if (prevResult.kind === 'transistor' && curResult.kind === 'transistor') {
+      return buildTransistorImpact({ descriptors, prevValues, prevResult, curValues, curResult });
+    }
+    return null; // a device swap changed the result kind mid-diff — nothing sane to compare
   }, [prevResult, prevValues, curResult, curValues, device]);
 }
