@@ -1,0 +1,14 @@
+.env
+*.env
+!.env.example
+
+# Never ship weights — they exceed Vercel's function size limit anyway
+models/
+*.pt
+
+.vercel
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.DS_Store

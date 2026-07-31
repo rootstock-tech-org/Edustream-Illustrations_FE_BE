@@ -1,0 +1,15 @@
+# Upload exclusions for `vercel` CLI deploys (independent of .gitignore).
+.env
+*.env
+!.env.example
+
+# Weights must never be uploaded — they exceed the function size limit
+models/
+*.pt
+
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+.DS_Store
+README.md

@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>MSW Segmentor — Industrial AI-SEG Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  :root{
+    color-scheme: dark;
+    --bg: #0b0f14;
+    --surface: #11161d;
+    --overlay: #0f172a;
+    --border: #1f2937;
+    --border-soft: #1a202c;
+    --text: #e5e7eb;
+    --text-bright: #f3f4f6;
+    --text-mid: #9ca3af;
+    --text-dim: #6b7280;
+    --text-faint: #4b5563;
+    --accent: #22d3ee;
+    --accent-bright: #67e8f9;
+    --accent-deep: #0e7490;
+    --accent-deep-hover: #0891b2;
+    --good: #22c55e;
+    --warning: #fbbf24;
+    --critical: #ef4444;
+    --purple: #a78bfa;
+    --blue: #60a5fa;
+    --orange: #fb923c;
+    --pink: #f472b6;
+    --font-mono: Menlo, Consolas, "JetBrains Mono", "SF Mono", ui-monospace, monospace;
+    --font-sans: "Helvetica Neue", "Segoe UI", Inter, system-ui, -apple-system, sans-serif;
+  }
+  *{ box-sizing: border-box; }
+  html, body{ margin:0; padding:0; height:100%; }
+  body{
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    -webkit-font-smoothing: antialiased;
+    overflow: hidden;
+  }
+  ::selection{ background: rgba(34,211,238,0.16); color: var(--text); }
+  ::-webkit-scrollbar{ width: 10px; height: 10px; }
+  ::-webkit-scrollbar-thumb{ background: #1c2430; border-radius: 6px; }
+  ::-webkit-scrollbar-track{ background: transparent; }
+
+  /* ---------- top bar ---------- */
+  .topbar{
+    height: 56px;
+    display:flex; align-items:center; gap: 14px;
+    padding: 0 16px;
+    background: var(--overlay);
+    border-bottom: 1px solid var(--border);
+  }
+  .logo-badge{
+    background:#fff; border-radius:4px; padding:2px 6px;
+    font-weight:800; font-size:12px; color:#0b0f14; letter-spacing:-0.02em;
+    font-family: var(--font-mono);
+  }
+  .brand{ font-family: var(--font-mono); font-size:16px; font-weight:600; }
+  .brand .b1{ color: var(--text); }
+  .brand .b2{ color: var(--accent); }
+  .brand-sub{ font-family: var(--font-mono); font-size:10px; color: var(--text-dim); }
+  .topbar .spacer{ flex:1; }
+  #modelStatus{ font-family: var(--font-mono); font-size:11px; color: var(--text-dim); min-width:110px; text-align:right; }
+  .bell{
+    font-family: var(--font-mono); font-size:11px;
+    border: 1px solid var(--border); border-radius: 12px;
+    padding: 4px 12px; color: var(--text-dim);
+    background: transparent; cursor: default; user-select:none;
+    transition: border-color .15s;
+  }
+  .bell:hover{ border-color: var(--accent); }
+
+  /* ---------- layout ---------- */
+  .layout{ display:flex; height: calc(100% - 56px); }
+  .sidebar{
+    width: 196px; flex: none;
+    background: var(--bg);
+    border-right: 1px solid var(--border);
+    overflow-y: auto; padding-bottom: 20px;
+  }
+  .nav-section{ color: var(--text-faint); font-family: var(--font-mono); font-size:9px;
+    text-transform: uppercase; letter-spacing: 0.08em; padding: 12px 14px 4px; }
+  .nav-item{
+    display:flex; align-items:center; gap:9px;
+    padding: 9px 10px 9px 11px; margin: 0;
+    color: var(--text-mid); font-size: 12px; cursor: pointer;
+    border-left: 3px solid transparent;
+    user-select:none;
+  }
+  .nav-item .glyph{ font-size: 12px; width: 14px; text-align:center; color: inherit; }
+  .nav-item:hover{ background: var(--surface); color: var(--text); }
+  .nav-item.active{ background: var(--overlay); color: var(--accent); border-left-color: var(--accent); font-weight:600; }
+
+  .main{ flex:1; overflow-y: auto; padding: 14px 16px 60px; }
+
+  /* ---------- coverage banner ---------- */
+  .coverage{
+    background: var(--overlay);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--warning);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-family: var(--font-mono);
+    font-size: 11px; line-height: 1.5;
+    color: #d1d5db;
+    margin-bottom: 12px;
+  }
+
+  /* ---------- kpi grid ---------- */
+  .kpi-grid{
+    display:grid;
+    grid-template-columns: repeat(4, minmax(130px, 1fr));
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .kpi{
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 6px;
+    padding: 10px 12px;
+    min-height: 76px;
+    display:flex; flex-direction:column; justify-content:center; gap:6px;
+  }
+  .kpi .k-label{ color: var(--text-dim); text-transform: uppercase; font-size:10px;
+    font-family: var(--font-mono); letter-spacing: 0.05em; }
+  .kpi .k-value{ color: var(--text-bright); font-size: 21px; font-weight: 650; line-height:1; }
+  .kpi .k-value .k-unit{ color: var(--text-dim); font-size: 11px; font-weight:400; margin-left:3px; }
+  .kpi .k-dot{ position:absolute; top:10px; right:10px; width:7px; height:7px; border-radius:3.5px; background: var(--accent); }
+
+  /* ---------- toolbar ---------- */
+  .toolbar{
+    display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+    background: var(--overlay);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 10px;
+    margin-bottom: 12px;
+  }
+  .btn{
+    font-family: var(--font-sans); font-size:12px; font-weight:500;
+    background: #151b24; border: 1px solid #2a3444; color:#fff;
+    border-radius: 6px; padding: 8px 16px; cursor: pointer;
+    display:inline-flex; align-items:center; gap:7px;
+    transition: border-color .12s, color .12s, background .12s;
+  }
+  .btn:hover{ border-color: var(--accent); color: var(--accent); }
+  .btn:active{ background: var(--overlay); }
+  .btn:disabled{ background: var(--surface); border-color: var(--border); color: var(--text-faint); cursor: not-allowed; }
+  .btn.primary{ background: var(--accent-deep); border:none; font-weight:700; color:#fff; }
+  .btn.primary:hover{ background: var(--accent-deep-hover); color:#fff; }
+  .btn.primary:disabled{ background: var(--surface); color: var(--text-faint); }
+  .tb-spacer{ flex:1; }
+  .slider-wrap{ display:flex; flex-direction:column; gap:4px; width:130px; }
+  .slider-wrap label{ font-family: var(--font-mono); font-size:10px; color: var(--text-mid); }
+  input[type=range]{
+    -webkit-appearance:none; appearance:none; width:100%; height:4px;
+    background: var(--border); border-radius:2px; outline:none;
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none; appearance:none; width:14px; height:14px; border-radius:7px;
+    background: var(--accent); cursor:pointer; border:none;
+  }
+  input[type=range]::-moz-range-thumb{ width:14px; height:14px; border-radius:7px; background: var(--accent); cursor:pointer; border:none; }
+
+  /* ---------- panels ---------- */
+  .sec-label{ font-family: var(--font-mono); font-size:11px; color: var(--text-mid);
+    text-transform: uppercase; letter-spacing: 0.06em; margin: 4px 0 8px; }
+  .panel-row{ display:grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+  .img-panel{
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    min-height: 300px;
+    display:flex; align-items:center; justify-content:center;
+    font-family: var(--font-mono); font-size:12px; color: var(--text-dim);
+    text-align:center; padding: 12px; position:relative; overflow:hidden;
+  }
+  .img-panel.drag{ border: 1.5px dashed var(--accent); background: var(--overlay); color: var(--accent); }
+  .img-panel img{ max-width:100%; max-height: 420px; object-fit: contain; border-radius:4px; }
+  .img-panel .ph{ pointer-events:none; }
+
+  /* ---------- detected class chips ---------- */
+  .chips{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom: 12px; min-height: 20px; }
+  .chip{
+    width: 132px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 6px; padding: 10px 8px;
+  }
+  .chip .c-name{ font-weight:700; color:#fff; font-size:12px; word-break:break-word; }
+  .chip .c-stream{ color: var(--text-dim); text-transform: uppercase; font-size:9px; letter-spacing:0.04em; margin-top:2px; }
+  .chip .c-count{ font-size:11px; font-weight:700; margin-top:6px; }
+  .empty{ color: var(--text-faint); font-family: var(--font-mono); font-size:11px; }
+
+  /* ---------- lower grid ---------- */
+  .lower{ display:grid; grid-template-columns: 1.4fr 1fr; gap: 12px; }
+  .card{
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px;
+  }
+  .bar-row{ display:flex; align-items:center; gap:8px; height:26px; }
+  .bar-row .bname{ width:96px; flex:none; color: var(--text-mid); font-family: var(--font-mono); font-size:11px;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .bar-track{ flex:1; height:10px; background: var(--border); border-radius:3px; overflow:hidden; }
+  .bar-fill{ height:100%; border-radius:3px; transition: width .3s; }
+  .bar-row .bcount{ width:30px; flex:none; text-align:right; color: var(--text); font-family: var(--font-mono); font-size:11px; }
+
+  table.det{ border-collapse: collapse; width:100%; }
+  table.det th, table.det td{ border: 1px solid var(--border); padding: 6px 8px; font-family: var(--font-mono); font-size:11px; text-align:left; }
+  table.det th{ background: var(--overlay); color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.05em; }
+  table.det td.num{ text-align:center; }
+
+  .analysis{ font-family: var(--font-mono); font-size:11px; color: var(--text); line-height:1.5; }
+  .analysis .idle{ color: var(--text-faint); text-align:center; padding-top: 30px; letter-spacing:0.04em; }
+  .analysis h3{ color: var(--accent); font-size:13px; text-transform:uppercase; letter-spacing:0.05em;
+    border-bottom:1px solid var(--border); margin: 16px 0 8px; padding-bottom:4px; }
+  .analysis table{ border-collapse: collapse; width:100%; margin:6px 0; }
+  .analysis th{ background: var(--overlay); color: var(--text-dim); text-transform:uppercase; font-size:10px; letter-spacing:0.05em; }
+  .analysis th, .analysis td{ border:1px solid var(--border); padding:4px 8px; font-size:11px; }
+  .analysis code{ color: var(--accent); }
+
+  .spin{ display:inline-block; width:11px; height:11px; border:2px solid var(--border);
+    border-top-color: var(--accent); border-radius:50%; animation: spin .7s linear infinite; vertical-align:-1px; margin-right:6px; }
+  @keyframes spin{ to{ transform: rotate(360deg); } }
+
+  /* robot monitoring page */
+  .robot-top{ display:flex; gap:12px; align-items:stretch; margin-bottom:12px; }
+  .rgauge{ flex:none; width:150px; background:var(--surface); border:1px solid var(--border);
+    border-radius:6px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; padding:12px; }
+  .rgauge .rlabel{ color:var(--text-dim); font-family:var(--font-mono); font-size:9px; letter-spacing:0.05em; text-transform:uppercase; }
+  .rtiles{ flex:1; display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+  .rtile{ background:var(--surface); border:1px solid var(--border-soft); border-radius:6px;
+    padding:10px 12px; min-height:64px; display:flex; flex-direction:column; gap:5px; justify-content:center; }
+  .rtile .rlabel{ color:var(--text-dim); font-size:9px; text-transform:uppercase; letter-spacing:0.05em; font-family:var(--font-mono); }
+  .rtile .rval{ color:var(--text); font-size:13px; font-weight:500; }
+  .status-block{ display:inline-block; padding:10px 14px; border-radius:4px; font-weight:700;
+    color:#0b0f14; font-size:15px; text-align:center; }
+
+  /* digital twin page */
+  .twin-viz{ background:#0b0f14; border:1px solid var(--border); border-radius:6px;
+    min-height:300px; position:relative; margin-bottom:12px; overflow:hidden; }
+  .twin-viz svg{ display:block; width:100%; height:300px; }
+  .twin-readout{ position:absolute; top:8px; left:10px; font-family:var(--font-mono);
+    font-size:10px; color:var(--text-dim); letter-spacing:0.04em; pointer-events:none; }
+  .twin-cap{ position:absolute; bottom:8px; left:0; right:0; text-align:center;
+    font-family:var(--font-mono); font-size:9px; color:var(--text-faint); letter-spacing:0.05em; pointer-events:none; }
+  .twin-cards{ display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+
+  /* event timeline page */
+  .tl-list{ background:var(--surface); border:1px solid var(--border); border-radius:6px; overflow:hidden; }
+  .tl-row{ padding:7px 12px; border-bottom:1px solid var(--border); font-family:var(--font-mono); font-size:12px; }
+  .tl-row:last-child{ border-bottom:none; }
+
+  /* communication page */
+  .comm-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+  .comm-card{ background:var(--surface); border:1px solid var(--border-soft); border-radius:6px;
+    padding:14px 16px; min-height:118px; display:flex; flex-direction:column; justify-content:space-between; gap:8px; }
+  .comm-card .comm-val{ font-size:18px; font-weight:600; }
+
+  /* system health page */
+  .sys-gauges{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:12px; }
+  .sys-gauge{ background:var(--surface); border:1px solid var(--border); border-radius:6px;
+    padding:16px; display:flex; flex-direction:column; align-items:center; gap:8px; }
+  .sys-glabel{ color:var(--text-dim); font-family:var(--font-mono); font-size:11px; text-transform:uppercase; letter-spacing:0.05em; }
+  .sys-cards{ display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+
+  /* arm / vision extras */
+  .ef-row{ display:flex; justify-content:space-between; gap:12px; padding:6px 0; border-bottom:1px solid var(--border-soft);
+    font-family:var(--font-mono); font-size:11px; }
+  .ef-row:last-child{ border-bottom:none; }
+  .ef-l{ color:var(--text-dim); text-transform:uppercase; letter-spacing:0.05em; }
+  .ef-v{ color:var(--text); text-align:right; }
+  .vis-feed{ background:#0b0f14; border:1px dashed var(--border); border-radius:6px; min-height:120px;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; margin-bottom:12px; }
+  .vis-icon{ color:#374151; font-size:34px; line-height:1; }
+  .vis-cap{ color:var(--text-dim); font-family:var(--font-mono); font-size:10px; letter-spacing:0.04em; }
+
+  /* generic subsystem page */
+  .gen-head{ display:flex; align-items:baseline; gap:12px; margin-bottom: 12px; }
+  .gen-head h2{ margin:0; font-size:16px; font-weight:650; }
+  .gen-head .sub{ color: var(--text-dim); font-family: var(--font-mono); font-size:11px; }
+  .gen-note{ margin-top: 14px; color: var(--text-dim); font-family: var(--font-mono); font-size:11px; }
+
+  [hidden]{ display:none !important; }
+
+  @media (max-width: 860px){
+    .kpi-grid{ grid-template-columns: repeat(2, 1fr); }
+    .panel-row{ grid-template-columns: 1fr; }
+    .lower{ grid-template-columns: 1fr; }
+    .sidebar{ width: 60px; }
+    .nav-item span.txt, .nav-section{ display:none; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- ===== top bar ===== -->
+  <div class="topbar">
+    <span class="logo-badge">NTPC</span>
+    <span class="brand"><span class="b1">◈ MSW.</span><span class="b2">segmentor</span></span>
+    <span class="brand-sub">Industrial AI-SEG · SCADA Monitoring</span>
+    <span class="spacer"></span>
+    <span id="modelStatus">loading model…</span>
+    <span class="bell" id="bell">● <span id="bellCount">0</span></span>
+  </div>
+
+  <div class="layout">
+    <!-- ===== sidebar ===== -->
+    <nav class="sidebar" id="sidebar"></nav>
+
+    <!-- ===== main ===== -->
+    <div class="main">
+
+      <!-- OVERVIEW PAGE -->
+      <div id="page-overview">
+        <div class="coverage" id="coverageBanner">Model coverage: —</div>
+
+        <div class="kpi-grid" id="kpiGrid"></div>
+
+        <div class="toolbar">
+          <input type="file" id="fileInput" accept="image/*" hidden />
+          <button class="btn primary" id="btnUpload" disabled>◧&nbsp; Upload image</button>
+          <button class="btn" id="btnWebcam">◯&nbsp; Webcam</button>
+          <button class="btn" id="btnSave" disabled>▤&nbsp; Save result</button>
+          <button class="btn" id="btnClear">✕&nbsp; Clear</button>
+          <span class="tb-spacer"></span>
+          <div class="slider-wrap">
+            <label id="confLabel">conf=0.25</label>
+            <input type="range" id="confSlider" min="5" max="95" step="5" value="25" />
+          </div>
+          <div class="slider-wrap">
+            <label id="iouLabel">iou=0.45</label>
+            <input type="range" id="iouSlider" min="10" max="90" step="5" value="45" />
+          </div>
+        </div>
+
+        <div class="panel-row">
+          <div>
+            <div class="sec-label">Source</div>
+            <div class="img-panel" id="sourcePanel">
+              <span class="ph" id="sourcePh">drag &amp; drop an image here, or click Upload</span>
+              <img id="sourceImg" hidden alt="source" />
+            </div>
+          </div>
+          <div>
+            <div class="sec-label">Segmented</div>
+            <div class="img-panel" id="segPanel">
+              <span class="ph" id="segPh">segmented — runs after inference</span>
+              <img id="segImg" hidden alt="segmented" />
+            </div>
+          </div>
+        </div>
+
+        <div class="sec-label">Detected classes</div>
+        <div class="chips" id="detectedClasses"><span class="empty">no detections yet</span></div>
+
+        <div class="lower">
+          <div>
+            <div class="sec-label">Class distribution</div>
+            <div class="card" id="classDistCard">
+              <div id="classDist"><span class="empty">no detections yet</span></div>
+            </div>
+            <div class="sec-label" style="margin-top:12px;">Detection table</div>
+            <div class="card">
+              <div id="detTableWrap"><span class="empty">no detections yet</span></div>
+            </div>
+          </div>
+          <div>
+            <div class="sec-label">Technical analysis</div>
+            <div class="card" style="min-height: 300px;">
+              <div class="analysis" id="techAnalysis"><div class="idle">— open an image to begin —</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GENERIC SUBSYSTEM PAGE -->
+      <div id="page-generic" hidden>
+        <div class="gen-head">
+          <h2 id="genTitle">Subsystem</h2>
+          <span class="sub" id="genSub"></span>
+        </div>
+        <div class="kpi-grid" id="genGrid"></div>
+        <div class="gen-note" id="genNote"></div>
+      </div>
+
+    </div>
+  </div>
+
+<script>
+(function(){
+  "use strict";
+
+  // -------- helpers --------
+  function $(id){ return document.getElementById(id); }
+  function clamp(v,a,b){ return Math.max(a, Math.min(b, v)); }
+  function gauss(){ return (Math.random()+Math.random()+Math.random()-1.5)/1.5; }
+  var COLORS = { cyan:"#22d3ee", amber:"#fbbf24", red:"#ef4444", green:"#22c55e",
+                 purple:"#a78bfa", blue:"#60a5fa", orange:"#fb923c", pink:"#f472b6" };
+  var PALETTE = ["#22d3ee","#fbbf24","#a78bfa","#22c55e","#ef4444","#f472b6","#60a5fa","#fb923c"];
+
+  var STREAM_BY_CLASS = {
+    "Cloth":"Dry-Residual", "Coconut":"Wet", "Slipper":"Dry-Residual",
+    "Stone":"Inert", "shoe":"Dry-Residual", "Shoe":"Dry-Residual"
+  };
+
+  var TAXONOMY = ["Cloth","Coconut","Slipper","Stone","Shoe","Plastic Bottle","Glass Bottle",
+    "Glass","Metal Can","Metal","Tyre (Wired Mesh)","Bag (No Zipper)","Bag with Zipper",
+    "Paper","Cardboard","Plastic Wrapper"];
+
+  // -------- sidebar --------
+  var NAV = [
+    { section:"Workspace", items:[ {id:"overview", label:"Overview", glyph:"◧"} ] },
+    { section:"Operations", items:[
+      {id:"robot", label:"Robot", glyph:"◆"}, {id:"arm", label:"Arm", glyph:"◫"},
+      {id:"gripper", label:"Gripper", glyph:"▣"}, {id:"motors", label:"Motors", glyph:"◩"},
+      {id:"vision", label:"Vision", glyph:"◯"}, {id:"conveyor", label:"Conveyor", glyph:"▤"},
+      {id:"sensors", label:"Sensors", glyph:"◈"} ] },
+    { section:"System", items:[
+      {id:"safety", label:"Safety", glyph:"▲"}, {id:"system", label:"System", glyph:"▦"},
+      {id:"database", label:"Database", glyph:"▧"}, {id:"comm", label:"Comm", glyph:"◐"} ] },
+    { section:"Management", items:[
+      {id:"alarms", label:"Alarms", glyph:"●"}, {id:"timeline", label:"Timeline", glyph:"▭"},
+      {id:"user", label:"User", glyph:"◔"}, {id:"reports", label:"Reports", glyph:"▥"},
+      {id:"twin", label:"Twin", glyph:"◪"} ] }
+  ];
+
+  (function buildSidebar(){
+    var sb = $("sidebar");
+    NAV.forEach(function(grp){
+      var h = document.createElement("div"); h.className = "nav-section"; h.textContent = grp.section;
+      sb.appendChild(h);
+      grp.items.forEach(function(it){
+        var b = document.createElement("div");
+        b.className = "nav-item" + (it.id === "overview" ? " active" : "");
+        b.dataset.page = it.id;
+        b.innerHTML = '<span class="glyph">'+it.glyph+'</span><span class="txt">'+it.label+'</span>';
+        b.addEventListener("click", function(){ selectPage(it.id, it.label); });
+        sb.appendChild(b);
+      });
+    });
+  })();
+
+  function selectPage(id, label){
+    Array.prototype.forEach.call(document.querySelectorAll(".nav-item"), function(n){
+      n.classList.toggle("active", n.dataset.page === id);
+    });
+    if (id === "overview"){
+      $("page-overview").hidden = false;
+      $("page-generic").hidden = true;
+    } else {
+      $("page-overview").hidden = true;
+      $("page-generic").hidden = false;
+      renderGeneric(id, label);
+    }
+  }
+
+  // -------- KPI cards --------
+  var KPIS = [
+    { id:"kTotal", label:"Total Objects", value:"0", unit:"",  color:"cyan" },
+    { id:"kAcc",   label:"AI Accuracy",   value:"0", unit:"%", color:"cyan" },
+    { id:"kConf",  label:"Avg Confidence",value:"0", unit:"%", color:"cyan" },
+    { id:"kCov",   label:"Coverage",      value:"0", unit:"%", color:"cyan" },
+    { id:"kRobot", label:"Robot Status",  value:"Idle",    unit:"", color:"amber" },
+    { id:"kConv",  label:"Conveyor",      value:"Running", unit:"", color:"green" },
+    { id:"kSens",  label:"Sensors",       value:"Online",  unit:"", color:"green" },
+    { id:"kAlarm", label:"Active Alarms", value:"3", unit:"", color:"amber" },
+    { id:"kCpu",   label:"CPU", value:"54.8", unit:"%", color:"cyan" },
+    { id:"kGpu",   label:"GPU", value:"70.5", unit:"%", color:"cyan" },
+    { id:"kMem",   label:"Memory", value:"54.5", unit:"%", color:"cyan" },
+    { id:"kDb",    label:"Database", value:"Connected", unit:"", color:"green" }
+  ];
+
+  function kpiCardHTML(k){
+    var col = COLORS[k.color];
+    return '<div class="kpi" id="'+k.id+'" style="border-left-color:'+col+'">' +
+      '<span class="k-dot" style="background:'+col+'"></span>' +
+      '<div class="k-label">'+k.label+'</div>' +
+      '<div class="k-value"><span class="v"></span>'+(k.unit?'<span class="k-unit">'+k.unit+'</span>':'')+'</div>' +
+      '</div>';
+  }
+  (function buildKpis(){
+    $("kpiGrid").innerHTML = KPIS.map(kpiCardHTML).join("");
+    KPIS.forEach(function(k){ setKpi(k.id, k.value, k.color); });
+  })();
+
+  function setKpi(id, value, color){
+    var card = $(id); if (!card) return;
+    card.querySelector(".v").textContent = value;
+    if (color){
+      var col = COLORS[color] || color;
+      card.style.borderLeftColor = col;
+      card.querySelector(".k-dot").style.background = col;
+    }
+  }
+
+  // -------- coverage banner --------
+  function setCoverage(readyClasses){
+    var banner = $("coverageBanner");
+    var n = readyClasses.length, total = TAXONOMY.length;
+    if (n >= total){
+      banner.style.borderLeftColor = COLORS.green;
+      banner.textContent = "Model coverage: "+total+"/"+total+" target classes ready.";
+      return;
+    }
+    var readyLower = readyClasses.map(function(c){ return c.toLowerCase(); });
+    var missing = TAXONOMY.filter(function(c){ return readyLower.indexOf(c.toLowerCase()) === -1; });
+    banner.style.borderLeftColor = COLORS.warning;
+    banner.textContent = "Model coverage: "+n+"/"+total+" target classes ready — retraining required to detect: " + missing.join(", ");
+  }
+  setCoverage([]);
+
+  // -------- backend status --------
+  var state = { backendOk:false, modelReady:false, classes:[], lastDetections:null };
+
+  function setModelStatus(txt){ $("modelStatus").textContent = txt; }
+
+  function checkStatus(){
+    fetch("/api/status", {cache:"no-store"})
+      .then(function(r){ return r.json(); })
+      .then(function(j){
+        state.backendOk = true;
+        if (j.ok){
+          state.modelReady = true;
+          state.classes = j.classes || [];
+          setModelStatus("ready");
+          $("btnUpload").disabled = false;
+          setCoverage(state.classes);
+        } else {
+          state.modelReady = false;
+          setModelStatus("model not loaded");
+          $("btnUpload").disabled = true;
+          setCoverage([]);
+        }
+      })
+      .catch(function(){
+        state.backendOk = false; state.modelReady = false;
+        setModelStatus("backend offline");
+        $("btnUpload").disabled = true;
+      });
+  }
+  checkStatus();
+  setInterval(checkStatus, 8000);
+
+  // -------- live simulator --------
+  var sim = {
+    cpu:54.8, gpu:70.5, mem:54.5,
+    robot:{v:"Idle", c:"amber"}, conv:{v:"Running", c:"green"},
+    sens:{v:"Online", c:"green"}, db:{v:"Connected", c:"green"},
+    alarms:3, util:85, cycle:2.4, tick:0,
+    j:[0, -15.2, 45.8, -30.1, 60.3, 0],
+    rot:{ az:0, el:0 },
+    reports:{ acc:[82,84,83,86,88,87,89], thru:[210,225,218,240,238,250,255], success:342, failure:8 },
+    events:[], alarmsList:[], lat:12.4, health:99.8, dflow:4.8, temp:52.3,
+    sdist:15.8, shealth:98.7, sresp:8.2, ssig:92.0
+  };
+  var EVENT_COLOR = {
+    "Pick Success":"#22c55e", "Waste Detected":"#22d3ee", "Conveyor Started":"#22c55e",
+    "Robot Started":"#22c55e", "Pick Failure":"#fbbf24", "Sensor Fault":"#ef4444",
+    "Emergency Stop":"#ef4444", "Recovery Completed":"#22c55e"
+  };
+  function evTime(d){ function p(n){ return n<10?"0"+n:""+n; } return p(d.getHours())+":"+p(d.getMinutes())+":"+p(d.getSeconds()); }
+  function pushEvent(label){ sim.events.unshift({ t:evTime(new Date()), label:label }); if (sim.events.length > 80) sim.events.pop(); }
+  function seedTimeline(){
+    var seeds = [["Robot Started",22],["Conveyor Started",18],["Waste Detected",11],["Pick Success",7],["Pick Success",4],["Pick Success",1]];
+    seeds.forEach(function(s){ sim.events.unshift({ t:evTime(new Date(Date.now()-s[1]*1000)), label:s[0] }); });
+  }
+  seedTimeline();
+
+  var SEV_COLOR = { info:"#22d3ee", warning:"#fbbf24", critical:"#ef4444" };
+  var ALARM_POOL = [
+    { sev:"warning", src:"Conveyor", msg:"Speed variance detected" },
+    { sev:"warning", src:"System", msg:"Temperature approaching limit" },
+    { sev:"info", src:"System", msg:"Cycle threshold check passed" },
+    { sev:"info", src:"Sensors", msg:"Temperature nominal" },
+    { sev:"info", src:"Servo", msg:"Calibration refresh due" },
+    { sev:"critical", src:"Conveyor", msg:"Belt jam detected" },
+    { sev:"info", src:"System", msg:"Duty cycle nearing limit" }
+  ];
+  function pushAlarm(){
+    var p = ALARM_POOL[Math.floor(Math.random()*ALARM_POOL.length)];
+    sim.alarmsList.unshift({ sev:p.sev, src:p.src, msg:p.msg, t:evTime(new Date()), ack:"No" });
+    if (sim.alarmsList.length > 50) sim.alarmsList.pop();
+  }
+  function seedAlarms(){
+    var seeds = [
+      { sev:"info", src:"System", msg:"System startup complete", ack:"Yes", off:40 },
+      { sev:"warning", src:"System", msg:"Temperature approaching limit", ack:"No", off:33 },
+      { sev:"warning", src:"Conveyor", msg:"Speed variance detected", ack:"No", off:24 },
+      { sev:"info", src:"Servo", msg:"Duty cycle nearing limit", ack:"No", off:12 },
+      { sev:"info", src:"System", msg:"Duty cycle nearing limit", ack:"No", off:3 }
+    ];
+    seeds.forEach(function(s){ sim.alarmsList.unshift({ sev:s.sev, src:s.src, msg:s.msg, t:evTime(new Date(Date.now()-s.off*1000)), ack:s.ack }); });
+  }
+  seedAlarms();
+  function pickStatus(tick, mod, options){
+    // options: [{v,c,w}] weighted; deterministic-ish flip every `mod` ticks
+    if (tick % mod !== 0) return null;
+    var r = Math.random(), acc = 0, tot = options.reduce(function(s,o){ return s+o.w; },0);
+    for (var i=0;i<options.length;i++){ acc += options[i].w/tot; if (r <= acc) return options[i]; }
+    return options[0];
+  }
+  function alarmColor(n){ return n === 0 ? "cyan" : (n <= 3 ? "amber" : "red"); }
+
+  function simTick(){
+    sim.tick++;
+    sim.cpu = clamp(sim.cpu + gauss()*1.6, 8, 95);
+    sim.gpu = clamp(sim.gpu + gauss()*1.8, 8, 96);
+    sim.mem = clamp(sim.mem + gauss()*0.9, 12, 90);
+    sim.util = clamp(sim.util + gauss()*2, 30, 99);
+    sim.cycle = clamp(sim.cycle + gauss()*0.05, 1.5, 3.5);
+    for (var ji=0; ji<sim.j.length; ji++){ sim.j[ji] = clamp(sim.j[ji] + gauss()*0.9, -90, 90); }
+    sim.lat = clamp(sim.lat + gauss()*1.2, 4, 45);
+    sim.health = clamp(sim.health + gauss()*0.15, 95, 100);
+    sim.dflow = clamp(sim.dflow + gauss()*0.4, 2, 9);
+    sim.temp = clamp(sim.temp + gauss()*0.4, 30, 75);
+    sim.sdist = clamp(sim.sdist + gauss()*1.5, 5, 40);
+    sim.shealth = clamp(sim.shealth + gauss()*0.2, 95, 100);
+    sim.sresp = clamp(sim.sresp + gauss()*0.5, 3, 20);
+    sim.ssig = clamp(sim.ssig + gauss()*0.6, 80, 99);
+
+    var rs = pickStatus(sim.tick, 4, [ {v:"Running",c:"green",w:6},{v:"Idle",c:"amber",w:3},{v:"Maintenance",c:"orange",w:1} ]);
+    if (rs) sim.robot = rs;
+    var cs = pickStatus(sim.tick, 5, [ {v:"Running",c:"green",w:8},{v:"Stopped",c:"red",w:1} ]);
+    if (cs) sim.conv = cs;
+    var ss = pickStatus(sim.tick, 9, [ {v:"Online",c:"green",w:12},{v:"Degraded",c:"amber",w:1} ]);
+    if (ss) sim.sens = ss;
+    if (sim.tick % 6 === 0){ sim.alarms = clamp(sim.alarms + (Math.random()<0.5?-1:1)*(Math.random()<0.4?1:0), 0, 6); }
+
+    // push to KPIs
+    setKpi("kCpu", sim.cpu.toFixed(1), "cyan");
+    setKpi("kGpu", sim.gpu.toFixed(1), "cyan");
+    setKpi("kMem", sim.mem.toFixed(1), "cyan");
+    setKpi("kRobot", sim.robot.v, sim.robot.c);
+    setKpi("kConv", sim.conv.v, sim.conv.c);
+    setKpi("kSens", sim.sens.v, sim.sens.c);
+    setKpi("kDb", sim.db.v, sim.db.c);
+    setKpi("kAlarm", String(sim.alarms), alarmColor(sim.alarms));
+
+    // bell
+    $("bellCount").textContent = String(sim.alarms);
+    var bell = $("bell");
+    bell.style.color = sim.alarms === 0 ? "var(--text-dim)" : (sim.alarms <= 3 ? COLORS.amber : COLORS.red);
+
+    // refresh generic page if visible
+    var rp = sim.reports;
+    rp.acc.push(clamp(rp.acc[rp.acc.length-1] + gauss()*1.5, 80, 92)); rp.acc.shift();
+    rp.thru.push(clamp(rp.thru[rp.thru.length-1] + gauss()*8, 150, 320)); rp.thru.shift();
+    if (sim.tick % 5 === 0){ rp.success += 1; if (Math.random() < 0.12) rp.failure += 1; }
+
+    if (sim.tick % 15 === 0){
+      var opts = ["Waste Detected","Pick Success","Pick Success","Conveyor Started"];
+      pushEvent(opts[Math.floor(Math.random()*opts.length)]);
+    }
+    if (sim.tick % 40 === 0 && Math.random() < 0.3){ pushEvent("Emergency Stop"); }
+    if (sim.tick % 30 === 0){ pushAlarm(); }
+
+    if (!$("page-generic").hidden && currentGeneric){
+      if (currentGeneric.id === "twin") twinRedraw();
+      else renderGeneric(currentGeneric.id, currentGeneric.label);
+    }
+  }
+  setInterval(simTick, 1000);
+
+  // -------- generic subsystem pages --------
+  var currentGeneric = null;
+  function metric(label, value, unit, color){ return {label:label, value:value, unit:unit||"", color:color||"cyan"}; }
+  function pct(base, sp){ return clamp(base + gauss()*(sp||3), 5, 99).toFixed(1); }
+
+  function genericMetrics(id){
+    switch(id){
+      case "robot": return [
+        metric("Status", sim.robot.v, "", sim.robot.c), metric("Utilization", pct(72,4), "%", "cyan"),
+        metric("Cycle Time", (2.4+gauss()*0.15).toFixed(2), "s", "cyan"), metric("Runtime", fmtClock(), "", "green"),
+        metric("Joint Health", pct(96,1.5), "%", "green"), metric("Servo Load", pct(48,6), "%", "cyan"),
+        metric("Payload", (3.1+gauss()*0.2).toFixed(2), "kg", "cyan"), metric("Temp", (41+gauss()*1.2).toFixed(1), "°C", "amber") ];
+      case "arm": return [
+        metric("J1", (15+gauss()*3).toFixed(0), "°", "cyan"), metric("J2", (-22+gauss()*3).toFixed(0), "°", "cyan"),
+        metric("J3", (48+gauss()*3).toFixed(0), "°", "cyan"), metric("J4", (-8+gauss()*3).toFixed(0), "°", "cyan"),
+        metric("J5", (33+gauss()*3).toFixed(0), "°", "cyan"), metric("J6", (-40+gauss()*3).toFixed(0), "°", "cyan"),
+        metric("Reach", pct(64,3), "%", "cyan"), metric("Path Dev", (0.4+Math.abs(gauss())*0.2).toFixed(2), "mm", "green") ];
+      case "gripper": return [
+        metric("Status", Math.random()<0.7?"Closed":"Open", "", "green"), metric("Force", (12+gauss()*0.6).toFixed(1), "N", "cyan"),
+        metric("Object", Math.random()<0.9?"Detected":"None", "", Math.random()<0.9?"green":"amber"),
+        metric("Grip Cycles", String(1240 + (sim.tick%50)), "", "cyan"), metric("Wear", pct(9,1.5), "%", "green"),
+        metric("Open Width", (34+gauss()*2).toFixed(0), "mm", "cyan") ];
+      case "motors": return [
+        metric("Motor 1", pct(52,5), "%", "cyan"), metric("Motor 2", pct(61,5), "%", "cyan"),
+        metric("Motor 3", pct(47,5), "%", "cyan"), metric("Motor 4", pct(58,5), "%", "cyan"),
+        metric("Motor 5", pct(44,5), "%", "cyan"), metric("Motor 6", pct(66,5), "%", "amber"),
+        metric("Bus Voltage", (48+gauss()*0.4).toFixed(1), "V", "green"), metric("Current", (6.4+gauss()*0.3).toFixed(1), "A", "cyan") ];
+      case "vision": return [
+        metric("FPS", (24+gauss()*1.2).toFixed(1), "", "green"), metric("Proc Time", (38+gauss()*3).toFixed(0), "ms", "cyan"),
+        metric("Model", "YOLOv8-L", "", "cyan"), metric("Frames", String(9800 + sim.tick), "", "cyan"),
+        metric("Exposure", (12+gauss()*1).toFixed(1), "ms", "cyan"), metric("Detections", state.lastDetections? String(state.lastDetections.length):"0", "", "green") ];
+      case "conveyor": return [
+        metric("Status", sim.conv.v, "", sim.conv.c), metric("Speed", (0.62+gauss()*0.03).toFixed(2), "m/s", "cyan"),
+        metric("Load", pct(54,4), "%", "cyan"), metric("Belt Health", pct(93,1.2), "%", "green"),
+        metric("Temp", (34+gauss()*1).toFixed(1), "°C", "amber"), metric("Jam", Math.random()<0.04?"Detected":"Clear", "", Math.random()<0.04?"red":"green") ];
+      case "sensors": return [
+        metric("Status", sim.sens.v, "", sim.sens.c), metric("Distance", (28+gauss()*1.5).toFixed(1), "cm", "cyan"),
+        metric("Proximity", Math.random()<0.3?"Triggered":"Clear", "", "cyan"), metric("Temp", (39+gauss()*1).toFixed(1), "°C", "amber"),
+        metric("Latency", (6+Math.abs(gauss())*1.5).toFixed(1), "ms", "green"), metric("Health", pct(98,0.6), "%", "green") ];
+      case "safety": return [
+        metric("E-Stop", "Armed", "", "green"), metric("Light Curtain", "Clear", "", "green"),
+        metric("Guards", "Closed", "", "green"), metric("Interlocks", "OK", "", "green"),
+        metric("Safety Zone", "Nominal", "", "green"), metric("Faults", "0", "", "cyan") ];
+      case "system": return [
+        metric("CPU", sim.cpu.toFixed(1), "%", "cyan"), metric("GPU", sim.gpu.toFixed(1), "%", "cyan"),
+        metric("Memory", sim.mem.toFixed(1), "%", "cyan"), metric("Temp", (56+gauss()*1.2).toFixed(1), "°C", "amber"),
+        metric("Uptime", fmtClock(), "", "green"), metric("Processes", String(180 + (sim.tick%12)), "", "cyan") ];
+      case "database": return [
+        metric("Status", sim.db.v, "", sim.db.c), metric("Records", String(48210 + sim.tick*3), "", "cyan"),
+        metric("Writes/s", (14+gauss()*2).toFixed(0), "", "cyan"), metric("Latency", (3+Math.abs(gauss())).toFixed(1), "ms", "green"),
+        metric("Pool", pct(40,5), "%", "cyan"), metric("Disk", pct(63,1), "%", "amber") ];
+      case "comm": return [
+        metric("Latency", (8+Math.abs(gauss())*1.5).toFixed(1), "ms", "green"), metric("Health", pct(99,0.4), "%", "green"),
+        metric("Protocol", "OPC-UA", "", "cyan"), metric("Packets/s", String(320 + (sim.tick%40)), "", "cyan"),
+        metric("Dropped", "0", "", "cyan"), metric("Uplink", "Online", "", "green") ];
+      case "alarms": return [
+        metric("Active", String(sim.alarms), "", alarmColor(sim.alarms)), metric("Critical", String(Math.max(0, sim.alarms-2)), "", "red"),
+        metric("Warnings", "2", "", "amber"), metric("Acknowledged", "5", "", "cyan"),
+        metric("Last", "Encoder drift", "", "amber"), metric("MTBF", "42.6", "h", "green") ];
+      case "timeline": return [
+        metric("Events Today", String(128 + (sim.tick%20)), "", "cyan"), metric("Cycles", String(842 + sim.tick), "", "cyan"),
+        metric("Picks", String(781 + sim.tick), "", "green"), metric("Rejects", "12", "", "amber"),
+        metric("Downtime", "3.2", "min", "amber"), metric("Efficiency", pct(94,1), "%", "green") ];
+      case "user": return [
+        metric("User", "operator-01", "", "cyan"), metric("Role", "Supervisor", "", "cyan"),
+        metric("Session", fmtClock(), "", "green"), metric("Shift", "A", "", "cyan"),
+        metric("Access", "Level 3", "", "cyan"), metric("Last Login", "today", "", "cyan") ];
+      case "reports": return [
+        metric("Reports", "24", "", "cyan"), metric("This Shift", "6", "", "cyan"),
+        metric("Throughput", (781/ (1+sim.tick/3600)).toFixed(0), "/h", "green"), metric("Purity", pct(96,0.8), "%", "green"),
+        metric("Recovery", pct(88,1), "%", "cyan"), metric("Export", "CSV/PDF", "", "cyan") ];
+      case "twin": return [
+        metric("Sync", "Live", "", "green"), metric("Latency", (5+Math.abs(gauss())).toFixed(1), "ms", "green"),
+        metric("Fidelity", pct(97,0.5), "%", "green"), metric("Joints", "6", "", "cyan"),
+        metric("Render", (60+gauss()*2).toFixed(0), "fps", "cyan"), metric("Drift", (0.2+Math.abs(gauss())*0.1).toFixed(2), "mm", "green") ];
+      default: return [ metric("Status", "Nominal", "", "green") ];
+    }
+  }
+
+  var startTime = Date.now();
+  function fmtClock(){
+    var s = Math.floor((Date.now()-startTime)/1000);
+    var h = Math.floor(s/3600), m = Math.floor((s%3600)/60), ss = s%60;
+    function p(n){ return n<10?"0"+n:""+n; }
+    return p(h)+":"+p(m)+":"+p(ss);
+  }
+
+  function gaugeSVG(val){
+    var r = 46, c = 2*Math.PI*r;
+    var col = val > 70 ? COLORS.red : (val >= 40 ? COLORS.amber : COLORS.cyan);
+    var off = c*(1 - val/100);
+    return '<svg width="120" height="120" viewBox="0 0 118 118" aria-hidden="true">' +
+      '<circle cx="59" cy="59" r="46" fill="none" stroke="#1f2937" stroke-width="8"/>' +
+      '<circle cx="59" cy="59" r="46" fill="none" stroke="'+col+'" stroke-width="8" stroke-linecap="round" ' +
+        'stroke-dasharray="'+c.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'" transform="rotate(-90 59 59)"/>' +
+      '<text x="59" y="65" text-anchor="middle" fill="'+col+'" font-family="Menlo,Consolas,monospace" font-size="20" font-weight="700">'+Math.round(val)+'%</text>' +
+      '</svg>';
+  }
+
+  function robotHTML(){
+    var statusCol = COLORS[sim.robot.c] || sim.robot.c;
+    var pickActive = (sim.tick % 4 !== 0);
+    function tile(label, val, valColor){
+      var vc = valColor ? ' style="color:'+valColor+'"' : '';
+      return '<div class="rtile"><span class="rlabel">'+label+'</span><span class="rval"'+vc+'>'+val+'</span></div>';
+    }
+    var statusTile = '<div class="rtile"><span class="rlabel">Status</span>' +
+      '<span class="status-block" style="background:'+statusCol+'">'+sim.robot.v+'</span></div>';
+    var tiles = [
+      statusTile,
+      tile("Mode", "Auto"),
+      tile("Task", "Pick &amp; Place"),
+      tile("Cycle Time", sim.cycle.toFixed(1)+"s"),
+      tile("Runtime", fmtClock()),
+      tile("Downtime", "00:12:41"),
+      tile("Pick Status", pickActive ? "Active" : "Idle", pickActive ? COLORS.green : COLORS.amber),
+      tile("Robot ID", "MSW-ARM-01"),
+      tile("Controller", "Online", COLORS.green),
+      tile("Maintenance", "Scheduled — 12d", COLORS.amber),
+      '<div class="rtile" style="visibility:hidden"></div>',
+      '<div class="rtile" style="visibility:hidden"></div>'
+    ];
+    return '<div class="robot-top">' +
+        '<div class="rgauge">' + gaugeSVG(sim.util) + '<span class="rlabel">Utilization</span></div>' +
+        '<div class="rtiles">' + tiles.join("") + '</div>' +
+      '</div>';
+  }
+
+  function twinIso(x, y, z, W, H){
+    // apply view rotation (orbit) driven by mouse drag
+    var az = sim.rot.az, el = sim.rot.el;
+    var ca = Math.cos(az), sa = Math.sin(az);
+    var x1 = x*ca - z*sa, z1 = x*sa + z*ca, y1 = y;
+    var ce = Math.cos(el), se = Math.sin(el);
+    var y2 = y1*ce - z1*se, z2 = y1*se + z1*ce, x2 = x1;
+    var c30 = 0.8660254, s30 = 0.5;
+    var scale = Math.min(W, H) / 340;
+    var ox = W*0.42, oy = H*0.74;
+    var sx = (x2 - z2)*c30, sy = (x2 + z2)*s30 - y2;
+    return [ox + sx*scale, oy + sy*scale];
+  }
+  function twinFK(){
+    var d2r = Math.PI/180, a = sim.j, yaw = a[0]*d2r;
+    var t1 = a[1]*d2r, t2 = (a[1]+a[2])*d2r, t3 = (a[1]+a[2]+a[3])*d2r;
+    var L1 = 110, L2 = 92, L3 = 54;
+    var u1 = L1*Math.sin(t1), v1 = L1*Math.cos(t1);
+    var u2 = u1 + L2*Math.sin(t2), v2 = v1 + L2*Math.cos(t2);
+    var u3 = u2 + L3*Math.sin(t3), v3 = v2 + L3*Math.cos(t3);
+    function w(u,v){ return [u*Math.cos(yaw), v, u*Math.sin(yaw)]; }
+    return { p0:[0,0,0], p1:w(u1,v1), p2:w(u2,v2), p3:w(u3,v3) };
+  }
+  function twinSVGInner(){
+    var W = 900, H = 300;
+    function P(p){ return twinIso(p[0], p[1], p[2], W, H); }
+    var parts = [];
+    var n = 5, sp = 24;
+    for (var i = -n; i <= n; i++){
+      var a1 = P([-n*sp, 0, i*sp]), b1 = P([n*sp, 0, i*sp]);
+      var a2 = P([i*sp, 0, -n*sp]), b2 = P([i*sp, 0, n*sp]);
+      parts.push('<line x1="'+a1[0].toFixed(1)+'" y1="'+a1[1].toFixed(1)+'" x2="'+b1[0].toFixed(1)+'" y2="'+b1[1].toFixed(1)+'" stroke="#141b26" stroke-width="1"/>');
+      parts.push('<line x1="'+a2[0].toFixed(1)+'" y1="'+a2[1].toFixed(1)+'" x2="'+b2[0].toFixed(1)+'" y2="'+b2[1].toFixed(1)+'" stroke="#141b26" stroke-width="1"/>');
+    }
+    var fk = twinFK();
+    var s0 = P(fk.p0), s1 = P(fk.p1), s2 = P(fk.p2), s3 = P(fk.p3);
+    function line(a,b,col,w){ return '<line x1="'+a[0].toFixed(1)+'" y1="'+a[1].toFixed(1)+'" x2="'+b[0].toFixed(1)+'" y2="'+b[1].toFixed(1)+'" stroke="'+col+'" stroke-width="'+w+'" stroke-linecap="round"/>'; }
+    function node(a,r){ return '<circle cx="'+a[0].toFixed(1)+'" cy="'+a[1].toFixed(1)+'" r="'+r+'" fill="#d1d5db" stroke="#0b0f14" stroke-width="1"/>'; }
+    parts.push('<ellipse cx="'+s0[0].toFixed(1)+'" cy="'+s0[1].toFixed(1)+'" rx="16" ry="8" fill="#11161d" stroke="#22d3ee" stroke-width="2"/>');
+    parts.push(line(s0, s1, "#22d3ee", 8));
+    parts.push(line(s1, s2, "#67e8f9", 6));
+    parts.push(line(s2, s3, "#a78bfa", 5));
+    parts.push(node(s0, 6)); parts.push(node(s1, 5.5)); parts.push(node(s2, 5));
+    var dx = s3[0]-s2[0], dy = s3[1]-s2[1], len = Math.hypot(dx,dy) || 1;
+    var ux = dx/len, uy = dy/len, px = -uy, py = ux, fl = 15, sw = 6;
+    var f1 = [s3[0]+ux*fl+px*sw, s3[1]+uy*fl+py*sw];
+    var f2 = [s3[0]+ux*fl-px*sw, s3[1]+uy*fl-py*sw];
+    parts.push(line([s3[0]+px*sw, s3[1]+py*sw], [s3[0]-px*sw, s3[1]-py*sw], "#fbbf24", 3));
+    parts.push(line(s3, f1, "#fbbf24", 3));
+    parts.push(line(s3, f2, "#fbbf24", 3));
+    return parts.join("");
+  }
+  function twinReadoutText(){
+    var a = sim.j; function d(v){ return Math.round(v)+"°"; }
+    return "J1 "+d(a[0])+"  J2 "+d(a[1])+"  J3 "+d(a[2])+"  J4 "+d(a[3])+"  J5 "+d(a[4])+"  J6 "+d(a[5]);
+  }
+  function twinPosText(){ var fk = twinFK(); return fk.p3.map(function(v){ return (v*1.4).toFixed(1); }).join(", "); }
+  function twinRedraw(){
+    var svg = $("twinSvg"); if (svg) svg.innerHTML = twinSVGInner();
+    var ro = $("twinReadout"); if (ro) ro.textContent = twinReadoutText();
+    var pos = $("twinPos"); if (pos) pos.textContent = twinPosText();
+  }
+  function attachTwinHandlers(){
+    var v = $("twinViz"); if (!v) return;
+    var drag = false, lx = 0, ly = 0;
+    v.style.cursor = "grab";
+    v.addEventListener("pointerdown", function(e){ drag = true; lx = e.clientX; ly = e.clientY; v.style.cursor = "grabbing"; try{ v.setPointerCapture(e.pointerId); }catch(_){} });
+    v.addEventListener("pointermove", function(e){ if (!drag) return; sim.rot.az += (e.clientX-lx)*0.012; sim.rot.el = clamp(sim.rot.el + (e.clientY-ly)*0.012, -0.9, 0.9); lx = e.clientX; ly = e.clientY; twinRedraw(); });
+    v.addEventListener("pointerup", function(){ drag = false; v.style.cursor = "grab"; });
+    v.addEventListener("pointerleave", function(){ drag = false; v.style.cursor = "grab"; });
+    v.addEventListener("dblclick", function(){ sim.rot.az = 0; sim.rot.el = 0; twinRedraw(); });
+  }
+  function twinCard(label, val, id){
+    var idAttr = id ? ' id="'+id+'"' : '';
+    return '<div class="rtile"><span class="rlabel">'+label+'</span><span class="rval"'+idAttr+'>'+val+'</span></div>';
+  }
+  function twinHTML(){
+    return '<div class="twin-viz" id="twinViz">' +
+        '<div class="twin-readout" id="twinReadout">'+twinReadoutText()+'</div>' +
+        '<svg id="twinSvg" viewBox="0 0 900 300" preserveAspectRatio="xMidYMid meet" aria-hidden="true">'+twinSVGInner()+'</svg>' +
+        '<div class="twin-cap">drag to rotate &middot; double-click to reset &middot; isometric 3D twin — simulated joint data</div>' +
+      '</div>' +
+      '<div class="twin-cards">' +
+        twinCard("Robot Position", twinPosText(), "twinPos") +
+        twinCard("Robot Trajectory", "Not tracked") +
+        twinCard("Conveyor Visualization", "Not connected") +
+        twinCard("Sensor Visualization", "Not connected") +
+        twinCard("Simulation Mode", "Idle") +
+        twinCard("Functional Control", "Read-only (future)") +
+      '</div>';
+  }
+
+  function sparkCard(title, data, unit, color){
+    var W = 220, H = 64, pad = 8;
+    var min = Math.min.apply(null, data), max = Math.max.apply(null, data);
+    function sx(i){ return pad + i/(data.length-1)*(W-2*pad); }
+    function sy(v){ return H-pad - (v-min)/((max-min)||1)*(H-2*pad-6); }
+    var d = data.map(function(v,i){ return (i===0?"M":"L")+sx(i).toFixed(1)+","+sy(v).toFixed(1); }).join(" ");
+    var lastX = sx(data.length-1), lastY = sy(data[data.length-1]);
+    var val = data[data.length-1].toFixed(1)+unit;
+    return '<div class="card" style="padding:10px;">' +
+      '<div style="display:flex;justify-content:space-between;align-items:baseline;">' +
+        '<span class="rlabel">'+title+'</span>' +
+        '<span style="color:#e5e7eb;font-weight:700;font-size:12px;font-family:var(--font-mono);">'+val+'</span></div>' +
+      '<svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none" style="width:100%;height:64px;margin-top:6px;">' +
+        '<path d="'+d+'" fill="none" stroke="'+color+'" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' +
+        '<circle cx="'+lastX.toFixed(1)+'" cy="'+lastY.toFixed(1)+'" r="3" fill="'+color+'"/>' +
+      '</svg></div>';
+  }
+  function donutCard(title, success, failure){
+    var total = success+failure, sp = success/total, fp = failure/total;
+    var r = 34, c = 2*Math.PI*r, sLen = c*sp, fLen = c*fp;
+    var col1 = "#22c55e", col2 = "#ef4444";
+    return '<div class="card" style="padding:10px;display:flex;gap:12px;align-items:center;">' +
+      '<svg viewBox="0 0 100 100" style="width:96px;height:96px;flex:none;">' +
+        '<circle cx="50" cy="50" r="34" fill="none" stroke="#1f2937" stroke-width="14"/>' +
+        '<circle cx="50" cy="50" r="34" fill="none" stroke="'+col1+'" stroke-width="14" stroke-dasharray="'+sLen.toFixed(1)+' '+c.toFixed(1)+'" transform="rotate(-90 50 50)"/>' +
+        '<circle cx="50" cy="50" r="34" fill="none" stroke="'+col2+'" stroke-width="14" stroke-dasharray="'+fLen.toFixed(1)+' '+c.toFixed(1)+'" stroke-dashoffset="'+(-sLen).toFixed(1)+'" transform="rotate(-90 50 50)"/>' +
+        '<text x="50" y="51" text-anchor="middle" fill="#e5e7eb" font-family="Menlo,monospace" font-size="16" font-weight="700">'+total+'</text>' +
+        '<text x="50" y="64" text-anchor="middle" fill="#6b7280" font-family="Menlo,monospace" font-size="8">total</text>' +
+      '</svg>' +
+      '<div style="font-family:var(--font-mono);font-size:11px;color:#9ca3af;">' +
+        '<div class="rlabel" style="margin-bottom:8px;">'+title+'</div>' +
+        '<div style="margin:5px 0;"><span style="display:inline-block;width:8px;height:8px;border-radius:4px;background:'+col1+';margin-right:6px;"></span>Success '+(sp*100).toFixed(0)+'%</div>' +
+        '<div><span style="display:inline-block;width:8px;height:8px;border-radius:4px;background:'+col2+';margin-right:6px;"></span>Failure '+(fp*100).toFixed(0)+'%</div>' +
+      '</div></div>';
+  }
+  function reportsHTML(){
+    var btns = ["Shift Report","Daily Report","Weekly Report","Monthly Report",
+      "AI Accuracy Report","Robot Performance Report","Alarm Report","Maintenance Report"];
+    var btnHTML = btns.map(function(b){ return '<button class="btn" style="justify-content:center;">'+b+'</button>'; }).join("");
+    var rp = sim.reports;
+    var util = clamp(sim.util, 0, 100).toFixed(1)+"%";
+    var rate = (rp.success/(rp.success+rp.failure)*100).toFixed(1)+"%";
+    function stat(label, val){ return '<div class="rtile"><span class="rlabel">'+label+'</span><span class="rval">'+val+'</span></div>'; }
+    return '<div class="rlabel" style="color:var(--accent);margin-bottom:8px;">Reports</div>' +
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">'+btnHTML+'</div>' +
+      '<div class="rlabel" style="color:var(--accent);margin-bottom:8px;">Analytics</div>' +
+      '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px;">' +
+        sparkCard("Accuracy Trend", rp.acc, "%", "#22d3ee") +
+        sparkCard("Throughput", rp.thru, "/hr", "#a78bfa") +
+        donutCard("Pick Outcome", rp.success, rp.failure) +
+      '</div>' +
+      '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">' +
+        stat("Robot Utilization", util) +
+        stat("Downtime", "00:12:41") +
+        stat("Pick Success Rate", rate) +
+        stat("KPI Summary", "Nominal") +
+      '</div>';
+  }
+
+  function userHTML(){
+    function card(label, val, span){
+      var st = span ? ' style="grid-column:span '+span+'"' : '';
+      return '<div class="rtile"'+st+'><span class="rlabel">'+label+'</span><span class="rval">'+val+'</span></div>';
+    }
+    var s = Math.floor((Date.now()-startTime)/1000);
+    var h = Math.floor(s/3600), m = Math.floor((s%3600)/60), ss = s%60;
+    function p(n){ return n<10 ? "0"+n : ""+n; }
+    var sess = h + ":" + p(m) + ":" + p(ss);
+    return '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">' +
+      card("Current User", "operator1") +
+      card("Role", "Operator") +
+      card("Login Status", "Logged in") +
+      card("Session Time", sess) +
+      card("Permissions", "Monitor &middot; Acknowledge Alarms", 2) +
+    '</div>';
+  }
+
+  function timelineHTML(){
+    var rows = sim.events.map(function(e){
+      var col = EVENT_COLOR[e.label] || "#9ca3af";
+      return '<div class="tl-row" style="color:'+col+'">['+e.t+'] '+e.label+'</div>';
+    }).join("");
+    return '<div class="tl-list">' + (rows || '<div class="tl-row" style="color:#4b5563">no events yet</div>') + '</div>';
+  }
+
+  function alarmsHTML(){
+    var list = sim.alarmsList;
+    var active = list.filter(function(a){ return a.ack !== "Yes"; }).length;
+    var critical = list.filter(function(a){ return a.sev === "critical"; }).length;
+    var ackd = list.filter(function(a){ return a.ack === "Yes"; }).length;
+    function stat(label, val){ return '<div class="rtile"><span class="rlabel">'+label+'</span><span class="rval" style="font-size:16px;">'+val+'</span></div>'; }
+    var rows = list.map(function(a){
+      var sc = SEV_COLOR[a.sev] || "#6b7280";
+      var ackCol = a.ack === "Yes" ? "#22c55e" : "#6b7280";
+      return '<tr>' +
+        '<td style="color:'+sc+';font-weight:700;">'+a.sev.toUpperCase()+'</td>' +
+        '<td>'+a.src+'</td><td>'+a.t+'</td><td>'+a.msg+'</td>' +
+        '<td style="color:'+ackCol+';">'+a.ack+'</td></tr>';
+    }).join("");
+    return '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;">' +
+        stat("Active", active) + stat("Critical", critical) + stat("Acknowledged", ackd) +
+      '</div>' +
+      '<div style="overflow-x:auto;"><table class="det"><thead><tr>' +
+        '<th>Severity</th><th>Source</th><th>Time</th><th>Message</th><th>Ack</th>' +
+      '</tr></thead><tbody>'+rows+'</tbody></table></div>';
+  }
+
+  function commHTML(){
+    var cards = [
+      { l:"ROS2", v:"Connected", c:"green" },
+      { l:"OPC-UA", v:"Connected", c:"green" },
+      { l:"REST API", v:"Online", c:"green" },
+      { l:"WebSocket", v:"Connected", c:"green" },
+      { l:"Robot Comm", v:"Active", c:"green" },
+      { l:"Camera Comm", v:"Active", c:"green" },
+      { l:"Sensor Comm", v:"Active", c:"green" },
+      { l:"Network Latency", v:sim.lat.toFixed(1)+" ms", c:"cyan" },
+      { l:"Connection Health", v:sim.health.toFixed(1)+"%", c:"cyan" }
+    ];
+    return '<div class="comm-grid">' + cards.map(function(c){
+      var col = COLORS[c.c];
+      return '<div class="comm-card"><span class="rlabel">'+c.l+'</span>' +
+        '<span class="comm-val" style="color:'+col+'">'+c.v+'</span></div>';
+    }).join("") + '</div>';
+  }
+
+  function databaseHTML(){
+    var cards = [
+      { l:"Type", v:"PostgreSQL", c:"cyan" },
+      { l:"Health", v:"Connected", c:"green" },
+      { l:"Storage Used", v:"342 GB / 1 TB", c:"cyan" },
+      { l:"Image Storage", v:"156 GB", c:"cyan" },
+      { l:"Sensor Storage", v:"89 GB", c:"cyan" },
+      { l:"Robot Logs", v:"12.4 GB", c:"cyan" },
+      { l:"Backup Status", v:"OK", c:"green" },
+      { l:"Data Flow", v:sim.dflow.toFixed(1)+" MB/s", c:"cyan" }
+    ];
+    return '<div class="comm-grid">' + cards.map(function(c){
+      var col = COLORS[c.c];
+      return '<div class="comm-card"><span class="rlabel">'+c.l+'</span>' +
+        '<span class="comm-val" style="color:'+col+'">'+c.v+'</span></div>';
+    }).join("") + '</div>';
+  }
+
+  function sysGauge(val, label){
+    var r = 78, c = 2*Math.PI*r;
+    var col = val > 70 ? COLORS.red : (val >= 40 ? COLORS.amber : COLORS.cyan);
+    var off = c*(1 - val/100);
+    return '<div class="sys-gauge">' +
+      '<svg viewBox="0 0 200 200" style="width:100%;max-width:230px;" aria-hidden="true">' +
+        '<circle cx="100" cy="100" r="78" fill="none" stroke="#1f2937" stroke-width="8"/>' +
+        '<circle cx="100" cy="100" r="78" fill="none" stroke="'+col+'" stroke-width="8" stroke-linecap="round" ' +
+          'stroke-dasharray="'+c.toFixed(1)+'" stroke-dashoffset="'+off.toFixed(1)+'" transform="rotate(-90 100 100)"/>' +
+        '<text x="100" y="110" text-anchor="middle" fill="#e5e7eb" font-family="Menlo,Consolas,monospace" font-size="30" font-weight="700">'+Math.round(val)+'%</text>' +
+      '</svg>' +
+      '<div class="sys-glabel">'+label+'</div>' +
+    '</div>';
+  }
+  function systemHTML(){
+    function stat(l, v, col){ var c = col ? ' style="color:'+col+'"' : ''; return '<div class="rtile"><span class="rlabel">'+l+'</span><span class="rval"'+c+'>'+v+'</span></div>'; }
+    return '<div class="sys-gauges">' +
+        sysGauge(sim.cpu, "CPU") + sysGauge(sim.gpu, "GPU") + sysGauge(sim.mem, "RAM") +
+      '</div>' +
+      '<div class="sys-cards">' +
+        stat("CPU Usage", sim.cpu.toFixed(1)+"%") +
+        stat("GPU Usage", sim.gpu.toFixed(1)+"%") +
+        stat("RAM Usage", sim.mem.toFixed(1)+"%") +
+        stat("Storage", "45.2%") +
+        stat("Temperature", sim.temp.toFixed(1)+"°C", "#fbbf24") +
+        stat("Power", "Online", "#22c55e") +
+        stat("Network", "Connected", "#22c55e") +
+      '</div>';
+  }
+
+  function safetyHTML(){
+    var warns = sim.alarmsList.filter(function(a){ return a.sev === "warning" || a.sev === "critical"; }).slice(0, 8);
+    function card(label, val, col){ var c = col ? ' style="color:'+col+';font-weight:600;"' : ''; return '<div class="rtile"><span class="rlabel">'+label+'</span><span class="rval"'+c+'>'+val+'</span></div>'; }
+    var cards = '<div class="sys-cards" style="margin-bottom:12px;">' +
+      card("Emergency Stop", "Active", "#22c55e") +
+      card("Collision Detection", "Clear", "#22c55e") +
+      card("Safety Zone", "Clear", "#22c55e") +
+      card("Fault Status", "OK") +
+      card("Alarm Status", "OK") +
+      card("Active Warnings", String(warns.length), "#fbbf24") +
+    '</div>';
+    var rows = warns.map(function(a){
+      var col = a.sev === "critical" ? "#ef4444" : "#fbbf24";
+      return '<div class="tl-row" style="color:'+col+'">['+a.t+'] '+a.src+': '+a.msg+'</div>';
+    }).join("");
+    var notif = '<div class="rlabel" style="color:var(--accent);margin:4px 0 8px;">Warning Notifications</div>' +
+      '<div class="tl-list">' + (rows || '<div class="tl-row" style="color:#4b5563">no warnings</div>') + '</div>';
+    return cards + notif;
+  }
+
+  function sensorsHTML(){
+    var prox = sim.sdist < 20 ? "Triggered" : "Clear";
+    var cards = [
+      { l:"Sensor Status", v:"Online", c:"green" },
+      { l:"Metal Sensor", v:"Active", c:"green" },
+      { l:"Distance Sensor", v:sim.sdist.toFixed(1)+" cm", c:"cyan" },
+      { l:"Proximity Sensor", v:prox, c:(prox === "Triggered" ? "amber" : "green") },
+      { l:"Sensor Health", v:sim.shealth.toFixed(1)+"%", c:"cyan" },
+      { l:"Calibration", v:"Calibrated", c:"green" },
+      { l:"Response Time", v:sim.sresp.toFixed(1)+" ms", c:"cyan" },
+      { l:"Signal Strength", v:sim.ssig.toFixed(1)+"%", c:"cyan" }
+    ];
+    return '<div class="comm-grid">' + cards.map(function(c){
+      var col = COLORS[c.c];
+      return '<div class="comm-card"><span class="rlabel">'+c.l+'</span>' +
+        '<span class="comm-val" style="color:'+col+'">'+c.v+'</span></div>';
+    }).join("") + '</div>';
+  }
+
+  function jit(base, sp){ return base + gauss()*sp; }
+  function mcard(l, v, col){ var c = col ? ' style="color:'+col+'"' : ''; return '<div class="rtile"><span class="rlabel">'+l+'</span><span class="rval"'+c+'>'+v+'</span></div>'; }
+
+  function armHTML(){
+    var a = sim.j;
+    var joints = "";
+    for (var i=0; i<6; i++){
+      var ang = a[i], pct = ((ang+90)/180*100).toFixed(1);
+      joints += '<div class="bar-row"><span class="bname" style="width:28px">J'+(i+1)+'</span>' +
+        '<span class="bar-track"><span class="bar-fill" style="width:'+pct+'%;background:#22d3ee"></span></span>' +
+        '<span class="bcount" style="width:46px">'+ang.toFixed(1)+'°</span></div>';
+    }
+    var fk = twinFK(), pos = fk.p3.map(function(v){ return (v*1.4).toFixed(1); }).join(", ");
+    function ef(l, v){ return '<div class="ef-row"><span class="ef-l">'+l+'</span><span class="ef-v">'+v+'</span></div>'; }
+    var eff = ef("Position", pos+" mm") + ef("Velocity", jit(0.45,0.04).toFixed(2)+" m/s") +
+      ef("Orientation", "0, 0, 0°") + ef("Accuracy", jit(0.02,0.003).toFixed(3)+" mm") +
+      ef("Arm Position", "Transit") + ef("Target Position", "130.0, 90.0, 320.0 mm") +
+      ef("Motion Path", "P2P — waypoint 3/5");
+    return '<div class="rlabel" style="color:var(--accent);margin-bottom:8px;">Joint Angles</div>' +
+      '<div class="card" style="margin-bottom:12px;">'+joints+'</div>' +
+      '<div class="rlabel" style="color:var(--accent);margin-bottom:8px;">End Effector</div>' +
+      '<div class="card">'+eff+'</div>';
+  }
+
+  function gripperHTML(){
+    var status = (sim.tick % 10 < 8) ? "Closed" : "Open";
+    var objDet = (sim.tick % 12 !== 0) ? "Yes" : "No";
+    var objHold = (objDet === "Yes" && sim.tick % 6 !== 0) ? "Yes" : "No";
+    return '<div class="sys-cards">' +
+      mcard("Status", status) +
+      mcard("Angle", jit(45,1).toFixed(1)+"°") +
+      mcard("Position", jit(12.5,0.3).toFixed(1)+" mm") +
+      mcard("Force", jit(8.2,0.3).toFixed(1)+" N") +
+      mcard("Pressure", jit(4.5,0.2).toFixed(1)+" bar") +
+      mcard("Object Detected", objDet, objDet==="Yes"?"#22c55e":"#6b7280") +
+      mcard("Object Holding", objHold, objHold==="Yes"?"#22c55e":"#6b7280") +
+      mcard("Pick Success", String(sim.reports.success)) +
+      mcard("Pick Failure", String(sim.reports.failure)) +
+      mcard("Health", jit(96.4,0.1).toFixed(1)+"%") +
+    '</div>';
+  }
+
+  function motorsHTML(){
+    var bases = [[41.2,2.4,24.1,1.2,45.2,97.5],[43.8,2.8,23.8,1.4,52.8,96.8],[39.5,2.1,24.3,1.0,38.5,98.2],
+      [42.1,2.6,23.9,1.3,48.1,97.1],[40.7,2.3,24.0,1.1,42.7,98.5],[38.9,2.0,23.7,0.9,35.9,99.0]];
+    var rows = "";
+    for (var i=0; i<6; i++){
+      var b = bases[i];
+      rows += '<tr><td>J'+(i+1)+'</td>' +
+        '<td class="num">'+jit(b[0],0.3).toFixed(1)+'</td>' +
+        '<td class="num">'+jit(b[1],0.05).toFixed(1)+'</td>' +
+        '<td class="num">'+jit(b[2],0.1).toFixed(1)+'</td>' +
+        '<td class="num">'+jit(b[3],0.05).toFixed(1)+'</td>' +
+        '<td class="num">'+jit(b[4],1.5).toFixed(1)+'</td>' +
+        '<td class="num" style="color:#22c55e">OK</td>' +
+        '<td class="num">'+jit(b[5],0.1).toFixed(1)+'</td></tr>';
+    }
+    return '<div style="overflow-x:auto;"><table class="det"><thead><tr>' +
+      '<th>Joint</th><th>Temp °C</th><th>Current A</th><th>Voltage V</th><th>Torque Nm</th><th>Load %</th><th>Encoder</th><th>Health %</th>' +
+      '</tr></thead><tbody>'+rows+'</tbody></table></div>';
+  }
+
+  function visionHTML(){
+    var dets = state.lastDetections, dcount = dets ? dets.length : 0;
+    var conf = dets && dets.length ? (dets.reduce(function(s,d){ return s+d.confidence; },0)/dets.length) : 0;
+    var feed = '<div class="vis-feed"><div class="vis-icon">◎</div>' +
+      '<div class="vis-cap">LIVE CAMERA FEED — no camera source connected</div></div>';
+    return feed + '<div class="sys-cards">' +
+      mcard("Camera Status", "Online", "#22c55e") +
+      mcard("FPS", jit(30,0.4).toFixed(1)) +
+      mcard("Detection Count", String(dcount)) +
+      mcard("Confidence", conf.toFixed(2)) +
+      mcard("Latency", jit(45.2,2).toFixed(1)+" ms") +
+      mcard("Camera Health", jit(97.8,0.1).toFixed(1)+"%") +
+      mcard("Bounding Boxes", String(dcount)) +
+      mcard("Resolution", "1920x1080") +
+      mcard("Processing Time", jit(38.4,2).toFixed(1)+" ms") +
+    '</div>';
+  }
+
+  function conveyorHTML(){
+    var statusCol = COLORS[sim.conv.c] || "#22c55e";
+    return '<div class="sys-cards">' +
+      mcard("Status", sim.conv.v, statusCol) +
+      mcard("Speed", jit(0.65,0.03).toFixed(2)+" m/s") +
+      mcard("Direction", "Forward") +
+      mcard("Load", jit(72.3,1).toFixed(1)+"%") +
+      mcard("Jam Detected", "No", "#22c55e") +
+      mcard("Object Count", String(2847 + Math.floor(sim.tick/3))) +
+      mcard("Motor Health", jit(94.2,0.1).toFixed(1)+"%") +
+      mcard("Belt Health", jit(95.8,0.1).toFixed(1)+"%") +
+      mcard("Temperature", jit(34.5,0.3).toFixed(1)+"°C") +
+    '</div>';
+  }
+
+  function renderGeneric(id, label){
+    currentGeneric = { id:id, label:label };
+    var grid = $("genGrid");
+    if (id === "robot"){
+      $("genTitle").textContent = "Robot Monitoring";
+      $("genSub").textContent = "live telemetry · simulated";
+      grid.className = "";
+      grid.innerHTML = robotHTML();
+      $("genNote").textContent = "";
+      return;
+    }
+    if (id === "twin"){
+      $("genTitle").textContent = "Digital Twin";
+      $("genSub").textContent = "isometric 3D twin · drag to rotate";
+      grid.className = "";
+      grid.innerHTML = twinHTML();
+      attachTwinHandlers();
+      $("genNote").textContent = "";
+      return;
+    }
+    if (id === "reports"){
+      $("genTitle").textContent = "Reports & Analytics";
+      $("genSub").textContent = "live analytics";
+      grid.className = "";
+      grid.innerHTML = reportsHTML();
+      $("genNote").textContent = "";
+      return;
+    }
+    if (id === "user"){
+      $("genTitle").textContent = "User Management";
+      $("genSub").textContent = "session · access";
+      grid.className = "";
+      grid.innerHTML = userHTML();
+      $("genNote").textContent = "";
+      return;
+    }
+    if (id === "timeline"){
+      $("genTitle").textContent = "Event Timeline";
+      $("genSub").textContent = "live event log";
+      grid.className = "";
+      grid.innerHTML = timelineHTML();
+      $("genNote").textContent = "";
+      return;
+    }
+    if (id === "alarms"){
+      $("genTitle").textContent = "Alarms";
+      $("genSub").textContent = "active alarms";
+      grid.className = "";
+      grid.innerHTML = alarmsHTML();
+      $("genNote").textContent = "";
+      return;
+    }
+    if (id === "comm"){
+      $("genTitle").textContent = "Communication";
+      $("genSub").textContent = "protocols · links";
+      grid.className = "";
+      grid.innerHTML = commHTML();
+      $("genNote").textContent = "";
+      return;
+    }
+    if (id === "database"){
+      $("genTitle").textContent = "Database";
+      $("genSub").textContent = "storage · records";
+      grid.className = "";
+      grid.innerHTML = databaseHTML();
+      $("genNote").textContent = "";
+      return;
+    }
+    if (id === "system"){
+      $("genTitle").textContent = "System Health";
+      $("genSub").textContent = "compute · thermal";
+      grid.className = "";
+      grid.innerHTML = systemHTML();
+      $("genNote").textContent = "";
+      return;
+    }
+    if (id === "safety"){
+      $("genTitle").textContent = "Safety";
+      $("genSub").textContent = "interlocks · warnings";
+      grid.className = "";
+      grid.innerHTML = safetyHTML();
+      $("genNote").textContent = "";
+      return;
+    }
+    if (id === "sensors"){
+      $("genTitle").textContent = "Sensors";
+      $("genSub").textContent = "detection · signals";
+      grid.className = "";
+      grid.innerHTML = sensorsHTML();
+      $("genNote").textContent = "";
+      return;
+    }
+    if (id === "arm" || id === "gripper" || id === "motors" || id === "vision" || id === "conveyor"){
+      var titles = { arm:"Robotic Arm", gripper:"Gripper", motors:"Servo & Motors", vision:"Vision System", conveyor:"Conveyor" };
+      var subs = { arm:"joints · effector", gripper:"grasp · force", motors:"servo telemetry", vision:"camera · inference", conveyor:"belt · throughput" };
+      var builders = { arm:armHTML, gripper:gripperHTML, motors:motorsHTML, vision:visionHTML, conveyor:conveyorHTML };
+      $("genTitle").textContent = titles[id];
+      $("genSub").textContent = subs[id];
+      grid.className = "";
+      grid.innerHTML = builders[id]();
+      $("genNote").textContent = "";
+      return;
+    }
+    grid.className = "kpi-grid";
+    $("genTitle").textContent = label;
+    $("genSub").textContent = "live telemetry · simulated";
+    var cards = genericMetrics(id);
+    grid.innerHTML = cards.map(function(c){
+      var col = COLORS[c.color] || c.color;
+      return '<div class="kpi" style="border-left-color:'+col+'">' +
+        '<span class="k-dot" style="background:'+col+'"></span>' +
+        '<div class="k-label">'+c.label+'</div>' +
+        '<div class="k-value">'+c.value+(c.unit?'<span class="k-unit">'+c.unit+'</span>':'')+'</div></div>';
+    }).join("");
+    $("genNote").textContent = "This subsystem view shows simulated SCADA telemetry. Live waste detection runs on the Overview page.";
+  }
+
+  // -------- detection --------
+  var confSlider = $("confSlider"), iouSlider = $("iouSlider");
+  confSlider.addEventListener("input", function(){ $("confLabel").textContent = "conf="+(confSlider.value/100).toFixed(2); });
+  iouSlider.addEventListener("input", function(){ $("iouLabel").textContent = "iou="+(iouSlider.value/100).toFixed(2); });
+
+  var fileInput = $("fileInput");
+  $("btnUpload").addEventListener("click", function(){ if (!this.disabled) fileInput.click(); });
+  $("sourcePanel").addEventListener("click", function(){ if (!$("btnUpload").disabled) fileInput.click(); });
+  fileInput.addEventListener("change", function(){ if (fileInput.files[0]) runDetection(fileInput.files[0]); });
+
+  var sp = $("sourcePanel");
+  ["dragenter","dragover"].forEach(function(e){ sp.addEventListener(e, function(ev){ ev.preventDefault(); sp.classList.add("drag"); }); });
+  ["dragleave","drop"].forEach(function(e){ sp.addEventListener(e, function(ev){ ev.preventDefault(); sp.classList.remove("drag"); }); });
+  sp.addEventListener("drop", function(ev){
+    var f = ev.dataTransfer.files && ev.dataTransfer.files[0];
+    if (f && !$("btnUpload").disabled) runDetection(f);
+  });
+
+  $("btnWebcam").addEventListener("click", function(){ setModelStatus("webcam not wired up"); setTimeout(function(){ if (state.modelReady) setModelStatus("ready"); }, 1800); });
+  $("btnClear").addEventListener("click", clearResults);
+  var lastSegSrc = null;
+  $("btnSave").addEventListener("click", function(){
+    if (!lastSegSrc) return;
+    var a = document.createElement("a"); a.href = lastSegSrc; a.download = "segmented.png"; a.click();
+  });
+
+  function clearResults(){
+    $("sourceImg").hidden = true; $("sourceImg").removeAttribute("src"); $("sourcePh").hidden = false;
+    $("segImg").hidden = true; $("segImg").removeAttribute("src"); $("segPh").hidden = false; $("segPh").textContent = "segmented — runs after inference";
+    $("detectedClasses").innerHTML = '<span class="empty">no detections yet</span>';
+    $("classDist").innerHTML = '<span class="empty">no detections yet</span>';
+    $("detTableWrap").innerHTML = '<span class="empty">no detections yet</span>';
+    $("techAnalysis").innerHTML = '<div class="idle">— open an image to begin —</div>';
+    $("btnSave").disabled = true; lastSegSrc = null; state.lastDetections = null;
+    setKpi("kTotal","0","cyan"); setKpi("kAcc","0","cyan"); setKpi("kConf","0","cyan"); setKpi("kCov","0","cyan");
+    if (state.modelReady) setModelStatus("ready");
+  }
+
+  function runDetection(file){
+    setModelStatus("inference…");
+    $("sourcePh").hidden = true;
+    var url = URL.createObjectURL(file);
+    var si = $("sourceImg"); si.src = url; si.hidden = false;
+    $("segPh").hidden = false; $("segPh").textContent = "running inference…"; $("segImg").hidden = true;
+    $("techAnalysis").innerHTML = '<div class="idle">— running inference —</div>';
+
+    var fd = new FormData();
+    fd.append("image", file);
+    fd.append("conf", (confSlider.value/100).toFixed(2));
+    fd.append("iou", (iouSlider.value/100).toFixed(2));
+
+    fetch("/api/detect", { method:"POST", body: fd })
+      .then(function(r){ if (!r.ok) return r.json().then(function(j){ throw new Error(j.error||"detect failed"); }); return r.json(); })
+      .then(function(data){
+        state.backendOk = true;
+        lastSegSrc = data.annotated_image;
+        var seg = $("segImg"); seg.src = data.annotated_image; seg.hidden = false; $("segPh").hidden = true;
+        $("btnSave").disabled = false;
+        state.lastDetections = data.detections;
+        renderResults(data);
+        if (data.detections.length){
+          setModelStatus("llm…");
+          $("techAnalysis").innerHTML = '<div class="idle"><span class="spin"></span>querying llama-3.3-70b…</div>';
+          return fetch("/api/analyze", { method:"POST", headers:{"Content-Type":"application/json"},
+            body: JSON.stringify({ detections: data.detections }) })
+            .then(function(r){ if (!r.ok) return r.json().then(function(j){ throw new Error(j.error||"analyze failed"); }); return r.json(); })
+            .then(function(a){ $("techAnalysis").innerHTML = a.html; setModelStatus("done"); })
+            .catch(function(err){ $("techAnalysis").innerHTML = '<div class="idle">groq error: '+err.message+'</div>'; setModelStatus("ready"); });
+        } else {
+          $("techAnalysis").innerHTML = '<div class="idle">— no detections above conf threshold —</div>';
+          setModelStatus("ready");
+        }
+      })
+      .catch(function(err){
+        $("segPh").textContent = "error"; $("segPh").hidden = false; $("segImg").hidden = true;
+        $("techAnalysis").innerHTML = '<div class="idle">detect error: '+err.message+'</div>';
+        setModelStatus(state.backendOk ? "ready" : "backend offline");
+      });
+  }
+
+  function renderResults(data){
+    var dets = data.detections, total = dets.length;
+    var counts = {};
+    dets.forEach(function(d){ counts[d.class] = (counts[d.class]||0)+1; });
+    var classNames = Object.keys(counts).sort(function(a,b){ return counts[b]-counts[a]; });
+    var avgConf = total ? dets.reduce(function(s,d){ return s+d.confidence; },0)/total : 0;
+    var totalCov = dets.reduce(function(s,d){ return s+d.coverage; },0)*100;
+    var highConf = dets.filter(function(d){ return d.confidence >= 0.6; }).length;
+    var accuracy = total ? (highConf/total*100) : 0;
+
+    // KPIs
+    setKpi("kTotal", String(total), "cyan");
+    setKpi("kAcc", accuracy.toFixed(0), "cyan");
+    setKpi("kConf", (avgConf*100).toFixed(0), "cyan");
+    setKpi("kCov", totalCov.toFixed(1), "cyan");
+
+    // chips
+    var colorOf = {};
+    classNames.forEach(function(c,i){ colorOf[c] = PALETTE[i % PALETTE.length]; });
+    var chipsEl = $("detectedClasses");
+    if (!total){ chipsEl.innerHTML = '<span class="empty">no detections yet</span>'; }
+    else {
+      chipsEl.innerHTML = classNames.map(function(cls){
+        var ds = dets.filter(function(d){ return d.class===cls; });
+        var mc = ds.reduce(function(s,d){ return s+d.confidence; },0)/ds.length;
+        var col = colorOf[cls];
+        var stream = STREAM_BY_CLASS[cls] || "Dry-Recyclable";
+        return '<div class="chip" style="border-left-color:'+col+'">' +
+          '<div class="c-name">'+cls+'</div>' +
+          '<div class="c-stream">'+stream+'</div>' +
+          '<div class="c-count" style="color:'+col+'">'+ds.length+'&nbsp; · &nbsp;'+mc.toFixed(2)+' conf</div></div>';
+      }).join("");
+    }
+
+    // class distribution bars
+    var distEl = $("classDist");
+    if (!total){ distEl.innerHTML = '<span class="empty">no detections yet</span>'; }
+    else {
+      var maxN = Math.max.apply(null, classNames.map(function(c){ return counts[c]; }));
+      distEl.innerHTML = classNames.map(function(cls){
+        var w = (counts[cls]/maxN*100).toFixed(1);
+        var col = colorOf[cls];
+        return '<div class="bar-row"><span class="bname">'+cls+'</span>' +
+          '<span class="bar-track"><span class="bar-fill" style="width:'+w+'%;background:'+col+'"></span></span>' +
+          '<span class="bcount">'+counts[cls]+'</span></div>';
+      }).join("");
+    }
+
+    // detection table
+    var tw = $("detTableWrap");
+    if (!total){ tw.innerHTML = '<span class="empty">no detections yet</span>'; }
+    else {
+      var rows = classNames.map(function(cls){
+        var ds = dets.filter(function(d){ return d.class===cls; });
+        var n = ds.length;
+        var confs = ds.map(function(d){ return d.confidence; });
+        var mean = confs.reduce(function(s,v){ return s+v; },0)/n;
+        var mn = Math.min.apply(null, confs), mx = Math.max.apply(null, confs);
+        var px = ds.reduce(function(s,d){ return s+d.bbox_px; },0)/n;
+        var cov = ds.reduce(function(s,d){ return s+d.coverage; },0)*100;
+        return '<tr><td>'+cls+'</td><td class="num">'+n+'</td><td class="num">'+mean.toFixed(3)+'</td>' +
+          '<td class="num">'+mn.toFixed(3)+'</td><td class="num">'+mx.toFixed(3)+'</td>' +
+          '<td class="num">'+Math.round(px)+'</td><td class="num">'+cov.toFixed(2)+'</td></tr>';
+      }).join("");
+      tw.innerHTML = '<table class="det"><thead><tr><th>class</th><th>n</th><th>mean_conf</th>' +
+        '<th>min_conf</th><th>max_conf</th><th>mean_px</th><th>coverage_%</th></tr></thead><tbody>'+rows+'</tbody></table>';
+    }
+  }
+
+})();
+</script>
+</body>
+</html>
