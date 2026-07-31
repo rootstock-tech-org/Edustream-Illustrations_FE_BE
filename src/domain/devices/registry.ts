@@ -4,16 +4,17 @@ import { pmosDevice } from './pmos.device';
 import { cmosInverter } from './cmos-inverter.device';
 import { nand2 } from './nand2.device';
 import { mosfetDevice } from './mosfet.device';
+import { finfetDevice } from './finfet.device';
 
 /**
  * Device registry: id → definition. Order here IS the learning progression —
  * single transistors first (NMOS → PMOS), then the first gate built from them
  * (CMOS Inverter), then more complex gates. `hidden` devices stay registered
  * (and reachable by id / preset) but are kept out of the primary navigation.
- * `mosfetDevice` is appended last so it doesn't change the existing default
- * device or nav order for NMOS/PMOS/CMOS Inverter.
+ * `mosfetDevice`/`finfetDevice` are appended last so they don't change the
+ * existing default device or nav order for NMOS/PMOS/CMOS Inverter.
  */
-const DEVICES: readonly AnyDevice[] = [nmosDevice, pmosDevice, cmosInverter, nand2, mosfetDevice];
+const DEVICES: readonly AnyDevice[] = [nmosDevice, pmosDevice, cmosInverter, nand2, mosfetDevice, finfetDevice];
 
 const BY_ID = new Map(DEVICES.map((d) => [d.id, d]));
 
