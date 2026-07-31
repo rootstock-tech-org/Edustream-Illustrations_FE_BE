@@ -82,14 +82,17 @@ function Stage({ data }: { data: FinfetSceneData }) {
   const teaching = anatomy || learning;
 
   const finY = BOX_H + FIN_H / 2; // fin center height, sitting on the thin base band
-  const finLen = gl + 0.7; // fins run a bit past the gate on each side, so a sliver of bare fin shows
+  // terminalX only leaves gl/2+0.39 of room before the pad, so every offset
+  // below must fit inside that or it clips straight through the gate/oxide.
+  const finLen = gl + 0.3; // fins run a bit past the gate, exposing a bare sliver
+  const padW = 0.4; // narrow enough that the pad clears the fin tip, not the gate
   const padH = FIN_H + 0.3; // raised, merged epitaxial source/drain — taller than the bare fins
   const padZ = FIN_SPAN + 0.4; // pads are wide enough to cap both fins + the gap between them
   const gateZ = FIN_SPAN + 0.5;
   const gateH = FIN_H + 0.55;
   // conformal coat on each fin, slightly longer than the gate so a thin
   // liner shows right at its edges — not a slab spanning both fins.
-  const oxideLen = gl + 0.3;
+  const oxideLen = gl + 0.2;
   const oxideH = FIN_H + 0.05;
   const oxideT = FIN_T + 0.1;
 
@@ -132,12 +135,12 @@ function Stage({ data }: { data: FinfetSceneData }) {
 
       {/* raised n+ source / drain — wide pads merging both fins' ends */}
       <mesh position={[-tx, BOX_H + padH / 2, 0]}>
-        <boxGeometry args={[0.9, padH, padZ]} />
+        <boxGeometry args={[padW, padH, padZ]} />
         <meshStandardMaterial color={nplus} emissive={nplus} emissiveIntensity={0.2 + data.visual.activity * 0.3} roughness={0.5} metalness={0.05} />
         <Edges threshold={15} color={edge} />
       </mesh>
       <mesh position={[tx, BOX_H + padH / 2, 0]}>
-        <boxGeometry args={[0.9, padH, padZ]} />
+        <boxGeometry args={[padW, padH, padZ]} />
         <meshStandardMaterial color={nplus} emissive={nplus} emissiveIntensity={0.2 + data.visual.activity * 0.3} roughness={0.5} metalness={0.05} />
         <Edges threshold={15} color={edge} />
       </mesh>
@@ -167,11 +170,19 @@ function Stage({ data }: { data: FinfetSceneData }) {
         <Edges threshold={15} color={edge} />
       </mesh>
 
-      {/* the gate — ONE slab crossing over both fins, wrapping their exposed faces */}
+      {/* the gate — ONE slab crossing over both fins; glassy so the fin is
+          visible passing straight through it, making the wraparound obvious */}
       <group>
         <mesh position={[0, BOX_H + gateH / 2, 0]}>
           <boxGeometry args={[gl + 0.05, gateH, gateZ]} />
-          <meshStandardMaterial color={poly} metalness={0.5} roughness={0.45} />
+          <meshStandardMaterial
+            color={poly}
+            transparent
+            opacity={0.5}
+            roughness={0.15}
+            metalness={0.2}
+            depthWrite={false}
+          />
           <Edges threshold={15} color={edge} />
         </mesh>
         <mesh position={[0, BOX_H + gateH + 0.09, 0]}>
@@ -201,13 +212,13 @@ function Stage({ data }: { data: FinfetSceneData }) {
           regions instead. */}
       {!teaching && (
         <>
-          <CalloutLabel anchor={[0, BOX_H + gateH, 0.3]} position={[0, BOX_H + gateH + 1.0, 0.5]}>{chip('Gate')}</CalloutLabel>
-          <CalloutLabel anchor={[-tx, BOX_H + padH, 0.3]} position={[-tx - 1.0, BOX_H + padH + 0.6, 1.1]}>{chip('Source')}</CalloutLabel>
-          <CalloutLabel anchor={[tx, BOX_H + padH, 0.3]} position={[tx + 1.0, BOX_H + padH + 0.6, 1.1]}>{chip('Drain')}</CalloutLabel>
-          <CalloutLabel anchor={[gl / 2 + 0.3, finY, (FIN_T + FIN_GAP) / 2]} position={[gl / 2 + 1.3, finY + 1.1, 1.7]}>{chip('Fin')}</CalloutLabel>
-          <CalloutLabel anchor={[0, finY, (FIN_T + FIN_GAP) / 2]} position={[-(gl / 2 + 1.1), finY + 1.0, 1.6]}>{chip('Channel region')}</CalloutLabel>
-          <CalloutLabel anchor={[gl / 2 + 0.15, BOX_H + oxideH / 2, -(FIN_T + FIN_GAP) / 2]} position={[gl / 2 + 1.2, BOX_H + 0.5, -1.6]}>{chip('Gate oxide')}</CalloutLabel>
-          <CalloutLabel anchor={[0, -BULK_H + 0.2, 0]} position={[0, -BULK_H - 0.6, 0]}>{chip('Bulk')}</CalloutLabel>
+          <CalloutLabel anchor={[0, BOX_H + gateH, 0.3]} position={[0, BOX_H + gateH + 0.7, 0.5]}>{chip('Gate')}</CalloutLabel>
+          <CalloutLabel anchor={[-tx, BOX_H + padH, 0.3]} position={[-tx - 0.55, BOX_H + padH + 0.5, 0.7]}>{chip('Source')}</CalloutLabel>
+          <CalloutLabel anchor={[tx, BOX_H + padH, 0.3]} position={[tx + 0.55, BOX_H + padH + 0.5, 0.7]}>{chip('Drain')}</CalloutLabel>
+          <CalloutLabel anchor={[gl / 2 + 0.13, finY, (FIN_T + FIN_GAP) / 2]} position={[gl / 2 + 0.75, finY + 0.7, 1.0]}>{chip('Fin')}</CalloutLabel>
+          <CalloutLabel anchor={[0, finY, (FIN_T + FIN_GAP) / 2]} position={[-(gl / 2 + 0.7), finY + 0.65, 1.0]}>{chip('Channel region')}</CalloutLabel>
+          <CalloutLabel anchor={[gl / 2 + 0.06, BOX_H + oxideH / 2, -(FIN_T + FIN_GAP) / 2]} position={[gl / 2 + 0.75, BOX_H + 0.4, -0.9]}>{chip('Gate oxide')}</CalloutLabel>
+          <CalloutLabel anchor={[0, -BULK_H + 0.2, 0]} position={[0, -BULK_H - 0.4, 0]}>{chip('Bulk')}</CalloutLabel>
           <CalloutLabel anchor={[0, -BULK_H / 2, -(depth + 0.6) / 2 + 0.1]} position={[0, -BULK_H / 2, -(depth + 0.6) / 2 + 0.1]} leader={false}>{chip('P-Type')}</CalloutLabel>
         </>
       )}
