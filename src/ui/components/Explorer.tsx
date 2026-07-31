@@ -22,6 +22,7 @@ import { GraphPanel } from '@/viz/graph/GraphPanel';
 import { TransistorGraphPanel } from '@/viz/graph/TransistorGraphPanel';
 import { DeviceSceneCard } from '@/viz/three/DeviceSceneCard';
 import { SingleTransistorCard } from '@/viz/three/SingleTransistorCard';
+import { MosfetSceneCard } from '@/viz/three/MosfetSceneCard';
 import { FabricationSection } from './FabricationSection';
 
 type Tab = 'explore' | 'analyze' | 'variation' | 'learn';
@@ -132,7 +133,7 @@ export function Explorer() {
         <div className="flex min-h-0 flex-col gap-3 overflow-y-auto xl:grid xl:grid-cols-[minmax(0,1fr)_344px] xl:overflow-hidden">
           {/* CENTER — the device bench */}
           <section className="relative min-h-[22rem] shrink-0 overflow-hidden rounded-2xl glass xl:min-h-0">
-          {isTransistor ? <SingleTransistorCard /> : <DeviceSceneCard />}
+          {device.id === 'mosfet' ? <MosfetSceneCard /> : isTransistor ? <SingleTransistorCard /> : <DeviceSceneCard />}
 
           {/* stage toolbar */}
           <div className="absolute left-3 top-3 flex gap-2">
