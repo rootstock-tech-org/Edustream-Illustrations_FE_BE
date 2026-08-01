@@ -12,6 +12,9 @@ export interface Concept {
 const CONCEPTS: readonly Concept[] = [
   { id: 'cmos-inverter', term: 'CMOS Inverter', summary: 'Complementary NMOS/PMOS pair: the input drives both gates; exactly one network conducts in steady state, giving rail-to-rail output and near-zero static current.' },
   { id: 'nand-gate', term: 'NAND Gate', summary: 'Series NMOS pull-down and parallel PMOS pull-up. Output is low only when all inputs are high; the series stack reduces pull-down drive versus an inverter.' },
+  { id: 'nor-gate', term: 'NOR Gate', summary: 'Parallel NMOS pull-down and series PMOS pull-up. Output is high only when all inputs are low; the series pull-up stack reduces pull-up drive versus an inverter.' },
+  { id: 'and-gate', term: 'AND Gate', summary: 'Static CMOS cannot invert twice in one stage, so AND = NAND followed by an inverter. Stage 1 (series NMOS / parallel PMOS) computes NOT(A·B); stage 2 inverts it back to A·B.' },
+  { id: 'or-gate', term: 'OR Gate', summary: 'OR = NOR followed by an inverter. Stage 1 (parallel NMOS / series PMOS) computes NOT(A+B); stage 2 inverts it back to A+B.' },
   { id: 'threshold-voltage', term: 'Threshold Voltage', summary: 'Gate-source voltage at which a conducting channel forms. Raised by reverse body bias and substrate doping; falls slightly with temperature.' },
   { id: 'saturation-region', term: 'Saturation Region', summary: 'V_DS ≥ V_GS − V_th: the channel pinches off and current depends mainly on gate overdrive, only weakly on V_DS.' },
   { id: 'triode-region', term: 'Triode Region', summary: 'V_DS < V_GS − V_th: the channel behaves like a voltage-controlled resistor.' },

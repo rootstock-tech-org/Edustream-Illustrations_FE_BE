@@ -3,13 +3,6 @@ import { create } from 'zustand';
 export type Theme = 'light' | 'dark';
 
 function readInitial(): Theme {
-  if (typeof window === 'undefined') return 'light';
-  try {
-    const s = localStorage.getItem('theme');
-    if (s === 'dark' || s === 'light') return s;
-  } catch {
-    /* ignore */
-  }
   return 'light';
 }
 

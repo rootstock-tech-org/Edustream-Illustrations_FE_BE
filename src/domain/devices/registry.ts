@@ -3,6 +3,8 @@ import { nmosDevice } from './nmos.device';
 import { pmosDevice } from './pmos.device';
 import { cmosInverter } from './cmos-inverter.device';
 import { nand2 } from './nand2.device';
+import { and2 } from './and2.device';
+import { or2 } from './or2.device';
 import { mosfetDevice } from './mosfet.device';
 import { finfetDevice } from './finfet.device';
 
@@ -14,7 +16,7 @@ import { finfetDevice } from './finfet.device';
  * `mosfetDevice`/`finfetDevice` are appended last so they don't change the
  * existing default device or nav order for NMOS/PMOS/CMOS Inverter.
  */
-const DEVICES: readonly AnyDevice[] = [nmosDevice, pmosDevice, cmosInverter, nand2, mosfetDevice, finfetDevice];
+const DEVICES: readonly AnyDevice[] = [nmosDevice, pmosDevice, cmosInverter, nand2, and2, or2, mosfetDevice, finfetDevice];
 
 const BY_ID = new Map(DEVICES.map((d) => [d.id, d]));
 

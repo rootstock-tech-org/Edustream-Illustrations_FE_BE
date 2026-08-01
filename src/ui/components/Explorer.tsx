@@ -24,7 +24,10 @@ import { DeviceSceneCard } from '@/viz/three/DeviceSceneCard';
 import { SingleTransistorCard } from '@/viz/three/SingleTransistorCard';
 import { MosfetSceneCard } from '@/viz/three/MosfetSceneCard';
 import { FinfetSceneCard } from '@/viz/three/FinfetSceneCard';
+import { GateSceneCard } from '@/viz/three/GateSceneCard';
 import { FabricationSection } from './FabricationSection';
+import { SequentialLogicSection } from './sequential/SequentialLogicSection';
+import { CombinationalLogicSection } from './combinational/CombinationalLogicSection';
 
 type Tab = 'explore' | 'analyze' | 'variation' | 'learn';
 const TABS: ReadonlyArray<{ id: Tab; label: string }> = [
@@ -51,6 +54,8 @@ export function Explorer() {
   const [tab, setTab] = useState<Tab>('explore');
   const [inspected, setInspected] = useState<{ title: string; explanation: Explanation } | null>(null);
   const [fabOpen, setFabOpen] = useState(false);
+  const [seqOpen, setSeqOpen] = useState(false);
+  const [combOpen, setCombOpen] = useState(false);
 
   const crossSection = useLabModes((s) => s.crossSection);
   const setCrossSection = useLabModes((s) => s.setCrossSection);
@@ -62,8 +67,10 @@ export function Explorer() {
 
   const onInspect = (title: string, explanation: Explanation) => setInspected({ title, explanation });
 
-  // Fabrication walkthrough fully replaces the bench while open.
+  // Fabrication walkthrough / Sequential Logic lab / Combinational Logic lab each fully replace the bench while open.
   if (fabOpen) return <FabricationSection onClose={() => setFabOpen(false)} />;
+  if (seqOpen) return <SequentialLogicSection onClose={() => setSeqOpen(false)} />;
+  if (combOpen) return <CombinationalLogicSection onClose={() => setCombOpen(false)} />;
 
   return (
     <main className="flex h-[100dvh] flex-col gap-3 overflow-hidden p-3 md:p-4">
@@ -82,6 +89,18 @@ export function Explorer() {
             className="rounded-lg bg-brand px-3 py-1.5 text-sm font-medium text-white shadow-[0_0_18px_var(--accent-glow)] transition hover:opacity-90"
           >
             Fabrication
+          </button>
+          <button
+            onClick={() => setSeqOpen(true)}
+            className="rounded-lg bg-brand px-3 py-1.5 text-sm font-medium text-white shadow-[0_0_18px_var(--accent-glow)] transition hover:opacity-90"
+          >
+            Sequential Logic
+          </button>
+          <button
+            onClick={() => setCombOpen(true)}
+            className="rounded-lg bg-brand px-3 py-1.5 text-sm font-medium text-white shadow-[0_0_18px_var(--accent-glow)] transition hover:opacity-90"
+          >
+            Combinational Logic
           </button>
           <DevicePicker />
           <ThemeToggle />
@@ -134,7 +153,17 @@ export function Explorer() {
         <div className="flex min-h-0 flex-col gap-3 overflow-y-auto xl:grid xl:grid-cols-[minmax(0,1fr)_344px] xl:overflow-hidden">
           {/* CENTER — the device bench */}
           <section className="relative min-h-[22rem] shrink-0 overflow-hidden rounded-2xl glass xl:min-h-0">
-          {device.id === 'mosfet' ? <MosfetSceneCard /> : device.id === 'finfet' ? <FinfetSceneCard /> : isTransistor ? <SingleTransistorCard /> : <DeviceSceneCard />}
+          {device.id === 'mosfet' ? (
+            <MosfetSceneCard />
+          ) : device.id === 'finfet' ? (
+            <FinfetSceneCard />
+          ) : device.id === 'and2' || device.id === 'or2' ? (
+            <GateSceneCard />
+          ) : isTransistor ? (
+            <SingleTransistorCard />
+          ) : (
+            <DeviceSceneCard />
+          )}
 
           {/* stage toolbar */}
           <div className="absolute left-3 top-3 flex gap-2">

@@ -123,6 +123,51 @@ body::before {
     border-color: var(--accent-glow);
     box-shadow: var(--glass-shadow), 0 0 24px var(--aurora-2);
   }
+  /* Ambient "current flowing" marching-ants on circuit wires (sequential logic
+     diagrams) — gives the schematic constant, gentle motion at rest. */
+  .wire-flow {
+    stroke-dasharray: 5 5;
+    animation: wire-flow 900ms linear infinite;
+  }
+  /* A brief bright flash on a gate/box when a signal reaches it — staggered
+     via inline animation-delay to sweep left-to-right through the circuit. */
+  .gate-flash {
+    animation: gate-flash 650ms ease-out;
+  }
+  /* Bounce applied to the Q/Q̄ badge the instant it flips. */
+  .node-pop {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: node-pop 420ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+}
+
+@keyframes wire-flow {
+  to {
+    stroke-dashoffset: -20;
+  }
+}
+@keyframes gate-flash {
+  0% {
+    filter: none;
+  }
+  35% {
+    filter: drop-shadow(0 0 7px var(--accent-glow));
+  }
+  100% {
+    filter: none;
+  }
+}
+@keyframes node-pop {
+  0% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.22);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 input[type='range'] {
