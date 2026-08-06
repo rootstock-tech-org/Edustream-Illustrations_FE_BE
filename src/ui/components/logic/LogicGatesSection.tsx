@@ -125,7 +125,7 @@ function GateFigure({ def, a, b, out }: { def: GateDef; a: boolean; b: boolean; 
   ];
   const gates: Gate3DSpec[] = [{ kind: def.kind, gx, gy, high: out }];
 
-  return <Schematic3D width={W} height={H} gates={gates} wires={wires} labels={labels} spanWorld={7.5} className="h-[160px] w-full" />;
+  return <Schematic3D width={W} height={H} gates={gates} wires={wires} labels={labels} spanWorld={7.5} flow staticView className="h-[160px] w-full" />;
 }
 
 /** Reference-style truth table with a grouped INPUT / OUTPUT header. */

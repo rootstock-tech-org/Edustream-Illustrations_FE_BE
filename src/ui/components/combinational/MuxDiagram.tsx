@@ -76,5 +76,5 @@ export function MuxDiagram({
     { x: xE, y: 288, text: 'E', bold: true },
   ];
 
-  return <Schematic3DLazy width={384} height={300} gates={gates} wires={wires} labels={labels} spanWorld={13} className="h-[300px] w-full" />;
+  return <Schematic3DLazy width={384} height={300} gates={gates} wires={wires} labels={labels} spanWorld={13} flow staticView className="h-[300px] w-full" />;
 }

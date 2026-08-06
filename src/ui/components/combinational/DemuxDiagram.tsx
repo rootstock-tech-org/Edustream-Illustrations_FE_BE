@@ -63,5 +63,5 @@ export function DemuxDiagram({
     ...andY.map((ay, i) => ({ x: gx + 92, y: ay + 20, text: eqn[i]!, bold: true })),
   ];
 
-  return <Schematic3DLazy width={452} height={300} gates={gates} wires={wires} labels={labels} spanWorld={15} className="h-[300px] w-full" />;
+  return <Schematic3DLazy width={452} height={300} gates={gates} wires={wires} labels={labels} spanWorld={15} flow staticView className="h-[300px] w-full" />;
 }

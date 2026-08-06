@@ -49,5 +49,5 @@ export function DFlipFlopDiagram({
     { x: 320, y: 64, text: 'Q', bold: true },
     { x: 320, y: 130, text: 'Q̄', bold: true },
   ];
-  return <Schematic3DLazy width={340} height={200} gates={gates} wires={wires} labels={labels} spanWorld={11.5} className="h-[230px] w-full" />;
+  return <Schematic3DLazy width={340} height={200} gates={gates} wires={wires} labels={labels} spanWorld={11.5} flow staticView className="h-[230px] w-full" />;
 }
