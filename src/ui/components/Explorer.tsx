@@ -22,7 +22,6 @@ import { GraphPanel } from '@/viz/graph/GraphPanel';
 import { TransistorGraphPanel } from '@/viz/graph/TransistorGraphPanel';
 import { DeviceSceneCard } from '@/viz/three/DeviceSceneCard';
 import { SingleTransistorCard } from '@/viz/three/SingleTransistorCard';
-
 import dynamic from 'next/dynamic';
 
 const MosfetScene3D = dynamic(() => import('@/viz/three/MosfetScene3D').then((m) => m.MosfetScene3D), {
@@ -57,9 +56,11 @@ const TABS: ReadonlyArray<{ id: Tab; label: string }> = [
 export function Explorer() {
   const { device, values, setParameter } = useDevice();
   const isTransistor = device.kind === 'transistor';
-  // MOSFET/FinFET tabs show a static labeled reference figure, so the live
-  // stage aids (cross-section toggle, L/W readout, CMOS nav schematic) are hidden.
-  const showStageAids = device.id !== 'mosfet' && device.id !== 'finfet';
+  // The CMOS-inverter nav schematic only makes sense for the inverter-family
+  // devices; the standalone MOSFET/FinFET stages hide it but keep the
+  // cross-section toggle + L/W readout (they respond to the parameter sliders).
+  const showStageAids = true;
+  const showSchematic = device.id !== 'mosfet' && device.id !== 'finfet';
   const lLabel = formatLength(Number(values.L));
   const wLabel = formatLength(Number(values.W));
   const gateResult = useGateResult();
@@ -175,13 +176,9 @@ export function Explorer() {
           {/* CENTER — the device bench */}
           <section className="relative min-h-[22rem] shrink-0 overflow-hidden rounded-2xl glass xl:min-h-0">
           {device.id === 'mosfet' ? (
-            <div className="h-full w-full">
-              <MosfetScene3D />
-            </div>
+            <MosfetScene3D />
           ) : device.id === 'finfet' ? (
-            <div className="h-full w-full">
-              <FinfetScene3D />
-            </div>
+            <FinfetScene3D />
           ) : device.id === 'and2' || device.id === 'or2' ? (
             <GateSceneCard />
           ) : isTransistor ? (
@@ -214,7 +211,7 @@ export function Explorer() {
 
           {/* CMOS schematic — connectivity reference + navigation aid (borderless,
               floats cleanly on the stage) */}
-          {showStageAids && (
+          {showSchematic && (
             <div className="pointer-events-none absolute right-3 top-3 w-[150px]">
               <p className="eyebrow mb-1 text-center text-[8px] text-ink-muted">Circuit · tap a device</p>
               <div className="pointer-events-auto">
