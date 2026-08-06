@@ -32,15 +32,25 @@ const GATE_HL = 0.72; // half gate length along the fin
 const GATE_TOP = 1.78;
 
 function Box({
-  x0, x1, y0, y1, z0, z1, color, opacity = 1, roughness = 0.6, metalness = 0.08,
+  x0, x1, y0, y1, z0, z1, color, opacity = 1, roughness = 0.6, metalness = 0.08, pushBack = false,
 }: {
   x0: number; x1: number; y0: number; y1: number; z0: number; z1: number;
-  color: string; opacity?: number; roughness?: number; metalness?: number;
+  color: string; opacity?: number; roughness?: number; metalness?: number; pushBack?: boolean;
 }) {
   return (
     <mesh position={[(x0 + x1) / 2, (y0 + y1) / 2, (z0 + z1) / 2]}>
       <boxGeometry args={[x1 - x0, y1 - y0, z1 - z0]} />
-      <meshStandardMaterial color={color} transparent={opacity < 1} opacity={opacity} roughness={roughness} metalness={metalness} depthWrite={opacity >= 1} />
+      <meshStandardMaterial
+        color={color}
+        transparent={opacity < 1}
+        opacity={opacity}
+        roughness={roughness}
+        metalness={metalness}
+        depthWrite={opacity >= 1}
+        polygonOffset={pushBack}
+        polygonOffsetFactor={pushBack ? 1 : 0}
+        polygonOffsetUnits={pushBack ? 1 : 0}
+      />
       <Edges threshold={15} color={C.edge} />
     </mesh>
   );
@@ -64,9 +74,9 @@ function Stage() {
       <pointLight position={[-6, 3, 5]} intensity={14} color="#dfe8ff" />
 
       {/* silicon substrate */}
-      <Box x0={-SUB_HALF} x1={SUB_HALF} y0={SUB_BOT} y1={0} z0={-SUB_HALF} z1={SUB_HALF} color={C.substrate} roughness={0.85} />
+      <Box x0={-SUB_HALF} x1={SUB_HALF} y0={SUB_BOT} y1={0} z0={-SUB_HALF} z1={SUB_HALF} color={C.substrate} roughness={0.85} pushBack />
       {/* orange gate-oxide layer */}
-      <Box x0={-SUB_HALF} x1={SUB_HALF} y0={0} y1={OX_TOP} z0={-SUB_HALF} z1={SUB_HALF} color={C.oxide} roughness={0.5} />
+      <Box x0={-SUB_HALF} x1={SUB_HALF} y0={0} y1={OX_TOP} z0={-SUB_HALF} z1={SUB_HALF} color={C.oxide} roughness={0.5} pushBack />
       {/* silicon fin */}
       <Box x0={-FIN_HW} x1={FIN_HW} y0={OX_TOP} y1={FIN_TOP} z0={-FIN_LEN} z1={FIN_LEN} color={C.fin} roughness={0.6} />
       {/* blue gate wrapping the fin */}
@@ -115,7 +125,7 @@ export function FinfetScene3D() {
   const light = useThemeStore((s) => s.theme === 'light');
   const bg = light ? '#eef1f5' : '#0e1116';
   return (
-    <Canvas camera={{ position: [6.5, 4.2, 7.6], fov: 42 }} dpr={[1, 2]} gl={{ antialias: true }}>
+    <Canvas frameloop="demand" camera={{ position: [6.5, 4.2, 7.6], fov: 42 }} dpr={[1, 2]} gl={{ antialias: true }}>
       <color attach="background" args={[bg]} />
       <Stage />
     </Canvas>

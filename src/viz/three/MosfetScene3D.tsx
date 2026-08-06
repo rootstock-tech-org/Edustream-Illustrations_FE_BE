@@ -38,10 +38,10 @@ const PAD_W = 0.55;
 const PAD_H = 0.3;
 
 function Box({
-  x0, x1, y0, y1, z0, z1, color, opacity = 1, emissive, emissiveIntensity = 0, edge = true, roughness = 0.6, metalness = 0.05,
+  x0, x1, y0, y1, z0, z1, color, opacity = 1, emissive, emissiveIntensity = 0, edge = true, roughness = 0.6, metalness = 0.05, pushBack = false,
 }: {
   x0: number; x1: number; y0: number; y1: number; z0: number; z1: number;
-  color: string; opacity?: number; emissive?: string; emissiveIntensity?: number; edge?: boolean; roughness?: number; metalness?: number;
+  color: string; opacity?: number; emissive?: string; emissiveIntensity?: number; edge?: boolean; roughness?: number; metalness?: number; pushBack?: boolean;
 }) {
   return (
     <mesh position={[(x0 + x1) / 2, (y0 + y1) / 2, (z0 + z1) / 2]}>
@@ -55,6 +55,9 @@ function Box({
         roughness={roughness}
         metalness={metalness}
         depthWrite={opacity >= 1}
+        polygonOffset={pushBack}
+        polygonOffsetFactor={pushBack ? 1 : 0}
+        polygonOffsetUnits={pushBack ? 1 : 0}
       />
       {edge && <Edges threshold={15} color={C.edge} />}
     </mesh>
@@ -80,10 +83,11 @@ function Stage() {
       <pointLight position={[-6, 3, 5]} intensity={14} color="#dfe8ff" />
 
       {/* p-type substrate (body) */}
-      <Box x0={-SUB_X} x1={SUB_X} y0={SUB_BOT} y1={0} z0={-ZH} z1={ZH} color={C.substrate} roughness={0.8} />
+      <Box x0={-SUB_X} x1={SUB_X} y0={SUB_BOT} y1={0} z0={-ZH} z1={ZH} color={C.substrate} roughness={0.8} pushBack />
 
-      {/* depletion region — translucent shell under the junctions/channel */}
-      <Box x0={-NP_OUT + 0.15} x1={NP_OUT - 0.15} y0={-0.95} y1={-0.04} z0={-ZH} z1={ZH} color={C.depletion} opacity={0.16} edge={false} />
+      {/* depletion region — translucent shell under the junctions/channel;
+         pulled slightly proud of the front face so it never z-fights the n+ */}
+      <Box x0={-NP_OUT + 0.15} x1={NP_OUT - 0.15} y0={-0.95} y1={-0.04} z0={-ZH - 0.012} z1={ZH + 0.012} color={C.depletion} opacity={0.16} edge={false} />
 
       {/* n+ source / drain diffusions */}
       <Box x0={-NP_OUT} x1={-NP_IN} y0={N_DEPTH} y1={0} z0={-ZH} z1={ZH} color={C.n} />
@@ -102,9 +106,6 @@ function Stage() {
       <Box x0={-DRAIN_CX - PAD_W / 2} x1={-DRAIN_CX + PAD_W / 2} y0={0} y1={PAD_H} z0={-ZH * 0.6} z1={ZH * 0.6} color={C.metal} roughness={0.35} metalness={0.5} />
       <Box x0={DRAIN_CX - PAD_W / 2} x1={DRAIN_CX + PAD_W / 2} y0={0} y1={PAD_H} z0={-ZH * 0.6} z1={ZH * 0.6} color={C.metal} roughness={0.35} metalness={0.5} />
 
-      {/* body contact underneath */}
-      <Box x0={-0.45} x1={0.45} y0={SUB_BOT - 0.18} y1={SUB_BOT} z0={-ZH * 0.5} z1={ZH * 0.5} color={C.metal} roughness={0.35} metalness={0.5} />
-
       {/* L (channel length) dimension bracket above the gate */}
       <Line points={[[-GH, OX_H + GATE_H + 0.35, zf], [GH, OX_H + GATE_H + 0.35, zf]]} color={C.edge} lineWidth={1.4} />
       <Line points={[[-GH, OX_H + GATE_H, zf], [-GH, OX_H + GATE_H + 0.35, zf]]} color={C.edge} lineWidth={1.4} />
@@ -122,7 +123,6 @@ function Stage() {
       <CalloutLabel anchor={[0, -0.03, zf]} position={[-GH - 1.1, -0.6, ZH + 0.5]}>{chip('Channel region')}</CalloutLabel>
       <CalloutLabel anchor={[NP_OUT - 0.4, -0.55, zf]} position={[SUB_X + 0.8, -0.7, ZH + 0.3]}>{chip('Depletion region')}</CalloutLabel>
       <CalloutLabel anchor={[0, SUB_BOT * 0.45, zf]} position={[0, SUB_BOT * 0.45, zf]} leader={false}>{chip('p-type substrate (Body)', true)}</CalloutLabel>
-      <CalloutLabel anchor={[0, SUB_BOT - 0.18, 0]} position={[0, SUB_BOT - 0.7, 0]}>{chip('Body')}</CalloutLabel>
 
       <OrbitControls
         makeDefault
@@ -143,7 +143,7 @@ export function MosfetScene3D() {
   const light = useThemeStore((s) => s.theme === 'light');
   const bg = light ? '#eef1f5' : '#0e1116';
   return (
-    <Canvas camera={{ position: [5.2, 3.6, 8.4], fov: 42 }} dpr={[1, 2]} gl={{ antialias: true }}>
+    <Canvas frameloop="demand" camera={{ position: [5.2, 3.6, 8.4], fov: 42 }} dpr={[1, 2]} gl={{ antialias: true }}>
       <color attach="background" args={[bg]} />
       <Stage />
     </Canvas>
