@@ -1,0 +1,151 @@
+'use client';
+import { Canvas } from '@react-three/fiber';
+import { OrbitControls, Edges, Line } from '@react-three/drei';
+import { CalloutLabel } from './CalloutLabel';
+import { useThemeStore } from '@/ui/theme';
+
+/**
+ * MOSFET 3D illustration — a labelled, rotatable three.js reproduction of the
+ * reference cross-section (page 4): p-type substrate, two n⁺ diffusions, the
+ * channel + gate-oxide + metal gate stack, Source/Gate/Drain terminals, the
+ * body contact, the depletion region and the L (channel-length) dimension.
+ * Fixed geometry — a clean teaching figure, not tied to the live simulation.
+ */
+
+const C = {
+  substrate: '#f2d79a',
+  n: '#a9c7e0',
+  channel: '#7fd8ff',
+  oxide: '#dcecf5',
+  metal: '#565f6b',
+  depletion: '#c9822f',
+  edge: '#1f2937',
+};
+
+// device dimensions (three.js: X = width, Y = up, Z = depth)
+const ZH = 1.15; // half depth
+const GH = 1.0; // half gate/channel length
+const OX_HALF = 1.4;
+const OX_H = 0.16;
+const GATE_H = 0.36;
+const SUB_BOT = -1.6;
+const NP_IN = 1.28;
+const NP_OUT = 2.68;
+const N_DEPTH = -0.62;
+const SUB_X = NP_OUT + 0.55;
+const DRAIN_CX = (NP_IN + NP_OUT) / 2;
+const PAD_W = 0.55;
+const PAD_H = 0.3;
+
+function Box({
+  x0, x1, y0, y1, z0, z1, color, opacity = 1, emissive, emissiveIntensity = 0, edge = true, roughness = 0.6, metalness = 0.05,
+}: {
+  x0: number; x1: number; y0: number; y1: number; z0: number; z1: number;
+  color: string; opacity?: number; emissive?: string; emissiveIntensity?: number; edge?: boolean; roughness?: number; metalness?: number;
+}) {
+  return (
+    <mesh position={[(x0 + x1) / 2, (y0 + y1) / 2, (z0 + z1) / 2]}>
+      <boxGeometry args={[x1 - x0, y1 - y0, z1 - z0]} />
+      <meshStandardMaterial
+        color={color}
+        transparent={opacity < 1}
+        opacity={opacity}
+        emissive={emissive ?? '#000000'}
+        emissiveIntensity={emissiveIntensity}
+        roughness={roughness}
+        metalness={metalness}
+        depthWrite={opacity >= 1}
+      />
+      {edge && <Edges threshold={15} color={C.edge} />}
+    </mesh>
+  );
+}
+
+const chip = (text: string, bold = false) => (
+  <span
+    className={`select-none whitespace-nowrap rounded-md bg-black/70 px-2 py-0.5 text-[9px] text-white ring-1 ring-white/10 backdrop-blur-sm ${
+      bold ? 'font-bold' : ''
+    }`}
+  >
+    {text}
+  </span>
+);
+
+function Stage() {
+  const zf = ZH + 0.001; // front face (toward viewer)
+  return (
+    <>
+      <ambientLight intensity={0.75} />
+      <directionalLight position={[4, 9, 8]} intensity={2.6} />
+      <pointLight position={[-6, 3, 5]} intensity={14} color="#dfe8ff" />
+
+      {/* p-type substrate (body) */}
+      <Box x0={-SUB_X} x1={SUB_X} y0={SUB_BOT} y1={0} z0={-ZH} z1={ZH} color={C.substrate} roughness={0.8} />
+
+      {/* depletion region — translucent shell under the junctions/channel */}
+      <Box x0={-NP_OUT + 0.15} x1={NP_OUT - 0.15} y0={-0.95} y1={-0.04} z0={-ZH} z1={ZH} color={C.depletion} opacity={0.16} edge={false} />
+
+      {/* n+ source / drain diffusions */}
+      <Box x0={-NP_OUT} x1={-NP_IN} y0={N_DEPTH} y1={0} z0={-ZH} z1={ZH} color={C.n} />
+      <Box x0={NP_IN} x1={NP_OUT} y0={N_DEPTH} y1={0} z0={-ZH} z1={ZH} color={C.n} />
+
+      {/* channel region */}
+      <Box x0={-GH} x1={GH} y0={-0.06} y1={0} z0={-ZH} z1={ZH} color={C.channel} emissive={C.channel} emissiveIntensity={0.5} edge={false} />
+
+      {/* gate oxide (overhangs the channel) */}
+      <Box x0={-OX_HALF} x1={OX_HALF} y0={0} y1={OX_H} z0={-ZH} z1={ZH} color={C.oxide} opacity={0.85} roughness={0.3} />
+
+      {/* metal gate */}
+      <Box x0={-GH} x1={GH} y0={OX_H} y1={OX_H + GATE_H} z0={-ZH} z1={ZH} color={C.metal} roughness={0.35} metalness={0.5} />
+
+      {/* source / drain contact pads */}
+      <Box x0={-DRAIN_CX - PAD_W / 2} x1={-DRAIN_CX + PAD_W / 2} y0={0} y1={PAD_H} z0={-ZH * 0.6} z1={ZH * 0.6} color={C.metal} roughness={0.35} metalness={0.5} />
+      <Box x0={DRAIN_CX - PAD_W / 2} x1={DRAIN_CX + PAD_W / 2} y0={0} y1={PAD_H} z0={-ZH * 0.6} z1={ZH * 0.6} color={C.metal} roughness={0.35} metalness={0.5} />
+
+      {/* body contact underneath */}
+      <Box x0={-0.45} x1={0.45} y0={SUB_BOT - 0.18} y1={SUB_BOT} z0={-ZH * 0.5} z1={ZH * 0.5} color={C.metal} roughness={0.35} metalness={0.5} />
+
+      {/* L (channel length) dimension bracket above the gate */}
+      <Line points={[[-GH, OX_H + GATE_H + 0.35, zf], [GH, OX_H + GATE_H + 0.35, zf]]} color={C.edge} lineWidth={1.4} />
+      <Line points={[[-GH, OX_H + GATE_H, zf], [-GH, OX_H + GATE_H + 0.35, zf]]} color={C.edge} lineWidth={1.4} />
+      <Line points={[[GH, OX_H + GATE_H, zf], [GH, OX_H + GATE_H + 0.35, zf]]} color={C.edge} lineWidth={1.4} />
+
+      {/* labels */}
+      <CalloutLabel anchor={[-DRAIN_CX, PAD_H, zf]} position={[-DRAIN_CX - 0.4, 1.5, ZH + 0.6]}>{chip('Source (S)', true)}</CalloutLabel>
+      <CalloutLabel anchor={[0, OX_H + GATE_H, zf]} position={[0, 2.0, ZH + 0.6]}>{chip('Gate (G)', true)}</CalloutLabel>
+      <CalloutLabel anchor={[DRAIN_CX, PAD_H, zf]} position={[DRAIN_CX + 0.4, 1.5, ZH + 0.6]}>{chip('Drain (D)', true)}</CalloutLabel>
+      <CalloutLabel anchor={[0, OX_H + GATE_H + 0.35, zf]} position={[0, OX_H + GATE_H + 1.0, ZH + 0.3]} leader={false}>{chip('L', true)}</CalloutLabel>
+      <CalloutLabel anchor={[GH * 0.6, OX_H + GATE_H / 2, ZH]} position={[SUB_X + 0.7, OX_H + GATE_H + 0.2, ZH]}>{chip('Metal')}</CalloutLabel>
+      <CalloutLabel anchor={[OX_HALF - 0.05, OX_H / 2, ZH]} position={[SUB_X + 0.9, OX_H, ZH]}>{chip('Oxide (SiO₂)')}</CalloutLabel>
+      <CalloutLabel anchor={[-DRAIN_CX, N_DEPTH / 2, zf]} position={[-DRAIN_CX, N_DEPTH / 2, zf]} leader={false}>{chip('n+')}</CalloutLabel>
+      <CalloutLabel anchor={[DRAIN_CX, N_DEPTH / 2, zf]} position={[DRAIN_CX, N_DEPTH / 2, zf]} leader={false}>{chip('n+')}</CalloutLabel>
+      <CalloutLabel anchor={[0, -0.03, zf]} position={[-GH - 1.1, -0.6, ZH + 0.5]}>{chip('Channel region')}</CalloutLabel>
+      <CalloutLabel anchor={[NP_OUT - 0.4, -0.55, zf]} position={[SUB_X + 0.8, -0.7, ZH + 0.3]}>{chip('Depletion region')}</CalloutLabel>
+      <CalloutLabel anchor={[0, SUB_BOT * 0.45, zf]} position={[0, SUB_BOT * 0.45, zf]} leader={false}>{chip('p-type substrate (Body)', true)}</CalloutLabel>
+      <CalloutLabel anchor={[0, SUB_BOT - 0.18, 0]} position={[0, SUB_BOT - 0.7, 0]}>{chip('Body')}</CalloutLabel>
+
+      <OrbitControls
+        makeDefault
+        enablePan={false}
+        enableDamping
+        dampingFactor={0.08}
+        minDistance={5}
+        maxDistance={16}
+        minPolarAngle={0.25}
+        maxPolarAngle={Math.PI / 2 + 0.1}
+        target={[0, -0.3, 0]}
+      />
+    </>
+  );
+}
+
+export function MosfetScene3D() {
+  const light = useThemeStore((s) => s.theme === 'light');
+  const bg = light ? '#eef1f5' : '#0e1116';
+  return (
+    <Canvas camera={{ position: [5.2, 3.6, 8.4], fov: 42 }} dpr={[1, 2]} gl={{ antialias: true }}>
+      <color attach="background" args={[bg]} />
+      <Stage />
+    </Canvas>
+  );
+}

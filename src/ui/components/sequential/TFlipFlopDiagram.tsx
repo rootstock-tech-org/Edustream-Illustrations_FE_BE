@@ -1,46 +1,54 @@
+'use client';
+import { Schematic3DLazy } from '@/viz/logic3d/Schematic3DLazy';
+import type { Gate3DSpec, Wire3DSpec, Label3DSpec } from '@/viz/logic3d/Schematic3D';
+
 /**
- * T flip-flop: the JK master-slave circuit with J and K both tied to the
- * same T input — the diagram reuses the JK topology but shows the single T
- * line splitting into the J/K pins.
+ * T flip-flop, 3D — the single T line feeds two AND gates (with CLK and cross-
+ * feedback) driving a cross-coupled OR-latch pair → Q / Q̄. Live state is the
+ * real JK-network solve (T ties J=K). Extruded gates + tube wires.
  */
-export function TFlipFlopDiagram({ vdd, qm, q, pulseTick }: { vdd: number; qm: number; q: number; pulseTick: number }) {
-  const hi = (v: number) => v > vdd / 2;
-  const stroke = 'rgb(var(--ink-muted))';
-  const dot = (v: number) => (hi(v) ? '#22c55e' : 'rgb(var(--ink-muted))');
-  return (
-    <svg viewBox="0 0 320 160" className="h-auto w-full" role="img" aria-label="T flip-flop schematic (JK with J=K=T)">
-      <g stroke={stroke} strokeWidth={1.2} fill="none" className="wire-flow">
-        <line x1={10} y1={35} x2={30} y2={35} /> {/* T */}
-        <line x1={30} y1={25} x2={30} y2={45} />
-        <line x1={30} y1={25} x2={70} y2={25} /> {/* -> J */}
-        <line x1={30} y1={45} x2={70} y2={45} /> {/* -> K */}
-        <line x1={10} y1={95} x2={40} y2={95} /> {/* CLK */}
-        <line x1={40} y1={95} x2={40} y2={110} />
-        <line x1={40} y1={95} x2={70} y2={95} />
-        <line x1={40} y1={110} x2={210} y2={110} />
-        <line x1={160} y1={45} x2={210} y2={45} /> {/* QM -> slave */}
-        <line x1={300} y1={35} x2={314} y2={35} /> {/* Q out */}
-        <line x1={300} y1={55} x2={314} y2={55} /> {/* Q̄ out */}
-        <polyline points="314,55 314,130 60,130 60,32 70,32" strokeDasharray="3 2" />
-        <polyline points="314,35 306,35 306,145 55,145 55,52 70,52" strokeDasharray="3 2" />
-      </g>
-      <text x={6} y={32} fontSize={9} fontFamily="var(--font-mono)" fill="rgb(var(--ink-muted))">T</text>
-      <text x={6} y={92} fontSize={9} fontFamily="var(--font-mono)" fill="rgb(var(--ink-muted))">CLK</text>
-      <text x={318} y={38} fontSize={9} fontFamily="var(--font-mono)" textAnchor="end" fill="rgb(var(--ink-muted))">Q</text>
-      <text x={318} y={58} fontSize={9} fontFamily="var(--font-mono)" textAnchor="end" fill="rgb(var(--ink-muted))">Q̄</text>
-      <text x={160} y={155} textAnchor="middle" fontSize={8} fontFamily="var(--font-mono)" fill="rgb(var(--ink-muted))">J = K = T; feedback (dashed) loops Q, Q̄ back in</text>
-
-      <rect key={`m-${pulseTick}`} x={70} y={15} width={90} height={60} rx={8} fill="none" stroke={stroke} strokeWidth={1.4} className="gate-flash" style={{ animationDelay: '0ms' }} />
-      <text x={115} y={30} textAnchor="middle" fontSize={9} fontWeight={700} fill="rgb(var(--ink))">Master Latch</text>
-      <text x={115} y={53} textAnchor="middle" fontSize={8} fontFamily="var(--font-mono)" fill="rgb(var(--ink-muted))">3-in NAND + fb</text>
-      <circle cx={115} cy={62} r={4} fill={dot(qm)} style={{ transition: 'fill 350ms ease' }} />
-      <text x={126} y={65} fontSize={8} fontFamily="var(--font-mono)" fill="rgb(var(--ink-muted))">QM</text>
-
-      <rect key={`s-${pulseTick}`} x={210} y={15} width={90} height={60} rx={8} fill="none" stroke={stroke} strokeWidth={1.4} className="gate-flash" style={{ animationDelay: '260ms' }} />
-      <text x={255} y={30} textAnchor="middle" fontSize={9} fontWeight={700} fill="rgb(var(--ink))">Slave Latch</text>
-      <text x={255} y={53} textAnchor="middle" fontSize={8} fontFamily="var(--font-mono)" fill="rgb(var(--ink-muted))">2× NAND, en CLK</text>
-      <circle cx={255} cy={62} r={4} fill={dot(q)} style={{ transition: 'fill 350ms ease' }} />
-      <text x={266} y={65} fontSize={8} fontFamily="var(--font-mono)" fill="rgb(var(--ink-muted))">Q</text>
-    </svg>
-  );
+export function TFlipFlopDiagram({
+  vdd,
+  voltages,
+}: {
+  vdd: number;
+  voltages: Readonly<Record<string, number>>;
+  pulseTick?: number;
+}) {
+  const hi = (v: number | undefined) => (v ?? 0) > vdd / 2;
+  const a1 = hi(voltages.GM1);
+  const a2 = hi(voltages.GM2);
+  const q = hi(voltages.Q);
+  const qBar = hi(voltages.QBar);
+  const gates: Gate3DSpec[] = [
+    { kind: 'and', gx: 70, gy: 34, high: a1 },
+    { kind: 'and', gx: 70, gy: 118, high: a2 },
+    { kind: 'or', gx: 210, gy: 44, high: q },
+    { kind: 'or', gx: 210, gy: 110, high: qBar },
+  ];
+  const wires: Wire3DSpec[] = [
+    { points: [[30, 96], [40, 96]] },
+    { points: [[40, 46], [40, 146]] },
+    { points: [[40, 46], [74, 46]] },
+    { points: [[40, 146], [74, 146]] },
+    { points: [[30, 118], [52, 118]] },
+    { points: [[52, 54], [52, 138]] },
+    { points: [[52, 54], [74, 54]] },
+    { points: [[52, 138], [74, 138]] },
+    { points: [[118, 54], [180, 54], [180, 56], [214, 56]], high: a1 },
+    { points: [[118, 138], [180, 138], [214, 138]], high: a2 },
+    { points: [[264, 64], [280, 64], [280, 96], [206, 96], [206, 122], [214, 122]], high: q },
+    { points: [[264, 130], [294, 130], [294, 84], [200, 84], [200, 72], [214, 72]], high: qBar },
+    { points: [[264, 64], [312, 64]], high: q },
+    { points: [[264, 130], [312, 130]], high: qBar },
+    { points: [[300, 64], [300, 18], [54, 18], [54, 130], [74, 130]], high: q },
+    { points: [[300, 130], [300, 196], [62, 196], [62, 62], [74, 62]], high: qBar },
+  ];
+  const labels: Label3DSpec[] = [
+    { x: 22, y: 96, text: 'T', bold: true },
+    { x: 22, y: 118, text: 'CLK', bold: true },
+    { x: 320, y: 64, text: 'Q', bold: true },
+    { x: 320, y: 130, text: 'Q̄', bold: true },
+  ];
+  return <Schematic3DLazy width={340} height={210} gates={gates} wires={wires} labels={labels} spanWorld={11.5} className="h-[240px] w-full" />;
 }

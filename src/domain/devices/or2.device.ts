@@ -12,6 +12,7 @@ export const or2: DeviceDefinition = {
   kind: 'gate',
   id: 'or2',
   name: 'OR Gate',
+  hidden: true,
   description: 'OR = NOR (parallel NMOS / series PMOS) + an inverter that restores the true OR function.',
   conceptId: 'or-gate',
   parameterSchema: standardCmosSchema,

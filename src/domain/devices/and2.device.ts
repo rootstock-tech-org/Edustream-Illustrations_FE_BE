@@ -15,6 +15,7 @@ export const and2: DeviceDefinition = {
   kind: 'gate',
   id: 'and2',
   name: 'AND Gate',
+  hidden: true,
   description: 'AND = NAND (series NMOS / parallel PMOS) + an inverter that restores the true AND function.',
   conceptId: 'and-gate',
   parameterSchema: standardCmosSchema,

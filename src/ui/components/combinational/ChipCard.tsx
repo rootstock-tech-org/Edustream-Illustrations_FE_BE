@@ -13,6 +13,7 @@ export function ChipCard({
   description,
   badge,
   diagram,
+  controls,
   truthTable,
 }: {
   eyebrow: string;
@@ -20,6 +21,7 @@ export function ChipCard({
   description: string;
   badge: string;
   diagram: ReactNode;
+  controls?: ReactNode;
   truthTable: ReactNode;
 }) {
   return (
@@ -38,6 +40,8 @@ export function ChipCard({
       </div>
 
       <div className="rounded-xl bg-[var(--surface-elevated)] p-2 ring-1 ring-black/10 dark:ring-white/10">{diagram}</div>
+
+      {controls && <div className="flex flex-wrap gap-2">{controls}</div>}
 
       <div className="overflow-x-auto">{truthTable}</div>
     </div>

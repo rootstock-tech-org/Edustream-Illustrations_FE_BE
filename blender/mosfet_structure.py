@@ -8,8 +8,9 @@ Insulator (SiO2) that overhangs the gate on both sides, a Metal Electrode
 boundary curving into the substrate, and a substrate/body contact underneath.
 
 Every part gets a camera-facing text label + leader line: Source (S),
-Gate (G), Drain (D), SiO2, Metal Electrode, N, N-type Channel,
-P-type Substrate, Depletion Layer, Substrate.
+Gate (G), Drain (D), Oxide (SiO2), Metal, n+ diffusions, Channel region,
+p-type substrate (Body), Depletion region, Body contact, and the L
+(gate/channel length) dimension.
 
 Companion piece to cmos_fabrication.py (same helper style / material system)
 but this one is a single static/turntable labeled device, not a 25-step
@@ -271,35 +272,43 @@ label("lbl_source", "Source (S)", SRC_LABEL, 0.24)
 GOX_TARGET = Vector((OX_HALF - 0.02, -HD, OX_H / 2))
 GOX_LABEL = Vector((OX_HALF + 1.2, -HD - 1.0, 0.75))
 leader("leader_oxide", GOX_LABEL + Vector((-0.3, 0, -0.2)), GOX_TARGET, MAT["leader"])
-label("lbl_oxide", "SiO2", GOX_LABEL, 0.22)
+label("lbl_oxide", "Oxide (SiO2)", GOX_LABEL, 0.22)
 
 ME_TARGET = Vector((0, -HD, OX_H + GATE_H * 0.5))
 ME_LABEL = Vector((0, -HD - 1.0, 2.1))
 leader("leader_metal_electrode", ME_LABEL + Vector((0, 0, -0.2)), ME_TARGET, MAT["leader"])
-label("lbl_metal_electrode", "Metal Electrode", ME_LABEL, 0.22)
+label("lbl_metal_electrode", "Metal", ME_LABEL, 0.22)
 
 CHAN_TARGET = Vector((0, -HD, -0.025))
 CHAN_LABEL = Vector((-1.3, -HD - 1.3, -0.75))
 leader("leader_channel", CHAN_LABEL + Vector((0.3, 0, 0.25)), CHAN_TARGET, MAT["leader"])
-label("lbl_channel", "N-type Channel", CHAN_LABEL, 0.2)
+label("lbl_channel", "Channel region", CHAN_LABEL, 0.2)
 
-label("lbl_n_r", "N", Vector((DRAIN_CX, -HD - 0.35, N_DEPTH * 0.5)), 0.24)
+label("lbl_n_r", "n+", Vector((DRAIN_CX, -HD - 0.35, N_DEPTH * 0.5)), 0.24)
 
 N_LABEL_L = Vector((SOURCE_CX, -HD - 0.35, N_DEPTH * 0.5))
-label("lbl_n_l", "N", N_LABEL_L, 0.24)
+label("lbl_n_l", "n+", N_LABEL_L, 0.24)
 
 DEPL_TARGET = Vector((NP_OUT * 0.35, -HD, DEPL_Z))
 DEPL_LABEL = Vector((NP_OUT + 1.1, -HD - 1.4, -0.35))
 leader("leader_depletion", DEPL_LABEL + Vector((-0.3, 0, 0.2)), DEPL_TARGET, MAT["leader"])
-label("lbl_depletion", "Depletion Layer", DEPL_LABEL, 0.2)
+label("lbl_depletion", "Depletion region", DEPL_LABEL, 0.2)
 
 PTYPE_LABEL = Vector((0, -HD - 0.05, SUB_BOT * 0.4))
-label("lbl_ptype", "P-type Substrate", PTYPE_LABEL, 0.26)
+label("lbl_ptype", "p-type substrate (Body)", PTYPE_LABEL, 0.26)
 
 SUBCON_TARGET = Vector((0, -HD * 0.3, SUB_BOT - BODY_PAD_H))
 SUBCON_LABEL = Vector((0, -HD - 1.0, SUB_BOT - 1.1))
 leader("leader_subcon", SUBCON_LABEL + Vector((0, 0, 0.25)), SUBCON_TARGET, MAT["leader"])
-label("lbl_subcon", "Substrate", SUBCON_LABEL, 0.22)
+label("lbl_subcon", "Body", SUBCON_LABEL, 0.22)
+
+# L — the gate/channel LENGTH dimension, called out with two tick leaders and
+# an "L" label centered above the gate, exactly like the reference cross-section.
+L_Z = OX_H + GATE_H + 0.28
+leader("leader_L_left", Vector((-GH, -HD, OX_H + GATE_H)), Vector((-GH, -HD, L_Z)), MAT["leader"], radius=0.012)
+leader("leader_L_right", Vector((GH, -HD, OX_H + GATE_H)), Vector((GH, -HD, L_Z)), MAT["leader"], radius=0.012)
+leader("leader_L_span", Vector((-GH, -HD, L_Z)), Vector((GH, -HD, L_Z)), MAT["leader"], radius=0.012)
+label("lbl_L", "L", Vector((0, -HD - 0.4, L_Z + 0.28)), 0.24)
 
 # ─────────────────────────────────────────────────────────────────────────────
 # WORLD + LIGHTS + GROUND

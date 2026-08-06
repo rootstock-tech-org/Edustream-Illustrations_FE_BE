@@ -22,12 +22,22 @@ import { GraphPanel } from '@/viz/graph/GraphPanel';
 import { TransistorGraphPanel } from '@/viz/graph/TransistorGraphPanel';
 import { DeviceSceneCard } from '@/viz/three/DeviceSceneCard';
 import { SingleTransistorCard } from '@/viz/three/SingleTransistorCard';
-import { MosfetSceneCard } from '@/viz/three/MosfetSceneCard';
-import { FinfetSceneCard } from '@/viz/three/FinfetSceneCard';
+
+import dynamic from 'next/dynamic';
+
+const MosfetScene3D = dynamic(() => import('@/viz/three/MosfetScene3D').then((m) => m.MosfetScene3D), {
+  ssr: false,
+  loading: () => <div className="h-full w-full animate-pulse rounded-xl bg-surface-elevated" />,
+});
+const FinfetScene3D = dynamic(() => import('@/viz/three/FinfetScene3D').then((m) => m.FinfetScene3D), {
+  ssr: false,
+  loading: () => <div className="h-full w-full animate-pulse rounded-xl bg-surface-elevated" />,
+});
 import { GateSceneCard } from '@/viz/three/GateSceneCard';
 import { FabricationSection } from './FabricationSection';
 import { SequentialLogicSection } from './sequential/SequentialLogicSection';
 import { CombinationalLogicSection } from './combinational/CombinationalLogicSection';
+import { LogicGatesSection } from './logic/LogicGatesSection';
 
 type Tab = 'explore' | 'analyze' | 'variation' | 'learn';
 const TABS: ReadonlyArray<{ id: Tab; label: string }> = [
@@ -47,6 +57,9 @@ const TABS: ReadonlyArray<{ id: Tab; label: string }> = [
 export function Explorer() {
   const { device, values, setParameter } = useDevice();
   const isTransistor = device.kind === 'transistor';
+  // MOSFET/FinFET tabs show a static labeled reference figure, so the live
+  // stage aids (cross-section toggle, L/W readout, CMOS nav schematic) are hidden.
+  const showStageAids = device.id !== 'mosfet' && device.id !== 'finfet';
   const lLabel = formatLength(Number(values.L));
   const wLabel = formatLength(Number(values.W));
   const gateResult = useGateResult();
@@ -56,6 +69,7 @@ export function Explorer() {
   const [fabOpen, setFabOpen] = useState(false);
   const [seqOpen, setSeqOpen] = useState(false);
   const [combOpen, setCombOpen] = useState(false);
+  const [gatesOpen, setGatesOpen] = useState(false);
 
   const crossSection = useLabModes((s) => s.crossSection);
   const setCrossSection = useLabModes((s) => s.setCrossSection);
@@ -71,6 +85,7 @@ export function Explorer() {
   if (fabOpen) return <FabricationSection onClose={() => setFabOpen(false)} />;
   if (seqOpen) return <SequentialLogicSection onClose={() => setSeqOpen(false)} />;
   if (combOpen) return <CombinationalLogicSection onClose={() => setCombOpen(false)} />;
+  if (gatesOpen) return <LogicGatesSection onClose={() => setGatesOpen(false)} />;
 
   return (
     <main className="flex h-[100dvh] flex-col gap-3 overflow-hidden p-3 md:p-4">
@@ -84,6 +99,12 @@ export function Explorer() {
           </div>
         </div>
         <div className="flex items-center gap-3">
+          <button
+            onClick={() => setGatesOpen(true)}
+            className="rounded-lg bg-brand px-3 py-1.5 text-sm font-medium text-white shadow-[0_0_18px_var(--accent-glow)] transition hover:opacity-90"
+          >
+            Logic Gates
+          </button>
           <button
             onClick={() => setFabOpen(true)}
             className="rounded-lg bg-brand px-3 py-1.5 text-sm font-medium text-white shadow-[0_0_18px_var(--accent-glow)] transition hover:opacity-90"
@@ -154,9 +175,13 @@ export function Explorer() {
           {/* CENTER — the device bench */}
           <section className="relative min-h-[22rem] shrink-0 overflow-hidden rounded-2xl glass xl:min-h-0">
           {device.id === 'mosfet' ? (
-            <MosfetSceneCard />
+            <div className="h-full w-full">
+              <MosfetScene3D />
+            </div>
           ) : device.id === 'finfet' ? (
-            <FinfetSceneCard />
+            <div className="h-full w-full">
+              <FinfetScene3D />
+            </div>
           ) : device.id === 'and2' || device.id === 'or2' ? (
             <GateSceneCard />
           ) : isTransistor ? (
@@ -166,31 +191,37 @@ export function Explorer() {
           )}
 
           {/* stage toolbar */}
-          <div className="absolute left-3 top-3 flex gap-2">
-            <StageToggle on={crossSection} onClick={() => setCrossSection(!crossSection)} label="Cross-section" />
-          </div>
+          {showStageAids && (
+            <div className="absolute left-3 top-3 flex gap-2">
+              <StageToggle on={crossSection} onClick={() => setCrossSection(!crossSection)} label="Cross-section" />
+            </div>
+          )}
 
           {/* fixed L / W readout — pinned in the top-left margin (where no
               rotating 3D label travels), so the dimension VALUES never collide
               with another chip or the geometry. The on-device brackets show
               WHICH spans these measure. */}
-          <div className="pointer-events-none absolute left-3 top-12 flex flex-col gap-1 font-mono text-[10px]">
-            <span className="inline-flex items-center gap-1.5 self-start rounded-md bg-black/65 px-2 py-0.5 text-white ring-1 ring-white/10 backdrop-blur-sm">
-              L <span style={{ color: '#7df9ff', textShadow: '0 0 8px rgba(125,249,255,0.55)' }}>{lLabel}</span>
-            </span>
-            <span className="inline-flex items-center gap-1.5 self-start rounded-md bg-black/65 px-2 py-0.5 text-white ring-1 ring-white/10 backdrop-blur-sm">
-              W <span style={{ color: '#7df9ff', textShadow: '0 0 8px rgba(125,249,255,0.55)' }}>{wLabel}</span>
-            </span>
-          </div>
+          {showStageAids && (
+            <div className="pointer-events-none absolute left-3 top-12 flex flex-col gap-1 font-mono text-[10px]">
+              <span className="inline-flex items-center gap-1.5 self-start rounded-md bg-black/65 px-2 py-0.5 text-white ring-1 ring-white/10 backdrop-blur-sm">
+                L <span style={{ color: '#7df9ff', textShadow: '0 0 8px rgba(125,249,255,0.55)' }}>{lLabel}</span>
+              </span>
+              <span className="inline-flex items-center gap-1.5 self-start rounded-md bg-black/65 px-2 py-0.5 text-white ring-1 ring-white/10 backdrop-blur-sm">
+                W <span style={{ color: '#7df9ff', textShadow: '0 0 8px rgba(125,249,255,0.55)' }}>{wLabel}</span>
+              </span>
+            </div>
+          )}
 
           {/* CMOS schematic — connectivity reference + navigation aid (borderless,
               floats cleanly on the stage) */}
-          <div className="pointer-events-none absolute right-3 top-3 w-[150px]">
-            <p className="eyebrow mb-1 text-center text-[8px] text-ink-muted">Circuit · tap a device</p>
-            <div className="pointer-events-auto">
-              <CircuitSchematic className="h-auto w-full" />
+          {showStageAids && (
+            <div className="pointer-events-none absolute right-3 top-3 w-[150px]">
+              <p className="eyebrow mb-1 text-center text-[8px] text-ink-muted">Circuit · tap a device</p>
+              <div className="pointer-events-auto">
+                <CircuitSchematic className="h-auto w-full" />
+              </div>
             </div>
-          </div>
+          )}
 
         </section>
 

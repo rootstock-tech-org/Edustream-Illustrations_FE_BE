@@ -1,9 +1,11 @@
-import { NandGateGlyph, InputPin } from './GateGlyph';
+'use client';
+import { Schematic3DLazy } from '@/viz/logic3d/Schematic3DLazy';
+import type { Gate3DSpec, Wire3DSpec, Label3DSpec } from '@/viz/logic3d/Schematic3D';
 
 /**
- * Gated SR latch: G1=NAND(S,CLK), G2=NAND(R,CLK), Q=NAND(G1,Q̄), Q̄=NAND(G2,Q).
- * The two feedback lanes on the right are exactly the cross-coupled wires
- * that give the latch memory.
+ * Gated SR latch, 3D — two input NANDs (S·CLK, R·CLK) feeding a cross-coupled
+ * NAND pair → Q / Q̄, rendered as extruded gates + tube wires. Same topology
+ * and coordinates as the reference gate-level schematic.
  */
 export function SrLatchDiagram({
   vdd,
@@ -11,42 +13,40 @@ export function SrLatchDiagram({
   g2,
   q,
   qBar,
-  pulseTick,
 }: {
   vdd: number;
   g1: number;
   g2: number;
   q: number;
   qBar: number;
-  pulseTick: number;
+  pulseTick?: number;
 }) {
   const hi = (v: number) => v > vdd / 2;
-  const stroke = 'rgb(var(--ink-muted))';
-  return (
-    <svg viewBox="0 0 320 170" className="h-auto w-full" role="img" aria-label="Gated SR latch, 4-NAND cross-coupled schematic">
-      <g stroke={stroke} strokeWidth={1.2} fill="none" className="wire-flow">
-        {/* S / R input wires */}
-        <line x1={14} y1={27} x2={50} y2={27} />
-        <line x1={14} y1={117} x2={50} y2={117} />
-        {/* CLK bus */}
-        <line x1={30} y1={39} x2={30} y2={129} />
-        <line x1={30} y1={39} x2={50} y2={39} />
-        <line x1={30} y1={129} x2={50} y2={129} />
-        {/* G1 -> Q, G2 -> Q̄ */}
-        <line x1={99} y1={33} x2={210} y2={27} />
-        <line x1={99} y1={123} x2={210} y2={117} />
-        {/* feedback: Q̄ -> Q (upper lane), Q -> Q̄ (lower lane) */}
-        <polyline points="259,123 280,123 280,39 210,39" />
-        <polyline points="259,33 295,33 295,129 210,129" />
-      </g>
-      <InputPin x={10} y={27} label="S" align="end" />
-      <InputPin x={10} y={117} label="R" align="end" />
-      <InputPin x={22} y={13} label="CLK" align="middle" />
-
-      <NandGateGlyph x={50} y={20} label="G1" high={hi(g1)} pulseKey={pulseTick} pulseDelayMs={0} />
-      <NandGateGlyph x={50} y={110} label="G2" high={hi(g2)} pulseKey={pulseTick} pulseDelayMs={0} />
-      <NandGateGlyph x={210} y={20} label="Q" high={hi(q)} pulseKey={pulseTick} pulseDelayMs={220} />
-      <NandGateGlyph x={210} y={110} label="Q̄" high={hi(qBar)} pulseKey={pulseTick} pulseDelayMs={220} />
-    </svg>
-  );
+  const gates: Gate3DSpec[] = [
+    { kind: 'nand', gx: 70, gy: 30, high: hi(g1) },
+    { kind: 'nand', gx: 70, gy: 120, high: hi(g2) },
+    { kind: 'nand', gx: 200, gy: 50, high: hi(q) },
+    { kind: 'nand', gx: 200, gy: 110, high: hi(qBar) },
+  ];
+  const wires: Wire3DSpec[] = [
+    { points: [[34, 42], [74, 42]] },
+    { points: [[34, 150], [74, 150]] },
+    { points: [[52, 58], [52, 132]] },
+    { points: [[52, 58], [74, 58]] },
+    { points: [[52, 132], [74, 132]] },
+    { points: [[126, 50], [150, 50], [150, 62], [204, 62]], high: hi(g1) },
+    { points: [[126, 140], [150, 140], [150, 138], [204, 138]], high: hi(g2) },
+    { points: [[256, 70], [270, 70], [270, 100], [196, 100], [196, 122], [204, 122]], high: hi(q) },
+    { points: [[256, 130], [284, 130], [284, 88], [190, 88], [190, 78], [204, 78]], high: hi(qBar) },
+    { points: [[256, 70], [302, 70]], high: hi(q) },
+    { points: [[256, 130], [302, 130]], high: hi(qBar) },
+  ];
+  const labels: Label3DSpec[] = [
+    { x: 24, y: 42, text: 'S', bold: true },
+    { x: 24, y: 150, text: 'R', bold: true },
+    { x: 40, y: 95, text: 'CLK', bold: true },
+    { x: 314, y: 70, text: 'Q', bold: true },
+    { x: 314, y: 130, text: 'Q̄', bold: true },
+  ];
+  return <Schematic3DLazy width={320} height={190} gates={gates} wires={wires} labels={labels} spanWorld={11} className="h-[230px] w-full" />;
 }
