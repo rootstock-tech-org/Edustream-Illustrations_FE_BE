@@ -1,7 +1,8 @@
 'use client';
 import { useMemo } from 'react';
 import { Canvas, useThree, useFrame } from '@react-three/fiber';
-import { OrbitControls, Edges, Line } from '@react-three/drei';
+import { OrbitControls, Edges } from '@react-three/drei';
+import * as THREE from 'three';
 import type { PerspectiveCamera } from 'three';
 import { CalloutLabel } from './CalloutLabel';
 import { useThemeStore } from '@/ui/theme';
@@ -29,15 +30,15 @@ const clamp = (lo: number, hi: number, v: number) => Math.max(lo, Math.min(hi, v
 
 // three.js: X = fin width, Y = up, Z = source→drain length
 function geom(L: number, W: number, Tox: number) {
-  const GATE_HL = clamp(0.35, 1.3, (L / 180e-9) * 0.72); // half gate length along fin ← L
-  const FIN_TOP = clamp(0.85, 2.1, (W / 1e-6) * 1.3); // fin height ← W
-  const OX_TOP = clamp(0.06, 0.4, (Tox / 4e-9) * 0.14); // oxide thickness ← Tox
-  const SUB_HALF = 2.7;
-  const SUB_BOT = -1.1;
-  const FIN_HW = 0.3;
-  const FIN_LEN = 2.35; // half length
-  const GATE_HW = 0.98;
-  const GATE_TOP = FIN_TOP + 0.48;
+  const GATE_HL = clamp(0.15, 1.1, (L / 180e-9) * 0.5); // half gate length along fin ← L
+  const FIN_TOP = clamp(0.3, 2.1, (W / 1e-6) * 1.1); // fin height ← W
+  const OX_TOP = clamp(0.08, 0.5, (Tox / 4e-9) * 0.22); // oxide thickness ← Tox
+  const SUB_HALF = 1.9;
+  const SUB_BOT = -1.4;
+  const FIN_HW = 0.26;
+  const FIN_LEN = 1.6; // half length
+  const GATE_HW = 0.85;
+  const GATE_TOP = FIN_TOP + 0.5;
   return { SUB_HALF, SUB_BOT, OX_TOP, FIN_HW, FIN_LEN, FIN_TOP, GATE_HW, GATE_HL, GATE_TOP };
 }
 type Geom = ReturnType<typeof geom>;
@@ -49,8 +50,8 @@ function CameraRig({ cross, reducedMotion }: { cross: boolean; reducedMotion: bo
     if (!cross) return;
     const k = reducedMotion ? 1e3 : 4;
     cam.position.x = damp(cam.position.x, 0, k, dt);
-    cam.position.y = damp(cam.position.y, 0.8, k, dt);
-    cam.position.z = damp(cam.position.z, 8.4, k, dt);
+    cam.position.y = damp(cam.position.y, 0.7, k, dt);
+    cam.position.z = damp(cam.position.z, 6.4, k, dt);
     cam.lookAt(0, 0.5, 0);
   });
   return null;
@@ -91,7 +92,55 @@ const chip = (text: string, bold = true) => (
   </span>
 );
 
-function Stage({ g, cross, reducedMotion }: { g: Geom; cross: boolean; reducedMotion: boolean }) {
+type P3 = [number, number, number];
+
+// A 3D arrow (single- or double-headed) built from a shaft + cone heads, so it
+// lives in world space and stays glued to the geometry while the model rotates.
+function Arrow({ from, to, both = false, color = '#0b1220', r = 0.02, head = 0.12 }: {
+  from: P3; to: P3; both?: boolean; color?: string; r?: number; head?: number;
+}) {
+  const { mid, quat, len } = useMemo(() => {
+    const a = new THREE.Vector3(...from);
+    const b = new THREE.Vector3(...to);
+    const dir = new THREE.Vector3().subVectors(b, a);
+    const length = dir.length();
+    const m = new THREE.Vector3().addVectors(a, b).multiplyScalar(0.5);
+    const q = new THREE.Quaternion().setFromUnitVectors(
+      new THREE.Vector3(0, 1, 0),
+      dir.clone().normalize(),
+    );
+    return { mid: m, quat: q, len: length };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [from[0], from[1], from[2], to[0], to[1], to[2]]);
+  const shaft = Math.max(0.001, len - head * (both ? 2 : 1));
+  return (
+    <group position={mid} quaternion={quat}>
+      <mesh position={[0, both ? 0 : -head / 2, 0]}>
+        <cylinderGeometry args={[r, r, shaft, 10]} />
+        <meshBasicMaterial color={color} depthTest={false} toneMapped={false} />
+      </mesh>
+      {/* head at the `to` end */}
+      <mesh position={[0, len / 2 - head / 2, 0]}>
+        <coneGeometry args={[head * 0.55, head, 14]} />
+        <meshBasicMaterial color={color} depthTest={false} toneMapped={false} />
+      </mesh>
+      {/* head at the `from` end (double-headed only) */}
+      {both && (
+        <mesh position={[0, -len / 2 + head / 2, 0]} rotation={[Math.PI, 0, 0]}>
+          <coneGeometry args={[head * 0.55, head, 14]} />
+          <meshBasicMaterial color={color} depthTest={false} toneMapped={false} />
+        </mesh>
+      )}
+    </group>
+  );
+}
+
+function Stage({ g, cross, reducedMotion, light }: { g: Geom; cross: boolean; reducedMotion: boolean; light: boolean }) {
+  // arrows sit on the model AND cross into open space, so pick a color that
+  // contrasts every surface (grey silicon, orange oxide, blue gate) and the bg:
+  // dark ink on light theme; a mid-slate on dark that reads darker than the
+  // silicon yet stays visible against the near-black background
+  const arrowColor = light ? '#0b1220' : '#5a6474';
   return (
     <>
       <CameraRig cross={cross} reducedMotion={reducedMotion} />
@@ -108,29 +157,33 @@ function Stage({ g, cross, reducedMotion }: { g: Geom; cross: boolean; reducedMo
       {/* blue gate wrapping the fin */}
       <Box x0={-g.GATE_HW} x1={g.GATE_HW} y0={g.OX_TOP} y1={g.GATE_TOP} z0={-g.GATE_HL} z1={g.GATE_HL} color={C.gate} roughness={0.35} metalness={0.25} />
 
-      {/* dimension brackets */}
-      {/* Fin Width — across the fin top at the +Z end */}
-      <Line points={[[-g.FIN_HW, g.FIN_TOP + 0.3, g.FIN_LEN], [g.FIN_HW, g.FIN_TOP + 0.3, g.FIN_LEN]]} color={C.edge} lineWidth={1.3} />
-      <Line points={[[-g.FIN_HW, g.FIN_TOP, g.FIN_LEN], [-g.FIN_HW, g.FIN_TOP + 0.3, g.FIN_LEN]]} color={C.edge} lineWidth={1.3} />
-      <Line points={[[g.FIN_HW, g.FIN_TOP, g.FIN_LEN], [g.FIN_HW, g.FIN_TOP + 0.3, g.FIN_LEN]]} color={C.edge} lineWidth={1.3} />
-      {/* Fin Height — up the fin +X/+Z corner */}
-      <Line points={[[g.FIN_HW + 0.35, g.OX_TOP, g.FIN_LEN], [g.FIN_HW + 0.35, g.FIN_TOP, g.FIN_LEN]]} color={C.edge} lineWidth={1.3} />
-      <Line points={[[g.FIN_HW, g.OX_TOP, g.FIN_LEN], [g.FIN_HW + 0.35, g.OX_TOP, g.FIN_LEN]]} color={C.edge} lineWidth={1.3} />
-      <Line points={[[g.FIN_HW, g.FIN_TOP, g.FIN_LEN], [g.FIN_HW + 0.35, g.FIN_TOP, g.FIN_LEN]]} color={C.edge} lineWidth={1.3} />
-      {/* Gate Length — along the fin under the gate */}
-      <Line points={[[g.GATE_HW, g.GATE_TOP + 0.3, g.GATE_HL], [g.GATE_HW, g.GATE_TOP + 0.3, -g.GATE_HL]]} color={C.edge} lineWidth={1.3} />
-      <Line points={[[g.GATE_HW, g.GATE_TOP, g.GATE_HL], [g.GATE_HW, g.GATE_TOP + 0.3, g.GATE_HL]]} color={C.edge} lineWidth={1.3} />
-      <Line points={[[g.GATE_HW, g.GATE_TOP, -g.GATE_HL], [g.GATE_HW, g.GATE_TOP + 0.3, -g.GATE_HL]]} color={C.edge} lineWidth={1.3} />
+      {/* ---- dimension arrows (double-headed), glued onto the geometry ---- */}
+      {/* Fin Width: across the top of the fin (X axis), on the exposed front span */}
+      <Arrow color={arrowColor} both from={[-g.FIN_HW, g.FIN_TOP + 0.04, (g.GATE_HL + g.FIN_LEN) / 2]} to={[g.FIN_HW, g.FIN_TOP + 0.04, (g.GATE_HL + g.FIN_LEN) / 2]} />
+      {/* Fin Height: vertical on the fin front face (oxide top → fin top) */}
+      <Arrow color={arrowColor} both from={[-g.FIN_HW - 0.04, g.OX_TOP, g.FIN_LEN]} to={[-g.FIN_HW - 0.04, g.FIN_TOP, g.FIN_LEN]} />
+      {/* Gate Length: along the gate right face (Z axis = source→drain) */}
+      <Arrow color={arrowColor} both from={[g.GATE_HW + 0.04, g.GATE_TOP * 0.55, -g.GATE_HL]} to={[g.GATE_HW + 0.04, g.GATE_TOP * 0.55, g.GATE_HL]} />
 
-      {/* labels */}
-      <CalloutLabel anchor={[-g.GATE_HW, g.GATE_TOP * 0.7, 0]} position={[-g.GATE_HW - 1.2, g.GATE_TOP + 0.4, 0]}>{chip('Gate')}</CalloutLabel>
-      <CalloutLabel anchor={[0, g.FIN_TOP * 0.6, g.FIN_LEN]} position={[0, g.FIN_TOP * 0.6 + 0.3, g.FIN_LEN + 1.1]}>{chip('Source')}</CalloutLabel>
-      <CalloutLabel anchor={[0, g.FIN_TOP * 0.6, -g.FIN_LEN]} position={[0, g.FIN_TOP * 0.6 + 0.3, -g.FIN_LEN - 1.1]}>{chip('Drain')}</CalloutLabel>
-      <CalloutLabel anchor={[g.SUB_HALF, g.OX_TOP / 2, -g.SUB_HALF + 0.6]} position={[g.SUB_HALF + 1.0, g.OX_TOP + 0.3, -g.SUB_HALF + 0.6]}>{chip('Oxide')}</CalloutLabel>
-      <CalloutLabel anchor={[g.SUB_HALF, g.SUB_BOT / 2, g.SUB_HALF - 0.6]} position={[g.SUB_HALF + 1.2, g.SUB_BOT / 2, g.SUB_HALF - 0.6]}>{chip('Silicon Substrate')}</CalloutLabel>
-      <CalloutLabel anchor={[0, g.FIN_TOP + 0.3, g.FIN_LEN]} position={[0, g.FIN_TOP + 0.75, g.FIN_LEN + 0.4]} leader={false}>{chip('Fin Width', false)}</CalloutLabel>
-      <CalloutLabel anchor={[g.FIN_HW + 0.35, (g.OX_TOP + g.FIN_TOP) / 2, g.FIN_LEN]} position={[g.FIN_HW + 1.4, (g.OX_TOP + g.FIN_TOP) / 2, g.FIN_LEN]} leader={false}>{chip('Fin Height', false)}</CalloutLabel>
-      <CalloutLabel anchor={[g.GATE_HW, g.GATE_TOP + 0.3, 0]} position={[g.GATE_HW + 1.3, g.GATE_TOP + 0.55, 0]} leader={false}>{chip('Gate Length', false)}</CalloutLabel>
+      {/* ---- leader arrows (single-headed) pointing at each named part ---- */}
+      {/* Gate → blue slab top */}
+      <Arrow color={arrowColor} from={[-g.GATE_HW - 1.15, g.GATE_TOP + 0.35, g.GATE_HL]} to={[-g.GATE_HW * 0.3, g.GATE_TOP, g.GATE_HL]} />
+      {/* Source → front fin nub */}
+      <Arrow color={arrowColor} from={[-g.FIN_HW - 1.5, g.FIN_TOP * 0.85, (g.GATE_HL + g.FIN_LEN) / 2]} to={[-g.FIN_HW - 0.02, g.FIN_TOP * 0.85, (g.GATE_HL + g.FIN_LEN) / 2]} />
+      {/* Drain → back fin nub */}
+      <Arrow color={arrowColor} from={[g.FIN_HW + 1.5, g.FIN_TOP * 0.9, -g.FIN_LEN]} to={[g.FIN_HW + 0.02, g.FIN_TOP * 0.9, -g.FIN_LEN]} />
+      {/* Oxide → right face of the orange band */}
+      <Arrow color={arrowColor} from={[g.SUB_HALF + 1.3, g.OX_TOP * 0.5, -g.SUB_HALF * 0.25]} to={[g.SUB_HALF + 0.02, g.OX_TOP * 0.5, -g.SUB_HALF * 0.25]} />
+
+      {/* ---- text labels (billboards) sitting at each arrow tail ---- */}
+      <CalloutLabel anchor={[0, 0, 0]} position={[-g.GATE_HW - 1.5, g.GATE_TOP + 0.45, g.GATE_HL]} leader={false}>{chip('Gate')}</CalloutLabel>
+      <CalloutLabel anchor={[0, 0, 0]} position={[-g.FIN_HW - 2.05, g.FIN_TOP * 0.85, (g.GATE_HL + g.FIN_LEN) / 2]} leader={false}>{chip('Source')}</CalloutLabel>
+      <CalloutLabel anchor={[0, 0, 0]} position={[g.FIN_HW + 2.0, g.FIN_TOP * 0.95, -g.FIN_LEN]} leader={false}>{chip('Drain')}</CalloutLabel>
+      <CalloutLabel anchor={[0, 0, 0]} position={[g.SUB_HALF + 1.75, g.OX_TOP * 0.5, -g.SUB_HALF * 0.25]} leader={false}>{chip('Oxide')}</CalloutLabel>
+      <CalloutLabel anchor={[0, 0, 0]} position={[0, g.SUB_BOT * 0.5, g.SUB_HALF + 0.06]} leader={false}>{chip('Silicon Substrate')}</CalloutLabel>
+      <CalloutLabel anchor={[0, 0, 0]} position={[0.1, g.FIN_TOP + 0.42, (g.GATE_HL + g.FIN_LEN) / 2 + 0.2]} leader={false}>{chip('Fin Width', false)}</CalloutLabel>
+      <CalloutLabel anchor={[0, 0, 0]} position={[-g.FIN_HW - 0.95, g.OX_TOP + 0.05, g.FIN_LEN]} leader={false}>{chip('Fin Height', false)}</CalloutLabel>
+      <CalloutLabel anchor={[0, 0, 0]} position={[g.GATE_HW + 0.72, g.GATE_TOP * 0.9, 0.15]} leader={false}>{chip('Gate Length', false)}</CalloutLabel>
 
       {/* no damping → no idle jitter; rotate/zoom lock while in cross-section */}
       <OrbitControls
@@ -159,9 +212,9 @@ export function FinfetScene3D() {
     [values.L, values.W, values.Tox],
   );
   return (
-    <Canvas frameloop="always" camera={{ position: [6.5, 4.2, 7.6], fov: 42 }} dpr={[1, 2]} gl={{ antialias: true }}>
+    <Canvas frameloop="always" camera={{ position: [4.5, 2.7, 5.3], fov: 42 }} dpr={[1, 2]} gl={{ antialias: true }}>
       <color attach="background" args={[bg]} />
-      <Stage g={g} cross={cross} reducedMotion={reducedMotion} />
+      <Stage g={g} cross={cross} reducedMotion={reducedMotion} light={light} />
     </Canvas>
   );
 }

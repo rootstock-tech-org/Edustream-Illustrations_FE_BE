@@ -9,9 +9,13 @@ import type { Gate3DSpec, Wire3DSpec, Label3DSpec } from '@/viz/logic3d/Schemati
  */
 export function JkFlipFlopDiagram({
   vdd,
+  j,
+  k,
   voltages,
 }: {
   vdd: number;
+  j: boolean;
+  k: boolean;
   voltages: Readonly<Record<string, number>>;
   pulseTick?: number;
 }) {
@@ -27,8 +31,8 @@ export function JkFlipFlopDiagram({
     { kind: 'nand', gx: 210, gy: 110, high: qBar },
   ];
   const wires: Wire3DSpec[] = [
-    { points: [[30, 46], [74, 46]] },
-    { points: [[30, 146], [74, 146]] },
+    { points: [[30, 46], [74, 46]], high: j },
+    { points: [[30, 146], [74, 146]], high: k },
     { points: [[30, 96], [44, 96]] },
     { points: [[44, 54], [44, 138]] },
     { points: [[44, 54], [74, 54]] },

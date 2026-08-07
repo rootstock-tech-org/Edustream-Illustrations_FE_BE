@@ -9,12 +9,16 @@ import type { Gate3DSpec, Wire3DSpec, Label3DSpec } from '@/viz/logic3d/Schemati
  */
 export function SrLatchDiagram({
   vdd,
+  s,
+  r,
   g1,
   g2,
   q,
   qBar,
 }: {
   vdd: number;
+  s: boolean;
+  r: boolean;
   g1: number;
   g2: number;
   q: number;
@@ -29,8 +33,8 @@ export function SrLatchDiagram({
     { kind: 'nand', gx: 200, gy: 110, high: hi(qBar) },
   ];
   const wires: Wire3DSpec[] = [
-    { points: [[34, 42], [74, 42]] },
-    { points: [[34, 150], [74, 150]] },
+    { points: [[34, 42], [74, 42]], high: s },
+    { points: [[34, 150], [74, 150]], high: r },
     { points: [[52, 58], [52, 132]] },
     { points: [[52, 58], [74, 58]] },
     { points: [[52, 132], [74, 132]] },

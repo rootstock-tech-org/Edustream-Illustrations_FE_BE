@@ -9,9 +9,11 @@ import type { Gate3DSpec, Wire3DSpec, Label3DSpec } from '@/viz/logic3d/Schemati
  */
 export function TFlipFlopDiagram({
   vdd,
+  t,
   voltages,
 }: {
   vdd: number;
+  t: boolean;
   voltages: Readonly<Record<string, number>>;
   pulseTick?: number;
 }) {
@@ -27,10 +29,10 @@ export function TFlipFlopDiagram({
     { kind: 'or', gx: 210, gy: 110, high: qBar },
   ];
   const wires: Wire3DSpec[] = [
-    { points: [[30, 96], [40, 96]] },
-    { points: [[40, 46], [40, 146]] },
-    { points: [[40, 46], [74, 46]] },
-    { points: [[40, 146], [74, 146]] },
+    { points: [[30, 96], [40, 96]], high: t },
+    { points: [[40, 46], [40, 146]], high: t },
+    { points: [[40, 46], [74, 46]], high: t },
+    { points: [[40, 146], [74, 146]], high: t },
     { points: [[30, 118], [52, 118]] },
     { points: [[52, 54], [52, 138]] },
     { points: [[52, 54], [74, 54]] },

@@ -118,10 +118,15 @@ function GateFigure({ def, a, b, out }: { def: GateDef; a: boolean; b: boolean; 
   const wires: Wire3DSpec[] = [
     ...inYs.map((y, i) => ({ points: [[24, y], [inX, y]] as [number, number][], high: inStates[i] })),
     { points: [[outSvgX, cy], [178, cy]] as [number, number][], high: out },
+    // CMOS supply rails: HIGH output is pulled up from VDD, LOW output sinks to GND
+    { points: [[cx, 9], [cx, gy]] as [number, number][], high: out },
+    { points: [[cx, gy + 40], [cx, 87]] as [number, number][], high: !out },
   ];
   const labels: Label3DSpec[] = [
     ...inYs.map((y, i) => ({ x: 18, y, text: single ? 'A' : i === 0 ? 'A' : 'B' })),
     { x: 186, y: cy, text: 'Y' },
+    { x: cx, y: 5, text: 'VDD' },
+    { x: cx, y: 91, text: 'GND' },
   ];
   const gates: Gate3DSpec[] = [{ kind: def.kind, gx, gy, high: out }];
 

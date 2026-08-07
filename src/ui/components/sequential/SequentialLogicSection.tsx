@@ -64,7 +64,7 @@ function SrLatchCard() {
           <ToggleButton label="R" on={srInputs.r} onClick={() => setSrInput('r', !srInputs.r)} />
         </>
       }
-      diagram={<SrLatchDiagram vdd={vdd} g1={sr.voltages.G1 ?? 0} g2={sr.voltages.G2 ?? 0} q={sr.q} qBar={sr.qBar} pulseTick={pulseTick} />}
+      diagram={<SrLatchDiagram vdd={vdd} s={srInputs.s} r={srInputs.r} g1={sr.voltages.G1 ?? 0} g2={sr.voltages.G2 ?? 0} q={sr.q} qBar={sr.qBar} pulseTick={pulseTick} />}
       truthTable={
         <TruthTable
           headers={['S', 'R', 'Q(next)']}
@@ -96,7 +96,7 @@ function DFlipFlopCard() {
       onPulse={handlePulse}
       onReset={resetD}
       inputs={<ToggleButton label="D" on={dInput} onClick={() => setDInput(!dInput)} />}
-      diagram={<DFlipFlopDiagram vdd={vdd} voltages={d.voltages} pulseTick={pulseTick} />}
+      diagram={<DFlipFlopDiagram vdd={vdd} d={dInput} voltages={d.voltages} pulseTick={pulseTick} />}
       truthTable={
         <TruthTable
           headers={['D', 'Q(next)']}
@@ -131,7 +131,7 @@ function JkFlipFlopCard() {
           <ToggleButton label="K" on={jkInputs.k} onClick={() => setJkInput('k', !jkInputs.k)} />
         </>
       }
-      diagram={<JkFlipFlopDiagram vdd={vdd} voltages={jk.voltages} pulseTick={pulseTick} />}
+      diagram={<JkFlipFlopDiagram vdd={vdd} j={jkInputs.j} k={jkInputs.k} voltages={jk.voltages} pulseTick={pulseTick} />}
       truthTable={
         <TruthTable
           headers={['J', 'K', 'Q(next)']}
@@ -163,7 +163,7 @@ function TFlipFlopCard() {
       onPulse={handlePulse}
       onReset={resetT}
       inputs={<ToggleButton label="T" on={tInput} onClick={() => setTInput(!tInput)} />}
-      diagram={<TFlipFlopDiagram vdd={vdd} voltages={t.voltages} pulseTick={pulseTick} />}
+      diagram={<TFlipFlopDiagram vdd={vdd} t={tInput} voltages={t.voltages} pulseTick={pulseTick} />}
       truthTable={
         <TruthTable
           headers={['T', 'Q(next)']}
