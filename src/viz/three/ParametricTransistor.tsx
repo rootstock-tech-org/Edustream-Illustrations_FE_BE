@@ -20,7 +20,7 @@ import { color } from './palette';
  * Tox. The local origin sits on the silicon SURFACE (y = 0).
  */
 const DIFF_W = 0.62; // wider diffusions — the transistor is the hero (hierarchy #1)
-const DIFF_DEPTH = 0.4; // how far the diffusion is implanted into the silicon
+const DIFF_DEPTH = 0.62; // how deep the diffusion is implanted INSIDE the silicon
 export const gateLength = (g: DeviceGeometry) => 0.52 + g.channelLength * 0.32;
 /** X offset from device centre to a source/drain contact (for the wiring). */
 export const terminalX = (g: DeviceGeometry) => gateLength(g) / 2 + DIFF_W / 2 + 0.08;
@@ -64,15 +64,17 @@ export function ParametricTransistor({
     c.tox = damp(c.tox, Math.max(0.04, geometry.oxideGap * 0.6), k, dt);
     const tx = c.gl / 2 + DIFF_W / 2 + 0.08;
 
-    // Sit the diffusions slightly proud of the silicon surface so their tops are
-    // never coplanar with the substrate/n-well (avoids z-fighting on rotation).
-    if (diffL.current) { diffL.current.scale.set(DIFF_W, DIFF_DEPTH, c.depth); diffL.current.position.set(-tx, -DIFF_DEPTH / 2 + 0.04, 0); }
-    if (diffR.current) { diffR.current.scale.set(DIFF_W, DIFF_DEPTH, c.depth); diffR.current.position.set(tx, -DIFF_DEPTH / 2 + 0.04, 0); }
+    // Diffusions sit implanted INSIDE the silicon — tops flush with the surface
+    // (kept off the substrate plane by polygonOffset, not by floating proud).
+    if (diffL.current) { diffL.current.scale.set(DIFF_W, DIFF_DEPTH, c.depth); diffL.current.position.set(-tx, -DIFF_DEPTH / 2 + 0.005, 0); }
+    if (diffR.current) { diffR.current.scale.set(DIFF_W, DIFF_DEPTH, c.depth); diffR.current.position.set(tx, -DIFF_DEPTH / 2 + 0.005, 0); }
     if (contactL.current) contactL.current.position.x = -tx;
     if (contactR.current) contactR.current.position.x = tx;
     if (channel.current) channel.current.scale.set(c.gl + DIFF_W * 0.5, 0.07, c.depth * 0.96);
-    if (oxide.current) { oxide.current.scale.set(c.gl + 0.12, c.tox, c.depth * 0.9); oxide.current.position.y = 0.02 + c.tox / 2; }
-    if (gate.current) { gate.current.scale.set(c.gl + 0.04, 1, c.depth * 0.82); gate.current.position.y = 0.02 + c.tox + 0.15; }
+    // gate oxide + poly extend a touch past the channel so they OVERLAP the inner
+    // source/drain edges — the physical gate-to-S/D overlap region (a slight margin).
+    if (oxide.current) { oxide.current.scale.set(c.gl + 0.34, c.tox, c.depth * 0.9); oxide.current.position.y = 0.02 + c.tox / 2; }
+    if (gate.current) { gate.current.scale.set(c.gl + 0.26, 1, c.depth * 0.82); gate.current.position.y = 0.02 + c.tox + 0.15; }
 
     if (chanMat.current) {
       chanMat.current.opacity = damp(chanMat.current.opacity, 0.06 + visual.channelDensity * 0.9, reducedMotion ? 1e3 : 6, dt);
@@ -84,12 +86,12 @@ export function ParametricTransistor({
     <group position={position}>
       {/* Diffusion regions implanted into the silicon surface — bright, so the
           transistor pops against the muted substrate (hierarchy #1). */}
-      <mesh ref={diffL} position={[-1, -DIFF_DEPTH / 2 + 0.04, 0]}>
+      <mesh ref={diffL} position={[-1, -DIFF_DEPTH / 2 + 0.005, 0]}>
         <boxGeometry args={[1, 1, 1]} />
         <meshStandardMaterial color={diffusion} emissive={diffusion} emissiveIntensity={0.2 + visual.activity * 0.3} roughness={0.5} metalness={0.05} polygonOffset polygonOffsetFactor={-3} polygonOffsetUnits={-3} />
         <Edges threshold={15} color={edge} />
       </mesh>
-      <mesh ref={diffR} position={[1, -DIFF_DEPTH / 2 + 0.04, 0]}>
+      <mesh ref={diffR} position={[1, -DIFF_DEPTH / 2 + 0.005, 0]}>
         <boxGeometry args={[1, 1, 1]} />
         <meshStandardMaterial color={diffusion} emissive={diffusion} emissiveIntensity={0.2 + visual.activity * 0.3} roughness={0.5} metalness={0.05} polygonOffset polygonOffsetFactor={-3} polygonOffsetUnits={-3} />
         <Edges threshold={15} color={edge} />

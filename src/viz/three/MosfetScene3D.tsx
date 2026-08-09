@@ -1,7 +1,7 @@
 'use client';
 import { useMemo } from 'react';
 import { Canvas, useThree, useFrame } from '@react-three/fiber';
-import { OrbitControls, Edges, Line } from '@react-three/drei';
+import { OrbitControls, Edges } from '@react-three/drei';
 import type { PerspectiveCamera } from 'three';
 import { CalloutLabel } from './CalloutLabel';
 import { useThemeStore } from '@/ui/theme';
@@ -17,14 +17,16 @@ import { damp } from './anim';
  * "Cross-section" toggle swings the camera to a flat head-on view.
  */
 
+// Shared device palette (matches src/viz/three/palette.ts) so MOSFET reads the
+// same as NMOS/PMOS/CMOS: silicon gray, n⁺ orange, oxide cyan, metal blue.
 const C = {
-  substrate: '#f2d79a',
-  n: '#a9c7e0',
-  channel: '#7fd8ff',
-  oxide: '#dcecf5',
-  metal: '#565f6b',
-  depletion: '#c9822f',
-  edge: '#1f2937',
+  substrate: '#dad9d3',
+  n: '#e6963c',
+  channel: '#7df9ff',
+  oxide: '#86d7e6',
+  metal: '#2f7cd4',
+  depletion: '#e6a88e',
+  edge: '#3a4250',
 };
 
 const clamp = (lo: number, hi: number, v: number) => Math.max(lo, Math.min(hi, v));
@@ -132,16 +134,10 @@ function Stage({ g, cross, reducedMotion }: { g: Geom; cross: boolean; reducedMo
       <Box x0={-g.DRAIN_CX - g.PAD_W / 2} x1={-g.DRAIN_CX + g.PAD_W / 2} y0={0} y1={g.PAD_H} z0={-g.ZH * 0.6} z1={g.ZH * 0.6} color={C.metal} roughness={0.35} metalness={0.5} />
       <Box x0={g.DRAIN_CX - g.PAD_W / 2} x1={g.DRAIN_CX + g.PAD_W / 2} y0={0} y1={g.PAD_H} z0={-g.ZH * 0.6} z1={g.ZH * 0.6} color={C.metal} roughness={0.35} metalness={0.5} />
 
-      {/* L (channel length) dimension bracket above the gate */}
-      <Line points={[[-g.GH, g.OX_H + g.GATE_H + 0.35, zf], [g.GH, g.OX_H + g.GATE_H + 0.35, zf]]} color={C.edge} lineWidth={1.4} />
-      <Line points={[[-g.GH, g.OX_H + g.GATE_H, zf], [-g.GH, g.OX_H + g.GATE_H + 0.35, zf]]} color={C.edge} lineWidth={1.4} />
-      <Line points={[[g.GH, g.OX_H + g.GATE_H, zf], [g.GH, g.OX_H + g.GATE_H + 0.35, zf]]} color={C.edge} lineWidth={1.4} />
-
       {/* labels */}
       <CalloutLabel anchor={[-g.DRAIN_CX, g.PAD_H, zf]} position={[-g.DRAIN_CX - 0.4, 1.5, g.ZH + 0.6]}>{chip('Source (S)', true)}</CalloutLabel>
       <CalloutLabel anchor={[0, g.OX_H + g.GATE_H, zf]} position={[0, 2.0, g.ZH + 0.6]}>{chip('Gate (G)', true)}</CalloutLabel>
       <CalloutLabel anchor={[g.DRAIN_CX, g.PAD_H, zf]} position={[g.DRAIN_CX + 0.4, 1.5, g.ZH + 0.6]}>{chip('Drain (D)', true)}</CalloutLabel>
-      <CalloutLabel anchor={[0, g.OX_H + g.GATE_H + 0.35, zf]} position={[0, g.OX_H + g.GATE_H + 1.0, g.ZH + 0.3]} leader={false}>{chip('L', true)}</CalloutLabel>
       <CalloutLabel anchor={[g.GH * 0.6, g.OX_H + g.GATE_H / 2, g.ZH]} position={[g.SUB_X + 0.7, g.OX_H + g.GATE_H + 0.2, g.ZH]}>{chip('Metal')}</CalloutLabel>
       <CalloutLabel anchor={[g.OX_HALF - 0.05, g.OX_H / 2, g.ZH]} position={[g.SUB_X + 0.9, g.OX_H, g.ZH]}>{chip('Oxide (SiO₂)')}</CalloutLabel>
       <CalloutLabel anchor={[-g.DRAIN_CX, g.N_DEPTH / 2, zf]} position={[-g.DRAIN_CX, g.N_DEPTH / 2, zf]} leader={false}>{chip('n+')}</CalloutLabel>
@@ -150,14 +146,15 @@ function Stage({ g, cross, reducedMotion }: { g: Geom; cross: boolean; reducedMo
       <CalloutLabel anchor={[g.NP_OUT - 0.4, -0.55, zf]} position={[g.SUB_X + 0.8, -0.7, g.ZH + 0.3]}>{chip('Depletion region')}</CalloutLabel>
       <CalloutLabel anchor={[0, g.SUB_BOT * 0.45, zf]} position={[0, g.SUB_BOT * 0.45, zf]} leader={false}>{chip('p-type substrate (Body)', true)}</CalloutLabel>
 
-      {/* no damping → no idle jitter; rotate/zoom lock while in cross-section */}
+      {/* no damping → no idle jitter; scroll-to-zoom always on, rotate locked in cross-section */}
       <OrbitControls
         makeDefault
         enablePan={false}
         enableRotate={!cross}
-        enableZoom={!cross}
-        minDistance={5}
-        maxDistance={16}
+        enableZoom
+        zoomToCursor
+        minDistance={4}
+        maxDistance={18}
         minPolarAngle={0.25}
         maxPolarAngle={Math.PI / 2 + 0.1}
         target={[0, -0.2, 0]}

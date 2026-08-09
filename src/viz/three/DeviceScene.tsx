@@ -52,10 +52,10 @@ const PMOS_X = -2.4; // pMOS (over n-well, left)
 const DEVICE_Y = 0; // silicon surface
 const NMOS_BODY_X = 3.7; // p⁺ body tap (substrate) → GND (right)
 const PMOS_WELL_X = -3.8; // n⁺ well contact (n-well) → VDD (left)
-// Substrate/well are thinned + muted so they RECEDE (hierarchy #5). The
-// transistors read as the heroes against a recessive silicon base.
-const SUB_H = 0.6;
-const WELL_H = 0.42;
+// Substrate/well are thickened so the diffusions sit clearly IMPLANTED inside
+// the silicon (review: "every layer inside the substrate, not on top").
+const SUB_H = 1.15;
+const WELL_H = 0.85;
 const WELL_LEFT = 0.1;
 const SUBSTRATE_MUTED = '#dad9d3'; // pale gray p-substrate (recessive base, per photo)
 const NWELL_MUTED = '#e6a88e'; // warm salmon n-well (per photo)
@@ -137,7 +137,8 @@ function Stage({ data }: { data: SceneData }) {
         makeDefault
         enablePan={false}
         enableRotate={!cross}
-        enableZoom={!cross}
+        enableZoom
+        zoomToCursor
         enableDamping
         dampingFactor={0.08}
         rotateSpeed={0.9}

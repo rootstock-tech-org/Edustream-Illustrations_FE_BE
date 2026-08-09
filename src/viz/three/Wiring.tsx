@@ -141,11 +141,14 @@ export function Wiring({
         <meshStandardMaterial color={metal} metalness={0.5} roughness={0.4} />
       </mesh>
 
-      {/* CURRENT — pulses ride ONLY the drain↔OUTPUT links. The supply rails
-          (VDD → pMOS source on the left, GND → nMOS source on the right) are left
-          as STATIC wires — the connection is shown, but no flow animates on them. */}
-      <WireFlow points={wPDrnOut} activity={pullUpActivity} colorHex={accent} count={2} size={0.038} reducedMotion={reducedMotion} />
-      <WireFlow points={wNDrnOut.slice().reverse() as P3[]} activity={pullDownActivity} colorHex={accent} count={2} size={0.038} reducedMotion={reducedMotion} />
+      {/* CURRENT — bright pulses ride the FULL conducting path so the through-
+          current reads clearly (review: "flow not visible"): pull-up VDD → pMOS
+          → OUTPUT, pull-down OUTPUT → nMOS → GND. Bigger/brighter than before. */}
+      <WireFlow points={wVddSrc} activity={pullUpActivity} colorHex={accent} count={3} size={0.075} reducedMotion={reducedMotion} />
+      <WireFlow points={wPDrnOut} activity={pullUpActivity} colorHex={accent} count={3} size={0.075} reducedMotion={reducedMotion} />
+      <WireFlow points={wOutLead} activity={Math.max(pullUpActivity, pullDownActivity)} colorHex={accent} count={3} size={0.075} reducedMotion={reducedMotion} />
+      <WireFlow points={wNDrnOut.slice().reverse() as P3[]} activity={pullDownActivity} colorHex={accent} count={3} size={0.075} reducedMotion={reducedMotion} />
+      <WireFlow points={wGndSrc.slice().reverse() as P3[]} activity={pullDownActivity} colorHex={accent} count={3} size={0.075} reducedMotion={reducedMotion} />
 
       {/* Labels in clear margins, tied to their node by a leader line */}
       <CalloutLabel anchor={[gndX, cY, 0]} position={[gndX - 0.7, 0.5, 0]}>

@@ -18,12 +18,14 @@ import { damp } from './anim';
  * "Cross-section" toggle swings the camera to look down the fin axis.
  */
 
+// Shared device palette (matches src/viz/three/palette.ts) so FinFET reads the
+// same as NMOS/PMOS/CMOS/MOSFET: silicon gray, oxide cyan, metal-blue gate.
 const C = {
-  substrate: '#9aa3ad',
-  fin: '#c2cad2',
-  oxide: '#f0a53a',
-  gate: '#3b7fd4',
-  edge: '#1f2937',
+  substrate: '#dad9d3',
+  fin: '#e4e3dd',
+  oxide: '#86d7e6',
+  gate: '#2f7cd4',
+  edge: '#3a4250',
 };
 
 const clamp = (lo: number, hi: number, v: number) => Math.max(lo, Math.min(hi, v));
@@ -33,11 +35,11 @@ function geom(L: number, W: number, Tox: number) {
   const GATE_HL = clamp(0.15, 1.1, (L / 180e-9) * 0.5); // half gate length along fin ← L
   const FIN_TOP = clamp(0.3, 2.1, (W / 1e-6) * 1.1); // fin height ← W
   const OX_TOP = clamp(0.08, 0.5, (Tox / 4e-9) * 0.22); // oxide thickness ← Tox
+  const FIN_HW = clamp(0.16, 0.5, (W / 1e-6) * 0.26); // half fin width ← W (W_eff scales the fin)
   const SUB_HALF = 1.9;
   const SUB_BOT = -1.4;
-  const FIN_HW = 0.26;
   const FIN_LEN = 1.6; // half length
-  const GATE_HW = 0.85;
+  const GATE_HW = clamp(0.7, 1.15, FIN_HW + 0.6); // gate stays wider than the fin it wraps
   const GATE_TOP = FIN_TOP + 0.5;
   return { SUB_HALF, SUB_BOT, OX_TOP, FIN_HW, FIN_LEN, FIN_TOP, GATE_HW, GATE_HL, GATE_TOP };
 }
@@ -185,14 +187,15 @@ function Stage({ g, cross, reducedMotion, light }: { g: Geom; cross: boolean; re
       <CalloutLabel anchor={[0, 0, 0]} position={[-g.FIN_HW - 0.95, g.OX_TOP + 0.05, g.FIN_LEN]} leader={false}>{chip('Fin Height', false)}</CalloutLabel>
       <CalloutLabel anchor={[0, 0, 0]} position={[g.GATE_HW + 0.72, g.GATE_TOP * 0.9, 0.15]} leader={false}>{chip('Gate Length', false)}</CalloutLabel>
 
-      {/* no damping → no idle jitter; rotate/zoom lock while in cross-section */}
+      {/* no damping → no idle jitter; scroll-to-zoom always on, rotate locked in cross-section */}
       <OrbitControls
         makeDefault
         enablePan={false}
         enableRotate={!cross}
-        enableZoom={!cross}
-        minDistance={5}
-        maxDistance={18}
+        enableZoom
+        zoomToCursor
+        minDistance={3.5}
+        maxDistance={20}
         minPolarAngle={0.2}
         maxPolarAngle={Math.PI / 2 + 0.1}
         target={[0, 0.5, 0]}
