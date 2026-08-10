@@ -22,6 +22,7 @@ import { GraphPanel } from '@/viz/graph/GraphPanel';
 import { TransistorGraphPanel } from '@/viz/graph/TransistorGraphPanel';
 import { DeviceSceneCard } from '@/viz/three/DeviceSceneCard';
 import { SingleTransistorCard } from '@/viz/three/SingleTransistorCard';
+import { FeedbackBar } from './FeedbackBar';
 import dynamic from 'next/dynamic';
 
 const MosfetScene3D = dynamic(() => import('@/viz/three/MosfetScene3D').then((m) => m.MosfetScene3D), {
@@ -173,7 +174,8 @@ export function Explorer() {
 
         {/* device + instruments: stacked (md) → two columns (xl) */}
         <div className="flex min-h-0 flex-col gap-3 overflow-y-auto xl:grid xl:grid-cols-[minmax(0,1fr)_344px] xl:overflow-hidden">
-          {/* CENTER — the device bench */}
+          {/* CENTER — the device bench + its feedback (one grid column) */}
+          <div className="flex min-h-0 flex-col gap-3 xl:overflow-y-auto">
           <section className="relative min-h-[22rem] shrink-0 overflow-hidden rounded-2xl glass xl:min-h-0">
           {device.id === 'mosfet' ? (
             <MosfetScene3D />
@@ -221,6 +223,12 @@ export function Explorer() {
           )}
 
         </section>
+
+          {/* per-device feedback (thumbs + note), stored per illustration */}
+          <div className="glass shrink-0 rounded-2xl p-3">
+            <FeedbackBar id={`device-${device.id}`} />
+          </div>
+          </div>
 
           {/* RIGHT — instrument readout (swaps per tab) */}
           <aside className="flex flex-col gap-3 xl:min-h-0 xl:overflow-y-auto xl:pr-0.5">

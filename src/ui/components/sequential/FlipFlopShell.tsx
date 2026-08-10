@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
+import { FeedbackBar } from '../FeedbackBar';
 
 /** Shared shell for a flip-flop card: title, live Q/Q̄ badges, a diagram
  *  slot, input controls + clock/reset buttons, and a truth table. */
@@ -50,6 +51,8 @@ export function FlipFlopShell({
       </div>
 
       <div className="overflow-x-auto">{truthTable}</div>
+
+      <FeedbackBar id={`sequential-${title}`} />
     </div>
   );
 }

@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useMemo, useState } from 'react';
+import { FeedbackBar } from './FeedbackBar';
 import { FAB_STEPS } from '@/domain/education/fab-process';
 import { FabricationScene3D } from '@/viz/fab/FabricationScene3D';
 
@@ -152,6 +153,7 @@ export function FabricationSection({ onClose }: { onClose: () => void }) {
               <p className="text-[11px] text-ink-muted">Drag to rotate · scroll to zoom · ▶ Play to build the wafer up layer by layer</p>
               <h2 className="text-xl font-bold text-ink">{step.title}</h2>
               <p className="text-sm leading-relaxed text-ink-muted">{step.description}</p>
+              <FeedbackBar id="fabrication" />
             </div>
 
             {/* controls */}

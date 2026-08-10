@@ -3,6 +3,7 @@ import { useState } from 'react';
 import dynamic from 'next/dynamic';
 import type { GateKind } from '../logic/GateSymbols';
 import { ToggleButton } from '../sequential/FlipFlopShell';
+import { FeedbackBar } from '../FeedbackBar';
 import { noseX as gateNoseX, isInverting, BUBBLE_R } from '@/viz/logic3d/gateShape';
 import type { Gate3DSpec, Wire3DSpec, Label3DSpec } from '@/viz/logic3d/Schematic3D';
 
@@ -97,6 +98,7 @@ function GateCard({ def }: { def: GateDef }) {
       </div>
 
       <GateTruthTable def={def} rows={rows} out={def.fn} activeRow={activeRow} />
+      <FeedbackBar id={`gate-${def.name}`} />
     </div>
   );
 }
