@@ -18,12 +18,13 @@ import { damp } from './anim';
  */
 
 // Shared device palette (matches src/viz/three/palette.ts) so MOSFET reads the
-// same as NMOS/PMOS/CMOS: silicon gray, n⁺ orange, oxide cyan, metal blue.
+// same as NMOS/PMOS/CMOS: silicon gray, n⁺ orange, oxide cyan, red poly gate.
 const C = {
   substrate: '#dad9d3',
   n: '#e6963c',
   channel: '#7df9ff',
   oxide: '#86d7e6',
+  poly: '#d23b2d',
   metal: '#2f7cd4',
   depletion: '#e6a88e',
   edge: '#3a4250',
@@ -127,8 +128,8 @@ function Stage({ g, cross, reducedMotion }: { g: Geom; cross: boolean; reducedMo
       {/* gate oxide (overhangs the channel) */}
       <Box x0={-g.OX_HALF} x1={g.OX_HALF} y0={0} y1={g.OX_H} z0={-g.ZH} z1={g.ZH} color={C.oxide} opacity={0.85} roughness={0.3} />
 
-      {/* metal gate */}
-      <Box x0={-g.GH} x1={g.GH} y0={g.OX_H} y1={g.OX_H + g.GATE_H} z0={-g.ZH} z1={g.ZH} color={C.metal} roughness={0.35} metalness={0.5} />
+      {/* poly gate (red) — matches the NMOS/PMOS gate electrode */}
+      <Box x0={-g.GH} x1={g.GH} y0={g.OX_H} y1={g.OX_H + g.GATE_H} z0={-g.ZH} z1={g.ZH} color={C.poly} roughness={0.4} metalness={0.2} />
 
       {/* source / drain contact pads */}
       <Box x0={-g.DRAIN_CX - g.PAD_W / 2} x1={-g.DRAIN_CX + g.PAD_W / 2} y0={0} y1={g.PAD_H} z0={-g.ZH * 0.6} z1={g.ZH * 0.6} color={C.metal} roughness={0.35} metalness={0.5} />
@@ -138,7 +139,7 @@ function Stage({ g, cross, reducedMotion }: { g: Geom; cross: boolean; reducedMo
       <CalloutLabel anchor={[-g.DRAIN_CX, g.PAD_H, zf]} position={[-g.DRAIN_CX - 0.4, 1.5, g.ZH + 0.6]}>{chip('Source (S)', true)}</CalloutLabel>
       <CalloutLabel anchor={[0, g.OX_H + g.GATE_H, zf]} position={[0, 2.0, g.ZH + 0.6]}>{chip('Gate (G)', true)}</CalloutLabel>
       <CalloutLabel anchor={[g.DRAIN_CX, g.PAD_H, zf]} position={[g.DRAIN_CX + 0.4, 1.5, g.ZH + 0.6]}>{chip('Drain (D)', true)}</CalloutLabel>
-      <CalloutLabel anchor={[g.GH * 0.6, g.OX_H + g.GATE_H / 2, g.ZH]} position={[g.SUB_X + 0.7, g.OX_H + g.GATE_H + 0.2, g.ZH]}>{chip('Metal')}</CalloutLabel>
+      <CalloutLabel anchor={[g.GH * 0.6, g.OX_H + g.GATE_H / 2, g.ZH]} position={[g.SUB_X + 0.7, g.OX_H + g.GATE_H + 0.2, g.ZH]}>{chip('Gate (poly)')}</CalloutLabel>
       <CalloutLabel anchor={[g.OX_HALF - 0.05, g.OX_H / 2, g.ZH]} position={[g.SUB_X + 0.9, g.OX_H, g.ZH]}>{chip('Oxide (SiO₂)')}</CalloutLabel>
       <CalloutLabel anchor={[-g.DRAIN_CX, g.N_DEPTH / 2, zf]} position={[-g.DRAIN_CX, g.N_DEPTH / 2, zf]} leader={false}>{chip('n+')}</CalloutLabel>
       <CalloutLabel anchor={[g.DRAIN_CX, g.N_DEPTH / 2, zf]} position={[g.DRAIN_CX, g.N_DEPTH / 2, zf]} leader={false}>{chip('n+')}</CalloutLabel>
@@ -157,6 +158,8 @@ function Stage({ g, cross, reducedMotion }: { g: Geom; cross: boolean; reducedMo
         maxDistance={18}
         minPolarAngle={0.25}
         maxPolarAngle={Math.PI / 2 + 0.1}
+        minAzimuthAngle={-0.45}
+        maxAzimuthAngle={0.45}
         target={[0, -0.2, 0]}
       />
     </>

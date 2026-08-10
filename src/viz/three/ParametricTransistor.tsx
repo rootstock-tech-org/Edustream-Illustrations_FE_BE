@@ -64,10 +64,10 @@ export function ParametricTransistor({
     c.tox = damp(c.tox, Math.max(0.04, geometry.oxideGap * 0.6), k, dt);
     const tx = c.gl / 2 + DIFF_W / 2 + 0.08;
 
-    // Diffusions sit implanted INSIDE the silicon — tops flush with the surface
-    // (kept off the substrate plane by polygonOffset, not by floating proud).
-    if (diffL.current) { diffL.current.scale.set(DIFF_W, DIFF_DEPTH, c.depth); diffL.current.position.set(-tx, -DIFF_DEPTH / 2 + 0.005, 0); }
-    if (diffR.current) { diffR.current.scale.set(DIFF_W, DIFF_DEPTH, c.depth); diffR.current.position.set(tx, -DIFF_DEPTH / 2 + 0.005, 0); }
+    // Diffusions sit implanted INSIDE the silicon — tops recessed just below the
+    // surface so the gray substrate rims above them (reads as embedded, not on top).
+    if (diffL.current) { diffL.current.scale.set(DIFF_W, DIFF_DEPTH, c.depth); diffL.current.position.set(-tx, -DIFF_DEPTH / 2 - 0.04, 0); }
+    if (diffR.current) { diffR.current.scale.set(DIFF_W, DIFF_DEPTH, c.depth); diffR.current.position.set(tx, -DIFF_DEPTH / 2 - 0.04, 0); }
     if (contactL.current) contactL.current.position.x = -tx;
     if (contactR.current) contactR.current.position.x = tx;
     if (channel.current) channel.current.scale.set(c.gl + DIFF_W * 0.5, 0.07, c.depth * 0.96);
@@ -86,14 +86,14 @@ export function ParametricTransistor({
     <group position={position}>
       {/* Diffusion regions implanted into the silicon surface — bright, so the
           transistor pops against the muted substrate (hierarchy #1). */}
-      <mesh ref={diffL} position={[-1, -DIFF_DEPTH / 2 + 0.005, 0]}>
+      <mesh ref={diffL} position={[-1, -DIFF_DEPTH / 2 - 0.04, 0]}>
         <boxGeometry args={[1, 1, 1]} />
-        <meshStandardMaterial color={diffusion} emissive={diffusion} emissiveIntensity={0.2 + visual.activity * 0.3} roughness={0.5} metalness={0.05} polygonOffset polygonOffsetFactor={-3} polygonOffsetUnits={-3} />
+        <meshStandardMaterial color={diffusion} emissive={diffusion} emissiveIntensity={0.08 + visual.activity * 0.2} roughness={0.5} metalness={0.05} polygonOffset polygonOffsetFactor={-3} polygonOffsetUnits={-3} />
         <Edges threshold={15} color={edge} />
       </mesh>
-      <mesh ref={diffR} position={[1, -DIFF_DEPTH / 2 + 0.005, 0]}>
+      <mesh ref={diffR} position={[1, -DIFF_DEPTH / 2 - 0.04, 0]}>
         <boxGeometry args={[1, 1, 1]} />
-        <meshStandardMaterial color={diffusion} emissive={diffusion} emissiveIntensity={0.2 + visual.activity * 0.3} roughness={0.5} metalness={0.05} polygonOffset polygonOffsetFactor={-3} polygonOffsetUnits={-3} />
+        <meshStandardMaterial color={diffusion} emissive={diffusion} emissiveIntensity={0.08 + visual.activity * 0.2} roughness={0.5} metalness={0.05} polygonOffset polygonOffsetFactor={-3} polygonOffsetUnits={-3} />
         <Edges threshold={15} color={edge} />
       </mesh>
 
@@ -103,16 +103,15 @@ export function ParametricTransistor({
         <meshStandardMaterial ref={chanMat} color={carrier} emissive={carrier} emissiveIntensity={0.6} transparent opacity={0.2} depthWrite={false} />
       </mesh>
 
-      {/* Metal contacts — tall enough to BRIDGE the diffusion surface up to the
-          wire bus (no floating gap): the bottom sits in the diffusion (y≈0.03)
-          and the top meets the metal wire at y≈0.25 (bus is at 0.24). */}
-      <mesh ref={contactL} position={[-1, 0.14, 0]}>
-        <boxGeometry args={[0.22, 0.22, 0.45]} />
+      {/* Metal contacts — tall enough to reach from the recessed diffusion up to
+          the wire bus (top stays at y≈0.25 for the DeviceScene wiring). */}
+      <mesh ref={contactL} position={[-1, 0.07, 0]}>
+        <boxGeometry args={[0.22, 0.36, 0.45]} />
         <meshStandardMaterial color={contactCol} metalness={0.4} roughness={0.5} />
         <Edges threshold={15} color={edge} />
       </mesh>
-      <mesh ref={contactR} position={[1, 0.14, 0]}>
-        <boxGeometry args={[0.22, 0.22, 0.45]} />
+      <mesh ref={contactR} position={[1, 0.07, 0]}>
+        <boxGeometry args={[0.22, 0.36, 0.45]} />
         <meshStandardMaterial color={contactCol} metalness={0.4} roughness={0.5} />
         <Edges threshold={15} color={edge} />
       </mesh>

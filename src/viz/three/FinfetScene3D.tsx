@@ -19,12 +19,12 @@ import { damp } from './anim';
  */
 
 // Shared device palette (matches src/viz/three/palette.ts) so FinFET reads the
-// same as NMOS/PMOS/CMOS/MOSFET: silicon gray, oxide cyan, metal-blue gate.
+// same as NMOS/PMOS/CMOS/MOSFET: silicon gray, oxide cyan, red poly gate.
 const C = {
   substrate: '#dad9d3',
   fin: '#e4e3dd',
   oxide: '#86d7e6',
-  gate: '#2f7cd4',
+  gate: '#d23b2d',
   edge: '#3a4250',
 };
 
@@ -198,6 +198,8 @@ function Stage({ g, cross, reducedMotion, light }: { g: Geom; cross: boolean; re
         maxDistance={20}
         minPolarAngle={0.2}
         maxPolarAngle={Math.PI / 2 + 0.1}
+        minAzimuthAngle={-0.45}
+        maxAzimuthAngle={0.45}
         target={[0, 0.5, 0]}
       />
     </>

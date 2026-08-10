@@ -129,7 +129,7 @@ function Wire3D({ points, high, S, flow }: { points: ReadonlyArray<readonly [num
       total += pts[i]!.distanceTo(pts[i + 1]!);
     }
     const tubular = Math.max(pts.length * 2, Math.round(total / 4));
-    return { geo: new THREE.TubeGeometry(p, tubular, 2.3, 8, false), path: p };
+    return { geo: new THREE.TubeGeometry(p, tubular, 1.9, 8, false), path: p };
   }, [points]);
   const joints = useMemo(() => points.slice(1, -1), [points]);
   if (!geo) return null;
@@ -139,7 +139,7 @@ function Wire3D({ points, high, S, flow }: { points: ReadonlyArray<readonly [num
       <mesh geometry={geo}>{mat}</mesh>
       {joints.map(([x, y], i) => (
         <mesh key={i} position={[x, y, DEPTH / 2 + 1]}>
-          <sphereGeometry args={[2.3, 10, 10]} />
+          <sphereGeometry args={[1.9, 10, 10]} />
           {mat}
         </mesh>
       ))}

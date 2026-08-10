@@ -44,7 +44,7 @@ export function SequentialLogicSection({ onClose }: { onClose: () => void }) {
 }
 
 function SrLatchCard() {
-  const { vdd, sr, srInputs, setSrInput, pulseSr, resetSr } = useSequentialStore();
+  const { vdd, sr, srInputs, setSrInput, pulseSr } = useSequentialStore();
   const [pulseTick, setPulseTick] = useState(0);
   const handlePulse = () => {
     setPulseTick((t) => t + 1);
@@ -57,7 +57,6 @@ function SrLatchCard() {
       q={sr.q}
       vdd={vdd}
       onPulse={handlePulse}
-      onReset={resetSr}
       inputs={
         <>
           <ToggleButton label="S" on={srInputs.s} onClick={() => setSrInput('s', !srInputs.s)} />
@@ -81,7 +80,7 @@ function SrLatchCard() {
 }
 
 function DFlipFlopCard() {
-  const { vdd, d, dInput, setDInput, pulseD, resetD } = useSequentialStore();
+  const { vdd, d, dInput, setDInput, pulseD } = useSequentialStore();
   const [pulseTick, setPulseTick] = useState(0);
   const handlePulse = () => {
     setPulseTick((t) => t + 1);
@@ -94,7 +93,6 @@ function DFlipFlopCard() {
       q={d.q}
       vdd={vdd}
       onPulse={handlePulse}
-      onReset={resetD}
       inputs={<ToggleButton label="D" on={dInput} onClick={() => setDInput(!dInput)} />}
       diagram={<DFlipFlopDiagram vdd={vdd} d={dInput} voltages={d.voltages} pulseTick={pulseTick} />}
       truthTable={
@@ -111,7 +109,7 @@ function DFlipFlopCard() {
 }
 
 function JkFlipFlopCard() {
-  const { vdd, jk, jkInputs, setJkInput, pulseJk, resetJk } = useSequentialStore();
+  const { vdd, jk, jkInputs, setJkInput, pulseJk } = useSequentialStore();
   const [pulseTick, setPulseTick] = useState(0);
   const handlePulse = () => {
     setPulseTick((t) => t + 1);
@@ -124,7 +122,6 @@ function JkFlipFlopCard() {
       q={jk.q}
       vdd={vdd}
       onPulse={handlePulse}
-      onReset={resetJk}
       inputs={
         <>
           <ToggleButton label="J" on={jkInputs.j} onClick={() => setJkInput('j', !jkInputs.j)} />
@@ -148,7 +145,7 @@ function JkFlipFlopCard() {
 }
 
 function TFlipFlopCard() {
-  const { vdd, t, tInput, setTInput, pulseT, resetT } = useSequentialStore();
+  const { vdd, t, tInput, setTInput, pulseT } = useSequentialStore();
   const [pulseTick, setPulseTick] = useState(0);
   const handlePulse = () => {
     setPulseTick((tick) => tick + 1);
@@ -161,7 +158,6 @@ function TFlipFlopCard() {
       q={t.q}
       vdd={vdd}
       onPulse={handlePulse}
-      onReset={resetT}
       inputs={<ToggleButton label="T" on={tInput} onClick={() => setTInput(!tInput)} />}
       diagram={<TFlipFlopDiagram vdd={vdd} t={tInput} voltages={t.voltages} pulseTick={pulseTick} />}
       truthTable={

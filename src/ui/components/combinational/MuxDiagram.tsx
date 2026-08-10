@@ -21,7 +21,8 @@ export function MuxDiagram({
 }) {
   const sel = (s1 ? 2 : 0) + (s0 ? 1 : 0);
   const andHi = [0, 1, 2, 3].map((i) => i === sel && d[i]!);
-  const xE = 66, xS1b = 86, xS1 = 104, xS0b = 122, xS0 = 140;
+  // select buses spread wide apart so the vertical lines never bunch/overlap
+  const xE = 48, xS1b = 76, xS1 = 104, xS0b = 132, xS0 = 160;
   const busTop = 14, busBot = 250, gx = 196;
   const andY = [18, 76, 134, 192];
   const terms: Array<Array<[boolean, number]>> = [

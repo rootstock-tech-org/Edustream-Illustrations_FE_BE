@@ -10,7 +10,6 @@ export function FlipFlopShell({
   q,
   vdd,
   onPulse,
-  onReset,
   inputs,
   diagram,
   truthTable,
@@ -20,7 +19,6 @@ export function FlipFlopShell({
   q: number;
   vdd: number;
   onPulse: () => void;
-  onReset: () => void;
   inputs: ReactNode;
   diagram: ReactNode;
   truthTable: ReactNode;
@@ -48,12 +46,6 @@ export function FlipFlopShell({
           className="ml-auto rounded-lg bg-brand px-3 py-1.5 text-sm font-medium text-white shadow-[0_0_18px_var(--accent-glow)] transition hover:opacity-90"
         >
           Clock ↑ Pulse
-        </button>
-        <button
-          onClick={onReset}
-          className="rounded-lg bg-black/[0.04] px-3 py-1.5 text-sm text-ink-muted ring-1 ring-black/10 transition hover:text-ink dark:bg-white/5 dark:ring-white/10"
-        >
-          Reset
         </button>
       </div>
 

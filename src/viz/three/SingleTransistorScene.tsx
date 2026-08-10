@@ -57,8 +57,10 @@ export interface SingleTransistorData {
   readonly reducedMotion: boolean;
 }
 
-const SUB_H = 0.6;
-const WELL_H = 0.42;
+// Substrate/well thickened so the diffusions + body tap sit clearly IMPLANTED
+// inside the silicon (not poking through a thin base).
+const SUB_H = 1.15;
+const WELL_H = 0.85;
 const SUBSTRATE_MUTED = '#dad9d3'; // pale gray p-substrate (per photo)
 const NWELL_MUTED = '#e6a88e'; // warm salmon n-well (per photo)
 
@@ -114,16 +116,16 @@ function Stage({ data }: { data: SingleTransistorData }) {
       )}
 
       {/* Body / well tap → the substrate (NMOS) or n-well (PMOS) contact. The
-          metal contact MUST sit ON the p⁺/n⁺ tap (ohmic body contact), so it's
-          tall enough to rest on the diffusion top (y≈0) with no air gap. */}
+          p⁺/n⁺ tap is implanted INSIDE the silicon (top recessed below the
+          surface); the metal contact reaches down onto it. */}
       <group position={[bodyX, 0, 0]}>
-        <mesh position={[0, -0.16, 0]}>
-          <boxGeometry args={[0.42, 0.32, depth * 0.6]} />
+        <mesh position={[0, -0.28, 0]}>
+          <boxGeometry args={[0.42, 0.44, depth * 0.6]} />
           <meshStandardMaterial color={color(isP ? 'nplus' : 'pplus')} roughness={0.6} metalness={0.05} />
           <Edges threshold={15} color={edge} />
         </mesh>
-        <mesh position={[0, 0.11, 0]}>
-          <boxGeometry args={[0.24, 0.24, 0.45]} />
+        <mesh position={[0, 0.065, 0]}>
+          <boxGeometry args={[0.24, 0.33, 0.45]} />
           <meshStandardMaterial color={contactCol} metalness={0.4} roughness={0.5} />
           <Edges threshold={15} color={edge} />
         </mesh>
