@@ -2,10 +2,10 @@
 import { useState } from 'react';
 import { useSequentialStore } from '@/state/sequential.store';
 import { FlipFlopShell, ToggleButton, TruthTable } from './FlipFlopShell';
-import { SrLatchDiagram } from './SrLatchDiagram';
+import { SrLatchSchematic } from './SrLatchSchematic';
 import { DFlipFlopDiagram } from './DFlipFlopDiagram';
 import { JkFlipFlopDiagram } from './JkFlipFlopDiagram';
-import { TFlipFlopDiagram } from './TFlipFlopDiagram';
+import { TFlipFlopSchematic } from './TFlipFlopSchematic';
 
 /**
  * Sequential Logic — a brand-new top-level section (separate from the
@@ -45,9 +45,7 @@ export function SequentialLogicSection({ onClose }: { onClose: () => void }) {
 
 function SrLatchCard() {
   const { vdd, sr, srInputs, setSrInput, pulseSr } = useSequentialStore();
-  const [pulseTick, setPulseTick] = useState(0);
   const handlePulse = () => {
-    setPulseTick((t) => t + 1);
     pulseSr();
   };
   return (
@@ -63,7 +61,7 @@ function SrLatchCard() {
           <ToggleButton label="R" on={srInputs.r} onClick={() => setSrInput('r', !srInputs.r)} />
         </>
       }
-      diagram={<SrLatchDiagram vdd={vdd} s={srInputs.s} r={srInputs.r} g1={sr.voltages.G1 ?? 0} g2={sr.voltages.G2 ?? 0} q={sr.q} qBar={sr.qBar} pulseTick={pulseTick} />}
+      diagram={<SrLatchSchematic />}
       truthTable={
         <TruthTable
           headers={['S', 'R', 'Q(next)']}
@@ -146,9 +144,7 @@ function JkFlipFlopCard() {
 
 function TFlipFlopCard() {
   const { vdd, t, tInput, setTInput, pulseT } = useSequentialStore();
-  const [pulseTick, setPulseTick] = useState(0);
   const handlePulse = () => {
-    setPulseTick((tick) => tick + 1);
     pulseT();
   };
   return (
@@ -159,7 +155,7 @@ function TFlipFlopCard() {
       vdd={vdd}
       onPulse={handlePulse}
       inputs={<ToggleButton label="T" on={tInput} onClick={() => setTInput(!tInput)} />}
-      diagram={<TFlipFlopDiagram vdd={vdd} t={tInput} voltages={t.voltages} pulseTick={pulseTick} />}
+      diagram={<TFlipFlopSchematic />}
       truthTable={
         <TruthTable
           headers={['T', 'Q(next)']}
