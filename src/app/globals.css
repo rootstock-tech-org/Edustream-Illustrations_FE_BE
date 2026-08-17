@@ -10,12 +10,12 @@
  * viz/three/palette.ts and adapt via the scene background only.
  */
 :root {
-  /* LIGHT (default) — RootStock: forest-green brand, blue/cyan interactive */
+  /* LIGHT (default) — RootStock: forest-green brand, green interactive */
   --surface: 247 248 250;        /* #F7F8FA background */
   --surface-elevated: 255 255 255;
   --ink: 17 24 39;               /* #111827 */
   --ink-muted: 107 114 128;      /* #6B7280 */
-  --accent: 24 75 138;           /* #184B8A tech blue — interactive/active */
+  --accent: 16 185 129;          /* Emerald Green — interactive/active */
   --brand: 27 61 57;             /* #1B3D39 deep forest green — identity */
   --secondary: 47 168 216;       /* #2FA8D8 cyan */
   --highlight: 255 255 255;
@@ -28,11 +28,11 @@
   --glass-border: rgba(17, 24, 39, 0.09);
   --glass-shadow: 0 18px 50px rgba(17, 24, 39, 0.10);
   --glass-inset: rgba(255, 255, 255, 0.5);
-  --aurora-1: rgba(24, 75, 138, 0.10);
+  --aurora-1: rgba(16, 185, 129, 0.10);
   --aurora-2: rgba(53, 200, 255, 0.12);
   --subtle: rgba(17, 24, 39, 0.05);
   --hairline: rgba(17, 24, 39, 0.10);
-  --accent-glow: rgba(53, 200, 255, 0.45);
+  --accent-glow: rgba(16, 185, 129, 0.45);
 
   /* Numeric readouts use a true monospace (was the geometric display face) so
      figures stay aligned and legible — the serif display face is for text. */
@@ -40,12 +40,12 @@
 }
 
 .dark {
-  /* DARK — RootStock dark palette: #0E1116 canvas, electric-blue interactive */
+  /* DARK — RootStock dark palette: #0E1116 canvas, green interactive */
   --surface: 14 17 22;          /* #0E1116 */
   --surface-elevated: 29 36 48;  /* #1D2430 card */
   --ink: 245 247 250;           /* #F5F7FA */
   --ink-muted: 139 151 168;
-  --accent: 53 200 255;          /* #35C8FF electric blue */
+  --accent: 52 211 153;          /* Emerald Green Light */
   --brand: 37 83 44;            /* #25532C evergreen */
   --secondary: 47 168 216;       /* #2FA8D8 cyan */
   --highlight: 255 255 255;
@@ -58,11 +58,11 @@
   --glass-border: rgba(255, 255, 255, 0.09);
   --glass-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
   --glass-inset: rgba(255, 255, 255, 0.06);
-  --aurora-1: rgba(53, 200, 255, 0.10);
+  --aurora-1: rgba(52, 211, 153, 0.10);
   --aurora-2: rgba(24, 75, 138, 0.22);
   --subtle: rgba(255, 255, 255, 0.05);
   --hairline: rgba(255, 255, 255, 0.10);
-  --accent-glow: rgba(53, 200, 255, 0.5);
+  --accent-glow: rgba(52, 211, 153, 0.5);
 }
 
 html,
@@ -140,6 +140,25 @@ body::before {
     transform-origin: center;
     animation: node-pop 420ms cubic-bezier(0.34, 1.56, 0.64, 1);
   }
+}
+
+/* Strip React Flow's built-in node chrome — MUST be outside @layer to beat RF's own stylesheet */
+.react-flow__node,
+.react-flow__node-input,
+.react-flow__node-output,
+.react-flow__node-default,
+.react-flow__node.selected {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  padding: 0 !important;
+  font-size: inherit !important;
+  color: inherit !important;
+  overflow: visible !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  width: auto !important;
 }
 
 @keyframes wire-flow {
@@ -221,4 +240,13 @@ input[type='range']::-moz-range-thumb {
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
   }
+}
+
+/* SmartWire Hover Effect */
+.smart-wire-edge:hover path.react-flow__edge-path {
+  stroke: rgb(var(--accent)) !important;
+  stroke-width: 4px !important;
+  filter: drop-shadow(0 0 6px rgba(var(--accent), 0.8));
+  cursor: pointer;
+  transition: all 150ms ease;
 }

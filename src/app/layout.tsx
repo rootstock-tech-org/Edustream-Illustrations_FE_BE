@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next';
-import { Open_Sans, Lora } from 'next/font/google';
+import { Open_Sans, Lora, Share_Tech_Mono } from 'next/font/google';
 import './globals.css';
 
 // Open Sans (body, per the reference) + Lora (an elegant serif for the display
@@ -8,6 +8,7 @@ import './globals.css';
 // fallbacks keep the build resilient offline.
 const sans = Open_Sans({ subsets: ['latin'], variable: '--font-sans', display: 'swap' });
 const display = Lora({ subsets: ['latin'], weight: ['400', '500', '600', '700'], variable: '--font-display', display: 'swap' });
+const digital = Share_Tech_Mono({ subsets: ['latin'], weight: ['400'], variable: '--font-digital', display: 'swap' });
 
 export const metadata: Metadata = {
   title: 'Probe Station — Semiconductor Explorer',
@@ -25,7 +26,7 @@ const themeScript = `try{if(localStorage.getItem('theme')==='dark')document.docu
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${sans.variable} ${display.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${sans.variable} ${display.variable} ${digital.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
