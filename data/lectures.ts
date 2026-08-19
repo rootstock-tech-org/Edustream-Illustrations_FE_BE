@@ -79,3 +79,16 @@ export function lectureForModule(moduleId: string | undefined): LectureLink | nu
   if (!moduleId) return null;
   return LECTURES[moduleId] ?? null;
 }
+
+/**
+ * Resolves an AVSAR global topic number (1-171) to a curriculum module id.
+ * Skips "emerging" since it spans the whole course rather than one range.
+ */
+export function moduleForTopic(topic: number): string | null {
+  if (!Number.isFinite(topic)) return null;
+  for (const l of Object.values(LECTURES)) {
+    if (l.moduleId === "emerging") continue;
+    if (topic >= l.topicStart && topic <= l.topicEnd) return l.moduleId;
+  }
+  return null;
+}
