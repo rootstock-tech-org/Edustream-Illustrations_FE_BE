@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-19T18:23:10.835Z",
-  "count": 163,
+  "generatedAt": "2026-08-19T18:43:53.875Z",
+  "count": 164,
   "articles": [
     {
       "title": "proteanTecs Unveils Advanced Packaging Solutions",
@@ -387,22 +387,6 @@
       "publishedAt": "2026-08-17T20:20:54.000Z"
     },
     {
-      "title": "Nvidia Bets on the Classical Side of Quantum Computing",
-      "link": "https://www.eetimes.com/nvidia-bets-on-the-classical-side-of-quantum-computing/",
-      "image": "https://www.eetimes.com/wp-content/uploads/low_-60224_quantum_green_dsc09884.jpg",
-      "summary": "Nvidia positions classical computing infrastructure as a critical layer in the race to build useful quantum computers. The post Nvidia Bets on the Classical Side of Quantum Computing appeared first on EE Times .",
-      "source": "EE Times",
-      "sources": [
-        "EE Times"
-      ],
-      "sourceCount": 1,
-      "moduleId": "emerging",
-      "module": "Emerging & Research",
-      "score": 70,
-      "rumor": false,
-      "publishedAt": "2026-08-17T18:31:00.000Z"
-    },
-    {
       "title": "EPC Space Launches Rad-Hard 15V, 25V and 40V eGaN FETs",
       "link": "https://www.powerelectronicsnews.com/epc-space-launches-rad-hard-15v-25v-and-40v-egan-fets/",
       "image": "https://www.powerelectronicsnews.com/wp-content/uploads/sites/3/2026/08/EPC7050-7065-7066-PR-Graphic_CLEAN.jpg?fit=1500%2C1200",
@@ -417,22 +401,6 @@
       "score": 47,
       "rumor": false,
       "publishedAt": "2026-08-19T13:00:00.000Z"
-    },
-    {
-      "title": "Postgres pioneer credits Oracle with helping his database take over the world",
-      "link": "https://www.theregister.com/databases/2026/08/19/postgres-pioneer-credits-oracle-with-helping-his-database-take-over-the-world/5289087",
-      "image": "https://image.theregister.com/?imageId=170448&width=800",
-      "summary": "Big Red's acquisition of MySQL sent users running toward the open source alternative, says Michael Stonebraker",
-      "source": "The Register",
-      "sources": [
-        "The Register"
-      ],
-      "sourceCount": 1,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
-      "score": 47,
-      "rumor": false,
-      "publishedAt": "2026-08-19T12:37:00.000Z"
     },
     {
       "title": "Manz Asia targets PLP demand with three lines and three sizes",
@@ -529,6 +497,22 @@
       "score": 55,
       "rumor": false,
       "publishedAt": "2026-08-18T19:10:47.000Z"
+    },
+    {
+      "title": "Nvidia Bets on the Classical Side of Quantum Computing",
+      "link": "https://www.eetimes.com/nvidia-bets-on-the-classical-side-of-quantum-computing/",
+      "image": "https://www.eetimes.com/wp-content/uploads/low_-60224_quantum_green_dsc09884.jpg",
+      "summary": "Nvidia positions classical computing infrastructure as a critical layer in the race to build useful quantum computers. The post Nvidia Bets on the Classical Side of Quantum Computing appeared first on EE Times .",
+      "source": "EE Times",
+      "sources": [
+        "EE Times"
+      ],
+      "sourceCount": 1,
+      "moduleId": "emerging",
+      "module": "Emerging & Research",
+      "score": 67,
+      "rumor": false,
+      "publishedAt": "2026-08-17T18:31:00.000Z"
     },
     {
       "title": "CXMT Breaks 9,000 MT/s Barrier with DDR5",
@@ -770,6 +754,22 @@
       "score": 62,
       "rumor": false,
       "publishedAt": "2026-08-17T19:25:48.000Z"
+    },
+    {
+      "title": "Postgres pioneer credits Oracle with helping his database take over the world",
+      "link": "https://www.theregister.com/databases/2026/08/19/postgres-pioneer-credits-oracle-with-helping-his-database-take-over-the-world/5289087",
+      "image": "https://image.theregister.com/?imageId=170448&width=800",
+      "summary": "Big Red's acquisition of MySQL sent users running toward the open source alternative, says Michael Stonebraker",
+      "source": "The Register",
+      "sources": [
+        "The Register"
+      ],
+      "sourceCount": 1,
+      "moduleId": "industry",
+      "module": "Industry & Overview",
+      "score": 47,
+      "rumor": false,
+      "publishedAt": "2026-08-19T12:37:00.000Z"
     },
     {
       "title": "New Cost-Effective Metallized Polypropylene Film Capacitors for Industrial and Automotive Applications",
@@ -1719,6 +1719,22 @@
       "score": 62,
       "rumor": false,
       "publishedAt": "2026-06-03T00:01:28.000Z"
+    },
+    {
+      "title": "Verification IP: Why design teams buy instead of build",
+      "link": "https://blogs.sw.siemens.com/verificationhorizons/2026/05/18/verification-ip-why-design-teams-buy-instead-of-build/",
+      "image": "https://blogs.sw.siemens.com/wp-content/uploads/sites/54/2026/05/dac2026_hero-V1_1280x720.jpg",
+      "summary": "When we say verification IP, we mean pre-built verification solutions for standards-based peripheral interconnect interfaces and memories.",
+      "source": "Siemens Verification Horizons",
+      "sources": [
+        "Siemens Verification Horizons"
+      ],
+      "sourceCount": 1,
+      "moduleId": "verification",
+      "module": "Functional Verification",
+      "score": 62,
+      "rumor": false,
+      "publishedAt": "2026-05-18T21:56:19.000Z"
     },
     {
       "title": "Why DFT Verification Signoff Is the Hidden Risk Threatening Your Next Tapeout",

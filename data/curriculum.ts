@@ -54,6 +54,7 @@ export const MODULES: Module[] = [
       "body effect", "CMOS process", "channel length modulation", "short channel effect",
       "DIBL", "gate leakage", "high-k dielectric", "high-k metal gate", "HKMG",
       "work function", "inversion layer", "strained silicon", "velocity saturation",
+      "transistor architecture", "next-generation transistor", "transistor design",
     ],
   },
   {
@@ -66,6 +67,7 @@ export const MODULES: Module[] = [
       "subthreshold leakage", "CMOS scaling", "pull-up network", "pull-down network",
       "transmission gate", "pass-transistor logic", "domino logic", "pseudo-nMOS",
       "tri-state buffer", "logical effort", "charge sharing", "body biasing",
+      "standard cell design", "low-power logic", "energy-efficient logic", "combinational logic design",
     ],
   },
   {
@@ -115,6 +117,8 @@ export const MODULES: Module[] = [
       "UVM testbench", "coverage-driven verification", "scoreboard", "assertion-based verification",
       "property checking", "equivalence checking", "formal equivalence", "hardware emulation",
       "logic simulation", "gate-level simulation", "constrained-random verification", "x-propagation",
+      "JasperGold", "VC Formal", "Xcelium", "ZeBu emulation", "Palladium emulation", "Veloce emulation",
+      "formal property verification", "Verdi debug", "verification IP",
     ],
   },
   {
@@ -125,6 +129,8 @@ export const MODULES: Module[] = [
       "gate-level netlist", "RTL to gate", "logic gate mapping", "Design Compiler",
       "Fusion Compiler", "Genus Synthesis", "retiming", "SDC constraints", "constraint-driven synthesis",
       "multi-level logic", "high-level synthesis", "C-to-RTL",
+      "Fusion Compiler", "Design Compiler", "physical synthesis", "logic equivalence check",
+      "Stratus HLS", "Catapult HLS", "synthesis tool",
     ],
   },
   {
@@ -136,6 +142,8 @@ export const MODULES: Module[] = [
       "timing closure", "clock tree", "timing slack", "clock jitter", "clock uncertainty",
       "on-chip variation", "setup violation", "hold violation", "path delay", "useful skew",
       "generated clock", "time borrowing", "multicorner multimode",
+      "PrimeTime", "timing sign-off", "static timing sign-off", "path-based analysis",
+      "clock skew analysis", "parametric on-chip variation",
     ],
   },
   {
@@ -149,6 +157,8 @@ export const MODULES: Module[] = [
       "physical verification", "place and route", "macro placement", "power grid",
       "timing-driven placement", "legalization", "antenna effect", "filler cell", "tap cell",
       "routing track", "metal layer", "clock tree synthesis",
+      "Innovus", "IC Compiler", "ICC2", "place-and-route", "place and route", "StarRC",
+      "signoff extraction", "physical implementation",
     ],
   },
   {
@@ -161,6 +171,7 @@ export const MODULES: Module[] = [
       "design for testability", "scan flip-flop", "fault coverage", "transition fault",
       "at-speed test", "memory BIST", "logic BIST", "IJTAG", "test access port",
       "fault simulation", "stuck-at fault", "test pattern generation",
+      "Tessent", "scan compression", "test pattern", "design-for-test tool",
     ],
   },
   {
@@ -219,6 +230,8 @@ export const MODULES: Module[] = [
       "power domain", "UPF", "isolation cell", "retention register", "state retention",
       "power switch", "voltage island", "adaptive voltage scaling", "leakage reduction",
       "static power analysis", "dynamic voltage drop", "aging analysis", "reliability signoff",
+      "PrimePower", "RedHawk", "power intent", "IR-drop analysis", "power integrity sign-off",
+      "low-power sign-off", "power-aware design",
     ],
   },
   {
