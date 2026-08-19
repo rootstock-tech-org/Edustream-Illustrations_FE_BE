@@ -19,9 +19,9 @@ export function SavedList() {
   if (saved.length === 0) {
     return (
       <div className="rounded-2xl border border-dashed border-slate-200 bg-white p-12 text-center">
-        <p className="text-sm font-semibold text-slate-700">No saved stories yet</p>
+        <p className="text-sm font-semibold text-slate-700">Your collection is empty</p>
         <p className="mt-1 text-sm text-slate-500">
-          Tap the bookmark on any story to save it here for later.
+          Tap the bookmark on any story to add it to your collection.
         </p>
       </div>
     );
@@ -43,7 +43,7 @@ export function SavedList() {
             </a>
             <button
               type="button"
-              aria-label="Remove from saved"
+              aria-label="Remove from collection"
               title="Remove"
               onClick={() => remove(s.link)}
               className="absolute right-3 top-3 z-10 grid h-8 w-8 place-items-center rounded-full bg-white/85 text-slate-600 ring-1 ring-slate-200 backdrop-blur transition hover:bg-white hover:text-red-600"

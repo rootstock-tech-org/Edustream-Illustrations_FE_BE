@@ -17,9 +17,9 @@ export function SaveButton({ item, onDark = false }: { item: SaveItem; onDark?: 
   return (
     <button
       type="button"
-      aria-label={saved ? "Remove from saved" : "Save for later"}
+      aria-label={saved ? "Remove from collection" : "Add to collection"}
       aria-pressed={saved}
-      title={saved ? "Saved" : "Save for later"}
+      title={saved ? "In your collection" : "Add to collection"}
       onClick={(e) => {
         e.preventDefault(); // don't open the article
         e.stopPropagation();
