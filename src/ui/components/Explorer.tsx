@@ -1,11 +1,12 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import type { Explanation } from '@/domain/explainability/explanation.types';
 import { formatQuantity } from '@/domain/units';
 import { useGateResult, useTransistorResult } from '@/ui/hooks/useSimulation';
 import { useDevice } from '@/ui/hooks/useDevice';
 import { useLabModes } from '@/viz/three/lab-modes';
-import { DevicePicker } from './DevicePicker';
+import { DeviceMenu } from './DeviceMenu';
+import { PanelResizer } from './PanelResizer';
 import { ParameterPanel } from './ParameterPanel';
 import { OutputPanel } from './OutputPanel';
 import { TransistorOutputs } from './TransistorOutputs';
@@ -38,6 +39,16 @@ import { FabricationSection } from './FabricationSection';
 import { SequentialLogicSection } from './sequential/SequentialLogicSection';
 import { CombinationalLogicSection } from './combinational/CombinationalLogicSection';
 import { LogicGatesSection } from './logic/LogicGatesSection';
+import { useMediaQuery } from '@/ui/hooks/useMediaQuery';
+
+/** Resizable panel bounds (px). Left keeps its old default; the right panel
+ *  is narrowed from 344 so the device stage gets the space back. */
+const LEFT_MIN = 200;
+const LEFT_MAX = 420;
+const LEFT_DEFAULT = 250;
+const RIGHT_MIN = 260;
+const RIGHT_MAX = 560;
+const RIGHT_DEFAULT = 300;
 
 type Tab = 'explore' | 'analyze' | 'variation' | 'learn';
 const TABS: ReadonlyArray<{ id: Tab; label: string }> = [
@@ -72,6 +83,42 @@ export function Explorer() {
   const [seqOpen, setSeqOpen] = useState(false);
   const [combOpen, setCombOpen] = useState(false);
   const [gatesOpen, setGatesOpen] = useState(false);
+  const [leftW, setLeftW] = useState(LEFT_DEFAULT);
+  const [rightW, setRightW] = useState(RIGHT_DEFAULT);
+
+  // Grid columns stay Tailwind classes until the viewport is known to match;
+  // only then do the inline (resizable) templates take over, so the server
+  // render and the first client paint agree.
+  const isMd = useMediaQuery('(min-width: 768px)');
+  const isXl = useMediaQuery('(min-width: 1280px)');
+
+  useEffect(() => {
+    try {
+      const l = Number(localStorage.getItem('panel.leftW'));
+      const r = Number(localStorage.getItem('panel.rightW'));
+      if (l >= LEFT_MIN && l <= LEFT_MAX) setLeftW(l);
+      if (r >= RIGHT_MIN && r <= RIGHT_MAX) setRightW(r);
+    } catch {
+      /* ignore */
+    }
+  }, []);
+
+  const changeLeft = useCallback((v: number) => {
+    setLeftW(v);
+    try {
+      localStorage.setItem('panel.leftW', String(v));
+    } catch {
+      /* ignore */
+    }
+  }, []);
+  const changeRight = useCallback((v: number) => {
+    setRightW(v);
+    try {
+      localStorage.setItem('panel.rightW', String(v));
+    } catch {
+      /* ignore */
+    }
+  }, []);
 
   const crossSection = useLabModes((s) => s.crossSection);
   const setCrossSection = useLabModes((s) => s.setCrossSection);
@@ -91,41 +138,20 @@ export function Explorer() {
 
   return (
     <main className="flex h-[100dvh] flex-col gap-3 overflow-hidden p-3 md:p-4">
-      {/* ── top bar ── */}
-      <header className="glass flex items-center justify-between gap-3 rounded-2xl px-4 py-2.5">
-        <div className="flex items-center gap-3">
-          <span className="grid h-8 w-8 place-items-center rounded-lg bg-brand text-sm font-bold text-white shadow-[0_0_20px_var(--accent-glow)]">◆</span>
-          <div className="leading-tight">
-            <h1 className="eyebrow text-sm text-ink">Probe Station</h1>
-            <p className="hidden text-[11px] text-ink-muted sm:block">Interactive semiconductor laboratory</p>
-          </div>
-        </div>
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => setGatesOpen(true)}
-            className="rounded-lg bg-brand px-3 py-1.5 text-sm font-medium text-white shadow-[0_0_18px_var(--accent-glow)] transition hover:opacity-90"
-          >
-            Logic Gates
-          </button>
-          <button
-            onClick={() => setFabOpen(true)}
-            className="rounded-lg bg-brand px-3 py-1.5 text-sm font-medium text-white shadow-[0_0_18px_var(--accent-glow)] transition hover:opacity-90"
-          >
-            Fabrication
-          </button>
-          <button
-            onClick={() => setSeqOpen(true)}
-            className="rounded-lg bg-brand px-3 py-1.5 text-sm font-medium text-white shadow-[0_0_18px_var(--accent-glow)] transition hover:opacity-90"
-          >
-            Sequential Logic
-          </button>
-          <button
-            onClick={() => setCombOpen(true)}
-            className="rounded-lg bg-brand px-3 py-1.5 text-sm font-medium text-white shadow-[0_0_18px_var(--accent-glow)] transition hover:opacity-90"
-          >
-            Combinational Logic
-          </button>
-          <DevicePicker />
+      {/* ── top bar: wordmark · devices/labs menu · theme. Nothing else. ── */}
+      {/* relative z-50: the .glass panels below create their own stacking
+          contexts, so without this the hover menu paints behind them. */}
+      <header className="glass relative z-50 flex items-center justify-between gap-3 rounded-2xl px-4 py-2">
+        <h1 className="eyebrow text-sm text-ink">Probe Station</h1>
+        <div className="flex items-center gap-2">
+          <DeviceMenu
+            sections={[
+              { label: 'Logic Gates', onSelect: () => setGatesOpen(true) },
+              { label: 'Combinational Logic', onSelect: () => setCombOpen(true) },
+              { label: 'Sequential Logic', onSelect: () => setSeqOpen(true) },
+              { label: 'Fabrication', onSelect: () => setFabOpen(true) },
+            ]}
+          />
           <ThemeToggle />
         </div>
       </header>
@@ -134,7 +160,10 @@ export function Explorer() {
           the device + instruments. The sidebar shows from `md` up; at md–xl the
           instruments stack under the device, and at `xl` they move to a 3rd
           column. ── */}
-      <div className="grid min-h-0 flex-1 grid-cols-1 gap-3 overflow-y-auto md:grid-cols-[minmax(220px,250px)_minmax(0,1fr)] md:overflow-hidden">
+      <div
+        className="grid min-h-0 flex-1 grid-cols-1 gap-3 overflow-y-auto md:grid-cols-[minmax(220px,250px)_minmax(0,1fr)] md:overflow-hidden"
+        style={isMd ? { gridTemplateColumns: `${leftW}px 8px minmax(0,1fr)` } : undefined}
+      >
         {/* LEFT — workspace nav + controls + info */}
         <aside className="glass flex min-h-0 flex-col overflow-hidden rounded-2xl">
           {/* vertical workspace nav */}
@@ -172,8 +201,22 @@ export function Explorer() {
           <InfoPanel />
         </aside>
 
+        {isMd && (
+          <PanelResizer
+            value={leftW}
+            min={LEFT_MIN}
+            max={LEFT_MAX}
+            onChange={changeLeft}
+            grow="right"
+            label="Resize controls panel"
+          />
+        )}
+
         {/* device + instruments: stacked (md) → two columns (xl) */}
-        <div className="flex min-h-0 flex-col gap-3 overflow-y-auto xl:grid xl:grid-cols-[minmax(0,1fr)_344px] xl:overflow-hidden">
+        <div
+          className="flex min-h-0 flex-col gap-3 overflow-y-auto xl:grid xl:grid-cols-[minmax(0,1fr)_300px] xl:overflow-hidden"
+          style={isXl ? { gridTemplateColumns: `minmax(0,1fr) 8px ${rightW}px` } : undefined}
+        >
           {/* CENTER — the device bench + its feedback (one grid column) */}
           <div className="flex min-h-0 flex-col gap-3 xl:overflow-y-auto">
           <section className="relative min-h-[22rem] shrink-0 overflow-hidden rounded-2xl glass xl:min-h-0">
@@ -229,6 +272,17 @@ export function Explorer() {
             <FeedbackBar id={`device-${device.id}`} />
           </div>
           </div>
+
+          {isXl && (
+            <PanelResizer
+              value={rightW}
+              min={RIGHT_MIN}
+              max={RIGHT_MAX}
+              onChange={changeRight}
+              grow="left"
+              label="Resize instrument panel"
+            />
+          )}
 
           {/* RIGHT — instrument readout (swaps per tab) */}
           <aside className="flex flex-col gap-3 xl:min-h-0 xl:overflow-y-auto xl:pr-0.5">
