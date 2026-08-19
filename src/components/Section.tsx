@@ -3,6 +3,7 @@ import { CategoryView } from "../../lib/categories";
 import { faviconFor, timeAgo } from "../../lib/display";
 import type { Article } from "../../lib/pipeline";
 import { NewsCard } from "./NewsCard";
+import { LectureChip } from "./LectureChip";
 
 export type SectionLayout = "grid" | "list" | "spotlight" | "headlines";
 
@@ -86,13 +87,14 @@ export function Section({
                     <h3 className="line-clamp-2 text-sm font-semibold leading-snug text-slate-800 group-hover:text-indigo-600">
                       {it.title}
                     </h3>
-                    <div className="mt-1 flex items-center gap-x-2 text-[11px] text-slate-500">
+                    <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] text-slate-500">
                       {fav ? (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img src={fav} alt="" width={13} height={13} className="rounded-sm" />
                       ) : null}
                       <span className="font-semibold text-slate-700">{it.source}</span>
                       {it.publishedAt ? <span>· {timeAgo(it.publishedAt)}</span> : null}
+                      <LectureChip moduleId={it.moduleId} />
                     </div>
                   </div>
                 </a>

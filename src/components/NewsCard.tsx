@@ -79,8 +79,9 @@ export function NewsCard({
           <h3 className="line-clamp-2 text-[13.5px] font-semibold leading-snug text-slate-800 transition-colors group-hover:text-indigo-600">
             {item.title}
           </h3>
-          <div className="mt-1.5">
+          <div className="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-1">
             <SourceRow item={item} />
+            <LectureChip moduleId={item.moduleId} />
           </div>
         </div>
       </a>
