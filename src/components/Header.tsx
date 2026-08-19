@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SavedLink } from "./SavedLink";
 
 // Minimal top bar: brand + search only. No module tabs (module names are not
 // finalised), so there's no click-into-a-module navigation.
@@ -26,6 +27,8 @@ export function Header() {
             />
           </div>
         </form>
+
+        <SavedLink />
       </div>
     </header>
   );

@@ -1,6 +1,7 @@
 import type { Article } from "../../lib/pipeline";
 import { faviconFor, timeAgo } from "../../lib/display";
 import { ThumbImg } from "./ThumbImg";
+import { SaveButton } from "./SaveButton";
 
 type Variant = "featured" | "default" | "compact";
 
@@ -54,6 +55,16 @@ export function NewsCard({
   label?: string;
   variant?: Variant;
 }) {
+  // The fields we persist when the reader saves this article.
+  const saveItem = {
+    link: item.link,
+    title: item.title,
+    source: item.source,
+    image: item.image,
+    moduleId: item.moduleId,
+    module: item.module,
+    publishedAt: item.publishedAt,
+  };
   if (variant === "compact") {
     return (
       <a
@@ -88,6 +99,9 @@ export function NewsCard({
         <div className="absolute right-3 top-3">
           <Badges item={item} />
         </div>
+        <div className="absolute left-3 top-3">
+          <SaveButton item={saveItem} onDark />
+        </div>
         <div className="absolute inset-x-0 bottom-0 p-4">
           <h2 className="line-clamp-3 text-lg font-bold leading-snug text-white drop-shadow-sm">{item.title}</h2>
           <div className="mt-2">
@@ -103,9 +117,12 @@ export function NewsCard({
       href={item.link}
       target="_blank"
       rel="noopener noreferrer"
-      className="group flex flex-col overflow-hidden rounded-2xl border border-slate-200/70 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-300/50"
+      className="group relative flex flex-col overflow-hidden rounded-2xl border border-slate-200/70 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-300/50"
     >
       <Thumb item={item} accent={accent} className="aspect-[16/10] w-full" />
+      <div className="absolute right-3 top-3 z-10">
+        <SaveButton item={saveItem} />
+      </div>
       <div className="flex flex-1 flex-col gap-2 p-4">
         <SourceRow item={item} />
         <h3 className="line-clamp-3 text-[15px] font-semibold leading-snug text-slate-800 transition-colors group-hover:text-indigo-600">
