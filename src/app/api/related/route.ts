@@ -4,6 +4,7 @@
 import type { NextRequest } from "next/server";
 import { getNews } from "../../../../lib/getNews";
 import { moduleForTopic } from "../../../../data/lectures";
+import { articleId } from "../../../../lib/display";
 
 export const dynamic = "force-dynamic";
 
@@ -12,13 +13,6 @@ const CORS: Record<string, string> = {
   "Access-Control-Allow-Methods": "GET, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type",
 };
-
-// Small stable id from the link, so the widget can deep-link/highlight later.
-function idFor(link: string): string {
-  let h = 0;
-  for (let i = 0; i < link.length; i++) h = (h * 31 + link.charCodeAt(i)) | 0;
-  return (h >>> 0).toString(36);
-}
 
 export function OPTIONS() {
   return new Response(null, { status: 204, headers: CORS });
@@ -48,7 +42,7 @@ export function GET(req: NextRequest) {
     generatedAt: store.generatedAt,
     count: items.length,
     items: items.map((a) => ({
-      id: idFor(a.link),
+      id: articleId(a.link),
       title: a.title,
       link: a.link,
       source: a.source,

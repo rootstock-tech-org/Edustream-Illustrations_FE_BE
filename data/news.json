@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-19T19:04:05.394Z",
+  "generatedAt": "2026-08-19T19:13:59.895Z",
   "count": 164,
   "articles": [
     {
@@ -449,22 +449,6 @@
       "score": 55,
       "rumor": false,
       "publishedAt": "2026-08-18T21:00:04.000Z"
-    },
-    {
-      "title": "BrainChip, Orama.AOI Target AI-Based Industrial Defect Detection",
-      "link": "https://www.embedded.com/brainchip-orama-aoi-target-ai-based-industrial-defect-detection/",
-      "image": null,
-      "summary": "BrainChip Inc. has partnered with Atlanta-based Orama.AOI to develop AI-based automated optical inspection solutions using BrainChip's Akida neuromorphic AI platform. Orama.AOI has retrained and optimized Akida models using its industrial inspection datasets, demonstrating the platform's application to production-oriented defect detection. Orama.AOI provides AI-powered automated optical inspection",
-      "source": "Embedded.com",
-      "sources": [
-        "Embedded.com"
-      ],
-      "sourceCount": 1,
-      "moduleId": "emerging",
-      "module": "Emerging & Research",
-      "score": 55,
-      "rumor": false,
-      "publishedAt": "2026-08-18T19:10:47.000Z"
     },
     {
       "title": "Nvidia Bets on the Classical Side of Quantum Computing",
@@ -932,22 +916,6 @@
       "publishedAt": "2026-08-14T09:23:52.000Z"
     },
     {
-      "title": "Compact Integrated GaN Drive Built for Robots, Drones",
-      "link": "https://www.electronicdesign.com/technologies/power/product/55397669/electronic-design-epc-compact-integrated-gan-drive-for-robots-and-drones",
-      "image": "https://img.electronicdesign.com/files/base/ebm/electronicdesign/image/2026/08/6a7cc2fad83ecbcee7ddcdb7-epc_promo.png",
-      "summary": "The 23-mm GaN inverter reference design from EPC delivers 11-A RMS continuous current at 48 V and 100-kHz PWM.",
-      "source": "Electronic Design",
-      "sources": [
-        "Electronic Design"
-      ],
-      "sourceCount": 1,
-      "moduleId": "physics",
-      "module": "Semiconductor Physics",
-      "score": 67,
-      "rumor": false,
-      "publishedAt": "2026-08-12T19:07:50.000Z"
-    },
-    {
       "title": "New ‘Shape-Shifting’ Architecture Brings Versatility to Photonic Quantum Computing",
       "link": "https://www.semiconductor-digest.com/new-shape-shifting-architecture-brings-versatility-to-photonic-quantum-computing/?utm_source=rss&utm_medium=rss&utm_campaign=new-shape-shifting-architecture-brings-versatility-to-photonic-quantum-computing",
       "image": null,
@@ -1010,6 +978,22 @@
       "score": 72,
       "rumor": false,
       "publishedAt": "2026-07-23T18:35:34.000Z"
+    },
+    {
+      "title": "BrainChip, Orama.AOI Target AI-Based Industrial Defect Detection",
+      "link": "https://www.embedded.com/brainchip-orama-aoi-target-ai-based-industrial-defect-detection/",
+      "image": null,
+      "summary": "BrainChip Inc. has partnered with Atlanta-based Orama.AOI to develop AI-based automated optical inspection solutions using BrainChip's Akida neuromorphic AI platform. Orama.AOI has retrained and optimized Akida models using its industrial inspection datasets, demonstrating the platform's application to production-oriented defect detection. Orama.AOI provides AI-powered automated optical inspection",
+      "source": "Embedded.com",
+      "sources": [
+        "Embedded.com"
+      ],
+      "sourceCount": 1,
+      "moduleId": "emerging",
+      "module": "Emerging & Research",
+      "score": 55,
+      "rumor": false,
+      "publishedAt": "2026-08-18T19:10:47.000Z"
     },
     {
       "title": "Beyond Moore: Co-Optimizing AI from Systems to Materials",
@@ -1299,6 +1283,22 @@
       "score": 59,
       "rumor": false,
       "publishedAt": "2026-08-13T12:15:53.000Z"
+    },
+    {
+      "title": "Compact Integrated GaN Drive Built for Robots, Drones",
+      "link": "https://www.electronicdesign.com/technologies/power/product/55397669/electronic-design-epc-compact-integrated-gan-drive-for-robots-and-drones",
+      "image": "https://img.electronicdesign.com/files/base/ebm/electronicdesign/image/2026/08/6a7cc2fad83ecbcee7ddcdb7-epc_promo.png",
+      "summary": "The 23-mm GaN inverter reference design from EPC delivers 11-A RMS continuous current at 48 V and 100-kHz PWM.",
+      "source": "Electronic Design",
+      "sources": [
+        "Electronic Design"
+      ],
+      "sourceCount": 1,
+      "moduleId": "physics",
+      "module": "Semiconductor Physics",
+      "score": 64,
+      "rumor": false,
+      "publishedAt": "2026-08-12T19:07:50.000Z"
     },
     {
       "title": "New model bridges ferroelectric physics and circuit modeling",

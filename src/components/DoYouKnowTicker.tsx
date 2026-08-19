@@ -39,6 +39,7 @@ export function DoYouKnowTicker({
   heading?: string;
 }) {
   const [items, setItems] = useState<TickerItem[]>([]);
+  const [resolvedModule, setResolvedModule] = useState<string | null>(module ?? null);
   const [idx, setIdx] = useState(0);
   const [open, setOpen] = useState(true);
   const [paused, setPaused] = useState(false);
@@ -52,6 +53,7 @@ export function DoYouKnowTicker({
       if (!res.ok) return;
       const data = await res.json();
       setItems(Array.isArray(data.items) ? data.items : []);
+      setResolvedModule(data.module ?? module ?? null);
       setIdx(0);
     } catch {
       /* offline / blocked -> ticker just stays empty */
@@ -94,8 +96,10 @@ export function DoYouKnowTicker({
   }
 
   const item = items[idx];
-  const linkHref = module || item
-    ? `${site}/topic/${module ?? ""}?focus=${item.id}`
+  // Open on the news site, at that exact article. The #a-<id> hash makes the
+  // browser scroll to it natively; ?focus adds the highlight ring.
+  const linkHref = resolvedModule
+    ? `${site}/topic/${resolvedModule}?focus=${item.id}#a-${item.id}`
     : item.link;
 
   return (

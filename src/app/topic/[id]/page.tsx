@@ -1,8 +1,10 @@
 import { notFound } from "next/navigation";
 import { getNews } from "../../../../lib/getNews";
 import { viewFor } from "../../../../lib/categories";
+import { articleId } from "../../../../lib/display";
 import { Header } from "../../../components/Header";
 import { NewsCard } from "../../../components/NewsCard";
+import { FocusScroller } from "../../../components/FocusScroller";
 
 export const dynamic = "force-dynamic";
 
@@ -33,11 +35,14 @@ export default async function TopicPage({ params }: { params: Promise<{ id: stri
         ) : (
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {items.map((it) => (
-              <NewsCard key={it.link} item={it} accent={cat.accent} variant="default" />
+              <div key={it.link} id={`a-${articleId(it.link)}`} className="scroll-mt-24">
+                <NewsCard item={it} accent={cat.accent} variant="default" />
+              </div>
             ))}
           </div>
         )}
       </div>
+      <FocusScroller />
     </>
   );
 }
