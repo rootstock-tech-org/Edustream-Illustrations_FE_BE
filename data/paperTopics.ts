@@ -19,7 +19,7 @@ export const PAPER_TOPICS: PaperTopicGroup[] = [
     "gate oxide reliability",
   ] },
   { moduleId: "cmos", phrases: [
-    "CMOS inverter", "CMOS logic design", "leakage power", "propagation delay", "static CMOS logic",
+    "CMOS inverter", "CMOS logic design", "leakage power", "dynamic CMOS logic", "static CMOS logic",
   ] },
   { moduleId: "advanced-devices", phrases: [
     "FinFET", "gate-all-around transistor", "nanosheet transistor", "complementary FET",
@@ -41,7 +41,7 @@ export const PAPER_TOPICS: PaperTopicGroup[] = [
     "logic synthesis", "high-level synthesis", "technology mapping", "logic optimization", "retiming",
   ] },
   { moduleId: "timing", phrases: [
-    "static timing analysis", "clock tree synthesis", "timing closure", "clock skew", "on-chip variation",
+    "static timing analysis", "clock tree synthesis", "timing closure", "setup and hold time", "on-chip variation",
   ] },
   { moduleId: "physical-design", phrases: [
     "placement and routing", "floorplanning", "routing congestion", "IR drop analysis",

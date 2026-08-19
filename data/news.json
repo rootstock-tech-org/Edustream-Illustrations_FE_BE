@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-19T19:13:59.895Z",
-  "count": 164,
+  "generatedAt": "2026-08-19T19:34:05.972Z",
+  "count": 163,
   "articles": [
     {
       "title": "proteanTecs Unveils Advanced Packaging Solutions",
@@ -708,22 +708,6 @@
       "publishedAt": "2026-08-18T07:01:59.000Z"
     },
     {
-      "title": "Why the Advanced Packaging Semiconductor Market No Longer Moves as One",
-      "link": "https://www.techinsights.com/blog/advanced-packaging-processors-market-data",
-      "image": null,
-      "summary": "Why the Advanced Packaging Semiconductor Market No Longer Moves as One LGarcia Mon, 08/17/2026 - 19:25",
-      "source": "TechInsights",
-      "sources": [
-        "TechInsights"
-      ],
-      "sourceCount": 1,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
-      "score": 62,
-      "rumor": false,
-      "publishedAt": "2026-08-17T19:25:48.000Z"
-    },
-    {
       "title": "EPC Space Launches Rad-Hard 15V, 25V and 40V eGaN FETs",
       "link": "https://www.powerelectronicsnews.com/epc-space-launches-rad-hard-15v-25v-and-40v-egan-fets/",
       "image": "https://www.powerelectronicsnews.com/wp-content/uploads/sites/3/2026/08/EPC7050-7065-7066-PR-Graphic_CLEAN.jpg?fit=1500%2C1200",
@@ -850,6 +834,22 @@
       "score": 47,
       "rumor": false,
       "publishedAt": "2026-08-19T00:43:10.000Z"
+    },
+    {
+      "title": "Why the Advanced Packaging Semiconductor Market No Longer Moves as One",
+      "link": "https://www.techinsights.com/blog/advanced-packaging-processors-market-data",
+      "image": null,
+      "summary": "Why the Advanced Packaging Semiconductor Market No Longer Moves as One LGarcia Mon, 08/17/2026 - 19:25",
+      "source": "TechInsights",
+      "sources": [
+        "TechInsights"
+      ],
+      "sourceCount": 1,
+      "moduleId": "industry",
+      "module": "Industry & Overview",
+      "score": 59,
+      "rumor": false,
+      "publishedAt": "2026-08-17T19:25:48.000Z"
     },
     {
       "title": "Para Light Launches ThermaFlat High-Power SiC MOSFETs",
@@ -1863,22 +1863,6 @@
       "score": 52,
       "rumor": false,
       "publishedAt": "2026-08-14T13:12:07.000Z"
-    },
-    {
-      "title": "Sivers Semiconductors and SemiNex target AI data centers with $3.4M InP program",
-      "link": "https://www.eenewseurope.com/en/sivers-semiconductors-and-seminex-target-ai-data-centers-with-3-4m-inp-program/",
-      "image": null,
-      "summary": "Sivers Semiconductors and SemiNex have launched a $3.4 million program to develop next-generation indium phosphide (InP) light sources for AI data center interconnects. The collaboration will focus on higher optical power, more wavelengths and improved efficiency as data center architectures increasingly move toward co-packaged optics (CPO). For eeNews Europe readers, the program highlights how ph",
-      "source": "EE News Europe",
-      "sources": [
-        "EE News Europe"
-      ],
-      "sourceCount": 1,
-      "moduleId": "physics",
-      "module": "Semiconductor Physics",
-      "score": 52,
-      "rumor": false,
-      "publishedAt": "2026-08-14T06:42:16.000Z"
     },
     {
       "title": "NVIDIA Secures TSMC A16 Node for Next-Generation \"Feynman\" GPUs",

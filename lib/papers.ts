@@ -1,138 +1,143 @@
-// Fetch curated academic papers per curriculum module from Crossref (free, no key).
-// For each topic phrase we pull CLASSIC (most-cited) and LATEST (2024+) journal
-// articles, keep only those whose TITLE contains the phrase (precision), then
-// dedupe by DOI/title and cap per module. Written to data/papers.json.
+// Fetch curated academic papers per curriculum module from arXiv (free, no key,
+// official Atom API). For each module we pull TOP (relevance-ranked) and LATEST
+// (newest) papers matching that module's topic phrases, keep only those whose
+// title/abstract actually contains a phrase (precision), score, dedupe and cap.
+// Written to data/papers.json. arXiv has no citation counts, so we rank "top" by
+// relevance + a small hardware-category/recency boost (never a fake "most-cited").
+import { XMLParser } from "fast-xml-parser";
 import { PAPER_TOPICS } from "../data/paperTopics";
 
-const CROSSREF = "https://api.crossref.org/works";
-const MAILTO = process.env.CROSSREF_MAILTO || "anjaneyatiwarii@gmail.com"; // Crossref "polite pool" contact (override via env)
+const ARXIV = "https://export.arxiv.org/api/query";
+const TOP_PER_MODULE = 10;
+const LATEST_PER_MODULE = 10;
 
-const CLASSIC_PER_MODULE = 12;
-const LATEST_PER_MODULE = 12;
+// arXiv subject classes that are relevant to VLSI/semiconductors -> small boost.
+const HW_CATEGORIES = new Set([
+  "cs.AR", "eess.SY", "cs.ET", "physics.app-ph", "cond-mat.mes-hall",
+  "cs.DC", "eess.SP", "cond-mat.mtrl-sci",
+]);
 
 export type Paper = {
   id: string;
   title: string;
   authors: string[];
+  published: string | null; // ISO date
   year: number | null;
-  citations: number;
-  venue: string;
-  doi: string | null;
-  url: string; // landing page to open the paper
-  pdf: string | null; // open-access PDF if available
+  categories: string[];
+  venue: string; // "arXiv" + primary category
+  url: string; // abstract page
+  pdf: string | null; // PDF link
   moduleId: string;
-  kind: "classic" | "latest";
-  topic: string;
+  kind: "top" | "latest";
+  score: number;
 };
 
-type CrossrefItem = {
-  DOI?: string;
-  title?: string[];
-  author?: { given?: string; family?: string; name?: string }[];
-  "container-title"?: string[];
-  "is-referenced-by-count"?: number;
-  issued?: { "date-parts"?: number[][] };
-  URL?: string;
-  link?: { URL?: string; "content-type"?: string }[];
-};
-
+const parser = new XMLParser({ ignoreAttributes: false, attributeNamePrefix: "@_" });
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+const norm = (s: string) => (s || "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
 
-// Crossref titles carry raw HTML entities (&amp; &lt; &#x2019; ...) - decode them.
-function decodeEntities(s: string): string {
-  return s
-    .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&quot;/g, '"')
-    .replace(/&#3[49];|&#x27;|&apos;/g, "'")
-    .replace(/&#x2019;|&#8217;/g, "\u2019")
-    .replace(/&nbsp;/g, " ")
-    .replace(/&#x2013;|&#8211;/g, "\u2013")
-    .replace(/&#?\w+;/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
+function arr<T>(v: T | T[] | undefined): T[] {
+  if (v == null) return [];
+  return Array.isArray(v) ? v : [v];
 }
 
-function toPaper(it: CrossrefItem, moduleId: string, kind: "classic" | "latest", topic: string): Paper {
-  const authors = (it.author || [])
-    .map((a) => a.name || [a.given, a.family].filter(Boolean).join(" "))
-    .filter(Boolean)
-    .slice(0, 4);
-  const doi = it.DOI ? `https://doi.org/${it.DOI}` : null;
-  const url = it.URL || doi || "";
-  const pdf = it.link?.find((l) => l["content-type"] === "application/pdf")?.URL || null;
+type ArxivEntry = {
+  id?: string;
+  title?: string;
+  summary?: string;
+  published?: string;
+  author?: { name?: string } | { name?: string }[];
+  link?: { "@_href"?: string; "@_rel"?: string; "@_title"?: string; "@_type"?: string }[];
+  category?: { "@_term"?: string } | { "@_term"?: string }[];
+  "arxiv:primary_category"?: { "@_term"?: string };
+};
+
+function toPaper(e: ArxivEntry, moduleId: string, kind: "top" | "latest"): Paper {
+  const title = (e.title || "").replace(/\s+/g, " ").trim();
+  const authors = arr(e.author).map((a) => a?.name || "").filter(Boolean).slice(0, 4);
+  const links = arr(e.link);
+  const pdf = links.find((l) => l["@_title"] === "pdf")?.["@_href"] || null;
+  const absUrl = links.find((l) => l["@_rel"] === "alternate")?.["@_href"] || e.id || "";
+  const categories = arr(e.category).map((c) => c["@_term"] || "").filter(Boolean);
+  const primary = e["arxiv:primary_category"]?.["@_term"] || categories[0] || "";
+  const published = e.published || null;
+  const year = published ? Number(published.slice(0, 4)) || null : null;
   return {
-    id: it.DOI || url,
-    title: decodeEntities((it.title?.[0] || "").trim()),
+    id: (e.id || absUrl).trim(),
+    title,
     authors,
-    year: it.issued?.["date-parts"]?.[0]?.[0] ?? null,
-    citations: it["is-referenced-by-count"] ?? 0,
-    venue: it["container-title"]?.[0] || "",
-    doi,
-    url,
+    published,
+    year,
+    categories,
+    venue: primary ? `arXiv · ${primary}` : "arXiv",
+    url: absUrl,
     pdf,
     moduleId,
     kind,
-    topic,
+    score: 0,
   };
 }
 
-// One phrase -> Paper[]: Crossref title search, journal articles only, then keep
-// only papers whose TITLE actually contains the phrase (precision).
-async function fetchPhrase(
-  phrase: string,
-  mode: "classic" | "latest",
+// A module's phrases -> arXiv Atom results (relevance-ranked), parsed to Paper[].
+// We do ONE relevance query and derive both "top" and "latest" from it, so every
+// shown paper is a genuine phrase match (a separate date-sorted query pulled in
+// off-topic papers that merely share a generic phrase).
+async function fetchModule(
+  phrases: string[],
   moduleId: string,
   log: (m: string) => void,
 ): Promise<Paper[]> {
-  // No API sort: Crossref's sort overrides title relevance and floods results
-  // with globally most-cited unrelated papers. We take relevance-ranked matches
-  // and rank them ourselves (by citations / year) in buildPapers.
-  const params = new URLSearchParams({
-    "query.title": phrase,
-    rows: "25",
-    select: "DOI,title,author,container-title,is-referenced-by-count,issued,URL,link",
-    mailto: MAILTO,
-  });
-  params.set("filter", mode === "latest" ? "type:journal-article,from-pub-date:2024-01-01" : "type:journal-article");
-  const url = `${CROSSREF}?${params}`;
+  const clause = phrases.map((p) => `ti:"${p}" OR abs:"${p}"`).join(" OR ");
+  const search = `(${clause})`;
+  const url = `${ARXIV}?search_query=${encodeURIComponent(search)}&start=0&max_results=50&sortBy=relevance`;
+
   for (let attempt = 0; attempt < 4; attempt++) {
     try {
       const res = await fetch(url, {
-        headers: { "user-agent": `AVSAR-VLSI-News/1.0 (mailto:${MAILTO})` },
+        headers: { "user-agent": "AVSAR-VLSI-Papers/1.0 (research paper index for learners)" },
         signal: AbortSignal.timeout(25000),
       });
       if (res.status === 429 || res.status >= 500) {
-        await sleep(1500 * (attempt + 1));
+        await sleep(2000 * (attempt + 1));
         continue;
       }
       if (!res.ok) {
-        log(`  ! ${mode} "${phrase}" -> HTTP ${res.status}`);
+        log(`  ! ${moduleId} -> HTTP ${res.status}`);
         return [];
       }
-      const json = await res.json();
-      const items = (json.message?.items || []) as CrossrefItem[];
-      const np = norm(phrase);
-      return items
-        .filter((it) => norm(it.title?.[0] || "").includes(np))
-        .map((it) => toPaper(it, moduleId, mode, phrase));
+      const xml = await res.text();
+      const data = parser.parse(xml);
+      const entries = arr<ArxivEntry>(data?.feed?.entry);
+      // Precision: keep only entries whose title or abstract contains a phrase.
+      const nphrases = phrases.map(norm);
+      return entries
+        .map((e) => ({ p: toPaper(e, moduleId, "top"), text: norm(`${e.title || ""} ${e.summary || ""}`) }))
+        .filter(({ text }) => nphrases.some((ph) => ph && text.includes(ph)))
+        .map(({ p }) => p);
     } catch {
-      await sleep(1000 * (attempt + 1));
+      await sleep(1500 * (attempt + 1));
     }
   }
-  log(`  ! ${mode} "${phrase}" -> failed after retries`);
+  log(`  ! ${moduleId} -> failed after retries`);
   return [];
 }
 
-const norm = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, " ").trim();
+function scorePaper(p: Paper, nphrases: string[]): number {
+  const t = norm(p.title);
+  let s = 0;
+  for (const ph of nphrases) if (ph && t.includes(ph)) s += 3;
+  if (p.categories.some((c) => HW_CATEGORIES.has(c))) s += 2;
+  const yr = p.year || 0;
+  if (yr >= 2024) s += 2;
+  else if (yr >= 2020) s += 1;
+  return s;
+}
 
-// Dedupe by DOI (or normalized title), keeping the first (already sorted) copy.
 function dedupe(papers: Paper[]): Paper[] {
   const seen = new Set<string>();
   const out: Paper[] = [];
   for (const p of papers) {
-    const key = (p.doi ? p.doi.toLowerCase() : norm(p.title)) || p.id;
+    const key = norm(p.title) || p.id;
     if (!key || seen.has(key)) continue;
     seen.add(key);
     out.push(p);
@@ -143,22 +148,23 @@ function dedupe(papers: Paper[]): Paper[] {
 export async function buildPapers(log: (m: string) => void = () => {}): Promise<Paper[]> {
   const all: Paper[] = [];
   for (const group of PAPER_TOPICS) {
-    const classic: Paper[] = [];
-    const latest: Paper[] = [];
-    for (const phrase of group.phrases) {
-      classic.push(...(await fetchPhrase(phrase, "classic", group.moduleId, log)));
-      await sleep(300); // pace requests (Crossref is lenient, but be polite)
-      latest.push(...(await fetchPhrase(phrase, "latest", group.moduleId, log)));
-      await sleep(300);
-    }
-    // Classic: most-cited first. Latest: newest first, minus any already in classic.
-    const c = dedupe(classic.sort((a, b) => b.citations - a.citations)).slice(0, CLASSIC_PER_MODULE);
-    const cKeys = new Set(c.map((p) => p.doi || norm(p.title)));
-    const l = dedupe(latest.sort((a, b) => (b.year ?? 0) - (a.year ?? 0)))
-      .filter((p) => !cKeys.has(p.doi || norm(p.title)))
-      .slice(0, LATEST_PER_MODULE);
-    log(`  ${group.moduleId}: ${c.length} classic, ${l.length} latest`);
-    all.push(...c, ...l);
+    const nphrases = group.phrases.map(norm);
+    const pool = dedupe(await fetchModule(group.phrases, group.moduleId, log));
+    await sleep(3000); // arXiv asks for ~3s between requests
+    for (const p of pool) p.score = scorePaper(p, nphrases);
+
+    // Top = best relevance/score; Latest = most recent AMONG the same matches.
+    const top = [...pool].sort((a, b) => b.score - a.score).slice(0, TOP_PER_MODULE)
+      .map((p) => ({ ...p, kind: "top" as const }));
+    const topKeys = new Set(top.map((p) => norm(p.title)));
+    const latest = [...pool]
+      .sort((a, b) => (b.published || "").localeCompare(a.published || ""))
+      .filter((p) => !topKeys.has(norm(p.title)))
+      .slice(0, LATEST_PER_MODULE)
+      .map((p) => ({ ...p, kind: "latest" as const }));
+
+    log(`  ${group.moduleId}: ${top.length} top, ${latest.length} latest`);
+    all.push(...top, ...latest);
   }
   return all;
 }
