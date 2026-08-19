@@ -17,7 +17,7 @@ export function LectureChip({ moduleId, onDark = false }: { moduleId?: string; o
     <button
       type="button"
       title={`Open in AVSAR: ${lesson.avsarModuleName}`}
-      aria-label={`Related lesson in AVSAR: ${lesson.avsarModuleName}`}
+      aria-label={`Learn this concept in AVSAR: ${lesson.avsarModuleName}`}
       onClick={(e) => {
         e.preventDefault(); // don't open the article
         e.stopPropagation();
@@ -29,7 +29,7 @@ export function LectureChip({ moduleId, onDark = false }: { moduleId?: string; o
         <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
         <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
       </svg>
-      <span className="truncate">Related lesson</span>
+      <span className="truncate">Learn this concept</span>
     </button>
   );
 }

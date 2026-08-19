@@ -9,6 +9,8 @@
 export const COURSE_BASE =
   "https://avsar.rootstocktech.co.in/courses/vlsi-foundations";
 
+export const COURSE_ROADMAP = `${COURSE_BASE}/roadmap`;
+
 export type LectureLink = {
   /** Curriculum module id (matches data/curriculum.ts). */
   moduleId: string;
@@ -60,6 +62,16 @@ export const LECTURES: Record<string, LectureLink> = {
   "eda-algorithms": make("eda-algorithms", 12, "EDA Algorithms & CAD", 141, 152),
   "low-power-signoff": make("low-power-signoff", 13, "Reliability, Power & Signoff", 153, 164),
   "full-flow": make("full-flow", 14, "Complete Digital VLSI Design Flow", 165, 171),
+  // Emerging/research topics (RISC-V, quantum, photonics) aren't a single course
+  // lesson, so this opens the full course roadmap instead of one topic.
+  emerging: {
+    moduleId: "emerging",
+    avsarModule: 0,
+    avsarModuleName: "VLSI Foundations course",
+    topicStart: 1,
+    topicEnd: 171,
+    url: COURSE_ROADMAP,
+  },
 };
 
 /** Returns the lesson link for a module id, or null if none exists. */

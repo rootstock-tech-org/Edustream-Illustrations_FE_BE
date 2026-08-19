@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-19T18:13:10.549Z",
-  "count": 162,
+  "generatedAt": "2026-08-19T18:23:10.835Z",
+  "count": 163,
   "articles": [
     {
       "title": "proteanTecs Unveils Advanced Packaging Solutions",
@@ -145,6 +145,22 @@
       "score": 62,
       "rumor": false,
       "publishedAt": "2026-08-19T16:15:53.000Z"
+    },
+    {
+      "title": "Linux 7.3 Scheduler Improvements Result in Notable FPS Boost for Low-Power PC Hardware",
+      "link": "https://www.techpowerup.com/351727/linux-7-3-scheduler-improvements-result-in-notable-fps-boost-for-low-power-pc-hardware",
+      "image": "https://www.techpowerup.com/img/VTSg4Ly87VwG5m2f.jpg",
+      "summary": "Linux gaming is once again getting gaming performance improvements, this time thanks to scheduler changes scheduled to launch with Linux Kernel 7.3. The merge request noted in a kernel mailing list archive post note several changes to the scheduler that make it more efficient, improve latency, and add support for asymmetric CPU architectures, like Intel's modern mix of P-Cores and E-Cores. The res",
+      "source": "TechPowerUp",
+      "sources": [
+        "TechPowerUp"
+      ],
+      "sourceCount": 1,
+      "moduleId": "full-flow",
+      "module": "Full-Chip Flow & Product",
+      "score": 55,
+      "rumor": false,
+      "publishedAt": "2026-08-19T18:12:58.000Z"
     },
     {
       "title": "IBM Makes Quantum Cryogenics Modular, but Scaling Problems Remain",
