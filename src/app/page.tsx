@@ -1,69 +1,95 @@
-import Image from "next/image";
+import { getNews } from "../../lib/getNews";
+import { CENTER_IDS, SIDE_IDS, viewFor } from "../../lib/categories";
+import { Header } from "../components/Header";
+import { Section, SectionLayout } from "../components/Section";
+import { SideWidget } from "../components/SideWidget";
+import { NewsCard } from "../components/NewsCard";
+
+// Read the store fresh on every request so refresh-loop updates appear at once.
+export const dynamic = "force-dynamic";
+
+const BRAND = "#4f46e5";
+const LAYOUTS: SectionLayout[] = ["spotlight", "list", "grid", "headlines", "list", "grid"];
 
 export default function Home() {
+  const { articles } = getNews();
+  // Store is already sorted best-first (score).
+  const hero = articles.slice(0, 5);
+  const heroLinks = new Set(hero.map((a) => a.link));
+  const rest = articles.filter((a) => !heroLinks.has(a.link));
+  const [lead, ...heroRest] = hero;
+
+  const bucket = (id: string) => rest.filter((a) => a.moduleId === id);
+  const centerSecs = CENTER_IDS.map((id) => ({ cat: viewFor(id)!, items: bucket(id) })).filter(
+    (s) => s.cat && s.items.length >= 3
+  );
+  const sideSecs = SIDE_IDS.map((id) => ({ cat: viewFor(id)!, items: bucket(id) })).filter(
+    (s) => s.cat && s.items.length
+  );
+
+  const shown = new Set([...centerSecs, ...sideSecs].flatMap((s) => s.items.map((i) => i.link)));
+  const more = rest.filter((a) => !shown.has(a.link));
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <>
+      <Header />
+      <div className="mx-auto flex max-w-6xl gap-8 px-4 pb-16">
+        <main className="min-w-0 flex-1">
+          {lead ? (
+            <section className="mt-6 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+              <div className="mb-3 flex flex-wrap items-center gap-2">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-red-50 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-red-600 ring-1 ring-red-100">
+                  <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-red-500" />
+                  Top
+                </span>
+                <span className="text-sm font-semibold text-slate-500">
+                  The latest from across the semiconductor world
+                </span>
+              </div>
+              <div className="grid gap-5 lg:grid-cols-2">
+                <NewsCard item={lead} accent={viewFor(lead.moduleId)?.accent ?? BRAND} variant="featured" />
+                <div className="flex flex-col gap-1">
+                  {heroRest.map((it) => (
+                    <NewsCard key={it.link} item={it} accent={viewFor(it.moduleId)?.accent ?? BRAND} variant="compact" />
+                  ))}
+                </div>
+              </div>
+            </section>
+          ) : (
+            <p className="mt-10 text-center text-sm text-slate-500">No news yet.</p>
+          )}
+
+          {centerSecs.map((s, i) => (
+            <Section key={s.cat.id} cat={s.cat} items={s.items} layout={LAYOUTS[i % LAYOUTS.length]} />
+          ))}
+
+          {more.length > 0 && (
+            <section className="border-t border-slate-200 py-7">
+              <h2 className="mb-4 flex items-center gap-2.5 text-lg font-bold tracking-tight text-slate-900">
+                <span className="h-5 w-1.5 rounded-full bg-gradient-to-b from-indigo-500 to-blue-600" />
+                More stories
+              </h2>
+              <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+                {more.map((it) => (
+                  <NewsCard key={it.link} item={it} accent={viewFor(it.moduleId)?.accent ?? BRAND} variant="default" />
+                ))}
+              </div>
+            </section>
+          )}
+
+          <p className="mt-10 border-t border-slate-200 pt-8 text-center text-sm text-slate-400">
+            Curated, junk-free VLSI and semiconductor stories · {articles.length} live.
           </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+        </main>
+
+        <aside className="hidden w-80 shrink-0 lg:block">
+          <div className="no-scrollbar sticky top-20 max-h-[calc(100vh-6rem)] space-y-5 overflow-y-auto pt-6">
+            {sideSecs.map((s) => (
+              <SideWidget key={s.cat.id} cat={s.cat} items={s.items} />
+            ))}
+          </div>
+        </aside>
+      </div>
+    </>
   );
 }
