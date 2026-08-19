@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-19T17:23:15.080Z",
-  "count": 156,
+  "generatedAt": "2026-08-19T17:33:05.067Z",
+  "count": 160,
   "articles": [
     {
       "title": "High Bandwidth Memory in NVIDIA HGX B300: Examining the Micron HBM3E Package",
@@ -35,6 +35,22 @@
       "publishedAt": "2026-08-19T04:00:44.000Z"
     },
     {
+      "title": "TekSiC Reaches Key Milestones Toward Europe’s First Domestic commercially available Semi-Insulating SiC Wafer Supply for Space, Defence and RF Applications",
+      "link": "https://www.semiconductor-digest.com/teksic-reaches-key-milestones-toward-europes-first-domestic-commercially-available-semi-insulating-sic-wafer-supply-for-space-defence-and-rf-applications/?utm_source=rss&utm_medium=rss&utm_campaign=teksic-reaches-key-milestones-toward-europes-first-domestic-commercially-available-semi-insulating-sic-wafer-supply-for-space-defence-and-rf-applications",
+      "image": null,
+      "summary": "TekSiC AB today announced significant progress in the development of semi-insulating silicon carbide (SI-SiC) a material Europe currently lacks the domestic capability to manufacture commercially, and one that underpins some of the most demanding RF and power electronics used in space, defence, and next-generation communications. The post TekSiC Reaches Key Milestones Toward Europe’s First Domesti",
+      "source": "Semiconductor Digest",
+      "sources": [
+        "Semiconductor Digest"
+      ],
+      "sourceCount": 1,
+      "moduleId": "physics",
+      "module": "Semiconductor Physics",
+      "score": 78,
+      "rumor": false,
+      "publishedAt": "2026-08-19T17:23:05.000Z"
+    },
+    {
       "title": "Latest Savage on Security Webinar Focuses on Gen-AI for Chip Design and Security",
       "link": "https://semiwiki.com/semiconductor-services/esd-alliance/372333-latest-savage-on-security-webinar-focuses-on-gen-ai-for-chip-design-and-security/",
       "image": null,
@@ -65,6 +81,22 @@
       "score": 63,
       "rumor": false,
       "publishedAt": "2026-08-19T13:00:01.000Z"
+    },
+    {
+      "title": "Controlling Voltage Droop In 2.5D PIM Chiplet Architectures (Washington St., UW-Madison)",
+      "link": "https://semiengineering.com/controlling-voltage-droop-in-2-5d-pim-chiplet-architectures-washington-st-uw-madison/",
+      "image": null,
+      "summary": "Researchers from Washington State University and University of Wisconsin–Madison published a technical paper titled “ReVolt: Power Delivery Network-Aware Voltage Droop Control for 2.5D PIM Chiplet Architectures.” Abstract “Processing-in-memory (PIM)-based 2.5D multi-chiplet platforms are enablers for machine learning (ML) workloads. However, their performance is affected by the power delivery netw",
+      "source": "Semiconductor Engineering",
+      "sources": [
+        "Semiconductor Engineering"
+      ],
+      "sourceCount": 1,
+      "moduleId": "packaging",
+      "module": "Packaging & Test",
+      "score": 85,
+      "rumor": false,
+      "publishedAt": "2026-08-17T21:31:19.000Z"
     },
     {
       "title": "Samsung raises advanced foundry prices by up to 15% as AI demand fills its 4nm lines, report claims — Chinese customers accepting the largest hikes",
@@ -676,6 +708,22 @@
       "publishedAt": "2026-08-18T09:07:59.000Z"
     },
     {
+      "title": "Chip Industry Technical Paper Roundup: Aug. 18",
+      "link": "https://semiengineering.com/chip-industry-technical-paper-roundup-aug-18/",
+      "image": null,
+      "summary": "2D CFET scaling; PIM chiplet voltage-droop control; advanced-node layout repair; lithography defect prediction; 3D-IC failure analysis; chiplet and interposer optimization; 4H-SiC wafer slicing. The post Chip Industry Technical Paper Roundup: Aug. 18 appeared first on Semiconductor Engineering .",
+      "source": "Semiconductor Engineering",
+      "sources": [
+        "Semiconductor Engineering"
+      ],
+      "sourceCount": 1,
+      "moduleId": "industry",
+      "module": "Industry & Overview",
+      "score": 62,
+      "rumor": false,
+      "publishedAt": "2026-08-18T07:01:59.000Z"
+    },
+    {
       "title": "Why the Advanced Packaging Semiconductor Market No Longer Moves as One",
       "link": "https://www.techinsights.com/blog/advanced-packaging-processors-market-data",
       "image": null,
@@ -1157,6 +1205,22 @@
       "publishedAt": "2026-08-14T13:00:00.000Z"
     },
     {
+      "title": "Chip Industry Week In Review",
+      "link": "https://semiengineering.com/chip-industry-week-in-review-151/",
+      "image": null,
+      "summary": "Lam Research and ASE expansions; data center shifts; CPO system architecture initiative; 2D-transistor interface solution; USENIX HW security; patent suits; image sensors; programmable AI memtransistor; Nvidia's new plan; earnings; Tier IV's L4 auto chip. The post Chip Industry Week In Review appeared first on Semiconductor Engineering .",
+      "source": "Semiconductor Engineering",
+      "sources": [
+        "Semiconductor Engineering"
+      ],
+      "sourceCount": 1,
+      "moduleId": "industry",
+      "module": "Industry & Overview",
+      "score": 59,
+      "rumor": false,
+      "publishedAt": "2026-08-14T07:01:48.000Z"
+    },
+    {
       "title": "TSMC Achieves 98% Yield on CoWoS-L with 5.5x Reticle Size, 14x Comes in 2029",
       "link": "https://www.techpowerup.com/351584/tsmc-achieves-98-yield-on-cowos-l-with-5-5x-reticle-size-14x-comes-in-2029",
       "image": "https://www.techpowerup.com/img/Pl7KjfdbTldCAikg.jpg",
@@ -1454,10 +1518,9 @@
       "source": "Phys.org – Semiconductors",
       "sources": [
         "Phys.org – Semiconductors",
-        "TechXplore – Semiconductors",
-        "Semiconductor Digest"
+        "TechXplore – Semiconductors"
       ],
-      "sourceCount": 3,
+      "sourceCount": 2,
       "moduleId": "verification",
       "module": "Functional Verification",
       "score": 64,
