@@ -1,7 +1,23 @@
 {
-  "generatedAt": "2026-08-19T17:33:05.067Z",
-  "count": 160,
+  "generatedAt": "2026-08-19T18:13:10.549Z",
+  "count": 162,
   "articles": [
+    {
+      "title": "proteanTecs Unveils Advanced Packaging Solutions",
+      "link": "https://www.semiconductor-digest.com/proteantecs-unveils-advanced-packaging-solutions/?utm_source=rss&utm_medium=rss&utm_campaign=proteantecs-unveils-advanced-packaging-solutions",
+      "image": null,
+      "summary": "Integrates per-chiplet visibility from pre-assembly screening through SiP production and in-mission operation, helping customers reduce costly packaging failures and optimize multi-die system power/performance. The post proteanTecs Unveils Advanced Packaging Solutions appeared first on Semiconductor Digest .",
+      "source": "Semiconductor Digest",
+      "sources": [
+        "Semiconductor Digest"
+      ],
+      "sourceCount": 1,
+      "moduleId": "packaging",
+      "module": "Packaging & Test",
+      "score": 85,
+      "rumor": false,
+      "publishedAt": "2026-08-19T17:39:51.000Z"
+    },
     {
       "title": "High Bandwidth Memory in NVIDIA HGX B300: Examining the Micron HBM3E Package",
       "link": "https://www.techinsights.com/blog/high-bandwidth-memory-package-NVIDIA-HGX-B300",
@@ -35,10 +51,26 @@
       "publishedAt": "2026-08-19T04:00:44.000Z"
     },
     {
-      "title": "TekSiC Reaches Key Milestones Toward Europe’s First Domestic commercially available Semi-Insulating SiC Wafer Supply for Space, Defence and RF Applications",
+      "title": "Hon’ble PM Shri. Narendra Modi to Inaugurate SEMICON India 2026 on 17th September",
+      "link": "https://www.semiconductor-digest.com/honble-pm-shri-narendra-modi-to-inaugurate-semicon-india-2026-on-17th-september/?utm_source=rss&utm_medium=rss&utm_campaign=honble-pm-shri-narendra-modi-to-inaugurate-semicon-india-2026-on-17th-september",
+      "image": null,
+      "summary": "SEMI and the India Semiconductor Mission (ISM) today announced that Hon'ble Prime Minister Shri Narendra Modi will inaugurate SEMICON India 2026 on 17 September 2026 at Yashobhoomi (India International Convention and Expo Centre), New Delhi. The post Hon’ble PM Shri. Narendra Modi to Inaugurate SEMICON India 2026 on 17th September appeared first on Semiconductor Digest .",
+      "source": "Semiconductor Digest",
+      "sources": [
+        "Semiconductor Digest"
+      ],
+      "sourceCount": 1,
+      "moduleId": "industry",
+      "module": "Industry & Overview",
+      "score": 77,
+      "rumor": false,
+      "publishedAt": "2026-08-19T18:05:00.000Z"
+    },
+    {
+      "title": "TekSiC Reaches Key Milestones",
       "link": "https://www.semiconductor-digest.com/teksic-reaches-key-milestones-toward-europes-first-domestic-commercially-available-semi-insulating-sic-wafer-supply-for-space-defence-and-rf-applications/?utm_source=rss&utm_medium=rss&utm_campaign=teksic-reaches-key-milestones-toward-europes-first-domestic-commercially-available-semi-insulating-sic-wafer-supply-for-space-defence-and-rf-applications",
       "image": null,
-      "summary": "TekSiC AB today announced significant progress in the development of semi-insulating silicon carbide (SI-SiC) a material Europe currently lacks the domestic capability to manufacture commercially, and one that underpins some of the most demanding RF and power electronics used in space, defence, and next-generation communications. The post TekSiC Reaches Key Milestones Toward Europe’s First Domesti",
+      "summary": "TekSiC AB today announced significant progress in the development of semi-insulating silicon carbide (SI-SiC) a material Europe currently lacks the domestic capability to manufacture commercially, and one that underpins some of the most demanding RF and power electronics used in space, defence, and next-generation communications. The post TekSiC Reaches Key Milestones appeared first on Semiconduct",
       "source": "Semiconductor Digest",
       "sources": [
         "Semiconductor Digest"
@@ -46,7 +78,7 @@
       "sourceCount": 1,
       "moduleId": "physics",
       "module": "Semiconductor Physics",
-      "score": 78,
+      "score": 70,
       "rumor": false,
       "publishedAt": "2026-08-19T17:23:05.000Z"
     },
@@ -387,22 +419,6 @@
       "publishedAt": "2026-08-19T12:37:00.000Z"
     },
     {
-      "title": "New Cost-Effective Metallized Polypropylene Film Capacitors for Industrial and Automotive Applications",
-      "link": "https://www.eletimes.ai/new-cost-effective-metallized-polypropylene-film-capacitors-for-industrial-and-automotive-applications",
-      "image": null,
-      "summary": "Panasonic Industry Europe announces the release of its new ECWFJ series of metallized polypropylene film capacitors, developed to support cost-effective designs while maintaining a high level of safety and long-term reliability. The new series is aimed at engineers working across industrial and automotive power electronics (it is qualified to AEC-Q200 standards) who require dependable performance ",
-      "source": "ELE Times",
-      "sources": [
-        "ELE Times"
-      ],
-      "sourceCount": 1,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
-      "score": 47,
-      "rumor": false,
-      "publishedAt": "2026-08-19T12:04:57.000Z"
-    },
-    {
       "title": "Manz Asia targets PLP demand with three lines and three sizes",
       "link": "https://www.digitimes.com/news/a20260819PD225/manz-asia-equipment-packaging-technology.html",
       "image": "https://img.digitimes.com/newsshow/20260819pd225_files/1_b.jpg",
@@ -738,6 +754,22 @@
       "score": 62,
       "rumor": false,
       "publishedAt": "2026-08-17T19:25:48.000Z"
+    },
+    {
+      "title": "New Cost-Effective Metallized Polypropylene Film Capacitors for Industrial and Automotive Applications",
+      "link": "https://www.eletimes.ai/new-cost-effective-metallized-polypropylene-film-capacitors-for-industrial-and-automotive-applications",
+      "image": null,
+      "summary": "Panasonic Industry Europe announces the release of its new ECWFJ series of metallized polypropylene film capacitors, developed to support cost-effective designs while maintaining a high level of safety and long-term reliability. The new series is aimed at engineers working across industrial and automotive power electronics (it is qualified to AEC-Q200 standards) who require dependable performance ",
+      "source": "ELE Times",
+      "sources": [
+        "ELE Times"
+      ],
+      "sourceCount": 1,
+      "moduleId": "industry",
+      "module": "Industry & Overview",
+      "score": 47,
+      "rumor": false,
+      "publishedAt": "2026-08-19T12:04:57.000Z"
     },
     {
       "title": "Cerebras' CS-4 rack combines three wafer-scale processors, claims 2x gain over CS-3",

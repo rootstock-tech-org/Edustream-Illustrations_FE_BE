@@ -2,6 +2,7 @@ import type { Article } from "../../lib/pipeline";
 import { faviconFor, timeAgo } from "../../lib/display";
 import { ThumbImg } from "./ThumbImg";
 import { SaveButton } from "./SaveButton";
+import { LectureChip } from "./LectureChip";
 
 type Variant = "featured" | "default" | "compact";
 
@@ -104,8 +105,9 @@ export function NewsCard({
         </div>
         <div className="absolute inset-x-0 bottom-0 p-4">
           <h2 className="line-clamp-3 text-lg font-bold leading-snug text-white drop-shadow-sm">{item.title}</h2>
-          <div className="mt-2">
+          <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1.5">
             <SourceRow item={item} onDark />
+            <LectureChip moduleId={item.moduleId} onDark />
           </div>
         </div>
       </a>
@@ -128,7 +130,8 @@ export function NewsCard({
         <h3 className="line-clamp-3 text-[15px] font-semibold leading-snug text-slate-800 transition-colors group-hover:text-indigo-600">
           {item.title}
         </h3>
-        <div className="mt-auto pt-1">
+        <div className="mt-auto flex flex-wrap items-center gap-1.5 pt-1">
+          <LectureChip moduleId={item.moduleId} />
           <Badges item={item} />
         </div>
       </div>
