@@ -78,7 +78,7 @@ export default function Home() {
           )}
 
           <p className="mt-10 border-t border-slate-200 pt-8 text-center text-sm text-slate-400">
-            Curated, junk-free VLSI and semiconductor stories · {articles.length} live.
+            VLSI and semiconductor news for AVSAR learners · {articles.length} stories.
           </p>
         </main>
 

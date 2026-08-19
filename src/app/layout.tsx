@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "VLSI News · AVSAR",
-  description: "Curated semiconductor & VLSI news for AVSAR learners.",
+  description: "Semiconductor and VLSI news for AVSAR learners.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

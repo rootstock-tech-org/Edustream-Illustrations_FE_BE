@@ -5,7 +5,7 @@
 import { PAPER_TOPICS } from "../data/paperTopics";
 
 const CROSSREF = "https://api.crossref.org/works";
-const MAILTO = "anjaneyatiwarii@gmail.com"; // Crossref "polite pool" contact
+const MAILTO = process.env.CROSSREF_MAILTO || "anjaneyatiwarii@gmail.com"; // Crossref "polite pool" contact (override via env)
 
 const CLASSIC_PER_MODULE = 12;
 const LATEST_PER_MODULE = 12;
