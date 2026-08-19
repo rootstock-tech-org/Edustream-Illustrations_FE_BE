@@ -20,6 +20,13 @@ const DEVICES: readonly AnyDevice[] = [nmosDevice, pmosDevice, cmosInverter, nan
 
 const BY_ID = new Map(DEVICES.map((d) => [d.id, d]));
 
+/**
+ * The device the app opens on. Declared separately from registry order so the
+ * nav can keep the learning progression (NMOS -> PMOS -> Inverter) while the
+ * landing device is the CMOS inverter.
+ */
+export const DEFAULT_DEVICE_ID = 'cmos-inverter';
+
 /** Devices shown in the primary navigation (in learning order). */
 export const listDevices = (): readonly AnyDevice[] => DEVICES.filter((d) => !d.hidden);
 

@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import type { ParameterValues } from '@/domain/parameters/parameter.schema';
 import { defaultValues, clampParameter } from '@/domain/parameters/parameter.schema';
-import { getDevice, listDevices } from '@/domain/devices/registry';
+import { getDevice, DEFAULT_DEVICE_ID } from '@/domain/devices/registry';
 
 /**
  * Holds the user's INTENT: which device, and the current parameter values.
@@ -18,7 +18,7 @@ interface DeviceStore {
   reset: () => void;
 }
 
-const initialDeviceId = listDevices()[0]!.id;
+const initialDeviceId = DEFAULT_DEVICE_ID;
 
 function clampAll(deviceId: string, values: ParameterValues): ParameterValues {
   const schema = getDevice(deviceId).parameterSchema;
