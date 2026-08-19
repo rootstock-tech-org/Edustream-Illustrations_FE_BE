@@ -23,7 +23,6 @@ import { GraphPanel } from '@/viz/graph/GraphPanel';
 import { TransistorGraphPanel } from '@/viz/graph/TransistorGraphPanel';
 import { DeviceSceneCard } from '@/viz/three/DeviceSceneCard';
 import { SingleTransistorCard } from '@/viz/three/SingleTransistorCard';
-import { FeedbackBar } from './FeedbackBar';
 import dynamic from 'next/dynamic';
 
 const MosfetScene3D = dynamic(() => import('@/viz/three/MosfetScene3D').then((m) => m.MosfetScene3D), {
@@ -217,8 +216,7 @@ export function Explorer() {
           className="flex min-h-0 flex-col gap-3 overflow-y-auto xl:grid xl:grid-cols-[minmax(0,1fr)_300px] xl:overflow-hidden"
           style={isXl ? { gridTemplateColumns: `minmax(0,1fr) 8px ${rightW}px` } : undefined}
         >
-          {/* CENTER — the device bench + its feedback (one grid column) */}
-          <div className="flex min-h-0 flex-col gap-3 xl:overflow-y-auto">
+          {/* CENTER — the device bench */}
           <section className="relative min-h-[22rem] shrink-0 overflow-hidden rounded-2xl glass xl:min-h-0">
           {device.id === 'mosfet' ? (
             <MosfetScene3D />
@@ -267,12 +265,6 @@ export function Explorer() {
 
         </section>
 
-          {/* per-device feedback (thumbs + note), stored per illustration */}
-          <div className="glass shrink-0 rounded-2xl p-3">
-            <FeedbackBar id={`device-${device.id}`} />
-          </div>
-          </div>
-
           {isXl && (
             <PanelResizer
               value={rightW}
@@ -283,6 +275,7 @@ export function Explorer() {
               label="Resize instrument panel"
             />
           )}
+
 
           {/* RIGHT — instrument readout (swaps per tab) */}
           <aside className="flex flex-col gap-3 xl:min-h-0 xl:overflow-y-auto xl:pr-0.5">

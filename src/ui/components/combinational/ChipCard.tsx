@@ -1,6 +1,5 @@
 'use client';
 import type { ReactNode } from 'react';
-import { FeedbackBar } from '../FeedbackBar';
 
 /**
  * Shared shell for a combinational-logic card: coloured eyebrow + title,
@@ -45,8 +44,6 @@ export function ChipCard({
       {controls && <div className="flex flex-wrap gap-2">{controls}</div>}
 
       <div className="overflow-x-auto">{truthTable}</div>
-
-      <FeedbackBar id={`combinational-${eyebrow}`} />
     </div>
   );
 }
