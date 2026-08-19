@@ -10,7 +10,7 @@ export default function SavedPage() {
       <div className="mx-auto max-w-6xl px-4 pb-16">
         <div className="mb-6 mt-8">
           <h1 className="text-2xl font-bold tracking-tight text-slate-900">My Collection</h1>
-          <p className="text-sm text-slate-500">Stories you saved to read later, kept on this device.</p>
+          <p className="text-sm text-slate-500">Stories you saved to read later, all in one place.</p>
         </div>
         <SavedList />
       </div>
