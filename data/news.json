@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-19T18:54:05.177Z",
+  "generatedAt": "2026-08-19T19:04:05.394Z",
   "count": 164,
   "articles": [
     {
@@ -99,22 +99,6 @@
       "publishedAt": "2026-08-19T17:00:36.000Z"
     },
     {
-      "title": "Meet Quadric on the Road: Three Must-Attend AI Events",
-      "link": "https://semiwiki.com/ip/quadric/372240-meet-quadric-on-the-road-three-must-attend-ai-events/",
-      "image": null,
-      "summary": "This late summer, Quadric is taking its vision for programmable, on-device AI to three of the industry’s most influential gatherings. From advanced processor design at HotChips to scalable deployment at the AI Infra Summit and physical AI at Embedded World North America, each stop offers a different opportunity to see how the… Read More The post Meet Quadric on the Road: Three Must-Attend AI Event",
-      "source": "SemiWiki",
-      "sources": [
-        "SemiWiki"
-      ],
-      "sourceCount": 1,
-      "moduleId": "full-flow",
-      "module": "Full-Chip Flow & Product",
-      "score": 63,
-      "rumor": false,
-      "publishedAt": "2026-08-19T13:00:01.000Z"
-    },
-    {
       "title": "Controlling Voltage Droop In 2.5D PIM Chiplet Architectures (Washington St., UW-Madison)",
       "link": "https://semiengineering.com/controlling-voltage-droop-in-2-5d-pim-chiplet-architectures-washington-st-uw-madison/",
       "image": null,
@@ -179,20 +163,20 @@
       "publishedAt": "2026-08-19T13:55:51.000Z"
     },
     {
-      "title": "Chips Act 2.0, Part 2: From Brussels to the Bench: What Chips Act 2.0 Means for Engineers",
-      "link": "https://www.eenewseurope.com/en/chips-act-2-engineers-europe/",
+      "title": "Meet Quadric on the Road: Three Must-Attend AI Events",
+      "link": "https://semiwiki.com/ip/quadric/372240-meet-quadric-on-the-road-three-must-attend-ai-events/",
       "image": null,
-      "summary": "For engineers, Chips Act 2.0 is less about grand rhetoric and more about where the jobs, tools, and career ladders are likely to appear. The short version is this: Europe is trying to thicken the whole engineering pipeline, not only fab headcount. That means more demand for process engineers, equipment engineers, yield and test specialists, […] The post Chips Act 2.0, Part 2: From Brussels to the ",
-      "source": "EE News Europe",
+      "summary": "This late summer, Quadric is taking its vision for programmable, on-device AI to three of the industry’s most influential gatherings. From advanced processor design at HotChips to scalable deployment at the AI Infra Summit and physical AI at Embedded World North America, each stop offers a different opportunity to see how the… Read More The post Meet Quadric on the Road: Three Must-Attend AI Event",
+      "source": "SemiWiki",
       "sources": [
-        "EE News Europe"
+        "SemiWiki"
       ],
       "sourceCount": 1,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
-      "score": 54,
+      "moduleId": "full-flow",
+      "module": "Full-Chip Flow & Product",
+      "score": 63,
       "rumor": false,
-      "publishedAt": "2026-08-19T13:00:37.000Z"
+      "publishedAt": "2026-08-19T13:00:01.000Z"
     },
     {
       "title": "Photonic integrated circuits: the next frontier of advanced optoelectronic devices",
@@ -387,22 +371,6 @@
       "publishedAt": "2026-08-17T20:20:54.000Z"
     },
     {
-      "title": "EPC Space Launches Rad-Hard 15V, 25V and 40V eGaN FETs",
-      "link": "https://www.powerelectronicsnews.com/epc-space-launches-rad-hard-15v-25v-and-40v-egan-fets/",
-      "image": "https://www.powerelectronicsnews.com/wp-content/uploads/sites/3/2026/08/EPC7050-7065-7066-PR-Graphic_CLEAN.jpg?fit=1500%2C1200",
-      "summary": "The new devices support up to 101A continuous current and TID above 1Mrad for high-frequency power conversion in space computing systems. The post EPC Space Launches Rad-Hard 15V, 25V and 40V eGaN FETs appeared first on Power Electronics News .",
-      "source": "Power Electronics News",
-      "sources": [
-        "Power Electronics News"
-      ],
-      "sourceCount": 1,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
-      "score": 47,
-      "rumor": false,
-      "publishedAt": "2026-08-19T13:00:00.000Z"
-    },
-    {
       "title": "Manz Asia targets PLP demand with three lines and three sizes",
       "link": "https://www.digitimes.com/news/a20260819PD225/manz-asia-equipment-packaging-technology.html",
       "image": "https://img.digitimes.com/newsshow/20260819pd225_files/1_b.jpg",
@@ -529,6 +497,22 @@
       "score": 67,
       "rumor": false,
       "publishedAt": "2026-08-17T13:28:09.000Z"
+    },
+    {
+      "title": "Chips Act 2.0, Part 2: From Brussels to the Bench: What Chips Act 2.0 Means for Engineers",
+      "link": "https://www.eenewseurope.com/en/chips-act-2-engineers-europe/",
+      "image": null,
+      "summary": "For engineers, Chips Act 2.0 is less about grand rhetoric and more about where the jobs, tools, and career ladders are likely to appear. The short version is this: Europe is trying to thicken the whole engineering pipeline, not only fab headcount. That means more demand for process engineers, equipment engineers, yield and test specialists, […] The post Chips Act 2.0, Part 2: From Brussels to the ",
+      "source": "EE News Europe",
+      "sources": [
+        "EE News Europe"
+      ],
+      "sourceCount": 1,
+      "moduleId": "industry",
+      "module": "Industry & Overview",
+      "score": 54,
+      "rumor": false,
+      "publishedAt": "2026-08-19T13:00:37.000Z"
     },
     {
       "title": "Microchip advances PolarFire FPGA Ethernet Sensor Bridge with Rev 2.0",
@@ -754,6 +738,22 @@
       "score": 62,
       "rumor": false,
       "publishedAt": "2026-08-17T19:25:48.000Z"
+    },
+    {
+      "title": "EPC Space Launches Rad-Hard 15V, 25V and 40V eGaN FETs",
+      "link": "https://www.powerelectronicsnews.com/epc-space-launches-rad-hard-15v-25v-and-40v-egan-fets/",
+      "image": "https://www.powerelectronicsnews.com/wp-content/uploads/sites/3/2026/08/EPC7050-7065-7066-PR-Graphic_CLEAN.jpg?fit=1500%2C1200",
+      "summary": "The new devices support up to 101A continuous current and TID above 1Mrad for high-frequency power conversion in space computing systems. The post EPC Space Launches Rad-Hard 15V, 25V and 40V eGaN FETs appeared first on Power Electronics News .",
+      "source": "Power Electronics News",
+      "sources": [
+        "Power Electronics News"
+      ],
+      "sourceCount": 1,
+      "moduleId": "industry",
+      "module": "Industry & Overview",
+      "score": 47,
+      "rumor": false,
+      "publishedAt": "2026-08-19T13:00:00.000Z"
     },
     {
       "title": "Postgres pioneer credits Oracle with helping his database take over the world",
