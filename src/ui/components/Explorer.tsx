@@ -217,8 +217,7 @@ export function Explorer() {
           className="flex min-h-0 flex-col gap-3 overflow-y-auto xl:grid xl:grid-cols-[minmax(0,1fr)_300px] xl:overflow-hidden"
           style={isXl ? { gridTemplateColumns: `minmax(0,1fr) 8px ${rightW}px` } : undefined}
         >
-          {/* CENTER — the device bench + its feedback (one grid column) */}
-          <div className="flex min-h-0 flex-col gap-3 xl:overflow-y-auto">
+          {/* CENTER — the device bench */}
           <section className="relative min-h-[22rem] shrink-0 overflow-hidden rounded-2xl glass xl:min-h-0">
           {device.id === 'mosfet' ? (
             <MosfetScene3D />
@@ -266,12 +265,6 @@ export function Explorer() {
           )}
 
         </section>
-
-          {/* per-device feedback (thumbs + note), stored per illustration */}
-          <div className="glass shrink-0 rounded-2xl p-3">
-            <FeedbackBar id={`device-${device.id}`} />
-          </div>
-          </div>
 
           {isXl && (
             <PanelResizer
@@ -335,6 +328,13 @@ export function Explorer() {
           {tab === 'learn' && <LearningCard />}
           </aside>
         </div>
+      </div>
+
+      {/* feedback pinned to the bottom of the screen: <main> is a fixed-height
+          flex column and the grid above takes flex-1, so a shrink-0 bar here
+          always sits on the bottom edge without position:fixed. */}
+      <div className="glass shrink-0 rounded-2xl px-4 py-2">
+        <FeedbackBar inline id={`device-${device.id}`} />
       </div>
     </main>
   );
