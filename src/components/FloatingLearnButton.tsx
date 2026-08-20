@@ -51,7 +51,6 @@ export function FloatingLearnButton() {
           Learn with <span className="bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent">Avsar</span>
         </span>
         <span className="mt-0.5 flex items-center gap-1.5 text-[11px] font-medium text-emerald-600">
-          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
           AI tutor
         </span>
       </span>
