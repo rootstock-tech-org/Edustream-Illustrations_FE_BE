@@ -1,7 +1,23 @@
 {
-  "generatedAt": "2026-08-19T19:34:05.972Z",
-  "count": 163,
+  "generatedAt": "2026-08-20T02:45:15.303Z",
+  "count": 151,
   "articles": [
+    {
+      "title": "Innolux turns panel fabs into FOPLP capacity, banking on sticky advanced packaging ties",
+      "link": "https://www.digitimes.com/news/a20260819PD221/innolux-packaging-foplp-panel-capacity.html",
+      "image": "https://img.digitimes.com/newsshow/20260819pd221_files/1_b.jpg",
+      "summary": "Innolux is accelerating its dual-track transformation and asset-light strategy, with second-quarter 2026 earnings per share rising 185% sequentially to NT$0.57. After disposing of Fab 2, Fab 5, and a small module plant, chairman Jim Hung said the company had reached an optimal stage in external asset sales and would now focus on repurposing existing production space for semiconductor processes, pa",
+      "source": "DIGITIMES",
+      "sources": [
+        "DIGITIMES"
+      ],
+      "sourceCount": 1,
+      "moduleId": "packaging",
+      "module": "Packaging & Test",
+      "score": 77,
+      "rumor": false,
+      "publishedAt": "2026-08-20T00:14:40.000Z"
+    },
     {
       "title": "proteanTecs Unveils Advanced Packaging Solutions",
       "link": "https://www.semiconductor-digest.com/proteantecs-unveils-advanced-packaging-solutions/?utm_source=rss&utm_medium=rss&utm_campaign=proteantecs-unveils-advanced-packaging-solutions",
@@ -35,10 +51,10 @@
       "publishedAt": "2026-08-19T15:23:48.000Z"
     },
     {
-      "title": "PLP splits roles as FOPLP focuses on cost and CoPoS courts AI chips",
-      "link": "https://www.digitimes.com/news/a20260819PD219/packaging-copos-foplp-chips-panel-cost.html",
-      "image": "https://img.digitimes.com/newsshow/20260819pd219_files/2_b.jpg",
-      "summary": "As AI chips move toward larger dies and higher integration, advanced packaging is shifting from 300mm wafers to square panel manufacturing. In panel-level packaging (PLP), FOPLP and CoPoS have emerged as the two hottest keywords, while glass-based technologies remain further ahead on the roadmap.",
+      "title": "Intel Malaysia packaging expansion draws HBM flows from Taiwan",
+      "link": "https://www.digitimes.com/news/a20260820PD203/packaging-hbm-intel-taiwan-expansion.html",
+      "image": "https://img.digitimes.com/newsshow/20260820pd203_files/1_2b.jpg",
+      "summary": "South Korean export data showed a sharp shift in high-bandwidth memory, or HBM, shipments toward Malaysia and away from Taiwan, according to SemiAnalysis ChipBook . The shift suggested that some HBM shipments previously sent to Taiwan for TSMC's CoWoS packaging might be redirected to packaging plants in Malaysia.",
       "source": "DIGITIMES",
       "sources": [
         "DIGITIMES"
@@ -46,9 +62,9 @@
       "sourceCount": 1,
       "moduleId": "packaging",
       "module": "Packaging & Test",
-      "score": 92,
+      "score": 70,
       "rumor": false,
-      "publishedAt": "2026-08-19T04:00:44.000Z"
+      "publishedAt": "2026-08-20T01:55:42.000Z"
     },
     {
       "title": "Hon’ble PM Shri. Narendra Modi to Inaugurate SEMICON India 2026 on 17th September",
@@ -67,6 +83,22 @@
       "publishedAt": "2026-08-19T18:05:00.000Z"
     },
     {
+      "title": "CXMT planned to use Samsung process data to develop DRAM, ex-engineer says",
+      "link": "https://www.digitimes.com/news/a20260819VL215/samsung-cxmt-dram-technology-data.html",
+      "image": "https://img.digitimes.com/newsshow/20260819vl215_files/1_b.jpg",
+      "summary": "A former Samsung Electronics researcher has testified that ChangXin Memory Technologies (CXMT) intended from its earliest days to develop DRAM using Samsung process data, an account that contrasts with the Chinese memory maker's description of its technology development in the prospectus for its recent Shanghai listing.",
+      "source": "DIGITIMES",
+      "sources": [
+        "DIGITIMES"
+      ],
+      "sourceCount": 1,
+      "moduleId": "digital-memory",
+      "module": "Digital Design & Memory",
+      "score": 62,
+      "rumor": false,
+      "publishedAt": "2026-08-20T01:56:42.000Z"
+    },
+    {
       "title": "TekSiC Reaches Key Milestones",
       "link": "https://www.semiconductor-digest.com/teksic-reaches-key-milestones-toward-europes-first-domestic-commercially-available-semi-insulating-sic-wafer-supply-for-space-defence-and-rf-applications/?utm_source=rss&utm_medium=rss&utm_campaign=teksic-reaches-key-milestones-toward-europes-first-domestic-commercially-available-semi-insulating-sic-wafer-supply-for-space-defence-and-rf-applications",
       "image": null,
@@ -81,6 +113,70 @@
       "score": 70,
       "rumor": false,
       "publishedAt": "2026-08-19T17:23:05.000Z"
+    },
+    {
+      "title": "Controlling Voltage Droop In 2.5D PIM Chiplet Architectures (Washington St., UW-Madison)",
+      "link": "https://semiengineering.com/controlling-voltage-droop-in-2-5d-pim-chiplet-architectures-washington-st-uw-madison/",
+      "image": null,
+      "summary": "Researchers from Washington State University and University of Wisconsin–Madison published a technical paper titled “ReVolt: Power Delivery Network-Aware Voltage Droop Control for 2.5D PIM Chiplet Architectures.” Abstract “Processing-in-memory (PIM)-based 2.5D multi-chiplet platforms are enablers for machine learning (ML) workloads. However, their performance is affected by the power delivery netw",
+      "source": "Semiconductor Engineering",
+      "sources": [
+        "Semiconductor Engineering"
+      ],
+      "sourceCount": 1,
+      "moduleId": "packaging",
+      "module": "Packaging & Test",
+      "score": 82,
+      "rumor": false,
+      "publishedAt": "2026-08-17T21:31:19.000Z"
+    },
+    {
+      "title": "YMTC parent advances IPO as NAND share hits 14% and AI storage scales",
+      "link": "https://www.digitimes.com/news/a20260819VL211/ymtc-ipo-nand-flash-market.html",
+      "image": "https://img.digitimes.com/newsshow/20260819vl211_files/3_b.jpg",
+      "summary": "Yangtze Memory Technologies Holding, the parent of Chinese NAND flash maker YMTC, has completed a key stage of its pre-IPO process just as the memory maker gains global market share, expands enterprise storage products and prepares another round of capacity growth.",
+      "source": "DIGITIMES",
+      "sources": [
+        "DIGITIMES"
+      ],
+      "sourceCount": 1,
+      "moduleId": "digital-memory",
+      "module": "Digital Design & Memory",
+      "score": 55,
+      "rumor": false,
+      "publishedAt": "2026-08-20T00:15:42.000Z"
+    },
+    {
+      "title": "Rising demand for CPO, SiPh reshapes semiconductor testing",
+      "link": "https://www.digitimes.com/news/a20260819PD211/testing-demand-cpo-siph-transmission.html",
+      "image": "https://img.digitimes.com/newsshow/20260819pd211_files/2_2b.jpg",
+      "summary": "As chip power consumption, transmission speed and architectural complexity increase, testing has shifted from being a final pre-shipment quality gate to an earlier stage in product development and ramp-to-volume, according to KPMG managing director Jesse Chen, who previously worked at IBM and in venture capital. That shift is making testing a critical factor in product verification, yield ramp and",
+      "source": "DIGITIMES",
+      "sources": [
+        "DIGITIMES"
+      ],
+      "sourceCount": 1,
+      "moduleId": "full-flow",
+      "module": "Full-Chip Flow & Product",
+      "score": 55,
+      "rumor": false,
+      "publishedAt": "2026-08-20T00:12:57.000Z"
+    },
+    {
+      "title": "AI chip strategies echo StarCraft factions as memory bottleneck reshapes the race",
+      "link": "https://www.digitimes.com/news/a20260819PD210/ai-chip-hardware-capacity-performance-chips.html",
+      "image": "https://img.digitimes.com/newsshow/20260819pd210_files/1_b.jpg",
+      "summary": "The global semiconductor ecosystem is facing an unprecedented shortage of memory chips, with hardware growth increasingly constrained by memory availability. At the same time, capacity at the world's leading advanced chipmakers has been fully booked, turning packaging capacity and memory allocation into major challenges for the broader AI market.",
+      "source": "DIGITIMES",
+      "sources": [
+        "DIGITIMES"
+      ],
+      "sourceCount": 1,
+      "moduleId": "industry",
+      "module": "Industry & Overview",
+      "score": 54,
+      "rumor": false,
+      "publishedAt": "2026-08-20T00:10:43.000Z"
     },
     {
       "title": "Latest Savage on Security Webinar Focuses on Gen-AI for Chip Design and Security",
@@ -99,20 +195,20 @@
       "publishedAt": "2026-08-19T17:00:36.000Z"
     },
     {
-      "title": "Controlling Voltage Droop In 2.5D PIM Chiplet Architectures (Washington St., UW-Madison)",
-      "link": "https://semiengineering.com/controlling-voltage-droop-in-2-5d-pim-chiplet-architectures-washington-st-uw-madison/",
+      "title": "Meet Quadric on the Road: Three Must-Attend AI Events",
+      "link": "https://semiwiki.com/ip/quadric/372240-meet-quadric-on-the-road-three-must-attend-ai-events/",
       "image": null,
-      "summary": "Researchers from Washington State University and University of Wisconsin–Madison published a technical paper titled “ReVolt: Power Delivery Network-Aware Voltage Droop Control for 2.5D PIM Chiplet Architectures.” Abstract “Processing-in-memory (PIM)-based 2.5D multi-chiplet platforms are enablers for machine learning (ML) workloads. However, their performance is affected by the power delivery netw",
-      "source": "Semiconductor Engineering",
+      "summary": "This late summer, Quadric is taking its vision for programmable, on-device AI to three of the industry’s most influential gatherings. From advanced processor design at HotChips to scalable deployment at the AI Infra Summit and physical AI at Embedded World North America, each stop offers a different opportunity to see how the… Read More The post Meet Quadric on the Road: Three Must-Attend AI Event",
+      "source": "SemiWiki",
       "sources": [
-        "Semiconductor Engineering"
+        "SemiWiki"
       ],
       "sourceCount": 1,
-      "moduleId": "packaging",
-      "module": "Packaging & Test",
-      "score": 85,
+      "moduleId": "full-flow",
+      "module": "Full-Chip Flow & Product",
+      "score": 63,
       "rumor": false,
-      "publishedAt": "2026-08-17T21:31:19.000Z"
+      "publishedAt": "2026-08-19T13:00:01.000Z"
     },
     {
       "title": "Samsung raises advanced foundry prices by up to 15% as AI demand fills its 4nm lines, report claims — Chinese customers accepting the largest hikes",
@@ -129,54 +225,6 @@
       "score": 62,
       "rumor": false,
       "publishedAt": "2026-08-19T16:15:53.000Z"
-    },
-    {
-      "title": "Linux 7.3 Scheduler Improvements Result in Notable FPS Boost for Low-Power PC Hardware",
-      "link": "https://www.techpowerup.com/351727/linux-7-3-scheduler-improvements-result-in-notable-fps-boost-for-low-power-pc-hardware",
-      "image": "https://www.techpowerup.com/img/VTSg4Ly87VwG5m2f.jpg",
-      "summary": "Linux gaming is once again getting gaming performance improvements, this time thanks to scheduler changes scheduled to launch with Linux Kernel 7.3. The merge request noted in a kernel mailing list archive post note several changes to the scheduler that make it more efficient, improve latency, and add support for asymmetric CPU architectures, like Intel's modern mix of P-Cores and E-Cores. The res",
-      "source": "TechPowerUp",
-      "sources": [
-        "TechPowerUp"
-      ],
-      "sourceCount": 1,
-      "moduleId": "full-flow",
-      "module": "Full-Chip Flow & Product",
-      "score": 55,
-      "rumor": false,
-      "publishedAt": "2026-08-19T18:12:58.000Z"
-    },
-    {
-      "title": "IBM Makes Quantum Cryogenics Modular, but Scaling Problems Remain",
-      "link": "https://www.eetimes.com/ibm-makes-quantum-cryogenics-modular-but-scaling-problems-remain/",
-      "image": "https://www.eetimes.com/wp-content/uploads/An-inside-view-of-two-of-IBMs-modular-cryogenic-systems-e1787143635275.jpg",
-      "summary": "IBM’s new cryogenic architecture tackles one obstacle to fault-tolerant quantum computing, while exposing wiring, control, interconnect, and reliability challenges. The post IBM Makes Quantum Cryogenics Modular, but Scaling Problems Remain appeared first on EE Times .",
-      "source": "EE Times",
-      "sources": [
-        "EE Times"
-      ],
-      "sourceCount": 1,
-      "moduleId": "emerging",
-      "module": "Emerging & Research",
-      "score": 55,
-      "rumor": false,
-      "publishedAt": "2026-08-19T13:55:51.000Z"
-    },
-    {
-      "title": "Meet Quadric on the Road: Three Must-Attend AI Events",
-      "link": "https://semiwiki.com/ip/quadric/372240-meet-quadric-on-the-road-three-must-attend-ai-events/",
-      "image": null,
-      "summary": "This late summer, Quadric is taking its vision for programmable, on-device AI to three of the industry’s most influential gatherings. From advanced processor design at HotChips to scalable deployment at the AI Infra Summit and physical AI at Embedded World North America, each stop offers a different opportunity to see how the… Read More The post Meet Quadric on the Road: Three Must-Attend AI Event",
-      "source": "SemiWiki",
-      "sources": [
-        "SemiWiki"
-      ],
-      "sourceCount": 1,
-      "moduleId": "full-flow",
-      "module": "Full-Chip Flow & Product",
-      "score": 63,
-      "rumor": false,
-      "publishedAt": "2026-08-19T13:00:01.000Z"
     },
     {
       "title": "Photonic integrated circuits: the next frontier of advanced optoelectronic devices",
@@ -209,86 +257,6 @@
       "score": 62,
       "rumor": false,
       "publishedAt": "2026-08-19T05:09:46.000Z"
-    },
-    {
-      "title": "GigaDevice profit surges 1,092% on memory upcycle, niche DRAM and NAND gains",
-      "link": "https://www.digitimes.com/news/a20260819VL207/gigadevice-nand-dram-niche-profit.html",
-      "image": "https://img.digitimes.com/newsshow/20260819vl207_files/2_b.jpg",
-      "summary": "GigaDevice Semiconductor posted record first-half 2026 results, with tight memory supply and rising prices across niche products lifting earnings well beyond its full-year 2025 level.",
-      "source": "DIGITIMES",
-      "sources": [
-        "DIGITIMES"
-      ],
-      "sourceCount": 1,
-      "moduleId": "digital-memory",
-      "module": "Digital Design & Memory",
-      "score": 62,
-      "rumor": false,
-      "publishedAt": "2026-08-19T04:55:00.000Z"
-    },
-    {
-      "title": "Socionext taps Intel 18A-P process for high-performance compute chiplet development",
-      "link": "https://www.digitimes.com/news/a20260819PR201/socionext-soc-intel-intel-foundry-silicon.html",
-      "image": "https://img.digitimes.com/newsshow/20260819pr201_files/5_b.jpg",
-      "summary": "Custom System-on-Chip (SoC) designer Socionext has selected Intel Foundry's 18A-P process node to build its next-generation custom silicon, aiming to accelerate workloads across data centers, edge computing, and artificial intelligence (AI).",
-      "source": "DIGITIMES",
-      "sources": [
-        "DIGITIMES"
-      ],
-      "sourceCount": 1,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
-      "score": 62,
-      "rumor": false,
-      "publishedAt": "2026-08-19T04:02:06.000Z"
-    },
-    {
-      "title": "BYD leverages in-house semiconductors to power next phase of automotive intelligence; smart driving chip roadmap moves towards 4nm SoC",
-      "link": "https://www.digitimes.com/news/a20260807RS400/byd-byd-semiconductor-automotive-chips-digitimes.html?chid=2",
-      "image": "https://img.digitimes.com/newsshow/20260807rs400_files/2_2b.jpg",
-      "summary": "DIGITIMES notes that BYD Semiconductor's portfolio has expanded from the IGBTs and SiC power chips developed to meet early electric vehicle (EV) demand into high-computing-power smart-driving SoCs.",
-      "source": "DIGITIMES",
-      "sources": [
-        "DIGITIMES"
-      ],
-      "sourceCount": 1,
-      "moduleId": "full-flow",
-      "module": "Full-Chip Flow & Product",
-      "score": 62,
-      "rumor": false,
-      "publishedAt": "2026-08-19T02:21:16.000Z"
-    },
-    {
-      "title": "DDR4 shortages slow Wi-Fi 6 replacement as Wi-Fi 7 ramp continues",
-      "link": "https://www.digitimes.com/news/a20260818PD203/ddr4-wi-fi-7-wi-fi-6-shipments-wi-fi.html",
-      "image": "https://img.digitimes.com/newsshow/20260818pd203_files/1_b.jpg",
-      "summary": "Tight DDR4 supply and rising memory costs are reshaping the timing of home and enterprise networking upgrades worldwide. While equipment makers are still preparing for a stronger shift to Wi-Fi 7 in 2026, some customers are delaying replacement cycles, extending Wi-Fi 6 demand, and pushing expectations for a broader Wi-Fi 8 transition further out.",
-      "source": "DIGITIMES",
-      "sources": [
-        "DIGITIMES"
-      ],
-      "sourceCount": 1,
-      "moduleId": "digital-memory",
-      "module": "Digital Design & Memory",
-      "score": 62,
-      "rumor": false,
-      "publishedAt": "2026-08-19T00:54:32.000Z"
-    },
-    {
-      "title": "Michael Robbins Named President and CEO of Semiconductor Industry Association",
-      "link": "https://www.semiconductor-digest.com/michael-robbins-named-president-and-ceo-of-semiconductor-industry-association/?utm_source=rss&utm_medium=rss&utm_campaign=michael-robbins-named-president-and-ceo-of-semiconductor-industry-association",
-      "image": null,
-      "summary": "Robbins, who currently serves as president and CEO of the Association for Uncrewed Vehicle Systems International (AUVSI), will succeed John Neuffer as head of SIA. The post Michael Robbins Named President and CEO of Semiconductor Industry Association appeared first on Semiconductor Digest .",
-      "source": "Semiconductor Digest",
-      "sources": [
-        "Semiconductor Digest"
-      ],
-      "sourceCount": 1,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
-      "score": 62,
-      "rumor": false,
-      "publishedAt": "2026-08-18T21:11:06.000Z"
     },
     {
       "title": "HBM Shipments to Malaysia Surge, Pointing to Intel's \"Project Pelican\" Facility",
@@ -355,20 +323,68 @@
       "publishedAt": "2026-08-18T08:02:05.000Z"
     },
     {
-      "title": "UMass Amherst Engineers Make Edge AI More Efficient by Redesigning Both Algorithm and Hardware",
-      "link": "https://www.semiconductor-digest.com/umass-amherst-engineers-make-edge-ai-more-efficient-by-redesigning-both-algorithm-and-hardware/?utm_source=rss&utm_medium=rss&utm_campaign=umass-amherst-engineers-make-edge-ai-more-efficient-by-redesigning-both-algorithm-and-hardware",
-      "image": null,
-      "summary": "System leverages hyperdimensional computing algorithms and analog in-memory computing hardware to achieve quick, accurate processing. The post UMass Amherst Engineers Make Edge AI More Efficient by Redesigning Both Algorithm and Hardware appeared first on Semiconductor Digest .",
-      "source": "Semiconductor Digest",
+      "title": "India's chipmaking push faces its real test after initial wafers: yield",
+      "link": "https://www.digitimes.com/news/a20260819VL221/india-ic-manufacturing-yield-rate-wafer-fab-equipment.html",
+      "image": "https://img.digitimes.com/newsshow/20260819vl221_files/1_2b.jpg",
+      "summary": "India's semiconductor manufacturing drive will face one of its toughest tests after equipment is installed and production begins: whether new fabs can consistently produce enough working chips to compete with established plants.",
+      "source": "DIGITIMES",
       "sources": [
-        "Semiconductor Digest"
+        "DIGITIMES"
+      ],
+      "sourceCount": 1,
+      "moduleId": "industry",
+      "module": "Industry & Overview",
+      "score": 47,
+      "rumor": false,
+      "publishedAt": "2026-08-20T00:11:15.000Z"
+    },
+    {
+      "title": "Marvell-Google deal expands custom AI chip ambitions",
+      "link": "https://www.digitimes.com/news/a20260820VL201/marvell-google-infrastructure-chips-nvidia.html",
+      "image": "https://img.digitimes.com/newsshow/20260820vl201_files/1_2b.jpg",
+      "summary": "Marvell Technology is set to deepen its role in Google's AI infrastructure through an expanded agreement to develop custom chips, in a deal that could generate roughly US$120 billion in revenue for the chipmaker through fiscal 2033 if Google meets purchasing targets tied to the warrant, according to Reuters .",
+      "source": "DIGITIMES",
+      "sources": [
+        "DIGITIMES"
+      ],
+      "sourceCount": 1,
+      "moduleId": "industry",
+      "module": "Industry & Overview",
+      "score": 46,
+      "rumor": true,
+      "publishedAt": "2026-08-20T01:59:58.000Z"
+    },
+    {
+      "title": "Linux 7.3 Scheduler Improvements Result in Notable FPS Boost for Low-Power PC Hardware",
+      "link": "https://www.techpowerup.com/351727/linux-7-3-scheduler-improvements-result-in-notable-fps-boost-for-low-power-pc-hardware",
+      "image": "https://www.techpowerup.com/img/VTSg4Ly87VwG5m2f.jpg",
+      "summary": "Linux gaming is once again getting gaming performance improvements, this time thanks to scheduler changes scheduled to launch with Linux Kernel 7.3. The merge request noted in a kernel mailing list archive post note several changes to the scheduler that make it more efficient, improve latency, and add support for asymmetric CPU architectures, like Intel's modern mix of P-Cores and E-Cores. The res",
+      "source": "TechPowerUp",
+      "sources": [
+        "TechPowerUp"
+      ],
+      "sourceCount": 1,
+      "moduleId": "full-flow",
+      "module": "Full-Chip Flow & Product",
+      "score": 55,
+      "rumor": false,
+      "publishedAt": "2026-08-19T18:12:58.000Z"
+    },
+    {
+      "title": "IBM Makes Quantum Cryogenics Modular, but Scaling Problems Remain",
+      "link": "https://www.eetimes.com/ibm-makes-quantum-cryogenics-modular-but-scaling-problems-remain/",
+      "image": "https://www.eetimes.com/wp-content/uploads/An-inside-view-of-two-of-IBMs-modular-cryogenic-systems-e1787143635275.jpg",
+      "summary": "IBM’s new cryogenic architecture tackles one obstacle to fault-tolerant quantum computing, while exposing wiring, control, interconnect, and reliability challenges. The post IBM Makes Quantum Cryogenics Modular, but Scaling Problems Remain appeared first on EE Times .",
+      "source": "EE Times",
+      "sources": [
+        "EE Times"
       ],
       "sourceCount": 1,
       "moduleId": "emerging",
       "module": "Emerging & Research",
-      "score": 70,
+      "score": 55,
       "rumor": false,
-      "publishedAt": "2026-08-17T20:20:54.000Z"
+      "publishedAt": "2026-08-19T13:55:51.000Z"
     },
     {
       "title": "Manz Asia targets PLP demand with three lines and three sizes",
@@ -387,68 +403,20 @@
       "publishedAt": "2026-08-19T09:22:10.000Z"
     },
     {
-      "title": "NSTC's unmanned vehicle revenue tops 40% as semiconductor AOI and CPO fuel growth",
-      "link": "https://www.digitimes.com/news/a20260819PD200/nstc-aoi-cpo-revenue-growth.html",
-      "image": "https://img.digitimes.com/newsshow/20260819pd200_files/1_b.jpg",
-      "summary": "Optical imaging technologies company New Smart Technology (NSTC) is moving beyond traditional optical and image inspection into semiconductor high-end automated optical inspection (AOI), co-packaged optics (CPO) optoelectronic modules, and unmanned vehicle vision systems, with a clear change in its revenue structure, according to chairman Stone Shih and president Phil Chen.",
-      "source": "DIGITIMES",
-      "sources": [
-        "DIGITIMES"
-      ],
-      "sourceCount": 1,
-      "moduleId": "packaging",
-      "module": "Packaging & Test",
-      "score": 55,
-      "rumor": false,
-      "publishedAt": "2026-08-19T03:27:31.000Z"
-    },
-    {
-      "title": "Google's v10 TPU opens door to AMD without sidelining Broadcom, MediaTek",
-      "link": "https://www.digitimes.com/news/a20260819PD202/amd-google-tpu-broadcom-mediatek.html",
-      "image": "https://img.digitimes.com/newsshow/20260819pd202_files/2_b.jpg",
-      "summary": "Market speculation that AMD is working with Google on technology for its v10-generation tensor processing unit (TPU) has prompted questions over the potential impact on Google's existing application-specific integrated circuit (ASIC) partners, including Broadcom and MediaTek.",
-      "source": "DIGITIMES",
-      "sources": [
-        "DIGITIMES"
-      ],
-      "sourceCount": 1,
-      "moduleId": "full-flow",
-      "module": "Full-Chip Flow & Product",
-      "score": 55,
-      "rumor": false,
-      "publishedAt": "2026-08-19T01:12:29.000Z"
-    },
-    {
-      "title": "Charts: Taiwan's materials suppliers split: wafer giants stall, substrate and lead-frame names run",
-      "link": "https://www.digitimes.com/news/a20260818VL221/materials-silicon-wafer-wafer-substrate-sas.html",
-      "image": "https://img.digitimes.com/newsshow/20260818vl221_files/4_2b.jpg",
-      "summary": "The two largest silicon wafer companies are the sector's slowest growers on a cumulative basis. Everything running fast sits downstream of them.",
-      "source": "DIGITIMES",
-      "sources": [
-        "DIGITIMES"
-      ],
-      "sourceCount": 1,
-      "moduleId": "fabrication",
-      "module": "Fabrication",
-      "score": 55,
-      "rumor": false,
-      "publishedAt": "2026-08-19T00:55:35.000Z"
-    },
-    {
-      "title": "PDF Solutions’ Exensio Was Built for Semiconductor Analytics. The New Exensio Aurora Architecture Is Built for Semiconductor Intelligence.",
-      "link": "https://semiwiki.com/artificial-intelligence/372347-pdf-solutions-exensio-was-built-for-semiconductor-analytics-the-new-exensio-aurora-architecture-is-built-for-semiconductor-intelligence/",
+      "title": "UMass Amherst Engineers Make Edge AI More Efficient by Redesigning Both Algorithm and Hardware",
+      "link": "https://www.semiconductor-digest.com/umass-amherst-engineers-make-edge-ai-more-efficient-by-redesigning-both-algorithm-and-hardware/?utm_source=rss&utm_medium=rss&utm_campaign=umass-amherst-engineers-make-edge-ai-more-efficient-by-redesigning-both-algorithm-and-hardware",
       "image": null,
-      "summary": "The semiconductor industry doesn’t have a shortage of data. It has a shortage of ways to turn that data into useful manufacturing insights quickly enough to matter. That is the problem PDF Solutions’ Exensio solution has addressed for years. Built specifically for semiconductor manufacturing, Exensio brings … Read More The post PDF Solutions’ Exensio Was Built for Semiconductor Analytics. The New ",
-      "source": "SemiWiki",
+      "summary": "System leverages hyperdimensional computing algorithms and analog in-memory computing hardware to achieve quick, accurate processing. The post UMass Amherst Engineers Make Edge AI More Efficient by Redesigning Both Algorithm and Hardware appeared first on Semiconductor Digest .",
+      "source": "Semiconductor Digest",
       "sources": [
-        "SemiWiki"
+        "Semiconductor Digest"
       ],
       "sourceCount": 1,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
-      "score": 55,
+      "moduleId": "emerging",
+      "module": "Emerging & Research",
+      "score": 67,
       "rumor": false,
-      "publishedAt": "2026-08-18T21:00:04.000Z"
+      "publishedAt": "2026-08-17T20:20:54.000Z"
     },
     {
       "title": "Nvidia Bets on the Classical Side of Quantum Computing",
@@ -532,70 +500,6 @@
       "publishedAt": "2026-08-19T04:07:58.000Z"
     },
     {
-      "title": "Google and AMD target post-GPU era with Frozen v2 and Taalas",
-      "link": "https://www.digitimes.com/news/a20260819PD214/google-amd-ai-inference-acquisition-gpu.html",
-      "image": "https://img.digitimes.com/newsshow/20260819pd214_files/4_2b.jpg",
-      "summary": "Advanced Micro Devices (AMD) recently announced its acquisition of Canadian AI chip startup Taalas to sharpen its competitive edge in AI inference. Taalas' core technology bakes model weights directly onto the silicon rather than relying on traditional high-bandwidth memory (HBM).",
-      "source": "DIGITIMES",
-      "sources": [
-        "DIGITIMES"
-      ],
-      "sourceCount": 1,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
-      "score": 54,
-      "rumor": false,
-      "publishedAt": "2026-08-19T03:39:12.000Z"
-    },
-    {
-      "title": "Modi to inaugurate Semicon India 2026 as government courts global chipmakers",
-      "link": "https://www.digitimes.com/news/a20260819VL202/semicon-india-government-semiconductors.html",
-      "image": "https://img.digitimes.com/newsshow/20260819vl202_files/1_2b.jpg",
-      "summary": "Indian Prime Minister Narendra Modi will inaugurate the fifth edition of Semicon India on September 17 at Yashobhoomi (India International Convention and Expo Centre) in New Delhi, with the three-day event running through September 19 under the theme \"Silicon to Systems: Building the Ecosystem,\" according to ETV Bharat and the Statesman .",
-      "source": "DIGITIMES",
-      "sources": [
-        "DIGITIMES"
-      ],
-      "sourceCount": 1,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
-      "score": 54,
-      "rumor": false,
-      "publishedAt": "2026-08-19T01:42:54.000Z"
-    },
-    {
-      "title": "Samsung moves ahead of SK Hynix in 1d DRAM development race",
-      "link": "https://www.digitimes.com/news/a20260818PD229/samsung-development-dram-sk-hynix-2026.html",
-      "image": "https://img.digitimes.com/newsshow/20260818pd229_files/1_2b.jpg",
-      "summary": "Samsung Electronics is reportedly on track to complete development of 10-nanometer-class seventh-generation DRAM, also known as 1d DRAM, before SK hynix. According to The Bell , citing industry sources, Samsung is targeting September 2026 for completion, while SK hynix is aiming for December 2026, giving Samsung a lead of about one quarter.",
-      "source": "DIGITIMES",
-      "sources": [
-        "DIGITIMES"
-      ],
-      "sourceCount": 1,
-      "moduleId": "digital-memory",
-      "module": "Digital Design & Memory",
-      "score": 54,
-      "rumor": true,
-      "publishedAt": "2026-08-19T00:46:38.000Z"
-    },
-    {
-      "title": "BBCube: A Novel Chip-on-Wafer Technology for Next-Generation AI Chip Integration",
-      "link": "https://www.semiconductor-digest.com/bbcube-a-novel-chip-on-wafer-technology-for-next-generation-ai-chip-integration/?utm_source=rss&utm_medium=rss&utm_campaign=bbcube-a-novel-chip-on-wafer-technology-for-next-generation-ai-chip-integration",
-      "image": null,
-      "summary": "Three core technologies involving advanced packaging, chip interconnects, and thermal design enable high-performance semiconductor systems. The post BBCube: A Novel Chip-on-Wafer Technology for Next-Generation AI Chip Integration appeared first on Semiconductor Digest .",
-      "source": "Semiconductor Digest",
-      "sources": [
-        "Semiconductor Digest"
-      ],
-      "sourceCount": 1,
-      "moduleId": "packaging",
-      "module": "Packaging & Test",
-      "score": 75,
-      "rumor": false,
-      "publishedAt": "2026-08-12T21:28:40.000Z"
-    },
-    {
       "title": "Altera Expands DDR5 and LPDDR5 Support Across Agilex FPGAs",
       "link": "https://www.embedded.com/altera-expands-ddr5-and-lpddr5-support-across-agilex-fpgas/",
       "image": null,
@@ -612,22 +516,6 @@
       "publishedAt": "2026-08-14T13:00:00.000Z"
     },
     {
-      "title": "Focusing on the AI Big Picture with Moores Lab AI at DAC 2026",
-      "link": "https://semiwiki.com/eda/moores-lab-ai/372168-focusing-on-the-ai-big-picture-with-moores-lab-ai-at-dac-2026/",
-      "image": null,
-      "summary": "DAC 2026 proved that agentic AI design flows are here to stay. The news was conveyed both by familiar companies who we’ve seen at DAC many times before as well as new entrants to the show and the industry. Many of the solutions that were presented focused on a specific part of the design flow. Others took a broader view of the problem and… Read More The post Focusing on the AI Big Picture with Moo",
-      "source": "SemiWiki",
-      "sources": [
-        "SemiWiki"
-      ],
-      "sourceCount": 1,
-      "moduleId": "full-flow",
-      "module": "Full-Chip Flow & Product",
-      "score": 63,
-      "rumor": false,
-      "publishedAt": "2026-08-18T13:00:06.000Z"
-    },
-    {
       "title": "Thermal Management Strategies for Next-Generation AI Chiplets and Photonic Integrated Circuits",
       "link": "https://www.semiconductor-digest.com/thermal-management-strategies-for-next-generation-ai-chiplets-and-photonic-integrated-circuits/?utm_source=rss&utm_medium=rss&utm_campaign=thermal-management-strategies-for-next-generation-ai-chiplets-and-photonic-integrated-circuits",
       "image": null,
@@ -642,6 +530,22 @@
       "score": 79,
       "rumor": false,
       "publishedAt": "2026-08-06T13:15:21.000Z"
+    },
+    {
+      "title": "Michael Robbins Named President and CEO of Semiconductor Industry Association",
+      "link": "https://www.semiconductor-digest.com/michael-robbins-named-president-and-ceo-of-semiconductor-industry-association/?utm_source=rss&utm_medium=rss&utm_campaign=michael-robbins-named-president-and-ceo-of-semiconductor-industry-association",
+      "image": null,
+      "summary": "Robbins, who currently serves as president and CEO of the Association for Uncrewed Vehicle Systems International (AUVSI), will succeed John Neuffer as head of SIA. The post Michael Robbins Named President and CEO of Semiconductor Industry Association appeared first on Semiconductor Digest .",
+      "source": "Semiconductor Digest",
+      "sources": [
+        "Semiconductor Digest"
+      ],
+      "sourceCount": 1,
+      "moduleId": "industry",
+      "module": "Industry & Overview",
+      "score": 62,
+      "rumor": false,
+      "publishedAt": "2026-08-18T21:11:06.000Z"
     },
     {
       "title": "Adata XPG Novakey RGB DDR5-6000 C30 2x16GB Review — Turning salvage into pure performance",
@@ -756,86 +660,6 @@
       "publishedAt": "2026-08-19T12:04:57.000Z"
     },
     {
-      "title": "Cerebras' CS-4 rack combines three wafer-scale processors, claims 2x gain over CS-3",
-      "link": "https://www.digitimes.com/news/a20260819VL208/cerebras-wafer-accelerator.html",
-      "image": "https://img.digitimes.com/newsshow/20260819vl208_files/2_2b.jpg",
-      "summary": "Cerebras Systems on Tuesday announced the CS-4, a rack-scale AI accelerator the company says is up to twice as fast as its current CS-3 system and up to 30 times faster than GPU-based alternatives on a tokens-per-second-per-user basis.",
-      "source": "DIGITIMES",
-      "sources": [
-        "DIGITIMES"
-      ],
-      "sourceCount": 1,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
-      "score": 47,
-      "rumor": false,
-      "publishedAt": "2026-08-19T04:11:20.000Z"
-    },
-    {
-      "title": "Hanmi Semiconductor scales up bonding capacity with US$91.4 million plant buy amid AI packaging boom",
-      "link": "https://www.digitimes.com/news/a20260818PD222/hanmi-packaging-equipment-plant-capacity.html",
-      "image": "https://img.digitimes.com/newsshow/20260818pd222_files/2_b.jpg",
-      "summary": "Amid a global shortage of AI semiconductor equipment, Hanmi Semiconductor announced on August 18 that it will acquire a factory owned by Mercury in the Juan National Industrial Complex in Incheon, South Korea. The site, covering 221,683 square feet, will become Hanmi Semiconductor's eighth and largest production base.",
-      "source": "DIGITIMES",
-      "sources": [
-        "DIGITIMES"
-      ],
-      "sourceCount": 1,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
-      "score": 47,
-      "rumor": false,
-      "publishedAt": "2026-08-19T00:45:47.000Z"
-    },
-    {
-      "title": "Shikhar Malhotra named chairman of HCL-Foxconn chip venture as Jewar plant advances",
-      "link": "https://www.digitimes.com/news/a20260818VL200/hcl-plant-chairman-joint-venture-osat.html",
-      "image": "https://img.digitimes.com/newsshow/20260818vl200_files/2_b.jpg",
-      "summary": "India Chip Private Limited, the semiconductor joint venture between HCL Group and Hon Hai Technology Group (Foxconn), has appointed Shikhar Malhotra as its chairman, according to tele.net.in. Malhotra, who also chairs HCL Capital and serves on the board of HCL Corporation, will lead the venture as it works toward commissioning its outsourced semiconductor assembly and test (OSAT) facility in Jewar",
-      "source": "DIGITIMES",
-      "sources": [
-        "DIGITIMES"
-      ],
-      "sourceCount": 1,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
-      "score": 47,
-      "rumor": false,
-      "publishedAt": "2026-08-19T00:45:05.000Z"
-    },
-    {
-      "title": "Charts: Memory, not logic, is doing the work in Taiwan's July chip revenue",
-      "link": "https://www.digitimes.com/news/a20260818VL219/growth-tsmc-revenue-demand-price.html",
-      "image": "https://img.digitimes.com/newsshow/20260818vl219_files/3_2b.jpg",
-      "summary": "Scale and growth have decoupled. TSMC still supplies more than half the sector's monthly sales, but the growth table now belongs to DRAM, NOR flash and controller names.",
-      "source": "DIGITIMES",
-      "sources": [
-        "DIGITIMES"
-      ],
-      "sourceCount": 1,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
-      "score": 47,
-      "rumor": false,
-      "publishedAt": "2026-08-19T00:44:16.000Z"
-    },
-    {
-      "title": "Charts: New capacity is starting to show up in Taiwan's packaging and test revenue",
-      "link": "https://www.digitimes.com/news/a20260818VL224/ardentec-revenue-taiwan-packaging-capacity.html",
-      "image": "https://img.digitimes.com/newsshow/20260818vl224_files/3_2b.jpg",
-      "summary": "Ardentec credits a new fab entering volume production for the sharpest monthly jump in the sub-sector; ELASER's revenue nearly doubled year on year on customer demand.",
-      "source": "DIGITIMES",
-      "sources": [
-        "DIGITIMES"
-      ],
-      "sourceCount": 1,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
-      "score": 47,
-      "rumor": false,
-      "publishedAt": "2026-08-19T00:43:10.000Z"
-    },
-    {
       "title": "Why the Advanced Packaging Semiconductor Market No Longer Moves as One",
       "link": "https://www.techinsights.com/blog/advanced-packaging-processors-market-data",
       "image": null,
@@ -916,6 +740,22 @@
       "publishedAt": "2026-08-14T09:23:52.000Z"
     },
     {
+      "title": "BBCube: A Novel Chip-on-Wafer Technology for Next-Generation AI Chip Integration",
+      "link": "https://www.semiconductor-digest.com/bbcube-a-novel-chip-on-wafer-technology-for-next-generation-ai-chip-integration/?utm_source=rss&utm_medium=rss&utm_campaign=bbcube-a-novel-chip-on-wafer-technology-for-next-generation-ai-chip-integration",
+      "image": null,
+      "summary": "Three core technologies involving advanced packaging, chip interconnects, and thermal design enable high-performance semiconductor systems. The post BBCube: A Novel Chip-on-Wafer Technology for Next-Generation AI Chip Integration appeared first on Semiconductor Digest .",
+      "source": "Semiconductor Digest",
+      "sources": [
+        "Semiconductor Digest"
+      ],
+      "sourceCount": 1,
+      "moduleId": "packaging",
+      "module": "Packaging & Test",
+      "score": 72,
+      "rumor": false,
+      "publishedAt": "2026-08-12T21:28:40.000Z"
+    },
+    {
       "title": "New ‘Shape-Shifting’ Architecture Brings Versatility to Photonic Quantum Computing",
       "link": "https://www.semiconductor-digest.com/new-shape-shifting-architecture-brings-versatility-to-photonic-quantum-computing/?utm_source=rss&utm_medium=rss&utm_campaign=new-shape-shifting-architecture-brings-versatility-to-photonic-quantum-computing",
       "image": null,
@@ -978,6 +818,22 @@
       "score": 72,
       "rumor": false,
       "publishedAt": "2026-07-23T18:35:34.000Z"
+    },
+    {
+      "title": "PDF Solutions’ Exensio Was Built for Semiconductor Analytics. The New Exensio Aurora Architecture Is Built for Semiconductor Intelligence.",
+      "link": "https://semiwiki.com/artificial-intelligence/372347-pdf-solutions-exensio-was-built-for-semiconductor-analytics-the-new-exensio-aurora-architecture-is-built-for-semiconductor-intelligence/",
+      "image": null,
+      "summary": "The semiconductor industry doesn’t have a shortage of data. It has a shortage of ways to turn that data into useful manufacturing insights quickly enough to matter. That is the problem PDF Solutions’ Exensio solution has addressed for years. Built specifically for semiconductor manufacturing, Exensio brings … Read More The post PDF Solutions’ Exensio Was Built for Semiconductor Analytics. The New ",
+      "source": "SemiWiki",
+      "sources": [
+        "SemiWiki"
+      ],
+      "sourceCount": 1,
+      "moduleId": "industry",
+      "module": "Industry & Overview",
+      "score": 55,
+      "rumor": false,
+      "publishedAt": "2026-08-18T21:00:04.000Z"
     },
     {
       "title": "BrainChip, Orama.AOI Target AI-Based Industrial Defect Detection",
@@ -1125,22 +981,6 @@
       "publishedAt": "2026-08-18T14:18:57.000Z"
     },
     {
-      "title": "LG Electronics lands first OSAT order for chip packaging LDI",
-      "link": "https://www.digitimes.com/news/a20260818VL220/lg-electronics-packaging-equipment-osat-laser.html",
-      "image": "https://img.digitimes.com/newsshow/20260818vl220_files/2_r.jpg",
-      "summary": "LG Electronics has secured its first order for laser direct imaging (LDI) equipment used in semiconductor packaging, marking an early commercial milestone as it expands into chip packaging.",
-      "source": "DIGITIMES",
-      "sources": [
-        "DIGITIMES"
-      ],
-      "sourceCount": 1,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
-      "score": 54,
-      "rumor": false,
-      "publishedAt": "2026-08-18T10:26:06.000Z"
-    },
-    {
       "title": "Automotive Functional Safety: Why ASIL Compliance Starts with Electromagnetic Design",
       "link": "https://www.eetimes.com/automotive-functional-safety-why-asil-compliance-starts-with-electromagnetic-design/",
       "image": "https://www.eetimes.com/wp-content/uploads/425x230-Cadence-2.png",
@@ -1251,38 +1091,6 @@
       "score": 59,
       "rumor": false,
       "publishedAt": "2026-08-14T07:01:48.000Z"
-    },
-    {
-      "title": "TSMC Achieves 98% Yield on CoWoS-L with 5.5x Reticle Size, 14x Comes in 2029",
-      "link": "https://www.techpowerup.com/351584/tsmc-achieves-98-yield-on-cowos-l-with-5-5x-reticle-size-14x-comes-in-2029",
-      "image": "https://www.techpowerup.com/img/Pl7KjfdbTldCAikg.jpg",
-      "summary": "TSMC has reportedly achieved near-perfect packaging yields, establishing a baseline of about 98% for its current CoWoS advanced packaging. This technology accommodates a die area equivalent to 5.5 times the reticle limit, or about 858 mm². As a result, packaging 4,720 mm² worth of silicon on CoWoS-L is now possible, with only 1-2% of the packaged designs experiencing issues. This is a significant ",
-      "source": "TechPowerUp",
-      "sources": [
-        "TechPowerUp"
-      ],
-      "sourceCount": 1,
-      "moduleId": "packaging",
-      "module": "Packaging & Test",
-      "score": 59,
-      "rumor": true,
-      "publishedAt": "2026-08-13T15:37:44.000Z"
-    },
-    {
-      "title": "Qualcomm Introduces $300 Laptops With Snapdragon C, Outruns Intel N250 by Up to 67%",
-      "link": "https://www.techpowerup.com/351578/qualcomm-introduces-usd-300-laptops-with-snapdragon-c-outruns-intel-n250-by-up-to-67",
-      "image": "https://www.techpowerup.com/img/rrpE74Yl8NTG5Waz.jpg",
-      "summary": "Qualcomm is finally unveiling the specifications of its entry-level, low-cost Snapdragon C platform. According to the specifications, the platform features up to eight Arm cores for systems expected to start around the $300 mark. In a market where DRAM and NAND Flash are extremely expensive, Qualcomm aims to give students, families, and basic office workers a modern laptop at a low price of just $",
-      "source": "TechPowerUp",
-      "sources": [
-        "TechPowerUp"
-      ],
-      "sourceCount": 1,
-      "moduleId": "digital-memory",
-      "module": "Digital Design & Memory",
-      "score": 59,
-      "rumor": false,
-      "publishedAt": "2026-08-13T12:15:53.000Z"
     },
     {
       "title": "Compact Integrated GaN Drive Built for Robots, Drones",
@@ -1559,23 +1367,6 @@
       "publishedAt": "2026-07-22T17:48:32.000Z"
     },
     {
-      "title": "Researchers develop AI agent technology to automate semiconductor design verification",
-      "link": "https://techxplore.com/news/2026-07-ai-agent-technology-automate-semiconductor.html",
-      "image": "https://scx1.b-cdn.net/csz/news/tmb/2026/snu-researchers-develo-19.jpg",
-      "summary": "A research team led by Hyun Oh Song, a professor in Seoul National University College of Engineering's Department of Computer Science and Engineering, in collaboration with Samsung AI Center, has developed \"Rule2DRC,\" an AI agent technology that automatically generates inspection codes required for semiconductor design verification.",
-      "source": "Phys.org – Semiconductors",
-      "sources": [
-        "Phys.org – Semiconductors",
-        "TechXplore – Semiconductors"
-      ],
-      "sourceCount": 2,
-      "moduleId": "verification",
-      "module": "Functional Verification",
-      "score": 64,
-      "rumor": false,
-      "publishedAt": "2026-07-20T20:20:09.000Z"
-    },
-    {
       "title": "Würth Elektronik Updates REDEXPERT DC-DC Design Tool",
       "link": "https://www.powerelectronicsnews.com/wurth-elektronik-updates-redexpert-dc-dc-design-tool/",
       "image": "https://www.powerelectronicsnews.com/wp-content/uploads/sites/3/2026/08/Wurth_PR.png?fit=1080%2C810",
@@ -1638,6 +1429,23 @@
       "score": 44,
       "rumor": false,
       "publishedAt": "2026-08-17T15:00:00.000Z"
+    },
+    {
+      "title": "Researchers develop AI agent technology to automate semiconductor design verification",
+      "link": "https://techxplore.com/news/2026-07-ai-agent-technology-automate-semiconductor.html",
+      "image": "https://scx1.b-cdn.net/csz/news/tmb/2026/snu-researchers-develo-19.jpg",
+      "summary": "A research team led by Hyun Oh Song, a professor in Seoul National University College of Engineering's Department of Computer Science and Engineering, in collaboration with Samsung AI Center, has developed \"Rule2DRC,\" an AI agent technology that automatically generates inspection codes required for semiconductor design verification.",
+      "source": "Phys.org – Semiconductors",
+      "sources": [
+        "Phys.org – Semiconductors",
+        "TechXplore – Semiconductors"
+      ],
+      "sourceCount": 2,
+      "moduleId": "verification",
+      "module": "Functional Verification",
+      "score": 62,
+      "rumor": false,
+      "publishedAt": "2026-07-20T20:20:09.000Z"
     },
     {
       "title": "Study highlights how micro-transfer printing can lead to advanced silicon photonics",

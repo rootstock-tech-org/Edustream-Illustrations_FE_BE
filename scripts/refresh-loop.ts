@@ -8,7 +8,11 @@ async function refresh() {
   const time = new Date().toLocaleTimeString();
   try {
     const s = await saveNews();
-    console.log(`[${time}] wrote ${s.count} articles (${s.withImage} with image) in ${s.secs}s`);
+    if (s.skipped) {
+      console.log(`[${time}] fetch returned 0 - kept last good store (${s.count} articles)`);
+    } else {
+      console.log(`[${time}] wrote ${s.count} articles (${s.withImage} with image) in ${s.secs}s`);
+    }
   } catch (e: any) {
     console.error(`[${time}] refresh failed: ${e?.message || e}`);
   }
