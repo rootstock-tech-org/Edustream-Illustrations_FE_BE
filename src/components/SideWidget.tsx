@@ -3,10 +3,11 @@ import { CategoryView } from "../../lib/categories";
 import type { Article } from "../../lib/pipeline";
 import type { Paper } from "../../lib/papers";
 import { NewsCard } from "./NewsCard";
+import { PaperMiniList } from "./PaperMiniList";
 
 // Right-rail widget: heading + "See all" + a few compact stories. Optionally
-// blends in a couple of research papers below the news (used by "Emerging &
-// Research"), each clearly tagged so a paper isn't mistaken for a news story.
+// blends in a couple of research papers below the news, each clearly tagged so
+// a paper isn't mistaken for a news story.
 export function SideWidget({
   cat,
   items,
@@ -34,47 +35,7 @@ export function SideWidget({
         ))}
       </div>
 
-      {papers.length > 0 && (
-        <div className="mt-2 border-t border-slate-100 pt-2">
-          <div className="mb-1.5 flex items-center justify-between px-1">
-            <h4 className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-slate-500">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
-                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
-              </svg>
-              Research papers
-            </h4>
-            <Link href="/papers" className="text-[11px] font-semibold text-slate-500 transition hover:text-indigo-600">
-              See all
-            </Link>
-          </div>
-          <ul className="space-y-1">
-            {papers.slice(0, 3).map((p) => (
-              <li key={p.id}>
-                <a
-                  href={p.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group block rounded-lg px-1 py-1 transition hover:bg-slate-50"
-                >
-                  <div className="flex items-start gap-1.5">
-                    <span className="mt-0.5 shrink-0 rounded bg-indigo-50 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide text-indigo-600 ring-1 ring-indigo-100">
-                      Paper
-                    </span>
-                    <span className="line-clamp-2 text-[12px] font-semibold leading-snug text-slate-700 group-hover:text-indigo-600">
-                      {p.title}
-                    </span>
-                  </div>
-                  <div className="mt-0.5 text-[10px] text-slate-400">
-                    {p.venue}
-                    {p.year ? ` · ${p.year}` : ""}
-                  </div>
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+      <PaperMiniList papers={papers} limit={3} />
     </div>
   );
 }

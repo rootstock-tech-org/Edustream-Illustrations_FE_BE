@@ -1,9 +1,12 @@
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import { getNews } from "../../../../lib/getNews";
+import { getPapers } from "../../../../lib/getPapers";
 import { viewFor } from "../../../../lib/categories";
 import { articleId } from "../../../../lib/display";
 import { Header } from "../../../components/Header";
 import { NewsCard } from "../../../components/NewsCard";
+import { PaperCard } from "../../../components/PaperCard";
 import { FocusScroller } from "../../../components/FocusScroller";
 
 export const dynamic = "force-dynamic";
@@ -15,6 +18,7 @@ export default async function TopicPage({ params }: { params: Promise<{ id: stri
 
   const { articles } = getNews();
   const items = articles.filter((a) => a.moduleId === id);
+  const papers = getPapers().papers.filter((p) => p.moduleId === id).slice(0, 6);
 
   return (
     <>
@@ -40,6 +44,23 @@ export default async function TopicPage({ params }: { params: Promise<{ id: stri
               </div>
             ))}
           </div>
+        )}
+
+        {papers.length > 0 && (
+          <section className="mt-10 border-t border-slate-200 pt-7">
+            <div className="mb-4 flex items-center gap-3">
+              <span className="h-6 w-1.5 rounded-full" style={{ background: cat.accent }} />
+              <h2 className="text-lg font-bold tracking-tight text-slate-900">Research papers</h2>
+              <Link href="/papers" className="ml-auto text-xs font-semibold text-slate-500 transition hover:text-indigo-600">
+                See all →
+              </Link>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {papers.map((p) => (
+                <PaperCard key={p.id} paper={p} accent={cat.accent} />
+              ))}
+            </div>
+          </section>
         )}
       </div>
       <FocusScroller />

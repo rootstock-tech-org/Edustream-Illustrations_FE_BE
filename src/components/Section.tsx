@@ -2,8 +2,10 @@ import Link from "next/link";
 import { CategoryView } from "../../lib/categories";
 import { faviconFor, timeAgo } from "../../lib/display";
 import type { Article } from "../../lib/pipeline";
+import type { Paper } from "../../lib/papers";
 import { NewsCard } from "./NewsCard";
 import { LectureChip } from "./LectureChip";
+import { PaperMiniList } from "./PaperMiniList";
 
 export type SectionLayout = "grid" | "list" | "spotlight" | "headlines";
 
@@ -26,10 +28,12 @@ export function Section({
   cat,
   items,
   layout = "list",
+  papers = [],
 }: {
   cat: CategoryView;
   items: Article[];
   layout?: SectionLayout;
+  papers?: Paper[];
 }) {
   if (!items.length) return null;
   const [lead, ...rest] = items;
@@ -103,6 +107,8 @@ export function Section({
           })}
         </ol>
       ) : null}
+
+      <PaperMiniList papers={papers} limit={4} twoCol />
     </section>
   );
 }

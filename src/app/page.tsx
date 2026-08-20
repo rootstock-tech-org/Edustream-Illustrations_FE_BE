@@ -24,12 +24,13 @@ export default function Home() {
   const centerSecs = CENTER_IDS.map((id) => ({ cat: viewFor(id)!, items: bucket(id) })).filter(
     (s) => s.cat && s.items.length >= 3
   );
-  // Blend a few research papers into the "Emerging & Research" rail (papers.json
-  // is prebuilt, so this is a pure UI blend). Store lists a module's top papers first.
-  const emergingPapers = getPapers().papers.filter((p) => p.moduleId === "emerging").slice(0, 3);
+  // Blend a few research papers under each module's news (papers.json is
+  // prebuilt, so this is a pure UI blend). Store lists a module's top papers first.
+  const allPapers = getPapers().papers;
+  const papersFor = (id: string) => allPapers.filter((p) => p.moduleId === id);
 
   const sideSecs = SIDE_IDS.map((id) => ({ cat: viewFor(id)!, items: bucket(id) })).filter(
-    (s) => s.cat && (s.items.length || (s.cat.id === "emerging" && emergingPapers.length))
+    (s) => s.cat && (s.items.length || papersFor(s.cat.id).length)
   );
 
   const shown = new Set([...centerSecs, ...sideSecs].flatMap((s) => s.items.map((i) => i.link)));
@@ -65,7 +66,13 @@ export default function Home() {
           )}
 
           {centerSecs.map((s, i) => (
-            <Section key={s.cat.id} cat={s.cat} items={s.items} layout={LAYOUTS[i % LAYOUTS.length]} />
+            <Section
+              key={s.cat.id}
+              cat={s.cat}
+              items={s.items}
+              layout={LAYOUTS[i % LAYOUTS.length]}
+              papers={papersFor(s.cat.id).slice(0, 4)}
+            />
           ))}
 
           {more.length > 0 && (
@@ -94,7 +101,7 @@ export default function Home() {
                 key={s.cat.id}
                 cat={s.cat}
                 items={s.items}
-                papers={s.cat.id === "emerging" ? emergingPapers : []}
+                papers={papersFor(s.cat.id).slice(0, 3)}
               />
             ))}
           </div>
