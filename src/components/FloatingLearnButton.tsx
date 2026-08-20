@@ -26,7 +26,7 @@ export function FloatingLearnButton() {
       title="Learn with Avsar"
       className="group fixed bottom-5 right-5 z-50 flex items-center gap-2.5 rounded-full bg-gradient-to-r from-indigo-600 to-blue-600 py-2 pl-2 pr-4 text-white shadow-lg shadow-indigo-600/30 ring-1 ring-white/20 transition hover:-translate-y-0.5 hover:shadow-xl"
     >
-      <span className="grid h-14 w-14 shrink-0 place-items-center overflow-hidden rounded-full bg-white/15">
+      <span className="avsar-ring grid h-14 w-14 shrink-0 place-items-center overflow-hidden rounded-full bg-white/15">
         {imgOk ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -49,6 +49,22 @@ export function FloatingLearnButton() {
       <span className="text-sm font-semibold leading-tight">
         Learn with <span className="font-bold">Avsar</span>
       </span>
+
+      {/* Slow "ringing" wiggle to draw attention, pausing between rings. */}
+      <style>{`
+        @keyframes avsarRing {
+          0%, 65%, 100% { transform: rotate(0deg); }
+          68% { transform: rotate(-10deg); }
+          72% { transform: rotate(9deg); }
+          76% { transform: rotate(-7deg); }
+          80% { transform: rotate(6deg); }
+          84% { transform: rotate(-4deg); }
+          88% { transform: rotate(3deg); }
+          92% { transform: rotate(-1deg); }
+        }
+        .avsar-ring { animation: avsarRing 3.4s ease-in-out infinite; transform-origin: 50% 25%; }
+        @media (prefers-reduced-motion: reduce) { .avsar-ring { animation: none; } }
+      `}</style>
     </a>
   );
 }
