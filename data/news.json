@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-08-20T02:45:15.303Z",
-  "count": 151,
+  "generatedAt": "2026-08-20T03:29:23.768Z",
+  "count": 152,
   "articles": [
     {
       "title": "Innolux turns panel fabs into FOPLP capacity, banking on sticky advanced packaging ties",
@@ -49,6 +49,22 @@
       "score": 85,
       "rumor": false,
       "publishedAt": "2026-08-19T15:23:48.000Z"
+    },
+    {
+      "title": "Kenmec subsidiaries target SiC, AIDC growth",
+      "link": "https://www.digitimes.com/news/a20260820PD204/kenmec-aidc-chairman-ceo-sic.html",
+      "image": "https://img.digitimes.com/newsshow/20260820pd204_files/2_b.jpg",
+      "summary": "Kenmec Group founder and president Frank Hsieh said on August 19 that two of the company's new businesses have taken shape, with Taisic Materials focusing on silicon carbide (SiC), a third-generation semiconductor material, and Kentec targeting the AI data center (AIDC) market. Both companies are expected to list on Taiwan's Emerging Stock Board in October 2026.",
+      "source": "DIGITIMES",
+      "sources": [
+        "DIGITIMES"
+      ],
+      "sourceCount": 1,
+      "moduleId": "physics",
+      "module": "Semiconductor Physics",
+      "score": 70,
+      "rumor": false,
+      "publishedAt": "2026-08-20T02:50:21.000Z"
     },
     {
       "title": "Intel Malaysia packaging expansion draws HBM flows from Taiwan",
