@@ -329,6 +329,13 @@ export function Explorer() {
           </aside>
         </div>
       </div>
+
+      {/* feedback pinned to the bottom of the screen: <main> is a fixed-height
+          flex column and the grid above takes flex-1, so a shrink-0 bar here
+          always sits on the bottom edge without position:fixed. */}
+      <div className="glass shrink-0 rounded-2xl px-4 py-2">
+        <FeedbackBar inline id={`device-${device.id}`} />
+      </div>
     </main>
   );
 }
