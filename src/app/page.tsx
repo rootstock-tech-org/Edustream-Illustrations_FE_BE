@@ -1,4 +1,5 @@
 import { getNews } from "../../lib/getNews";
+import { getPapers } from "../../lib/getPapers";
 import { CENTER_IDS, SIDE_IDS, viewFor } from "../../lib/categories";
 import { Header } from "../components/Header";
 import { Section, SectionLayout } from "../components/Section";
@@ -23,8 +24,12 @@ export default function Home() {
   const centerSecs = CENTER_IDS.map((id) => ({ cat: viewFor(id)!, items: bucket(id) })).filter(
     (s) => s.cat && s.items.length >= 3
   );
+  // Blend a few research papers into the "Emerging & Research" rail (papers.json
+  // is prebuilt, so this is a pure UI blend). Store lists a module's top papers first.
+  const emergingPapers = getPapers().papers.filter((p) => p.moduleId === "emerging").slice(0, 3);
+
   const sideSecs = SIDE_IDS.map((id) => ({ cat: viewFor(id)!, items: bucket(id) })).filter(
-    (s) => s.cat && s.items.length
+    (s) => s.cat && (s.items.length || (s.cat.id === "emerging" && emergingPapers.length))
   );
 
   const shown = new Set([...centerSecs, ...sideSecs].flatMap((s) => s.items.map((i) => i.link)));
@@ -85,7 +90,12 @@ export default function Home() {
         <aside className="hidden w-80 shrink-0 lg:block">
           <div className="no-scrollbar sticky top-20 max-h-[calc(100vh-6rem)] space-y-5 overflow-y-auto pt-6">
             {sideSecs.map((s) => (
-              <SideWidget key={s.cat.id} cat={s.cat} items={s.items} />
+              <SideWidget
+                key={s.cat.id}
+                cat={s.cat}
+                items={s.items}
+                papers={s.cat.id === "emerging" ? emergingPapers : []}
+              />
             ))}
           </div>
         </aside>
