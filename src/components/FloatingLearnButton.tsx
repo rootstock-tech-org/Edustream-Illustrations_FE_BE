@@ -26,19 +26,19 @@ export function FloatingLearnButton() {
       title="Learn with Avsar"
       className="group fixed bottom-5 right-5 z-50 flex items-center gap-2.5 rounded-full bg-gradient-to-r from-indigo-600 to-blue-600 py-2 pl-2 pr-4 text-white shadow-lg shadow-indigo-600/30 ring-1 ring-white/20 transition hover:-translate-y-0.5 hover:shadow-xl"
     >
-      <span className="grid h-10 w-10 shrink-0 place-items-center overflow-hidden rounded-full bg-white/15">
+      <span className="grid h-14 w-14 shrink-0 place-items-center overflow-hidden rounded-full bg-white/15">
         {imgOk ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src="/avsar-bot.png"
             alt=""
-            width={40}
-            height={40}
-            className="h-10 w-10 object-contain"
+            width={56}
+            height={56}
+            className="h-14 w-14 object-contain"
             onError={() => setImgOk(false)}
           />
         ) : (
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
             <rect x="4" y="8" width="16" height="11" rx="3" />
             <path d="M12 8V4M9 3h6M8.5 13h.01M15.5 13h.01" />
             <path d="M9.5 16.5c.8.5 1.6.8 2.5.8s1.7-.3 2.5-.8" />
