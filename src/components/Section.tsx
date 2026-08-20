@@ -4,7 +4,6 @@ import { faviconFor, timeAgo } from "../../lib/display";
 import type { Article } from "../../lib/pipeline";
 import type { Paper } from "../../lib/papers";
 import { NewsCard } from "./NewsCard";
-import { LectureChip } from "./LectureChip";
 import { PaperCard } from "./PaperCard";
 
 export type SectionLayout = "grid" | "list" | "spotlight" | "headlines";
@@ -98,7 +97,6 @@ export function Section({
                       ) : null}
                       <span className="font-semibold text-slate-700">{it.source}</span>
                       {it.publishedAt ? <span>· {timeAgo(it.publishedAt)}</span> : null}
-                      <LectureChip moduleId={it.moduleId} />
                     </div>
                   </div>
                 </a>

@@ -25,7 +25,7 @@ export const CATEGORY_VIEWS: CategoryView[] = [
   { id: "eda-algorithms", label: "EDA Algorithms", short: "EDA", accent: "#e879f9" },
   { id: "low-power-signoff", label: "Low-Power & Signoff", short: "Signoff", accent: "#f59e0b" },
   { id: "full-flow", label: "Full-Chip Flow & Product", short: "Flow", accent: "#4ade80" },
-  { id: "emerging", label: "Emerging Research", short: "Research", accent: "#6366f1" },
+  { id: "emerging", label: "Research", short: "Research", accent: "#6366f1" },
 ];
 
 export const DEFAULT_ACCENT = "#22d3ee";
