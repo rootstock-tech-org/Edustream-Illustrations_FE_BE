@@ -5,7 +5,7 @@ import type { Article } from "../../lib/pipeline";
 import type { Paper } from "../../lib/papers";
 import { NewsCard } from "./NewsCard";
 import { LectureChip } from "./LectureChip";
-import { PaperMiniList } from "./PaperMiniList";
+import { PaperCard } from "./PaperCard";
 
 export type SectionLayout = "grid" | "list" | "spotlight" | "headlines";
 
@@ -108,7 +108,25 @@ export function Section({
         </ol>
       ) : null}
 
-      <PaperMiniList papers={papers} limit={4} twoCol />
+      {papers.length > 0 ? (
+        <div className="mt-6 border-t border-slate-100 pt-5">
+          <div className="mb-3 flex items-center gap-2">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="text-slate-400">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+            </svg>
+            <h3 className="text-xs font-bold uppercase tracking-wide text-slate-500">Research papers</h3>
+            <Link href="/papers" className="ml-auto text-xs font-semibold text-slate-500 transition hover:text-indigo-600">
+              See all &rarr;
+            </Link>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {papers.slice(0, 3).map((p) => (
+              <PaperCard key={p.id} paper={p} accent={cat.accent} />
+            ))}
+          </div>
+        </div>
+      ) : null}
     </section>
   );
 }
