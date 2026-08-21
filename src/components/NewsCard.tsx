@@ -75,7 +75,7 @@ export function NewsCard({
       >
         <Thumb item={item} accent={accent} className="h-[70px] w-[104px] shrink-0 rounded-lg ring-1 ring-slate-200/70" />
         <div className="min-w-0 flex-1">
-          <h3 className="line-clamp-2 text-[13.5px] font-semibold leading-snug text-slate-800 transition-colors group-hover:text-indigo-600">
+          <h3 className="line-clamp-2 text-[13.5px] font-semibold leading-snug text-[#041b4c] transition-colors group-hover:text-[#c2410c]">
             {item.title}
           </h3>
           <div className="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-1">
@@ -95,7 +95,7 @@ export function NewsCard({
         href={item.link}
         target="_blank"
         rel="noopener noreferrer"
-        className="group relative block overflow-hidden rounded-2xl border border-slate-200/70 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-slate-300/50"
+        className="avsar-shadow group relative block overflow-hidden rounded-2xl border border-slate-200/70 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-slate-300/50"
       >
         <Thumb item={item} accent={accent} className="aspect-[16/10] w-full" />
         <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
@@ -120,7 +120,7 @@ export function NewsCard({
       href={item.link}
       target="_blank"
       rel="noopener noreferrer"
-      className="group relative flex flex-col overflow-hidden rounded-2xl border border-slate-200/70 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-300/50"
+      className="avsar-corners avsar-shadow group relative flex flex-col overflow-hidden rounded-2xl border border-slate-200/70 bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-300/50"
     >
       <Thumb item={item} accent={accent} className="aspect-[16/10] w-full" />
       <div className="absolute right-3 top-3 z-10">
@@ -128,7 +128,7 @@ export function NewsCard({
       </div>
       <div className="flex flex-1 flex-col gap-2 p-4">
         <SourceRow item={item} />
-        <h3 className="line-clamp-3 text-[15px] font-semibold leading-snug text-slate-800 transition-colors group-hover:text-indigo-600">
+        <h3 className="line-clamp-3 text-[15px] font-semibold leading-snug text-[#041b4c] transition-colors group-hover:text-[#c2410c]">
           {item.title}
         </h3>
         <div className="mt-auto flex flex-wrap items-center gap-1.5 pt-1">

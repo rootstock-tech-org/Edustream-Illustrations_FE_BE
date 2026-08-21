@@ -1,19 +1,65 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f4f6f9;
-  --foreground: #0f172a;
-  /* magazine palette (light only) */
-  --bg: #f4f6f9;
+  --background: #f6f7fb;
+  --foreground: #041b4c;
+  /* AVSAR palette (light): navy ink + burnt-orange accent */
+  --bg: #f6f7fb;
   --panel: #ffffff;
-  --text: #0f172a;
-  --muted: #5b6472;
-  --border: #e4e8ee;
-  --hover: #eef2f7;
+  --text: #041b4c;
+  --muted: #55618a;
+  --border: #e5e7eb;
+  --hover: #eef1f8;
   --header: rgba(255, 255, 255, 0.82);
   --pill: #eaeef4;
-  --pill-active: #0f172a;
+  --pill-active: #041b4c;
   --pill-active-text: #ffffff;
+  --accent: #c2410c;
+  --accent-soft: rgba(194, 65, 12, 0.12);
+  --avsar-shadow: 0 1px 3px rgba(11, 22, 59, 0.08), 0 1px 2px rgba(11, 22, 59, 0.05);
+  --avsar-shadow-lg: 0 10px 30px -12px rgba(11, 22, 59, 0.22), 0 4px 10px -6px rgba(11, 22, 59, 0.12);
+}
+
+/* AVSAR soft, navy-tinted card shadow */
+.avsar-shadow {
+  box-shadow: var(--avsar-shadow);
+}
+.avsar-shadow-lg {
+  box-shadow: var(--avsar-shadow-lg);
+}
+
+/* AVSAR "blueprint" corner brackets on a card's four vertices */
+.avsar-corners {
+  position: relative;
+}
+.avsar-corners::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 1;
+  background-image:
+    linear-gradient(var(--accent), var(--accent)), linear-gradient(var(--accent), var(--accent)),
+    linear-gradient(var(--accent), var(--accent)), linear-gradient(var(--accent), var(--accent)),
+    linear-gradient(var(--accent), var(--accent)), linear-gradient(var(--accent), var(--accent)),
+    linear-gradient(var(--accent), var(--accent)), linear-gradient(var(--accent), var(--accent));
+  background-repeat: no-repeat;
+  background-position:
+    top 8px left 8px, top 8px left 8px,
+    top 8px right 8px, top 8px right 8px,
+    bottom 8px left 8px, bottom 8px left 8px,
+    bottom 8px right 8px, bottom 8px right 8px;
+  background-size:
+    11px 1.5px, 1.5px 11px,
+    11px 1.5px, 1.5px 11px,
+    11px 1.5px, 1.5px 11px,
+    11px 1.5px, 1.5px 11px;
+  opacity: 0.5;
+  transition: opacity 0.2s ease;
+}
+.avsar-corners:hover::before {
+  opacity: 0.9;
 }
 
 @theme inline {
@@ -25,6 +71,10 @@
 
 body {
   background: var(--bg);
+  background-image:
+    linear-gradient(to right, rgba(4, 27, 76, 0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(4, 27, 76, 0.035) 1px, transparent 1px);
+  background-size: 28px 28px;
   color: var(--text);
   font-family: var(--font-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI",
     Roboto, Helvetica, Arial, sans-serif;

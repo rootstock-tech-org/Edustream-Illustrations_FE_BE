@@ -23,7 +23,7 @@ export function PaperMiniList({
           </svg>
           Research papers
         </h4>
-        <Link href="/papers" className="text-[11px] font-semibold text-slate-500 transition hover:text-indigo-600">
+        <Link href="/papers" className="text-[11px] font-semibold text-slate-500 transition hover:text-[#c2410c]">
           See all
         </Link>
       </div>
@@ -37,7 +37,7 @@ export function PaperMiniList({
               className="group block rounded-lg px-1 py-1 transition hover:bg-slate-50"
             >
               <div className="flex items-start gap-1.5">
-                <span className="line-clamp-2 text-[12px] font-semibold leading-snug text-slate-700 group-hover:text-indigo-600">
+                <span className="line-clamp-2 text-[12px] font-semibold leading-snug text-[#041b4c] group-hover:text-[#c2410c]">
                   {p.title}
                 </span>
               </div>

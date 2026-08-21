@@ -12,11 +12,11 @@ export type SectionLayout = "grid" | "list" | "spotlight" | "headlines";
 function Heading({ cat }: { cat: CategoryView }) {
   return (
     <div className="mb-4 flex items-center justify-between">
-      <h2 className="flex items-center gap-2.5 text-lg font-bold tracking-tight text-slate-900">
+      <h2 className="flex items-center gap-2.5 text-lg font-bold tracking-tight text-[#041b4c]">
         <span className="h-5 w-1.5 rounded-full" style={{ background: cat.accent }} />
         {cat.label}
       </h2>
-      <Link href={`/topic/${cat.id}`} className="text-xs font-semibold text-slate-500 transition hover:text-indigo-600">
+      <Link href={`/topic/${cat.id}`} className="text-xs font-semibold text-slate-500 transition hover:text-[#c2410c]">
         See all →
       </Link>
     </div>
@@ -88,7 +88,7 @@ export function Section({
                     {i + 1}
                   </span>
                   <div className="min-w-0 flex-1">
-                    <h3 className="line-clamp-2 text-sm font-semibold leading-snug text-slate-800 group-hover:text-indigo-600">
+                    <h3 className="line-clamp-2 text-sm font-semibold leading-snug text-[#041b4c] group-hover:text-[#c2410c]">
                       {it.title}
                     </h3>
                     <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] text-slate-500">
@@ -128,7 +128,7 @@ export function Section({
               <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
             </svg>
             <h3 className="text-xs font-bold uppercase tracking-wide text-slate-500">Research papers</h3>
-            <Link href="/papers" className="ml-auto text-xs font-semibold text-slate-500 transition hover:text-indigo-600">
+            <Link href="/papers" className="ml-auto text-xs font-semibold text-slate-500 transition hover:text-[#c2410c]">
               See all &rarr;
             </Link>
           </div>

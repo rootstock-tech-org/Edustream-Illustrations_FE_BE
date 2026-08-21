@@ -9,22 +9,26 @@ export function PaperCard({ paper, accent }: { paper: Paper; accent: string }) {
       : paper.authors.slice(0, 3).join(", ") + (paper.authors.length > 3 ? " et al." : "");
 
   return (
-    <div className="flex h-full flex-col rounded-2xl border border-slate-200/70 bg-white p-4 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md">
-      <div className="mb-2 flex items-center gap-2">
-        <span
-          className="rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white"
-          style={{ background: accent }}
-        >
-          {paper.kind === "top" ? "Related to this topic" : "Latest"}
-        </span>
-        {paper.year ? <span className="text-[11px] font-medium text-slate-400">{paper.year}</span> : null}
-      </div>
+    <div className="avsar-corners avsar-shadow flex h-full flex-col rounded-2xl border border-slate-200/70 bg-white p-4 transition hover:-translate-y-0.5 hover:shadow-lg">
+      {paper.kind !== "top" || paper.year ? (
+        <div className="mb-2 flex items-center gap-2">
+          {paper.kind !== "top" ? (
+            <span
+              className="rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white"
+              style={{ background: accent }}
+            >
+              Latest
+            </span>
+          ) : null}
+          {paper.year ? <span className="text-[11px] font-medium text-slate-400">{paper.year}</span> : null}
+        </div>
+      ) : null}
 
       <a
         href={paper.url}
         target="_blank"
         rel="noopener noreferrer"
-        className="text-[15px] font-semibold leading-snug text-slate-800 transition-colors hover:text-indigo-600"
+        className="text-[15px] font-semibold leading-snug text-[#041b4c] transition-colors hover:text-[#c2410c]"
       >
         {paper.title}
       </a>
