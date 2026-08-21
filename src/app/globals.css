@@ -16,7 +16,7 @@
   --pill-active-text: #ffffff;
   --accent: #c2410c;
   --accent-soft: rgba(194, 65, 12, 0.12);
-  --corner-accent: #aab7d8;
+  --corner-accent: #6b83c8;
   --avsar-shadow: 0 6px 20px -6px rgba(11, 22, 59, 0.16), 0 2px 6px -3px rgba(11, 22, 59, 0.10);
   --avsar-shadow-lg: 0 16px 40px -12px rgba(11, 22, 59, 0.28), 0 6px 14px -6px rgba(11, 22, 59, 0.16);
 }
@@ -52,11 +52,11 @@
     bottom left, bottom left,
     bottom right, bottom right;
   background-size:
-    12px 1.5px, 1.5px 12px,
-    12px 1.5px, 1.5px 12px,
-    12px 1.5px, 1.5px 12px,
-    12px 1.5px, 1.5px 12px;
-  opacity: 0.85;
+    13px 2px, 2px 13px,
+    13px 2px, 2px 13px,
+    13px 2px, 2px 13px,
+    13px 2px, 2px 13px;
+  opacity: 1;
   transition: opacity 0.2s ease;
 }
 .avsar-corners:hover::before {
