@@ -3,7 +3,6 @@ import { BaseEdge, EdgeProps, getSmoothStepPath } from '@xyflow/react';
 
 export function SmartWire(props: EdgeProps) {
   const {
-    id,
     sourceX,
     sourceY,
     targetX,
@@ -28,7 +27,7 @@ export function SmartWire(props: EdgeProps) {
   return (
     <BaseEdge
       path={edgePath}
-      markerEnd={markerEnd}
+      {...(typeof markerEnd === 'string' ? { markerEnd } : {})}
       style={{
         ...style,
         strokeWidth: style.strokeWidth ?? 2,

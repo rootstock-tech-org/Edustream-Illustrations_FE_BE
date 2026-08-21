@@ -36,7 +36,7 @@ export function OutputNode({ data }: { data: SandboxNodeData }) {
         color: on ? 'rgb(var(--accent))' : 'rgb(var(--ink-muted) / 0.3)',
         transition: 'all 100ms ease',
       }}>
-        {data.value ?? 0}
+        {typeof data.value === 'object' ? 0 : (data.value ?? 0)}
       </div>
 
       <Handle type="target" position={Position.Left}

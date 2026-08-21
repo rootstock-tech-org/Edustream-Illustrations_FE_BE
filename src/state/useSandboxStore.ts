@@ -34,6 +34,7 @@ export type SandboxNodeData = {
   inputs?: Record<string, number>;
   clock?: boolean;
   icDef?: CustomICDef;
+  inputCount?: number;
 };
 
 export type SandboxNode = Node<SandboxNodeData, SandboxNodeType>;
@@ -107,7 +108,7 @@ export const useSandboxStore = create<SandboxState>((set, get) => ({
     const { nodes, edges } = get();
     
     // Build initial values map
-    const initialValues = new Map<string, number>();
+    const initialValues = new Map<string, any>();
     nodes.forEach(n => initialValues.set(n.id, n.data.value ?? 0));
 
     // Simulate circuit
@@ -215,7 +216,7 @@ export const useSandboxStore = create<SandboxState>((set, get) => ({
   cleanupLayout: async () => {
     // Dynamic import to avoid dagre SSR issues if any
     const { getLayoutedElements } = await import('@/lib/layoutUtils');
-    const { nodes, edges } = getLayoutedElements(get().nodes, get().edges);
+    const { nodes } = getLayoutedElements(get().nodes, get().edges);
     set({ nodes: [...nodes] });
   },
 }));

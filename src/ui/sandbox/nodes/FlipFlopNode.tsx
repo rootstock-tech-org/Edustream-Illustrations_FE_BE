@@ -39,7 +39,7 @@ export function FlipFlopNode({ id, data }: { id: string; data: SandboxNodeData }
       <div className="flex w-full justify-between gap-8 text-xs font-mono font-bold text-ink-muted">
         {/* Inputs */}
         <div className="flex flex-col gap-3 justify-center">
-          {inputs.map((inLabel, i) => (
+          {inputs.map((inLabel) => (
             <div key={inLabel} className="relative flex items-center h-4">
               <span>{inLabel}</span>
               <Handle 

@@ -231,6 +231,8 @@ function stepAnchor(step: FabStep): V3 {
   }
 }
 
+import { useAvsarStore } from '@/state/useAvsarStore';
+
 function Model({ step }: { step: FabStep }) {
   const i = FAB_STAGES.indexOf(step.stage);
   const ge = (s: FabStage) => i >= FAB_STAGES.indexOf(s);
@@ -250,29 +252,31 @@ function Model({ step }: { step: FabStep }) {
   const masking = /Pattern Photoresist|Mask|Etch/i.test(t) && !/Wet etch|Dry etch \(RIE\)$/.test(t);
   const resistTopY = ge('passiv') ? 7.95 : ge('metal2') ? 7.3 : ge('imd') ? 4.95 : ge('metal1') ? 3.62 : ge('bpsg') ? 3.0 : ge('gate') ? 1.4 : 0.5;
   const anchor = stepAnchor(step);
+  
+  const v = useAvsarStore((s) => s.wafer_state.visibleLayers);
 
   return (
     <group>
       {/* ── silicon body (physical) ─────────────────────────────────────── */}
-      <BoxC x0={XL} x1={XR} y0={-5} y1={0} color={C.substrate} rough={0.75} metal={0.08} />
+      {v.silicon && <BoxC x0={XL} x1={XR} y0={-5} y1={0} color={C.substrate} rough={0.75} metal={0.08} />}
       {/* P⁻ epitaxial layer — cross-section, until the wells take over */}
-      {!ge('pwell') && <Plate x0={XL} x1={XR} y0={-0.4} y1={0} color={C.epi} zoff={0} />}
+      {v.silicon && !ge('pwell') && <Plate x0={XL} x1={XR} y0={-0.4} y1={0} color={C.epi} zoff={0} />}
 
       {/* ── STI films + trench + fill ───────────────────────────────────── */}
-      {btw('padox', 'sti') && <BoxC x0={XL} x1={XR} y0={0} y1={0.16} color={C.oxide} rough={0.5} metal={0.12} />}
-      {btw('nitride', 'sti') && <BoxC x0={XL} x1={XR} y0={0.16} y1={0.5} color={C.nitride} />}
-      {btw('trench', 'fill') && STI.map(([a, b], k) => <Plate key={`tr-${k}`} x0={a} x1={b} y0={-2.8} y1={0} color={C.trench} zoff={0.06} />)}
-      {ge('fill') && STI.map(([a, b], k) => <Plate key={`st-${k}`} x0={a} x1={b} y0={-2.8} y1={0} color={C.oxide} zoff={0.06} />)}
-      {sacOx && <BoxC x0={XL} x1={XR} y0={0} y1={0.1} color={C.oxide} rough={0.5} metal={0.12} />}
+      {v.oxide && btw('padox', 'sti') && <BoxC x0={XL} x1={XR} y0={0} y1={0.16} color={C.oxide} rough={0.5} metal={0.12} />}
+      {v.nitride && btw('nitride', 'sti') && <BoxC x0={XL} x1={XR} y0={0.16} y1={0.5} color={C.nitride} />}
+      {v.silicon && btw('trench', 'fill') && STI.map(([a, b], k) => <Plate key={`tr-${k}`} x0={a} x1={b} y0={-2.8} y1={0} color={C.trench} zoff={0.06} />)}
+      {v.oxide && ge('fill') && STI.map(([a, b], k) => <Plate key={`st-${k}`} x0={a} x1={b} y0={-2.8} y1={0} color={C.oxide} zoff={0.06} />)}
+      {v.oxide && sacOx && <BoxC x0={XL} x1={XR} y0={0} y1={0.1} color={C.oxide} rough={0.5} metal={0.12} />}
 
       {/* ── retrograde wells (cross-section) ────────────────────────────── */}
-      {ge('nwell') && <Plate x0={nwL} x1={nwR} y0={-3} y1={0} color={C.nwell} zoff={0.12} />}
-      {ge('pwell') && <Plate x0={pwL} x1={pwR} y0={-3} y1={0} color={C.pwell} zoff={0.12} />}
+      {v.doping && ge('nwell') && <Plate x0={nwL} x1={nwR} y0={-3} y1={0} color={C.nwell} zoff={0.12} />}
+      {v.doping && ge('pwell') && <Plate x0={pwL} x1={pwR} y0={-3} y1={0} color={C.pwell} zoff={0.12} />}
 
       {/* ── gate oxide + poly ───────────────────────────────────────────── */}
-      {ge('gateox') && !ge('bpsg') && <BoxC x0={nwL} x1={pwR} y0={0} y1={0.12} color={C.oxide} rough={0.5} metal={0.12} />}
-      {btw('polydep', 'gate') && <BoxC x0={-6.6} x1={6.6} y0={0.12} y1={1.4} color={C.poly} />}
-      {ge('gate') && (
+      {v.oxide && ge('gateox') && !ge('bpsg') && <BoxC x0={nwL} x1={pwR} y0={0} y1={0.12} color={C.oxide} rough={0.5} metal={0.12} />}
+      {v.poly && btw('polydep', 'gate') && <BoxC x0={-6.6} x1={6.6} y0={0.12} y1={1.4} color={C.poly} />}
+      {v.poly && ge('gate') && (
         <>
           <BoxC x0={gP0} x1={gP1} y0={0.12} y1={1.4} color={C.poly} />
           <BoxC x0={gN0} x1={gN1} y0={0.12} y1={1.4} color={C.poly} />
@@ -280,16 +284,16 @@ function Model({ step }: { step: FabStep }) {
       )}
 
       {/* ── S/D extensions → deep S/D (cross-section) ───────────────────── */}
-      {ge('sde') && (
+      {v.doping && ge('sde') && (
         <>
           {sdP.map(([a, b], k) => <Plate key={`pe-${k}`} x0={a} x1={b} y0={-0.5} y1={0} color={C.sdp} zoff={0.18} />)}
           {sdN.map(([a, b], k) => <Plate key={`ne-${k}`} x0={a} x1={b} y0={-0.5} y1={0} color={C.sdn} zoff={0.18} />)}
         </>
       )}
-      {ge('spacer') && ([[gP0 - 0.42, gP0], [gP1, gP1 + 0.42], [gN0 - 0.42, gN0], [gN1, gN1 + 0.42]] as [number, number][]).map(([a, b], k) => (
+      {v.nitride && ge('spacer') && ([[gP0 - 0.42, gP0], [gP1, gP1 + 0.42], [gN0 - 0.42, gN0], [gN1, gN1 + 0.42]] as [number, number][]).map(([a, b], k) => (
         <BoxC key={`sp-${k}`} x0={a} x1={b} y0={0.12} y1={1.0} color={C.nitride} />
       ))}
-      {ge('sd') && (
+      {v.doping && ge('sd') && (
         <>
           {sdP.map(([a, b], k) => <Plate key={`pd-${k}`} x0={a + 0.02} x1={b - 0.02} y0={-1.15} y1={0} color={C.sdp} zoff={0.24} />)}
           {sdN.map(([a, b], k) => <Plate key={`nd-${k}`} x0={a + 0.02} x1={b - 0.02} y0={-1.15} y1={0} color={C.sdn} zoff={0.24} />)}
@@ -297,7 +301,7 @@ function Model({ step }: { step: FabStep }) {
       )}
 
       {/* ── salicide (physical caps) ────────────────────────────────────── */}
-      {ge('silicide') && (
+      {v.metal && ge('silicide') && (
         <>
           <BoxC x0={gP0} x1={gP1} y0={1.4} y1={1.56} color={C.silicide} rough={0.32} metal={0.55} />
           <BoxC x0={gN0} x1={gN1} y0={1.4} y1={1.56} color={C.silicide} rough={0.32} metal={0.55} />
@@ -308,14 +312,14 @@ function Model({ step }: { step: FabStep }) {
       )}
 
       {/* ── 1st interconnect: BPSG + W contacts + Metal-1 ───────────────── */}
-      {ge('bpsg') && <BoxC x0={XL} x1={XR} y0={0} y1={3.0} color={C.diel} op={0.34} rough={0.4} />}
-      {ge('contact') && [-2.6, 0, 2.6].flatMap((z) => plugX.map((x) => <Cy key={`w-${x}-${z}`} x={x} z={z} y0={-0.2} y1={3.0} r={0.33} />))}
-      {ge('metal1') && plugX.map((x, k) => <BoxC key={`m1-${k}`} x0={x - 0.55} x1={x + 0.55} y0={3.0} y1={3.62} color={C.metal} metal={0.9} rough={0.22} />)}
+      {v.oxide && ge('bpsg') && <BoxC x0={XL} x1={XR} y0={0} y1={3.0} color={C.diel} op={0.34} rough={0.4} />}
+      {v.metal && ge('contact') && [-2.6, 0, 2.6].flatMap((z) => plugX.map((x) => <Cy key={`w-${x}-${z}`} x={x} z={z} y0={-0.2} y1={3.0} r={0.33} />))}
+      {v.metal && ge('metal1') && plugX.map((x, k) => <BoxC key={`m1-${k}`} x0={x - 0.55} x1={x + 0.55} y0={3.0} y1={3.62} color={C.metal} metal={0.9} rough={0.22} />)}
 
       {/* ── upper interconnect: IMD + vias + M2 (perp) + M3 ─────────────── */}
-      {ge('imd') && <BoxC x0={XL} x1={XR} y0={3.62} y1={4.95} color={C.diel} op={0.34} rough={0.4} />}
-      {ge('imd') && ([[-4.85, -2.4], [-4.85, 2.4], [4.85, -2.4], [4.85, 2.4]] as const).map(([x, z], k) => <Cy key={`v1-${k}`} x={x} z={z} y0={3.62} y1={4.95} r={0.3} />)}
-      {ge('metal2') && (
+      {v.oxide && ge('imd') && <BoxC x0={XL} x1={XR} y0={3.62} y1={4.95} color={C.diel} op={0.34} rough={0.4} />}
+      {v.metal && ge('imd') && ([[-4.85, -2.4], [-4.85, 2.4], [4.85, -2.4], [4.85, 2.4]] as const).map(([x, z], k) => <Cy key={`v1-${k}`} x={x} z={z} y0={3.62} y1={4.95} r={0.3} />)}
+      {v.metal && ge('metal2') && (
         <>
           {[-2.4, 2.4].map((z, k) => <BoxC key={`m2-${k}`} x0={-6} x1={6} y0={4.95} y1={5.6} z0={z - 0.55} z1={z + 0.55} color={C.metal} metal={0.9} rough={0.22} />)}
           <BoxC x0={XL} x1={XR} y0={5.6} y1={6.7} color={C.diel} op={0.34} rough={0.4} />
@@ -325,21 +329,21 @@ function Model({ step }: { step: FabStep }) {
       )}
 
       {/* ── passivation + bond pad ──────────────────────────────────────── */}
-      {ge('passiv') && !ge('pad') && <BoxC x0={XL} x1={XR} y0={7.3} y1={7.95} color={C.pass} op={0.6} rough={0.4} />}
-      {ge('pad') && (
+      {v.oxide && ge('passiv') && !ge('pad') && <BoxC x0={XL} x1={XR} y0={7.3} y1={7.95} color={C.pass} op={0.6} rough={0.4} />}
+      {v.oxide && ge('pad') && (
         <>
           <BoxC x0={XL} x1={1.4} y0={7.3} y1={7.95} color={C.pass} op={0.6} rough={0.4} />
           <BoxC x0={3.6} x1={XR} y0={7.3} y1={7.95} color={C.pass} op={0.6} rough={0.4} />
-          <BoxC x0={1.4} x1={3.6} y0={7.3} y1={7.42} color={C.metal} metal={0.9} rough={0.22} />
         </>
       )}
+      {v.metal && ge('pad') && <BoxC x0={1.4} x1={3.6} y0={7.3} y1={7.42} color={C.metal} metal={0.9} rough={0.22} />}
 
       {/* ── transient fab effects: resist / UV litho / plasma etch / ions / anneal ── */}
-      {masking && <BoxC x0={XL} x1={XR} y0={resistTopY} y1={resistTopY + 0.5} color={C.resist} op={0.55} rough={0.5} />}
-      {litho && <UVExposure topY={resistTopY} />}
-      {dryEtch && <PlasmaGlow topY={resistTopY} />}
-      {implant && <Ions />}
-      {anneal && <HeatGlow />}
+      {v.transient && masking && <BoxC x0={XL} x1={XR} y0={resistTopY} y1={resistTopY + 0.5} color={C.resist} op={0.55} rough={0.5} />}
+      {v.transient && litho && <UVExposure topY={resistTopY} />}
+      {v.transient && dryEtch && <PlasmaGlow topY={resistTopY} />}
+      {v.transient && implant && <Ions />}
+      {v.transient && anneal && <HeatGlow />}
 
       {/* ── current-step callout ────────────────────────────────────────── */}
       <mesh position={anchor}>
@@ -349,8 +353,8 @@ function Model({ step }: { step: FabStep }) {
       <Html position={[anchor[0], anchor[1] + 0.8, anchor[2]]} center distanceFactor={20} zIndexRange={[50, 0]}>
         {callout(step.title)}
       </Html>
-      {ge('nwell') && !ge('bpsg') && <Html position={[-3, -1.6, FRONT]} center distanceFactor={18}>{chip('n-well · PMOS')}</Html>}
-      {ge('pwell') && !ge('bpsg') && <Html position={[3, -1.6, FRONT]} center distanceFactor={18}>{chip('p-well · NMOS')}</Html>}
+      {v.doping && ge('nwell') && !ge('bpsg') && <Html position={[-3, -1.6, FRONT]} center distanceFactor={18}>{chip('n-well · PMOS')}</Html>}
+      {v.doping && ge('pwell') && !ge('bpsg') && <Html position={[3, -1.6, FRONT]} center distanceFactor={18}>{chip('p-well · NMOS')}</Html>}
     </group>
   );
 }

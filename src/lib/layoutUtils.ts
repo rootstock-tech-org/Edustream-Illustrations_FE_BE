@@ -14,8 +14,6 @@ export const getLayoutedElements = (
   edges: Edge[],
   direction = 'LR' // Left to Right flow is standard for circuits
 ) => {
-  const isHorizontal = direction === 'LR';
-  
   // Set graph settings with good padding for routing wires
   dagreGraph.setGraph({ 
     rankdir: direction,

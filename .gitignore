@@ -12,3 +12,7 @@ tsconfig.domain.json
 
 # KT handover docs (screenshots + PDF) — keep local, do not commit
 /docs/kt/
+
+# Ignore PDFs (like avsar / fabrication pdfs)
+*.pdf
+/public/*.pdf
