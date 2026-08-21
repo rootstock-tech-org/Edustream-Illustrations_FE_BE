@@ -16,11 +16,29 @@ export default async function SearchPage({
   const words = query.toLowerCase().split(/\s+/).filter(Boolean);
 
   const { articles } = getNews();
+  // Match real content (title/summary/module) but NOT the source name - else
+  // "semicon" matched every "Semiconductor Digest" story. Results are ranked
+  // title-first so the strongest matches lead and summary-only ones sink.
   const results = words.length
-    ? articles.filter((a) => {
-        const hay = `${a.title} ${a.summary} ${a.module} ${a.source}`.toLowerCase();
-        return words.every((w) => hay.includes(w)); // all words must appear
-      })
+    ? articles
+        .map((a) => {
+          const title = a.title.toLowerCase();
+          const mod = (a.module ?? "").toLowerCase();
+          const summary = (a.summary ?? "").toLowerCase();
+          const hay = `${title} ${mod} ${summary}`;
+          if (!words.every((w) => hay.includes(w))) return null;
+          let score = 0;
+          for (const w of words) {
+            if (title.includes(w)) score += 5;
+            if (mod.includes(w)) score += 2;
+            if (summary.includes(w)) score += 1;
+          }
+          if (title.includes(query.toLowerCase())) score += 5; // full phrase in title
+          return { a, score };
+        })
+        .filter((r): r is { a: (typeof articles)[number]; score: number } => r !== null)
+        .sort((x, y) => y.score - x.score)
+        .map((r) => r.a)
     : [];
 
   return (
