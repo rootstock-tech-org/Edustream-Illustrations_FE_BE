@@ -1,6 +1,7 @@
 import { getNews } from "../../lib/getNews";
 import { getPapers } from "../../lib/getPapers";
 import { CENTER_IDS, SIDE_IDS, viewFor } from "../../lib/categories";
+import Link from "next/link";
 import { Header } from "../components/Header";
 import { Section, SectionLayout } from "../components/Section";
 import { SideWidget } from "../components/SideWidget";
@@ -89,9 +90,17 @@ export default function Home() {
             </section>
           )}
 
-          <p className="mt-10 border-t border-slate-200 pt-8 text-center text-sm text-slate-400">
-            VLSI and semiconductor news for AVSAR learners · {articles.length} stories.
-          </p>
+          <div className="mt-10 border-t border-slate-200 pt-8 text-center">
+            <Link
+              href="/all"
+              className="inline-flex items-center gap-2 rounded-full bg-[#041b4c] px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-[#0a2a6b]"
+            >
+              Know more
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round">
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </Link>
+          </div>
         </main>
 
         <aside className="hidden w-80 shrink-0 lg:block">
