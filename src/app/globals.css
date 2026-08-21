@@ -52,10 +52,10 @@
     bottom left, bottom left,
     bottom right, bottom right;
   background-size:
-    14px 1.5px, 1.5px 14px,
-    14px 1.5px, 1.5px 14px,
-    14px 1.5px, 1.5px 14px,
-    14px 1.5px, 1.5px 14px;
+    20px 1.5px, 1.5px 20px,
+    20px 1.5px, 1.5px 20px,
+    20px 1.5px, 1.5px 20px,
+    20px 1.5px, 1.5px 20px;
   opacity: 1;
   transition: opacity 0.2s ease;
 }

@@ -120,7 +120,7 @@ export function NewsCard({
       href={item.link}
       target="_blank"
       rel="noopener noreferrer"
-      className="avsar-corners avsar-shadow group relative flex flex-col overflow-hidden rounded-lg border border-slate-300 bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-300/50"
+      className="avsar-corners avsar-shadow group relative flex flex-col overflow-hidden rounded-lg border border-slate-200/70 bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-300/50"
     >
       <Thumb item={item} accent={accent} className="aspect-[16/10] w-full" />
       <div className="absolute right-3 top-3 z-10">
