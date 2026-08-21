@@ -36,7 +36,8 @@
 .avsar-corners::before {
   content: "";
   position: absolute;
-  inset: -4px;
+  inset: 0;
+  border-radius: inherit;
   pointer-events: none;
   z-index: 2;
   background-image:

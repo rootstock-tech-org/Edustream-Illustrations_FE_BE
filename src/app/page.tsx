@@ -42,7 +42,7 @@ export default function Home() {
       <div className="mx-auto flex max-w-6xl gap-8 px-4 pb-16">
         <main className="min-w-0 flex-1">
           {lead ? (
-            <section className="avsar-corners avsar-shadow mt-6 rounded-2xl border border-slate-200 bg-white p-4">
+            <section className="avsar-corners avsar-shadow mt-6 rounded-lg border border-slate-200 bg-white p-4">
               <div className="mb-3 flex flex-wrap items-center gap-2">
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-red-50 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-red-600 ring-1 ring-red-100">
                   <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-red-500" />
