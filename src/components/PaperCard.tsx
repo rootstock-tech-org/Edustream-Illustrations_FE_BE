@@ -9,7 +9,7 @@ export function PaperCard({ paper, accent }: { paper: Paper; accent: string }) {
       : paper.authors.slice(0, 3).join(", ") + (paper.authors.length > 3 ? " et al." : "");
 
   return (
-    <div className="avsar-corners avsar-shadow flex h-full flex-col rounded-lg border border-slate-200/70 bg-white p-4 transition hover:-translate-y-0.5 hover:shadow-lg">
+    <div className="avsar-corners avsar-shadow flex h-full flex-col rounded-lg border border-slate-300 bg-white p-4 transition hover:-translate-y-0.5 hover:shadow-lg">
       {paper.kind !== "top" || paper.year ? (
         <div className="mb-2 flex items-center gap-2">
           {paper.kind !== "top" ? (

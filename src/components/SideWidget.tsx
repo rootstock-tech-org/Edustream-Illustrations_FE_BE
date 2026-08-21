@@ -19,7 +19,7 @@ export function SideWidget({
 }) {
   if (!items.length && papers.length === 0) return null;
   return (
-    <div className="avsar-corners avsar-shadow rounded-lg border border-slate-200 bg-white p-3">
+    <div className="avsar-corners avsar-shadow rounded-lg border border-slate-300 bg-white p-3">
       <div className="mb-1 flex items-center justify-between px-1">
         <h3 className="flex items-center gap-2 text-sm font-bold text-[#041b4c]">
           <span className="h-3.5 w-1 rounded-full" style={{ background: cat.accent }} />
