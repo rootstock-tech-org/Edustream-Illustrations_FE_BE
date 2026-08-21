@@ -71,7 +71,7 @@ export function NewsCard({
         href={item.link}
         target="_blank"
         rel="noopener noreferrer"
-        className="group flex items-start gap-3 rounded-xl p-2 transition-colors hover:bg-slate-100/70"
+        className="avsar-corners group flex items-start gap-3 rounded-xl p-2 transition-colors hover:bg-slate-100/70"
       >
         <Thumb item={item} accent={accent} className="h-[70px] w-[104px] shrink-0 rounded-lg ring-1 ring-slate-200/70" />
         <div className="min-w-0 flex-1">
@@ -95,7 +95,7 @@ export function NewsCard({
         href={item.link}
         target="_blank"
         rel="noopener noreferrer"
-        className="avsar-shadow group relative block overflow-hidden rounded-2xl border border-slate-200/70 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-slate-300/50"
+        className="avsar-corners avsar-shadow group relative block overflow-hidden rounded-2xl border border-slate-200/70 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-slate-300/50"
       >
         <Thumb item={item} accent={accent} className="aspect-[16/10] w-full" />
         <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
