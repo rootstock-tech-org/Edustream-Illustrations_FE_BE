@@ -36,10 +36,9 @@
 .avsar-corners::before {
   content: "";
   position: absolute;
-  inset: 0;
-  border-radius: inherit;
+  inset: -4px;
   pointer-events: none;
-  z-index: 1;
+  z-index: 2;
   background-image:
     linear-gradient(var(--corner-accent), var(--corner-accent)), linear-gradient(var(--corner-accent), var(--corner-accent)),
     linear-gradient(var(--corner-accent), var(--corner-accent)), linear-gradient(var(--corner-accent), var(--corner-accent)),
@@ -52,10 +51,10 @@
     bottom left, bottom left,
     bottom right, bottom right;
   background-size:
-    13px 2px, 2px 13px,
-    13px 2px, 2px 13px,
-    13px 2px, 2px 13px,
-    13px 2px, 2px 13px;
+    16px 2px, 2px 16px,
+    16px 2px, 2px 16px,
+    16px 2px, 2px 16px,
+    16px 2px, 2px 16px;
   opacity: 1;
   transition: opacity 0.2s ease;
 }
