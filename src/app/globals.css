@@ -16,9 +16,9 @@
   --pill-active-text: #ffffff;
   --accent: #c2410c;
   --accent-soft: rgba(194, 65, 12, 0.12);
-  --corner-accent: #9db4e0;
-  --avsar-shadow: 0 1px 3px rgba(11, 22, 59, 0.08), 0 1px 2px rgba(11, 22, 59, 0.05);
-  --avsar-shadow-lg: 0 10px 30px -12px rgba(11, 22, 59, 0.22), 0 4px 10px -6px rgba(11, 22, 59, 0.12);
+  --corner-accent: #aab7d8;
+  --avsar-shadow: 0 6px 20px -6px rgba(11, 22, 59, 0.16), 0 2px 6px -3px rgba(11, 22, 59, 0.10);
+  --avsar-shadow-lg: 0 16px 40px -12px rgba(11, 22, 59, 0.28), 0 6px 14px -6px rgba(11, 22, 59, 0.16);
 }
 
 /* AVSAR soft, navy-tinted card shadow */
@@ -29,7 +29,7 @@
   box-shadow: var(--avsar-shadow-lg);
 }
 
-/* AVSAR thin, smooth light-blue outline that runs the full card edge */
+/* AVSAR small, decent crop-mark corners on a card's four vertices */
 .avsar-corners {
   position: relative;
 }
@@ -40,8 +40,23 @@
   border-radius: inherit;
   pointer-events: none;
   z-index: 1;
-  border: 1px solid var(--corner-accent);
-  opacity: 0.7;
+  background-image:
+    linear-gradient(var(--corner-accent), var(--corner-accent)), linear-gradient(var(--corner-accent), var(--corner-accent)),
+    linear-gradient(var(--corner-accent), var(--corner-accent)), linear-gradient(var(--corner-accent), var(--corner-accent)),
+    linear-gradient(var(--corner-accent), var(--corner-accent)), linear-gradient(var(--corner-accent), var(--corner-accent)),
+    linear-gradient(var(--corner-accent), var(--corner-accent)), linear-gradient(var(--corner-accent), var(--corner-accent));
+  background-repeat: no-repeat;
+  background-position:
+    top left, top left,
+    top right, top right,
+    bottom left, bottom left,
+    bottom right, bottom right;
+  background-size:
+    12px 1.5px, 1.5px 12px,
+    12px 1.5px, 1.5px 12px,
+    12px 1.5px, 1.5px 12px,
+    12px 1.5px, 1.5px 12px;
+  opacity: 0.85;
   transition: opacity 0.2s ease;
 }
 .avsar-corners:hover::before {
