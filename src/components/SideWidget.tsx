@@ -19,13 +19,13 @@ export function SideWidget({
 }) {
   if (!items.length && papers.length === 0) return null;
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-3 shadow-sm">
+    <div className="avsar-corners avsar-shadow rounded-2xl border border-slate-200 bg-white p-3">
       <div className="mb-1 flex items-center justify-between px-1">
-        <h3 className="flex items-center gap-2 text-sm font-bold text-slate-900">
+        <h3 className="flex items-center gap-2 text-sm font-bold text-[#041b4c]">
           <span className="h-3.5 w-1 rounded-full" style={{ background: cat.accent }} />
           {cat.label}
         </h3>
-        <Link href={`/topic/${cat.id}`} className="text-[11px] font-semibold text-slate-500 transition hover:text-indigo-600">
+        <Link href={`/topic/${cat.id}`} className="text-[11px] font-semibold text-slate-500 transition hover:text-[#c2410c]">
           See all
         </Link>
       </div>
