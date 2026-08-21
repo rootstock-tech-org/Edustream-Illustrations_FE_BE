@@ -2,8 +2,7 @@ import Link from "next/link";
 import type { Paper } from "../../lib/papers";
 
 // Compact "Research papers" list blended under a module's news (sidebar widgets
-// and center sections). Each row is tagged "Paper" and links to arXiv, so a
-// paper is never mistaken for a news story.
+// and center sections). Each row links to arXiv and is labelled "Related paper".
 export function PaperMiniList({
   papers,
   limit = 3,
@@ -38,9 +37,6 @@ export function PaperMiniList({
               className="group block rounded-lg px-1 py-1 transition hover:bg-slate-50"
             >
               <div className="flex items-start gap-1.5">
-                <span className="mt-0.5 shrink-0 rounded bg-indigo-50 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide text-indigo-600 ring-1 ring-indigo-100">
-                  Paper
-                </span>
                 <span className="line-clamp-2 text-[12px] font-semibold leading-snug text-slate-700 group-hover:text-indigo-600">
                   {p.title}
                 </span>
