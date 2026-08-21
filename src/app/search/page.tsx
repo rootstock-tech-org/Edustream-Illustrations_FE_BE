@@ -16,15 +16,18 @@ export default async function SearchPage({
   const words = query.toLowerCase().split(/\s+/).filter(Boolean);
 
   const { articles } = getNews();
-  // Match real content (title/summary/module) but NOT the source name - else
-  // "semicon" matched every "Semiconductor Digest" story. Results are ranked
-  // title-first so the strongest matches lead and summary-only ones sink.
+  // Match real content (title/summary/module) but NOT the source name. The source
+  // often appears both as the source field AND as boilerplate inside the summary,
+  // so we strip the source name from the summary before matching - else "digest"
+  // or "semicon" match every "Semiconductor Digest" story. Ranked title-first.
   const results = words.length
     ? articles
         .map((a) => {
           const title = a.title.toLowerCase();
           const mod = (a.module ?? "").toLowerCase();
-          const summary = (a.summary ?? "").toLowerCase();
+          const src = (a.source ?? "").toLowerCase();
+          let summary = (a.summary ?? "").toLowerCase();
+          if (src) summary = summary.split(src).join(" "); // drop source-name boilerplate
           const hay = `${title} ${mod} ${summary}`;
           if (!words.every((w) => hay.includes(w))) return null;
           let score = 0;
