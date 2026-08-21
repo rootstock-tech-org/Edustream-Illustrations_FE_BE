@@ -82,6 +82,9 @@ export function NewsCard({
             <SourceRow item={item} />
           </div>
         </div>
+        <span className="shrink-0 self-start">
+          <SaveButton item={saveItem} />
+        </span>
       </a>
     );
   }

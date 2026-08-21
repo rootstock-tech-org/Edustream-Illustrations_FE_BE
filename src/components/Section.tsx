@@ -5,6 +5,7 @@ import type { Article } from "../../lib/pipeline";
 import type { Paper } from "../../lib/papers";
 import { NewsCard } from "./NewsCard";
 import { PaperCard } from "./PaperCard";
+import { SaveButton } from "./SaveButton";
 
 export type SectionLayout = "grid" | "list" | "spotlight" | "headlines";
 
@@ -86,7 +87,7 @@ export function Section({
                   <span className="mt-0.5 text-lg font-bold tabular-nums" style={{ color: cat.accent }}>
                     {i + 1}
                   </span>
-                  <div className="min-w-0">
+                  <div className="min-w-0 flex-1">
                     <h3 className="line-clamp-2 text-sm font-semibold leading-snug text-slate-800 group-hover:text-indigo-600">
                       {it.title}
                     </h3>
@@ -99,6 +100,19 @@ export function Section({
                       {it.publishedAt ? <span>· {timeAgo(it.publishedAt)}</span> : null}
                     </div>
                   </div>
+                  <span className="shrink-0 self-start">
+                    <SaveButton
+                      item={{
+                        link: it.link,
+                        title: it.title,
+                        source: it.source,
+                        image: it.image,
+                        moduleId: it.moduleId,
+                        module: it.module,
+                        publishedAt: it.publishedAt,
+                      }}
+                    />
+                  </span>
                 </a>
               </li>
             );
