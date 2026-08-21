@@ -65,6 +65,8 @@ export function NewsCard({
     module: item.module,
     publishedAt: item.publishedAt,
   };
+  // Only articles with a real feed image get a thumbnail; the rest render text-only.
+  const hasImage = !!item.image;
   if (variant === "compact") {
     return (
       <a
@@ -73,7 +75,9 @@ export function NewsCard({
         rel="noopener noreferrer"
         className="group flex items-start gap-3 rounded-xl p-2 transition-colors hover:bg-slate-100/70"
       >
-        <Thumb item={item} accent={accent} className="h-[70px] w-[104px] shrink-0 rounded-lg ring-1 ring-slate-200/70" />
+        {hasImage ? (
+          <Thumb item={item} accent={accent} className="h-[70px] w-[104px] shrink-0 rounded-lg ring-1 ring-slate-200/70" />
+        ) : null}
         <div className="min-w-0 flex-1">
           <h3 className="line-clamp-2 text-[13.5px] font-semibold leading-snug text-[#041b4c] transition-colors group-hover:text-[#c2410c]">
             {item.title}
@@ -90,6 +94,30 @@ export function NewsCard({
   }
 
   if (variant === "featured") {
+    if (!hasImage) {
+      return (
+        <a
+          href={item.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="avsar-corners avsar-shadow group relative flex min-h-[220px] flex-col gap-3 rounded-lg border border-slate-200/70 bg-white p-5 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-slate-300/50"
+        >
+          <div className="flex items-start justify-between gap-2">
+            <span className="h-1.5 w-10 rounded-full" style={{ background: accent }} />
+            <span className="shrink-0">
+              <SaveButton item={saveItem} />
+            </span>
+          </div>
+          <h2 className="line-clamp-5 text-lg font-bold leading-snug text-[#041b4c] transition-colors group-hover:text-[#c2410c]">
+            {item.title}
+          </h2>
+          <div className="mt-auto flex flex-wrap items-center gap-x-3 gap-y-1.5">
+            <SourceRow item={item} />
+            <Badges item={item} />
+          </div>
+        </a>
+      );
+    }
     return (
       <a
         href={item.link}
@@ -110,6 +138,30 @@ export function NewsCard({
           <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1.5">
             <SourceRow item={item} onDark />
           </div>
+        </div>
+      </a>
+    );
+  }
+
+  if (!hasImage) {
+    return (
+      <a
+        href={item.link}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="avsar-corners avsar-shadow group relative flex h-full flex-col gap-2 rounded-lg border border-slate-200/70 bg-white p-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-300/50"
+      >
+        <div className="flex items-start justify-between gap-2">
+          <SourceRow item={item} />
+          <span className="shrink-0">
+            <SaveButton item={saveItem} />
+          </span>
+        </div>
+        <h3 className="line-clamp-4 text-[15px] font-semibold leading-snug text-[#041b4c] transition-colors group-hover:text-[#c2410c]">
+          {item.title}
+        </h3>
+        <div className="mt-auto flex flex-wrap items-center gap-1.5 pt-1">
+          <Badges item={item} />
         </div>
       </a>
     );
