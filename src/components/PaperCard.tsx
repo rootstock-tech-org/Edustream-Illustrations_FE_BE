@@ -15,7 +15,7 @@ export function PaperCard({ paper, accent }: { paper: Paper; accent: string }) {
           className="rounded-full px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-white"
           style={{ background: accent }}
         >
-          {paper.kind === "top" ? "Top match" : "Latest"}
+          {paper.kind === "top" ? "Related to this topic" : "Latest"}
         </span>
         {paper.year ? <span className="text-[11px] font-medium text-slate-400">{paper.year}</span> : null}
       </div>
@@ -31,8 +31,7 @@ export function PaperCard({ paper, accent }: { paper: Paper; accent: string }) {
 
       {authors ? <p className="mt-1.5 line-clamp-1 text-xs text-slate-500">{authors}</p> : null}
 
-      <div className="mt-auto flex items-center justify-between pt-3">
-        <span className="truncate text-[11px] font-medium text-slate-400">{paper.venue}</span>
+      <div className="mt-auto flex items-center justify-end pt-3">
         {paper.pdf ? (
           <a
             href={paper.pdf}

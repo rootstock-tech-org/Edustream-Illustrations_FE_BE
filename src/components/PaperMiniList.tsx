@@ -46,8 +46,7 @@ export function PaperMiniList({
                 </span>
               </div>
               <div className="mt-0.5 text-[10px] text-slate-400">
-                {p.venue}
-                {p.year ? ` · ${p.year}` : ""}
+                Related paper{p.year ? ` · ${p.year}` : ""}
               </div>
             </a>
           </li>
