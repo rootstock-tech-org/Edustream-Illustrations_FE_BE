@@ -29,7 +29,7 @@
   box-shadow: var(--avsar-shadow-lg);
 }
 
-/* AVSAR "blueprint" corner brackets on a card's four vertices */
+/* AVSAR thin, smooth light-blue outline that runs the full card edge */
 .avsar-corners {
   position: relative;
 }
@@ -40,23 +40,8 @@
   border-radius: inherit;
   pointer-events: none;
   z-index: 1;
-  background-image:
-    linear-gradient(var(--corner-accent), var(--corner-accent)), linear-gradient(var(--corner-accent), var(--corner-accent)),
-    linear-gradient(var(--corner-accent), var(--corner-accent)), linear-gradient(var(--corner-accent), var(--corner-accent)),
-    linear-gradient(var(--corner-accent), var(--corner-accent)), linear-gradient(var(--corner-accent), var(--corner-accent)),
-    linear-gradient(var(--corner-accent), var(--corner-accent)), linear-gradient(var(--corner-accent), var(--corner-accent));
-  background-repeat: no-repeat;
-  background-position:
-    top left, top left,
-    top right, top right,
-    bottom left, bottom left,
-    bottom right, bottom right;
-  background-size:
-    16px 2px, 2px 16px,
-    16px 2px, 2px 16px,
-    16px 2px, 2px 16px,
-    16px 2px, 2px 16px;
-  opacity: 0.9;
+  border: 1px solid var(--corner-accent);
+  opacity: 0.7;
   transition: opacity 0.2s ease;
 }
 .avsar-corners:hover::before {
