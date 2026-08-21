@@ -173,6 +173,15 @@ export async function buildNews(): Promise<Article[]> {
     return (b.publishedAt || "").localeCompare(a.publishedAt || "");
   });
 
+  // Show each image only once: the top-ranked article with a given image keeps
+  // it; later articles that reuse the same image render text-only (no repeats).
+  const seenImages = new Set<string>();
+  for (const a of articles) {
+    if (!a.image) continue;
+    if (seenImages.has(a.image)) a.image = null;
+    else seenImages.add(a.image);
+  }
+
   return articles;
 }
 
