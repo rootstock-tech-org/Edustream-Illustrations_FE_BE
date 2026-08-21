@@ -26,15 +26,15 @@ export function FloatingLearnButton() {
       title="Learn with Avsar"
       className="group fixed bottom-5 right-5 z-50 flex items-center gap-3 rounded-2xl border border-slate-200 bg-white/95 py-2 pl-2 pr-4 shadow-xl shadow-slate-400/25 backdrop-blur transition hover:-translate-y-0.5 hover:border-indigo-200 hover:shadow-2xl"
     >
-      <span className="avsar-ring relative grid h-12 w-12 shrink-0 place-items-center">
+      <span className="avsar-ring relative grid h-14 w-14 shrink-0 place-items-center">
         {imgOk ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src="/avsar-bot.png"
             alt=""
-            width={48}
-            height={48}
-            className="h-12 w-12 object-contain"
+            width={56}
+            height={56}
+            className="h-14 w-14 object-contain"
             onError={() => setImgOk(false)}
           />
         ) : (
