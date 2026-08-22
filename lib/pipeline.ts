@@ -112,6 +112,77 @@ async function fetchSource(src: Source): Promise<any[]> {
   }
 }
 
+// --- og:image enrichment ---------------------------------------------------
+// Articles whose RSS entry carried no image are enriched by fetching the
+// article page and reading its <meta property="og:image"> (the same picture a
+// link preview shows). Caches persist for the life of the refresh-loop process
+// so each article page is fetched at most once (later cycles reuse the result).
+const ogCache = new Map<string, string>(); // link -> found image URL
+const ogTried = new Set<string>(); // links already attempted (found or not)
+
+function parseOgImage(html: string): string | null {
+  const metas = [
+    /<meta[^>]+property=["']og:image(?::url)?["'][^>]*>/i,
+    /<meta[^>]+name=["']og:image["'][^>]*>/i,
+    /<meta[^>]+name=["']twitter:image["'][^>]*>/i,
+    /<meta[^>]+property=["']twitter:image["'][^>]*>/i,
+  ];
+  for (const re of metas) {
+    const tag = html.match(re);
+    if (!tag) continue;
+    const c = tag[0].match(/content=["']([^"']+)["']/i);
+    if (c?.[1]) return c[1].trim();
+  }
+  return null;
+}
+
+async function fetchOgImage(link: string): Promise<string | null> {
+  try {
+    const res = await fetch(link, {
+      headers: { "User-Agent": "AvsarNewsBot/1.0" },
+      signal: AbortSignal.timeout(6000),
+    });
+    if (!res.ok) return null;
+    if (!(res.headers.get("content-type") || "").includes("html")) return null;
+    const html = (await res.text()).slice(0, 200_000); // og tags live in <head>
+    const img = parseOgImage(html);
+    if (!img) return null;
+    return new URL(img, link).href; // resolve any relative URL against the page
+  } catch {
+    return null;
+  }
+}
+
+// Fill image === null articles with their page's og:image, capped concurrency.
+async function enrichImages(articles: Article[]): Promise<void> {
+  const need: Article[] = [];
+  for (const a of articles) {
+    if (a.image || !a.link) continue;
+    if (ogCache.has(a.link)) {
+      a.image = ogCache.get(a.link)!; // reuse result from an earlier cycle
+      continue;
+    }
+    if (ogTried.has(a.link)) continue; // tried before, none found -> stay text-only
+    need.push(a);
+  }
+  if (need.length === 0) return;
+
+  let idx = 0;
+  const worker = async () => {
+    while (idx < need.length) {
+      const a = need[idx++];
+      ogTried.add(a.link);
+      const img = await fetchOgImage(a.link);
+      if (img) {
+        ogCache.set(a.link, img);
+        a.image = img;
+      }
+    }
+  };
+  const LIMIT = 8;
+  await Promise.all(Array.from({ length: Math.min(LIMIT, need.length) }, worker));
+}
+
 type Kept = DedupItem & Omit<Article, "sources" | "sourceCount">;
 
 export async function buildNews(): Promise<Article[]> {
@@ -172,6 +243,10 @@ export async function buildNews(): Promise<Article[]> {
     if (rb !== ra) return rb - ra;
     return (b.publishedAt || "").localeCompare(a.publishedAt || "");
   });
+
+  // Pull an og:image for articles the feed gave no picture for, before the
+  // dedupe pass below so a fetched image can't repeat one already in use.
+  await enrichImages(articles);
 
   // Show each image only once: the top-ranked article with a given image keeps
   // it; later articles that reuse the same image render text-only (no repeats).
