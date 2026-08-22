@@ -1,4 +1,4 @@
-'use client';
+  'use client';
 import { useRef, useMemo, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, Environment, Html } from '@react-three/drei';
@@ -201,10 +201,22 @@ function WaferAndChuck({ spinning, step }: { spinning: boolean; step: FabStep })
   const isPatterned = ge('pwell') || ge('sti');
   let yOffset = 0.05;
 
+  const pins = [0, 120, 240].map((angle) => {
+    const rad = (angle * Math.PI) / 180;
+    return (
+      <mesh key={angle} position={[Math.cos(rad) * 6.1, 1.1, Math.sin(rad) * 6.1]}>
+        <cylinderGeometry args={[0.2, 0.2, 0.6, 16]} />
+        <meshPhysicalMaterial color={C.chuck} metalness={0.9} roughness={0.1} clearcoat={1} />
+      </mesh>
+    );
+  });
+
   return (
     <group>
       <pointLight position={[5, 5, 5]} intensity={1} color="#ffffff" distance={20} />
       <group ref={chuckRef}>
+        
+        {pins}
 
         {v.silicon && (
           <mesh position={[0, yOffset, 0]}>
