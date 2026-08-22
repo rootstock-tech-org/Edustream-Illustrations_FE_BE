@@ -10,12 +10,12 @@
  * viz/three/palette.ts and adapt via the scene background only.
  */
 :root {
-  /* LIGHT (default) — RootStock: forest-green brand, green interactive */
+  /* LIGHT (default) — RootStock: forest-green brand, blue interactive */
   --surface: 247 248 250;        /* #F7F8FA background */
   --surface-elevated: 255 255 255;
   --ink: 17 24 39;               /* #111827 */
   --ink-muted: 107 114 128;      /* #6B7280 */
-  --accent: 16 185 129;          /* Emerald Green — interactive/active */
+  --accent: 24 75 138;           /* Tech Blue — interactive/active */
   --brand: 27 61 57;             /* #1B3D39 deep forest green — identity */
   --secondary: 47 168 216;       /* #2FA8D8 cyan */
   --highlight: 255 255 255;
@@ -28,11 +28,11 @@
   --glass-border: rgba(17, 24, 39, 0.09);
   --glass-shadow: 0 18px 50px rgba(17, 24, 39, 0.10);
   --glass-inset: rgba(255, 255, 255, 0.5);
-  --aurora-1: rgba(16, 185, 129, 0.10);
+  --aurora-1: rgba(24, 75, 138, 0.10);
   --aurora-2: rgba(53, 200, 255, 0.12);
   --subtle: rgba(17, 24, 39, 0.05);
   --hairline: rgba(17, 24, 39, 0.10);
-  --accent-glow: rgba(16, 185, 129, 0.45);
+  --accent-glow: rgba(24, 75, 138, 0.45);
 
   /* Numeric readouts use a true monospace (was the geometric display face) so
      figures stay aligned and legible — the serif display face is for text. */
@@ -40,12 +40,12 @@
 }
 
 .dark {
-  /* DARK — RootStock dark palette: #0E1116 canvas, green interactive */
+  /* DARK — RootStock dark palette: #0E1116 canvas, blue interactive */
   --surface: 14 17 22;          /* #0E1116 */
   --surface-elevated: 29 36 48;  /* #1D2430 card */
   --ink: 245 247 250;           /* #F5F7FA */
   --ink-muted: 139 151 168;
-  --accent: 52 211 153;          /* Emerald Green Light */
+  --accent: 53 200 255;          /* Light Blue */
   --brand: 37 83 44;            /* #25532C evergreen */
   --secondary: 47 168 216;       /* #2FA8D8 cyan */
   --highlight: 255 255 255;
@@ -58,11 +58,11 @@
   --glass-border: rgba(255, 255, 255, 0.09);
   --glass-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
   --glass-inset: rgba(255, 255, 255, 0.06);
-  --aurora-1: rgba(52, 211, 153, 0.10);
+  --aurora-1: rgba(53, 200, 255, 0.10);
   --aurora-2: rgba(24, 75, 138, 0.22);
   --subtle: rgba(255, 255, 255, 0.05);
   --hairline: rgba(255, 255, 255, 0.10);
-  --accent-glow: rgba(52, 211, 153, 0.5);
+  --accent-glow: rgba(53, 200, 255, 0.5);
 }
 
 html,

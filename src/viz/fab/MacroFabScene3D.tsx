@@ -5,6 +5,7 @@ import { OrbitControls, Environment, Html } from '@react-three/drei';
 import * as THREE from 'three';
 import { FAB_STAGES, type FabStage, type FabStep } from '@/domain/education/fab-process';
 import { useAvsarStore } from '@/state/useAvsarStore';
+import { useThemeStore } from '@/ui/theme';
 
 // ── Colors (Cyber-Tech Palette) ───────────────────────────────────────────
 const C = {
@@ -119,36 +120,44 @@ function SpinCoatLayer({ active, yOffset }: { active: boolean; yOffset: number }
 }
 
 // ── Particle Systems ──────────────────────────────────────────────────────
-function ParticleShower({ active, count = 1000, speedBase = 15, color = C.ion, isStreak = false, direction = 'down', radius = 6 }: { active: boolean, count?: number, speedBase?: number, color?: string, isStreak?: boolean, direction?: 'up' | 'down', radius?: number }) {
+function ParticleShower({ active, count = 1000, speedBase = 15, color = C.ion, isStreak = false, direction = 'down', radius = 6, startY = 15, endY = 0, isLight = false }: { active: boolean, count?: number, speedBase?: number, color?: string, isStreak?: boolean, direction?: 'up' | 'down', radius?: number, startY?: number, endY?: number, isLight?: boolean }) {
   const meshRef = useRef<THREE.InstancedMesh>(null);
   const dummy = useMemo(() => new THREE.Object3D(), []);
   
   const particles = useMemo(() => {
     return Array.from({length: count}).map(() => ({
       x: (Math.random() - 0.5) * (radius * 2),
-      y: direction === 'down' ? Math.random() * 15 : Math.random() * 10, // Start lower for upward debris
+      y: direction === 'down' ? endY + Math.random() * (startY - endY) : endY + Math.random() * (startY - endY),
       z: (Math.random() - 0.5) * (radius * 2),
       speed: Math.random() * speedBase + (speedBase / 2)
     }));
-  }, [count, speedBase, direction, radius]);
+  }, [count, speedBase, direction, radius, startY, endY]);
 
-  const geo = useMemo(() => isStreak ? new THREE.CylinderGeometry(0.02, 0.02, 0.8, 4) : new THREE.SphereGeometry(0.04, 4, 4), [isStreak]);
-  const mat = useMemo(() => new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.6, blending: THREE.AdditiveBlending, depthWrite: false }), [color]);
+  // Make particles slightly thicker/larger in light mode to compensate for lack of glowing bloom
+  const geo = useMemo(() => isStreak ? new THREE.CylinderGeometry(isLight ? 0.04 : 0.02, isLight ? 0.04 : 0.02, 0.8, 4) : new THREE.SphereGeometry(isLight ? 0.07 : 0.04, 4, 4), [isStreak, isLight]);
+  
+  const mat = useMemo(() => new THREE.MeshBasicMaterial({ 
+    color, 
+    transparent: true, 
+    opacity: isLight ? 1.0 : 0.6, 
+    blending: isLight ? THREE.NormalBlending : THREE.AdditiveBlending, 
+    depthWrite: false 
+  }), [color, isLight]);
 
   useFrame((_, dt) => {
     if (!meshRef.current || !active) return;
     particles.forEach((p, i) => {
       if (direction === 'down') {
         p.y -= p.speed * dt;
-        if (p.y < 0) {
-          p.y = 15;
+        if (p.y < endY) {
+          p.y = startY;
           p.x = (Math.random() - 0.5) * (radius * 2);
           p.z = (Math.random() - 0.5) * (radius * 2);
         }
       } else {
         p.y += p.speed * dt;
-        if (p.y > 10) {
-          p.y = 0; // Reset at the wafer surface
+        if (p.y > startY) {
+          p.y = endY;
           p.x = (Math.random() - 0.5) * (radius * 2);
           p.z = (Math.random() - 0.5) * (radius * 2);
         }
@@ -192,26 +201,10 @@ function WaferAndChuck({ spinning, step }: { spinning: boolean; step: FabStep })
   const isPatterned = ge('pwell') || ge('sti');
   let yOffset = 0.05;
 
-  const pins = [0, 120, 240].map((angle) => {
-    const rad = (angle * Math.PI) / 180;
-    return (
-      <mesh key={angle} position={[Math.cos(rad) * 6.1, 1.1, Math.sin(rad) * 6.1]}>
-        <cylinderGeometry args={[0.2, 0.2, 0.6, 16]} />
-        <meshPhysicalMaterial color={C.chuck} metalness={0.9} roughness={0.1} clearcoat={1} />
-      </mesh>
-    );
-  });
-
   return (
     <group>
       <pointLight position={[5, 5, 5]} intensity={1} color="#ffffff" distance={20} />
       <group ref={chuckRef}>
-        <mesh position={[0, -1, 0]}>
-          <cylinderGeometry args={[6.2, 6.5, 2, 64]} />
-          <meshStandardMaterial color={C.chuck} metalness={0.4} roughness={0.6} />
-        </mesh>
-        
-        {pins}
 
         {v.silicon && (
           <mesh position={[0, yOffset, 0]}>
@@ -230,8 +223,6 @@ function WaferAndChuck({ spinning, step }: { spinning: boolean; step: FabStep })
         <SmoothLayer active={!!(isPatterned && !showResistDrop)} yOffset={yOffset + 0.01} color={C.laser} transmission={0.9} isGrid />
       </group>
       
-      {/* Labels placed safely outside the spinning physics group */}
-      <Label position={[7, -1, 0]}>Wafer Chuck</Label>
       <Label position={[-7.5, 0.05, 0]}>Silicon Wafer (8-inch)</Label>
     </group>
   );
@@ -252,7 +243,7 @@ function FurnaceTube() {
       <pointLight position={[0, 1, 0]} intensity={2} color="#ffaa00" distance={30} />
       <mesh>
         <cylinderGeometry args={[8, 8, 10, 64, 1, true]} />
-        <meshPhysicalMaterial color={C.glass} transmission={0.9} ior={1.45} roughness={0.1} transparent opacity={0.3} side={THREE.DoubleSide} />
+        <meshPhysicalMaterial color={C.glass} roughness={0.1} transparent opacity={0.2} side={THREE.DoubleSide} depthWrite={false} />
       </mesh>
       {[...Array(5)].map((_, i) => (
         <mesh key={i} position={[0, i * 1.5 - 3, 0]} rotation={[Math.PI / 2, 0, 0]}>
@@ -371,7 +362,7 @@ function PlasmaEtch() {
       <pointLight position={[0, -1, 0]} intensity={2} color={C.plasma} distance={20} />
       <mesh>
         <cylinderGeometry args={[7.5, 7.5, 10, 32, 1, true]} />
-        <meshPhysicalMaterial transmission={0.95} roughness={0.1} color={C.glass} transparent opacity={0.2} side={THREE.DoubleSide} />
+        <meshPhysicalMaterial roughness={0.1} color={C.glass} transparent opacity={0.2} side={THREE.DoubleSide} depthWrite={false} />
       </mesh>
       <mesh position={[0, 4, 0]}>
         <cylinderGeometry args={[6.5, 6.5, 1, 32]} />
@@ -426,7 +417,7 @@ function CVDSputter() {
       <pointLight position={[0, 0, 0]} intensity={1.5} color="#aaaaaa" distance={15} />
       <mesh>
         <cylinderGeometry args={[8, 8, 12, 32, 1, true]} />
-        <meshPhysicalMaterial color={C.glass} transmission={0.9} roughness={0.1} transparent opacity={0.2} side={THREE.DoubleSide} />
+        <meshPhysicalMaterial color={C.glass} roughness={0.1} transparent opacity={0.2} side={THREE.DoubleSide} depthWrite={false} />
       </mesh>
       <mesh position={[0, 4, 0]}>
         <cylinderGeometry args={[6.5, 6.5, 1, 32]} />
@@ -445,21 +436,32 @@ function CVDSputter() {
 // ── Main Scene ─────────────────────────────────────────────────────────────
 
 export function MacroFabScene3D({ step }: { step: FabStep }) {
-  const bg = C.bgDark;
-  const grid1 = '#141e2e';
-  const grid2 = '#0b1320';
+  const isLight = useThemeStore((s) => s.theme === 'light');
+  const bg = isLight ? '#e5e7eb' : C.bgDark; // Light gray instead of pure white
+  const grid1 = isLight ? '#9ca3af' : '#141e2e'; // Darker gray for grid lines in light mode
+  const grid2 = isLight ? '#d1d5db' : '#0b1320'; // Mid-gray for secondary grid lines
 
+  const m = step.method;
   const t = step.title;
-  const isOxidation = /Oxide|Oxidation|Anneal/.test(t) && !/Etch|Remove/.test(t);
-  const isLitho = /Photoresist|Mask|UV/.test(t);
+
+  let isImplant = false, isEtch = false, isDeposition = false, isOxidation = false, isLitho = false;
+
+  if (/Implantation/i.test(m)) isImplant = true;
+  else if (/RIE|Ashing/i.test(m)) isEtch = true;
+  else if (/CVD|Sputter/i.test(m)) isDeposition = true;
+  else if (/Oxidation|Annealing/i.test(m)) isOxidation = true;
+  else if (/Lithography/i.test(m)) isLitho = true;
+
   const isSpinCoat = /Photoresist/.test(t);
-  const isEtch = /Etch|Remove/.test(t);
-  const isImplant = /Implant/.test(t);
-  const isDeposition = /Deposit|Polysilicon|Metal|BPSG|Nitride|Spacer/.test(t) && !isOxidation;
+
+  const metalParticleColor = isLight ? '#334155' : C.metal;
+  const ionParticleColor = isLight ? '#047857' : C.ion;
+  const plasmaParticleColor = isLight ? '#0369a1' : C.plasma;
+  const debrisParticleColor = isLight ? '#b45309' : '#ffaa55';
 
   return (
     <Canvas
-      className="h-full w-full bg-[#040914]"
+      className="h-full w-full bg-transparent"
       camera={{ position: [20, 16, 20], fov: 40 }}
       dpr={[1, 2]}
       gl={{ antialias: true, alpha: false }}
@@ -479,12 +481,13 @@ export function MacroFabScene3D({ step }: { step: FabStep }) {
       <gridHelper args={[80, 40, grid1, grid2]} position={[0, -3, 0]} />
 
       {/* Downward Showers */}
-      <ParticleShower active={isDeposition || isOxidation} color={C.metal} count={300} speedBase={10} direction="down" />
-      <ParticleShower active={isImplant} color={C.ion} count={1000} speedBase={30} isStreak direction="down" />
+      <ParticleShower active={isDeposition && !isOxidation} color={metalParticleColor} count={200} speedBase={10} direction="down" startY={8} isLight={isLight} />
+      <ParticleShower active={isOxidation} color={metalParticleColor} count={200} speedBase={10} direction="down" startY={7} isLight={isLight} />
+      <ParticleShower active={isImplant} color={ionParticleColor} count={300} speedBase={30} isStreak direction="down" startY={10} isLight={isLight} />
       
       {/* Upward Etching Debris */}
-      <ParticleShower active={isEtch} color="#ffaa55" count={800} speedBase={20} isStreak direction="up" />
-      <ParticleShower active={isEtch} color={C.plasma} count={500} speedBase={15} direction="down" />
+      <ParticleShower active={isEtch} color={debrisParticleColor} count={150} speedBase={20} isStreak direction="up" startY={8} endY={0} isLight={isLight} />
+      <ParticleShower active={isEtch} color={plasmaParticleColor} count={250} speedBase={15} direction="down" startY={7} isLight={isLight} />
 
       <group position={[0, -2, 0]}>
         <WaferAndChuck spinning={isSpinCoat} step={step} />
