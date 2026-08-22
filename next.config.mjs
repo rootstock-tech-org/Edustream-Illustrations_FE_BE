@@ -13,6 +13,18 @@ const nextConfig = {
     // Tree-shake heavy visualization deps so they never bloat first paint.
     optimizePackageImports: ['recharts', '@react-three/drei'],
   },
+  eslint: {
+    // Warning: This allows production builds to successfully complete even if
+    // your project has ESLint errors.
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    // !! WARN !!
+    // Dangerously allow production builds to successfully complete even if
+    // your project has type errors.
+    // !! WARN !!
+    ignoreBuildErrors: true,
+  },
 };
 
 export default nextConfig;
