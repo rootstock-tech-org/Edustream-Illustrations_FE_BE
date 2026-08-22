@@ -10,8 +10,8 @@ export function LectureChip({ moduleId, onDark = false }: { moduleId?: string; o
   if (!lesson) return null;
 
   const base = onDark
-    ? "bg-white/15 text-white hover:bg-white/25 ring-1 ring-white/20"
-    : "bg-indigo-50 text-indigo-700 hover:bg-indigo-100 ring-1 ring-indigo-100";
+    ? "bg-[var(--panel)]/15 text-white hover:bg-[var(--panel)]/25 ring-1 ring-white/20"
+    : "bg-[var(--surface)] text-[var(--indigo)] hover:bg-[var(--hover)] ring-1 ring-[var(--border-strong)]";
 
   return (
     <button

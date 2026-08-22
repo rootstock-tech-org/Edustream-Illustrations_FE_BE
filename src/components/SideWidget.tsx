@@ -19,17 +19,16 @@ export function SideWidget({
 }) {
   if (!items.length && papers.length === 0) return null;
   return (
-    <div className="avsar-corners avsar-shadow rounded-lg border border-slate-200 bg-white p-3">
-      <div className="mb-1 flex items-center justify-between px-1">
-        <h3 className="flex items-center gap-2 text-sm font-bold text-[#041b4c]">
-          <span className="h-3.5 w-1 rounded-full" style={{ background: cat.accent }} />
+    <div className="inst-panel inst-corners p-3">
+      <div className="mb-2 flex items-center justify-between gap-3 px-1">
+        <h3 className="inst-eyebrow font-semibold text-[var(--text)]">
           {cat.label}
         </h3>
-        <Link href={`/topic/${cat.id}`} className="text-[11px] font-semibold text-slate-500 transition hover:text-[#c2410c]">
+        <Link href={`/topic/${cat.id}`} className="inst-label shrink-0 transition-colors hover:text-[var(--accent)]">
           See all
         </Link>
       </div>
-      <div className="divide-y divide-slate-100">
+      <div className="divide-y divide-[var(--border)]">
         {items.slice(0, 5).map((it) => (
           <NewsCard key={it.link} item={it} accent={cat.accent} variant="compact" />
         ))}

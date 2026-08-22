@@ -12,12 +12,12 @@ export default function SavedPage() {
         <div className="mb-6 mt-8">
           <Link
             href="/"
-            className="mb-3 inline-flex items-center gap-1.5 text-sm font-medium text-slate-500 transition-colors hover:text-slate-900"
+            className="mb-3 inline-flex items-center gap-1.5 text-sm font-medium text-[var(--muted)] transition-colors hover:text-[var(--text)]"
           >
             <span aria-hidden>←</span> Back to news
           </Link>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900">My Collection</h1>
-          <p className="text-sm text-slate-500">Stories you saved to read later, all in one place.</p>
+          <h1 className="text-2xl font-bold tracking-tight text-[var(--text)]">My Collection</h1>
+          <p className="text-sm text-[var(--muted)]">Stories you saved to read later, all in one place.</p>
         </div>
         <SavedList />
       </div>

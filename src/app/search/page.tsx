@@ -58,7 +58,7 @@ export default async function SearchPage({
         </div>
 
         {query && results.length === 0 ? (
-          <p className="rounded-2xl border border-dashed border-[var(--border)] bg-[var(--panel)] p-10 text-center text-[var(--muted)]">
+          <p className="border border-dashed border-[var(--border-strong)] bg-[var(--panel)] p-10 text-center text-[var(--muted)]">
             No stories matched &ldquo;{query}&rdquo;. Try a broader term like EUV, HBM or chiplet.
           </p>
         ) : (

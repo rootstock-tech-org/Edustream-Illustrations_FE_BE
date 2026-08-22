@@ -24,7 +24,7 @@ export function FloatingLearnButton() {
       rel="noopener noreferrer"
       aria-label="Learn with Avsar"
       title="Learn with Avsar"
-      className="group fixed bottom-5 right-5 z-50 flex items-center gap-3 rounded-2xl border border-slate-200 bg-white/95 py-2 pl-2 pr-4 shadow-xl shadow-slate-400/25 backdrop-blur transition hover:-translate-y-0.5 hover:border-indigo-200 hover:shadow-2xl"
+      className="group fixed bottom-5 right-5 z-50 flex items-center gap-3 rounded-[10px] border border-[var(--border-strong)] bg-[var(--panel)]/95 py-2 pl-2 pr-4 shadow-[0_10px_30px_-12px_rgba(4,27,76,0.28)] backdrop-blur transition-colors hover:border-[var(--signal)]"
     >
       <span className="avsar-ring relative grid h-12 w-12 shrink-0 place-items-center">
         {imgOk ? (
@@ -47,10 +47,10 @@ export function FloatingLearnButton() {
         )}
       </span>
       <span className="flex flex-col leading-tight">
-        <span className="text-[14px] font-bold text-slate-800">
-          Learn with <span className="bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent">Avsar</span>
+        <span className="text-[14px] font-bold text-[var(--text)]">
+          Learn with <span className="text-[var(--accent)]">Avsar</span>
         </span>
-        <span className="mt-0.5 flex items-center gap-1.5 text-[11px] font-medium text-emerald-600">
+        <span className="mt-0.5 flex items-center gap-1.5 text-[11px] font-medium text-[var(--indigo)]">
           AI tutor
         </span>
       </span>

@@ -8,29 +8,35 @@ type Variant = "featured" | "default" | "compact";
 function SourceRow({ item, onDark = false }: { item: Article; onDark?: boolean }) {
   const fav = faviconFor(item.link);
   return (
-    <div className={`flex items-center gap-1.5 text-[11px] ${onDark ? "text-white/85" : "text-slate-500"}`}>
+    <div className={`flex items-center gap-1.5 text-[11px] ${onDark ? "text-white/85" : "text-[var(--muted)]"}`}>
       {fav ? (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={fav} alt="" width={14} height={14} className="rounded-sm" />
+        <img src={fav} alt="" width={14} height={14} />
       ) : null}
-      <span className={`font-semibold ${onDark ? "text-white" : "text-slate-700"}`}>{item.source}</span>
+      <span className={`font-semibold ${onDark ? "text-white" : "text-[var(--text-secondary)]"}`}>
+        {item.source}
+      </span>
       {item.publishedAt ? <span className="opacity-80">· {timeAgo(item.publishedAt)}</span> : null}
     </div>
   );
 }
 
+/**
+ * Status chips. Sharp-cornered and mono-uppercase rather than rounded pills, so
+ * they read as instrument telemetry like the rest of the surface.
+ */
 function Badges({ item }: { item: Article }) {
   if (item.sourceCount <= 1 && !item.rumor) return null;
   return (
     <div className="flex flex-wrap items-center gap-1.5">
       {item.sourceCount > 1 ? (
-        <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-semibold text-emerald-700 ring-1 ring-emerald-100">
+        <span className="inst-label border border-[var(--border-strong)] bg-[var(--surface)] px-1.5 py-0.5 text-[var(--indigo)]">
           {item.sourceCount} sources
         </span>
       ) : null}
       {item.rumor ? (
-        <span className="rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-semibold text-amber-700 ring-1 ring-amber-100">
-          ⚠ Rumor
+        <span className="inst-label border border-[var(--accent-light)] bg-[var(--warm)] px-1.5 py-0.5 text-[var(--accent)]">
+          Rumor
         </span>
       ) : null}
     </div>
@@ -39,7 +45,7 @@ function Badges({ item }: { item: Article }) {
 
 function Thumb({ item, accent, className = "" }: { item: Article; accent: string; className?: string }) {
   return (
-    <div className={`relative overflow-hidden ${className}`} style={{ background: "var(--panel)" }}>
+    <div className={`relative overflow-hidden ${className}`} style={{ background: "var(--surface)" }}>
       <ThumbImg link={item.link} image={item.image} accent={accent} title={item.title} />
     </div>
   );
@@ -67,19 +73,22 @@ export function NewsCard({
   };
   // Only articles with a real feed image get a thumbnail; the rest render text-only.
   const hasImage = !!item.image;
+
+  // Compact rows sit inside a panel already, so they are not panels themselves -
+  // a bracketed box inside a bracketed box reads as noise.
   if (variant === "compact") {
     return (
       <a
         href={item.link}
         target="_blank"
         rel="noopener noreferrer"
-        className="group flex items-start gap-3 rounded-xl p-2 transition-colors hover:bg-slate-100/70"
+        className="group flex items-start gap-3 p-2 transition-colors hover:bg-[var(--hover)]"
       >
         {hasImage ? (
-          <Thumb item={item} accent={accent} className="h-[70px] w-[104px] shrink-0 rounded-lg ring-1 ring-slate-200/70" />
+          <Thumb item={item} accent={accent} className="h-[70px] w-[104px] shrink-0 border border-[var(--border)]" />
         ) : null}
         <div className="min-w-0 flex-1">
-          <h3 className="line-clamp-2 text-[13.5px] font-semibold leading-snug text-[#041b4c] transition-colors group-hover:text-[#c2410c]">
+          <h3 className="line-clamp-2 text-[13.5px] font-semibold leading-snug text-[var(--text)] transition-colors group-hover:text-[var(--accent)]">
             {item.title}
           </h3>
           <div className="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-1">
@@ -100,18 +109,22 @@ export function NewsCard({
           href={item.link}
           target="_blank"
           rel="noopener noreferrer"
-          className="avsar-corners avsar-shadow group relative flex min-h-[220px] flex-col gap-3 rounded-lg border border-slate-200/70 bg-white p-5 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-slate-300/50"
+          className="inst-panel inst-corners inst-interactive group flex flex-col gap-3 p-5"
         >
           <div className="flex items-start justify-between gap-2">
-            <span className="h-1.5 w-10 rounded-full" style={{ background: accent }} />
+            <span className="h-1 w-10" style={{ background: accent }} />
             <span className="shrink-0">
               <SaveButton item={saveItem} />
             </span>
           </div>
-          <h2 className="line-clamp-5 text-lg font-bold leading-snug text-[#041b4c] transition-colors group-hover:text-[#c2410c]">
+          <h2 className="line-clamp-5 text-lg font-bold leading-snug text-[var(--text)] transition-colors group-hover:text-[var(--accent)]">
             {item.title}
           </h2>
-          <div className="mt-auto flex flex-wrap items-center gap-x-3 gap-y-1.5">
+          {/* Byline sits directly under the headline rather than being pushed to
+              the panel floor with mt-auto. In the two-column layouts this card
+              stretches to match a taller neighbour, and a floated footer left a
+              conspicuous void inside a now-visible hairline frame. */}
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
             <SourceRow item={item} />
             <Badges item={item} />
           </div>
@@ -123,18 +136,18 @@ export function NewsCard({
         href={item.link}
         target="_blank"
         rel="noopener noreferrer"
-        className="avsar-shadow group relative block overflow-hidden rounded-2xl border border-slate-200/70 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-slate-300/50"
+        className="inst-panel inst-corners inst-interactive group block overflow-hidden"
       >
         <Thumb item={item} accent={accent} className="aspect-[16/10] w-full" />
-        <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-        <div className="absolute right-3 top-3">
+        <span className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#041b4c]/85 via-[#041b4c]/25 to-transparent" />
+        <div className="absolute right-3 top-3 z-10">
           <Badges item={item} />
         </div>
-        <div className="absolute left-3 top-3">
+        <div className="absolute left-3 top-3 z-10">
           <SaveButton item={saveItem} onDark />
         </div>
-        <div className="absolute inset-x-0 bottom-0 p-4">
-          <h2 className="line-clamp-3 text-lg font-bold leading-snug text-white drop-shadow-sm">{item.title}</h2>
+        <div className="absolute inset-x-0 bottom-0 z-10 p-4">
+          <h2 className="line-clamp-3 text-lg font-bold leading-snug text-white">{item.title}</h2>
           <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1.5">
             <SourceRow item={item} onDark />
           </div>
@@ -149,7 +162,7 @@ export function NewsCard({
         href={item.link}
         target="_blank"
         rel="noopener noreferrer"
-        className="avsar-corners avsar-shadow group relative flex h-full flex-col gap-2 rounded-lg border border-slate-200/70 bg-white p-4 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-300/50"
+        className="inst-panel inst-corners inst-interactive group flex h-full flex-col gap-2 p-4"
       >
         <div className="flex items-start justify-between gap-2">
           <SourceRow item={item} />
@@ -157,7 +170,7 @@ export function NewsCard({
             <SaveButton item={saveItem} />
           </span>
         </div>
-        <h3 className="line-clamp-4 text-[15px] font-semibold leading-snug text-[#041b4c] transition-colors group-hover:text-[#c2410c]">
+        <h3 className="line-clamp-4 text-[15px] font-semibold leading-snug text-[var(--text)] transition-colors group-hover:text-[var(--accent)]">
           {item.title}
         </h3>
         <div className="mt-auto flex flex-wrap items-center gap-1.5 pt-1">
@@ -172,7 +185,7 @@ export function NewsCard({
       href={item.link}
       target="_blank"
       rel="noopener noreferrer"
-      className="avsar-corners avsar-shadow group relative flex flex-col overflow-hidden rounded-lg border border-slate-200/70 bg-white transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-300/50"
+      className="inst-panel inst-corners inst-interactive group flex flex-col overflow-hidden"
     >
       <Thumb item={item} accent={accent} className="aspect-[16/10] w-full" />
       <div className="absolute right-3 top-3 z-10">
@@ -180,7 +193,7 @@ export function NewsCard({
       </div>
       <div className="flex flex-1 flex-col gap-2 p-4">
         <SourceRow item={item} />
-        <h3 className="line-clamp-3 text-[15px] font-semibold leading-snug text-[#041b4c] transition-colors group-hover:text-[#c2410c]">
+        <h3 className="line-clamp-3 text-[15px] font-semibold leading-snug text-[var(--text)] transition-colors group-hover:text-[var(--accent)]">
           {item.title}
         </h3>
         <div className="mt-auto flex flex-wrap items-center gap-1.5 pt-1">

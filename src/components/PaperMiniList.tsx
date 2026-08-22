@@ -14,16 +14,16 @@ export function PaperMiniList({
 }) {
   if (!papers.length) return null;
   return (
-    <div className="mt-3 border-t border-slate-100 pt-3">
+    <div className="mt-3 border-t border-[var(--border)] pt-3">
       <div className="mb-1.5 flex items-center justify-between px-1">
-        <h4 className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-slate-500">
+        <h4 className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-[var(--muted)]">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
             <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
             <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
           </svg>
           Research papers
         </h4>
-        <Link href="/papers" className="text-[11px] font-semibold text-slate-500 transition hover:text-[#c2410c]">
+        <Link href="/papers" className="inst-label transition-colors hover:text-[var(--accent)]">
           See all
         </Link>
       </div>
@@ -34,14 +34,14 @@ export function PaperMiniList({
               href={p.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="group block rounded-lg px-1 py-1 transition hover:bg-slate-50"
+              className="group block px-1 py-1.5 transition-colors hover:bg-[var(--hover)]"
             >
               <div className="flex items-start gap-1.5">
-                <span className="line-clamp-2 text-[12px] font-semibold leading-snug text-[#041b4c] group-hover:text-[#c2410c]">
+                <span className="line-clamp-2 text-[12px] font-semibold leading-snug text-[var(--text)] group-hover:text-[var(--accent)]">
                   {p.title}
                 </span>
               </div>
-              <div className="mt-0.5 text-[10px] text-slate-400">
+              <div className="mt-0.5 text-[10px] text-[var(--muted)]">
                 Related paper{p.year ? ` · ${p.year}` : ""}
               </div>
             </a>

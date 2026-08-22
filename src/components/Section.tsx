@@ -9,14 +9,21 @@ import { SaveButton } from "./SaveButton";
 
 export type SectionLayout = "grid" | "list" | "spotlight" | "headlines";
 
+/**
+ * The section identity, in the platform's telemetry idiom: an uppercase mono
+ * eyebrow with a leading registration dash, tinted to the category accent.
+ * Ported from avsar_frontend/src/components/brand/instrument.tsx <Eyebrow>.
+ */
 function Heading({ cat }: { cat: CategoryView }) {
   return (
-    <div className="mb-4 flex items-center justify-between">
-      <h2 className="flex items-center gap-2.5 text-lg font-bold tracking-tight text-[#041b4c]">
-        <span className="h-5 w-1.5 rounded-full" style={{ background: cat.accent }} />
+    <div className="mb-4 flex items-center justify-between gap-4">
+      <h2 className="inst-eyebrow font-semibold text-[var(--text)]">
         {cat.label}
       </h2>
-      <Link href={`/topic/${cat.id}`} className="text-xs font-semibold text-slate-500 transition hover:text-[#c2410c]">
+      <Link
+        href={`/topic/${cat.id}`}
+        className="inst-label shrink-0 transition-colors hover:text-[var(--accent)]"
+      >
         See all →
       </Link>
     </div>
@@ -39,7 +46,7 @@ export function Section({
   const [lead, ...rest] = items;
 
   return (
-    <section className="border-t border-slate-200 py-7">
+    <section className="border-t border-[var(--border)] py-7">
       <Heading cat={cat} />
 
       {layout === "grid" ? (
@@ -82,21 +89,21 @@ export function Section({
                   href={it.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex gap-3 rounded-xl px-2 py-2.5 transition hover:bg-slate-100/70"
+                  className="group flex gap-3 px-2 py-2.5 transition-colors hover:bg-[var(--hover)]"
                 >
-                  <span className="mt-0.5 text-lg font-bold tabular-nums" style={{ color: cat.accent }}>
+                  <span className="mt-0.5 font-mono text-base font-bold tabular-nums" style={{ color: cat.accent }}>
                     {i + 1}
                   </span>
                   <div className="min-w-0 flex-1">
-                    <h3 className="line-clamp-2 text-sm font-semibold leading-snug text-[#041b4c] group-hover:text-[#c2410c]">
+                    <h3 className="line-clamp-2 text-sm font-semibold leading-snug text-[var(--text)] group-hover:text-[var(--accent)]">
                       {it.title}
                     </h3>
-                    <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] text-slate-500">
+                    <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] text-[var(--muted)]">
                       {fav ? (
                         // eslint-disable-next-line @next/next/no-img-element
-                        <img src={fav} alt="" width={13} height={13} className="rounded-sm" />
+                        <img src={fav} alt="" width={13} height={13} />
                       ) : null}
-                      <span className="font-semibold text-slate-700">{it.source}</span>
+                      <span className="font-semibold text-[var(--text-secondary)]">{it.source}</span>
                       {it.publishedAt ? <span>· {timeAgo(it.publishedAt)}</span> : null}
                     </div>
                   </div>
@@ -121,14 +128,10 @@ export function Section({
       ) : null}
 
       {papers.length > 0 ? (
-        <div className="mt-6 border-t border-slate-100 pt-5">
-          <div className="mb-3 flex items-center gap-2">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" className="text-slate-400">
-              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
-            </svg>
-            <h3 className="text-xs font-bold uppercase tracking-wide text-slate-500">Research papers</h3>
-            <Link href="/papers" className="ml-auto text-xs font-semibold text-slate-500 transition hover:text-[#c2410c]">
+        <div className="mt-6 border-t border-[var(--border)] pt-5">
+          <div className="mb-3 flex items-center gap-3">
+            <h3 className="inst-label">Research papers</h3>
+            <Link href="/papers" className="inst-label ml-auto transition-colors hover:text-[var(--accent)]">
               See all &rarr;
             </Link>
           </div>

@@ -16,12 +16,12 @@ export default function AllNews() {
     <>
       <Header />
       <div className="mx-auto max-w-6xl px-4 pb-16">
-        <div className="mt-6 mb-6 flex flex-wrap items-end justify-between gap-3 border-b border-slate-200 pb-5">
+        <div className="mt-6 mb-6 flex flex-wrap items-end justify-between gap-3 border-b border-[var(--border)] pb-5">
           <div>
-            <h1 className="text-2xl font-bold tracking-tight text-[#041b4c]">All VLSI &amp; Semiconductor News</h1>
-            <p className="mt-1 text-sm text-slate-500">{articles.length} stories, most relevant first &middot; older stories included</p>
+            <h1 className="text-2xl font-bold tracking-tight text-[var(--text)]">All VLSI &amp; Semiconductor News</h1>
+            <p className="mt-1.5 text-sm text-[var(--muted)]">{articles.length} stories, most relevant first &middot; older stories included</p>
           </div>
-          <Link href="/" className="text-sm font-semibold text-slate-500 transition hover:text-[#c2410c]">
+          <Link href="/" className="inst-label shrink-0 transition-colors hover:text-[var(--accent)]">
             &larr; Back to top stories
           </Link>
         </div>

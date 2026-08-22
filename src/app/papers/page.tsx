@@ -22,24 +22,24 @@ export default function PapersPage() {
       <Header />
       <div className="mx-auto max-w-6xl px-4 pb-16">
         <div className="mb-2 mt-8">
-          <h1 className="text-2xl font-bold tracking-tight text-slate-900">Research Papers</h1>
-          <p className="text-sm text-slate-500">
+          <h1 className="text-2xl font-bold tracking-tight text-[var(--text)]">Research Papers</h1>
+          <p className="text-sm text-[var(--muted)]">
             Curated VLSI and semiconductor papers from arXiv, grouped by course module.
             {generatedAt ? ` Updated ${new Date(generatedAt).toLocaleDateString()}.` : ""}
           </p>
         </div>
 
         {byModule.length === 0 ? (
-          <p className="mt-6 rounded-2xl border border-dashed border-slate-300 bg-white p-10 text-center text-slate-500">
+          <p className="mt-6 border border-dashed border-[var(--border-strong)] bg-[var(--panel)] p-10 text-center text-[var(--muted)]">
             No papers yet. Run the papers build to populate this page.
           </p>
         ) : (
           byModule.map(({ cat, items }) => (
-            <section key={cat.id} id={`m-${cat.id}`} className="scroll-mt-24 border-t border-slate-200 py-7">
+            <section key={cat.id} id={`m-${cat.id}`} className="scroll-mt-24 border-t border-[var(--border)] py-7">
               <div className="mb-4 flex items-center gap-3">
                 <span className="h-6 w-1.5 rounded-full" style={{ background: cat.accent }} />
-                <h2 className="text-lg font-bold tracking-tight text-slate-900">{cat.label}</h2>
-                <span className="text-xs font-medium text-slate-400">{items.length} papers</span>
+                <h2 className="text-lg font-bold tracking-tight text-[var(--text)]">{cat.label}</h2>
+                <span className="text-xs font-medium text-[var(--muted)]">{items.length} papers</span>
               </div>
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {items.map((p) => (

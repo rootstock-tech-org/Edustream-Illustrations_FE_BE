@@ -11,7 +11,7 @@ export default function NotFound() {
         <p className="mt-3 text-[var(--muted)]">This page doesn&rsquo;t exist.</p>
         <Link
           href="/"
-          className="mt-6 rounded-full bg-gradient-to-r from-indigo-500 to-blue-600 px-5 py-2 text-sm font-semibold text-white"
+          className="mt-6 rounded-full bg-[var(--text)] px-5 py-2 text-sm font-semibold text-white"
         >
           Back to VLSI News
         </Link>

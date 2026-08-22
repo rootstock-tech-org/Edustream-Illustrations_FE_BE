@@ -18,9 +18,9 @@ export function SavedList() {
 
   if (saved.length === 0) {
     return (
-      <div className="rounded-2xl border border-dashed border-slate-200 bg-white p-12 text-center">
-        <p className="text-sm font-semibold text-slate-700">Your collection is empty</p>
-        <p className="mt-1 text-sm text-slate-500">
+      <div className="border border-dashed border-[var(--border-strong)] bg-[var(--panel)] p-12 text-center">
+        <p className="text-sm font-semibold text-[var(--text-secondary)]">Your collection is empty</p>
+        <p className="mt-1 text-sm text-[var(--muted)]">
           Tap the bookmark on any story to add it to your collection.
         </p>
       </div>
@@ -34,7 +34,7 @@ export function SavedList() {
         return (
           <div
             key={s.link}
-            className="group relative flex flex-col overflow-hidden rounded-2xl border border-slate-200/70 bg-white shadow-sm"
+            className="inst-panel inst-corners inst-interactive group flex flex-col overflow-hidden"
           >
             <a href={s.link} target="_blank" rel="noopener noreferrer" className="block">
               <div className="relative aspect-[16/10] w-full overflow-hidden" style={{ background: "var(--panel)" }}>
@@ -46,27 +46,27 @@ export function SavedList() {
               aria-label="Remove from collection"
               title="Remove"
               onClick={() => remove(s.link)}
-              className="absolute right-3 top-3 z-10 grid h-8 w-8 place-items-center rounded-full bg-white/85 text-slate-600 ring-1 ring-slate-200 backdrop-blur transition hover:bg-white hover:text-red-600"
+              className="absolute right-3 top-3 z-10 grid h-8 w-8 place-items-center rounded-full bg-[var(--panel)]/85 text-[var(--text-secondary)] ring-1 ring-[var(--border-strong)] backdrop-blur transition hover:bg-[var(--panel)] hover:text-[var(--accent)]"
             >
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round">
                 <path d="M18 6 6 18M6 6l12 12" />
               </svg>
             </button>
             <div className="flex flex-1 flex-col gap-2 p-4">
-              <div className="flex items-center gap-1.5 text-[11px] text-slate-500">
+              <div className="flex items-center gap-1.5 text-[11px] text-[var(--muted)]">
                 {faviconFor(s.link) ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={faviconFor(s.link)} alt="" width={14} height={14} className="rounded-sm" />
                 ) : null}
-                <span className="font-semibold text-slate-700">{s.source}</span>
+                <span className="font-semibold text-[var(--text-secondary)]">{s.source}</span>
                 {s.publishedAt ? <span className="opacity-80">· {timeAgo(s.publishedAt)}</span> : null}
               </div>
               <a href={s.link} target="_blank" rel="noopener noreferrer">
-                <h3 className="line-clamp-3 text-[15px] font-semibold leading-snug text-slate-800 transition-colors hover:text-indigo-600">
+                <h3 className="line-clamp-3 text-[15px] font-semibold leading-snug text-[var(--text)] transition-colors hover:text-[var(--accent)]">
                   {s.title}
                 </h3>
               </a>
-              {s.module ? <span className="mt-auto pt-1 text-[11px] font-medium text-slate-400">{s.module}</span> : null}
+              {s.module ? <span className="mt-auto pt-1 text-[11px] font-medium text-[var(--muted)]">{s.module}</span> : null}
             </div>
           </div>
         );

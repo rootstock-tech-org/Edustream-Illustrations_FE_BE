@@ -18,7 +18,7 @@ export function SavedLink() {
       </svg>
       <span className="hidden sm:inline">Collection</span>
       {count > 0 ? (
-        <span className="grid h-4 min-w-4 place-items-center rounded-full bg-indigo-600 px-1 text-[10px] font-bold text-white">
+        <span className="grid h-4 min-w-4 place-items-center rounded-full bg-[var(--signal)] px-1 text-[10px] font-bold text-white">
           {count}
         </span>
       ) : null}

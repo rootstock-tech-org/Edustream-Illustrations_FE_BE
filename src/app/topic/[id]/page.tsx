@@ -25,15 +25,15 @@ export default async function TopicPage({ params }: { params: Promise<{ id: stri
       <Header />
       <div className="mx-auto max-w-6xl px-4 pb-16">
         <div className="mb-6 mt-8 flex items-center gap-3">
-          <span className="h-7 w-1.5 rounded-full" style={{ background: cat.accent }} />
+          <span className="h-7 w-1" style={{ background: cat.accent }} />
           <div>
-            <h1 className="text-2xl font-bold tracking-tight text-slate-900">{cat.label}</h1>
-            <p className="text-sm text-slate-500">{items.length} stories</p>
+            <h1 className="text-2xl font-bold tracking-tight text-[var(--text)]">{cat.label}</h1>
+            <p className="inst-label mt-1">{items.length} stories</p>
           </div>
         </div>
 
         {items.length === 0 ? (
-          <p className="rounded-2xl border border-dashed border-slate-300 bg-white p-10 text-center text-slate-500">
+          <p className="border border-dashed border-[var(--border-strong)] bg-[var(--panel)] p-10 text-center text-[var(--muted)]">
             No stories in this topic right now. Check back soon.
           </p>
         ) : (
@@ -47,11 +47,11 @@ export default async function TopicPage({ params }: { params: Promise<{ id: stri
         )}
 
         {papers.length > 0 && (
-          <section className="mt-10 border-t border-slate-200 pt-7">
+          <section className="mt-10 border-t border-[var(--border)] pt-7">
             <div className="mb-4 flex items-center gap-3">
-              <span className="h-6 w-1.5 rounded-full" style={{ background: cat.accent }} />
-              <h2 className="text-lg font-bold tracking-tight text-slate-900">Research papers</h2>
-              <Link href="/papers" className="ml-auto text-xs font-semibold text-slate-500 transition hover:text-indigo-600">
+              <span className="h-6 w-1" style={{ background: cat.accent }} />
+              <h2 className="inst-eyebrow font-semibold text-[var(--text)]">Research papers</h2>
+              <Link href="/papers" className="inst-label ml-auto transition-colors hover:text-[var(--accent)]">
                 See all →
               </Link>
             </div>
