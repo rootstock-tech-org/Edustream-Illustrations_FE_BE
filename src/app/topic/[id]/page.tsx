@@ -24,7 +24,10 @@ export default async function TopicPage({ params }: { params: Promise<{ id: stri
     <>
       <Header />
       <div className="mx-auto max-w-6xl px-4 pb-16">
-        <div className="mb-6 mt-8 flex items-center gap-3">
+        <Link href="/" className="inst-label mt-8 inline-flex items-center transition-colors hover:text-[var(--accent)]">
+          &larr; Back to news
+        </Link>
+        <div className="mb-6 mt-4 flex items-center gap-3">
           <span className="h-7 w-1" style={{ background: cat.accent }} />
           <div>
             <h1 className="text-2xl font-bold tracking-tight text-[var(--text)]">{cat.label}</h1>

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { getPapers } from "../../../lib/getPapers";
 import { CATEGORY_VIEWS } from "../../../lib/categories";
 import { Header } from "../../components/Header";
@@ -21,7 +22,10 @@ export default function PapersPage() {
     <>
       <Header />
       <div className="mx-auto max-w-6xl px-4 pb-16">
-        <div className="mb-2 mt-8">
+        <Link href="/" className="inst-label mt-8 inline-flex items-center transition-colors hover:text-[var(--accent)]">
+          &larr; Back to news
+        </Link>
+        <div className="mb-2 mt-4">
           <h1 className="text-2xl font-bold tracking-tight text-[var(--text)]">Research Papers</h1>
           <p className="text-sm text-[var(--muted)]">
             Curated VLSI and semiconductor papers from arXiv, grouped by course module.
