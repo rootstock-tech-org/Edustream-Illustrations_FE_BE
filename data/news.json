@@ -1,12 +1,268 @@
 {
-  "generatedAt": "2026-08-20T03:29:23.768Z",
-  "count": 152,
+  "generatedAt": "2026-08-25T12:01:13.232Z",
+  "count": 101,
   "articles": [
     {
-      "title": "Innolux turns panel fabs into FOPLP capacity, banking on sticky advanced packaging ties",
-      "link": "https://www.digitimes.com/news/a20260819PD221/innolux-packaging-foplp-panel-capacity.html",
-      "image": "https://img.digitimes.com/newsshow/20260819pd221_files/1_b.jpg",
-      "summary": "Innolux is accelerating its dual-track transformation and asset-light strategy, with second-quarter 2026 earnings per share rising 185% sequentially to NT$0.57. After disposing of Fab 2, Fab 5, and a small module plant, chairman Jim Hung said the company had reached an optimal stage in external asset sales and would now focus on repurposing existing production space for semiconductor processes, pa",
+      "title": "Marvell VP pushes for DDR4 recycling for use in CXL memory, amid the worst DRAM shortage in years — company introduces three-tier AI memory infrastructure",
+      "link": "https://www.tomshardware.com/pc-components/dram/marvell-sells-cxl-memory-recycling-into-the-worst-dram-shortage-in-years",
+      "image": "https://cdn.mos.cms.futurecdn.net/udFp2ca8Nu9dvCJweZPZEL-1280-80.jpg",
+      "summary": "Marvell has introduced a three-tier \"AI memory infrastructure\" portfolio, announced at FMS 2026 in Santa Clara on August 4.",
+      "source": "Tom's Hardware",
+      "sources": [
+        "Tom's Hardware"
+      ],
+      "sourceCount": 1,
+      "moduleId": "digital-memory",
+      "module": "Digital Design & Memory",
+      "score": 92,
+      "rumor": false,
+      "publishedAt": "2026-08-24T13:11:37.000Z"
+    },
+    {
+      "title": "Optocouplers tame EMI in wide-bandgap designs",
+      "link": "https://www.electronicsweekly.com/news/business/optocouplers-tame-emi-in-wide-bandgap-designs-2026-08/",
+      "image": "https://static.electronicsweekly.com/wp-content/uploads/2026/08/14101329/aug-8-Figure-1.webp",
+      "summary": "High-voltage designers adopting GaN and SiC face severe electromagnetic interference (EMI) and logic corruption. Advanced optocouplers can provide the robust isolation needed to protect signal integrity, writes Diego de Azcuénaga. […] The post Optocouplers tame EMI in wide-bandgap designs appeared first on Electronics Weekly .",
+      "source": "Electronics Weekly",
+      "sources": [
+        "Electronics Weekly"
+      ],
+      "sourceCount": 1,
+      "moduleId": "physics",
+      "module": "Semiconductor Physics",
+      "score": 77,
+      "rumor": false,
+      "publishedAt": "2026-08-25T11:00:12.000Z"
+    },
+    {
+      "title": "Memory Technology Roadmap Webinar | DRAM, NAND, HBM & Emerging Memory",
+      "link": "https://www.techinsights.com/webinar/memory-technology-roadmap-webinar-dram-nand-hbm-emerging-memory",
+      "image": null,
+      "summary": "Memory Technology Roadmap Webinar | DRAM, NAND, HBM & Emerging Memory JWinters Wed, 08/26/2026 - 11:00",
+      "source": "TechInsights",
+      "sources": [
+        "TechInsights"
+      ],
+      "sourceCount": 1,
+      "moduleId": "digital-memory",
+      "module": "Digital Design & Memory",
+      "score": 70,
+      "rumor": false,
+      "publishedAt": "2026-08-26T11:00:00.000Z"
+    },
+    {
+      "title": "SK Hynix Next-Gen HBM Memory to Use Intel EMIB-T Packaging",
+      "link": "https://www.techpowerup.com/351913/sk-hynix-next-gen-hbm-memory-to-use-intel-emib-t-packaging",
+      "image": "https://www.techpowerup.com/img/Sh2ndpYuHDUjQbZV.jpg",
+      "summary": "Intel Foundry is achieving another significant success as SK hynix, a leading memory maker, is reportedly becoming a customer for EMIB advanced packaging. During Hot Chips 2026, SK hynix mentioned that it is collaborating with TSMC to integrate HBM memory into CoWoS-L, CoWoS-S, CoWoS-R, and most importantly, Intel EMIB. For instance, SK hynix's discussion focused on memory progressing from approxi",
+      "source": "TechPowerUp",
+      "sources": [
+        "TechPowerUp"
+      ],
+      "sourceCount": 1,
+      "moduleId": "packaging",
+      "module": "Packaging & Test",
+      "score": 69,
+      "rumor": true,
+      "publishedAt": "2026-08-25T08:23:41.000Z"
+    },
+    {
+      "title": "Samsung Foundry sees higher 4nm volumes as Nvidia ramps Groq 3",
+      "link": "https://www.digitimes.com/news/a20260825VL216/nvidia-groq-4nm-samsung-production.html",
+      "image": "https://img.digitimes.com/newsshow/20260825vl216_files/2_2b.jpg",
+      "summary": "Nvidia's Groq 3 ramp is adding meaningful 4nm volume to Samsung Electronics' foundry business, with monthly wafer input estimated at about 10,000 and expected to rise above 15,000 in 2027. The increase comes as reported yields improve, Samsung's 4nm capacity remains tight, and pricing on the node moves higher.",
+      "source": "DIGITIMES",
+      "sources": [
+        "DIGITIMES"
+      ],
+      "sourceCount": 1,
+      "moduleId": "industry",
+      "module": "Industry & Overview",
+      "score": 69,
+      "rumor": false,
+      "publishedAt": "2026-08-25T06:56:47.000Z"
+    },
+    {
+      "title": "Hot Chips 2026: SK hynix pushes hybrid bonding to HBM5 as AI memory hits 775-micron ceiling — firm extends MR-MUF through Nvidia Rubin",
+      "link": "https://www.tomshardware.com/tech-industry/semiconductors/sk-hynix-says-hybrid-bonding-wont-be-ready-for-hbm4e-as-ai-memory-runs-into-a-775-micron-ceiling",
+      "image": "https://cdn.mos.cms.futurecdn.net/9DnrtFAiRKUUZvGY424ZgZ-1280-80.jpg",
+      "summary": "The problem, per SK, is that HBM cubes are capped at a total thickness of 775 microns, the standard thickness of a 300mm logic wafer.",
+      "source": "Tom's Hardware",
+      "sources": [
+        "Tom's Hardware"
+      ],
+      "sourceCount": 1,
+      "moduleId": "packaging",
+      "module": "Packaging & Test",
+      "score": 77,
+      "rumor": false,
+      "publishedAt": "2026-08-24T17:55:45.000Z"
+    },
+    {
+      "title": "Power GaN Device Scaling Challenges",
+      "link": "https://www.powerelectronicsnews.com/power-gan-device-scaling-challenges/",
+      "image": "https://www.powerelectronicsnews.com/wp-content/uploads/sites/3/2026/08/AdobeStock_223389904.jpeg?fit=7360%2C4912",
+      "summary": "Wafer substrate selection, buffer layer design, and 2-DEG optimization are key to scaling GaN power devices higher. The post Power GaN Device Scaling Challenges appeared first on Power Electronics News .",
+      "source": "Power Electronics News",
+      "sources": [
+        "Power Electronics News"
+      ],
+      "sourceCount": 1,
+      "moduleId": "physics",
+      "module": "Semiconductor Physics",
+      "score": 62,
+      "rumor": false,
+      "publishedAt": "2026-08-25T11:00:00.000Z"
+    },
+    {
+      "title": "Nvidia and SK Hynix CPO strategies diverge as 3D optics look toward a post-2030 horizon",
+      "link": "https://www.digitimes.com/news/a20260825PD216/sk-hynix-cpo-nvidia-3d-optics.html",
+      "image": "https://img.digitimes.com/newsshow/20260825pd216_files/2_2b.jpg",
+      "summary": "On August 20, SK Hynix's global research team published a paper in Nature Electronics detailing its co-packaged optics (CPO) development for high-performance computing (HPC) and AI. Highlighting key technical hurdles and outlining the trajectory for next-generation optical interconnect technology, the paper marks SK Hynix's first systematic presentation of its CPO roadmap.",
+      "source": "DIGITIMES",
+      "sources": [
+        "DIGITIMES"
+      ],
+      "sourceCount": 1,
+      "moduleId": "emerging",
+      "module": "Emerging & Research",
+      "score": 62,
+      "rumor": false,
+      "publishedAt": "2026-08-25T06:47:15.000Z"
+    },
+    {
+      "title": "Vera Rubin transition gap eases as ASIC, general servers rescue supply chain",
+      "link": "https://www.digitimes.com/news/a20260825PD212/rubin-asic-nvidia-supply-chain-shipments.html",
+      "image": "https://img.digitimes.com/newsshow/20260825pd212_files/2_2b.jpg",
+      "summary": "As Nvidia's next-generation Vera Rubin platform enters deployment, Taiwan's server supply chain is finding ways to bridge the transition gap before ramping up volume production. Ongoing shipments of the existing GB series, custom ASIC server deployments led by Google and Amazon Web Services (AWS), and general-purpose servers are all providing revenue support to cushion the interim shortfall.",
+      "source": "DIGITIMES",
+      "sources": [
+        "DIGITIMES"
+      ],
+      "sourceCount": 1,
+      "moduleId": "full-flow",
+      "module": "Full-Chip Flow & Product",
+      "score": 70,
+      "rumor": false,
+      "publishedAt": "2026-08-25T03:31:28.000Z"
+    },
+    {
+      "title": "TSMC, Intel, and Samsung battle over backside power delivery below 2nm",
+      "link": "https://www.digitimes.com/news/a20260825PD209/tsmc-intel-samsung-competition-manufacturing.html",
+      "image": "https://img.digitimes.com/newsshow/20260825pd209_files/2_2b.jpg",
+      "summary": "As competition in advanced semiconductor manufacturing moves below the 2nm node, the battleground is no longer just shrinking transistors; it has expanded to how power is delivered to the chip. With Intel, TSMC, and Samsung Electronics each betting heavily on backside power delivery, the race is entering a new phase.",
+      "source": "DIGITIMES",
+      "sources": [
+        "DIGITIMES"
+      ],
+      "sourceCount": 1,
+      "moduleId": "industry",
+      "module": "Industry & Overview",
+      "score": 69,
+      "rumor": false,
+      "publishedAt": "2026-08-25T02:53:11.000Z"
+    },
+    {
+      "title": "Hot Chips 2026: Nvidia breaks down 88-core Vera CPU — spatial multithreading benchmarked, 1.2 TB/s SOCAMM2 memory, agentic workloads detailed, and more",
+      "link": "https://www.tomshardware.com/pc-components/cpus/hot-chips-2026-nvidia-breaks-down-88-core-vera-cpu-spatial-multithreading-benchmarked-1-2-tb-s-socamm2-memory-agentic-workloads-detailed-and-more",
+      "image": "https://cdn.mos.cms.futurecdn.net/tAXNckhbwBFZknaHqvpJe7-1280-80.jpg",
+      "summary": "Nvidia has provided more color on its Vera CPU for agentic data centers at Hot Chips 2026, showcasing the benefits of spatial multithreading and the power benefits of the LPDDR5X memory system.",
+      "source": "Tom's Hardware",
+      "sources": [
+        "Tom's Hardware"
+      ],
+      "sourceCount": 1,
+      "moduleId": "digital-memory",
+      "module": "Digital Design & Memory",
+      "score": 55,
+      "rumor": false,
+      "publishedAt": "2026-08-25T11:53:48.000Z"
+    },
+    {
+      "title": "Hardware security verification must go beyond functional testing",
+      "link": "https://www.edn.com/hardware-security-verification-must-go-beyond-functional-testing/",
+      "image": "https://www.edn.com/wp-content/uploads/EDN-Primary-image_Security-Verification.jpg?fit=1429%2C804",
+      "summary": "Security verification must go beyond functional testing to assess whether security objectives are maintained across SoC designs. The post Hardware security verification must go beyond functional testing appeared first on EDN .",
+      "source": "EDN",
+      "sources": [
+        "EDN"
+      ],
+      "sourceCount": 1,
+      "moduleId": "full-flow",
+      "module": "Full-Chip Flow & Product",
+      "score": 55,
+      "rumor": false,
+      "publishedAt": "2026-08-25T09:16:02.000Z"
+    },
+    {
+      "title": "Nexperia China rebuilds 12-inch local supply chain after 330 days",
+      "link": "https://www.digitimes.com/news/a20260825PD219/nexperia-12-inch-supply-chain-wafer-manufacturing.html",
+      "image": "https://img.digitimes.com/newsshow/20260825pd219_files/2_b.jpg",
+      "summary": "Nexperia China said it has rebuilt a domestic 12-inch wafer supply chain after 330 days of overseas wafer supply disruptions, unveiling the new platform at a press conference outlining its new direction. The company said complete China-based manufacturing supply chains have now been established for metal-oxide-semiconductor field-effect transistor (MOSFET) and logic IC products.",
+      "source": "DIGITIMES",
+      "sources": [
+        "DIGITIMES"
+      ],
+      "sourceCount": 1,
+      "moduleId": "mos-device",
+      "module": "MOS Devices",
+      "score": 55,
+      "rumor": false,
+      "publishedAt": "2026-08-25T09:09:49.000Z"
+    },
+    {
+      "title": "Infineon Acquires C2i Semiconductors to Expand its Innovation Capabilities in AI Data Center Power Management Solutions",
+      "link": "https://www.eletimes.ai/infineon-acquires-c2i-semiconductors-to-expand-its-innovation-capabilities-in-ai-data-center-power-management-solutions",
+      "image": "https://www.eletimes.ai/wp-content/uploads/2026/08/Infineon-Acquires-C2i-Semiconductors-to-Expand-its-Innovation-Capabilities-in-AI-Data-Center-Power-Management-Solutions.jpg",
+      "summary": "Infineon Technologies AG today announced the acquisition of C2i Semiconductors, a Bangalore-based technology company specializing in software-defined multiphase controllers and smart power stages for AI data center applications. C2i Semiconductors’ technology complements Infineon’s leading portfolio of power semiconductors and power systems, enabling intelligent and scalable power delivery archite",
+      "source": "ELE Times",
+      "sources": [
+        "ELE Times"
+      ],
+      "sourceCount": 1,
+      "moduleId": "industry",
+      "module": "Industry & Overview",
+      "score": 54,
+      "rumor": false,
+      "publishedAt": "2026-08-25T09:10:48.000Z"
+    },
+    {
+      "title": "Anthropic bets on in-house chips, reshaping ASIC orders",
+      "link": "https://www.digitimes.com/news/a20260825PD222/anthropic-asic-chips-silicon-design.html",
+      "image": "https://img.digitimes.com/newsshow/20260825pd222_files/1_b.jpg",
+      "summary": "Anthropic confirmed on August 5 that it is building an internal silicon team to design custom chips for its Claude models, signaling a sharper push into self-developed AI hardware. The move is set to influence the company's compute procurement plans and could reshape order shares among ASIC vendors.",
+      "source": "DIGITIMES",
+      "sources": [
+        "DIGITIMES"
+      ],
+      "sourceCount": 1,
+      "moduleId": "full-flow",
+      "module": "Full-Chip Flow & Product",
+      "score": 54,
+      "rumor": true,
+      "publishedAt": "2026-08-25T07:57:00.000Z"
+    },
+    {
+      "title": "China foundry Nexchip breaks beyond display chips: CIS reaches 25% of revenue",
+      "link": "https://www.digitimes.com/news/a20260825VL214/nexchip-revenue-chips-display-cis.html",
+      "image": "https://img.digitimes.com/newsshow/20260825vl214_files/2_b.jpg",
+      "summary": "Nexchip Semiconductor reported higher first-half 2026 revenue as broadening demand for CMOS image sensors, power management chips and display drivers diversified its product mix, even though profit declined.",
+      "source": "DIGITIMES",
+      "sources": [
+        "DIGITIMES"
+      ],
+      "sourceCount": 1,
+      "moduleId": "industry",
+      "module": "Industry & Overview",
+      "score": 54,
+      "rumor": false,
+      "publishedAt": "2026-08-25T07:15:00.000Z"
+    },
+    {
+      "title": "Samsung pushes HBM toward logic, SK Hynix targets packaging at Hot Chips 2026",
+      "link": "https://www.digitimes.com/news/a20260824VL214/samsung-hbm-packaging-dram-design.html",
+      "image": "https://img.digitimes.com/newsshow/20260824vl214_files/3_b.jpg",
+      "summary": "Samsung Electronics and SK Hynix outlined different areas of emphasis for overcoming the next high-bandwidth memory (HBM) bottleneck at Hot Chips 2026, with Samsung pushing more logic and customer-specific functions into the HBM base die while SK Hynix focuses on packaging, heat and the challenges of taller memory stacks.",
       "source": "DIGITIMES",
       "sources": [
         "DIGITIMES"
@@ -14,25 +270,121 @@
       "sourceCount": 1,
       "moduleId": "packaging",
       "module": "Packaging & Test",
-      "score": 77,
+      "score": 62,
       "rumor": false,
-      "publishedAt": "2026-08-20T00:14:40.000Z"
+      "publishedAt": "2026-08-25T00:04:43.000Z"
     },
     {
-      "title": "proteanTecs Unveils Advanced Packaging Solutions",
-      "link": "https://www.semiconductor-digest.com/proteantecs-unveils-advanced-packaging-solutions/?utm_source=rss&utm_medium=rss&utm_campaign=proteantecs-unveils-advanced-packaging-solutions",
-      "image": null,
-      "summary": "Integrates per-chiplet visibility from pre-assembly screening through SiP production and in-mission operation, helping customers reduce costly packaging failures and optimize multi-die system power/performance. The post proteanTecs Unveils Advanced Packaging Solutions appeared first on Semiconductor Digest .",
-      "source": "Semiconductor Digest",
+      "title": "Hot Chips 2026: Intel Xeon 7 'Diamond Rapids' comes with up to 256 P-cores, 1.28 GB of last-level cache — next-gen 18A-P CPU also brings AVX 10.2 and uses UCIe-S instead of EMIB",
+      "link": "https://www.tomshardware.com/pc-components/cpus/intel-xeon-7-diamond-rapids-comes-with-up-to-256-p-cores-1-28-gb-of-last-level-cache-next-gen-18a-p-cpu-also-brings-avx-10-2-and-uses-ucie-s-instead-of-emib",
+      "image": "https://cdn.mos.cms.futurecdn.net/pBcpzPBFse7fDPPhs8pPyL-1280-80.jpg",
+      "summary": "Intel has pulled back the curtain on its next-gen Diamond Rapids Xeon CPUs, packing up to 256 P-cores and 1.28 TB of last-level cache.",
+      "source": "Tom's Hardware",
       "sources": [
-        "Semiconductor Digest"
+        "Tom's Hardware"
       ],
       "sourceCount": 1,
-      "moduleId": "packaging",
-      "module": "Packaging & Test",
-      "score": 85,
+      "moduleId": "emerging",
+      "module": "Emerging & Research",
+      "score": 62,
       "rumor": false,
-      "publishedAt": "2026-08-19T17:39:51.000Z"
+      "publishedAt": "2026-08-24T21:07:45.000Z"
+    },
+    {
+      "title": "Intel Details \"Crescent Island\" Graphics: 32 Xe3P Cores, up to 480 GB LPDDR5X Memory",
+      "link": "https://www.techpowerup.com/351901/intel-details-crescent-island-graphics-32-xe3p-cores-up-to-480-gb-lpddr5x-memory",
+      "image": "https://www.techpowerup.com/img/tXvRATBFoyp302JW.jpg",
+      "summary": "Intel's long-awaited graphics card update is arriving for data centers and workstations with the introduction of \"Crescent Island,\" now detailed. At Hot Chips 2026, the company revealed more about the upcoming graphics card. Based on the Xe3P GPU IP, the graphics card is designed as a 350 W, air-cooled, PCIe format compatible with any configuration. The GPU itself features 32 Xe3P cores, 256 XMX e",
+      "source": "TechPowerUp",
+      "sources": [
+        "TechPowerUp"
+      ],
+      "sourceCount": 1,
+      "moduleId": "digital-memory",
+      "module": "Digital Design & Memory",
+      "score": 62,
+      "rumor": false,
+      "publishedAt": "2026-08-24T19:49:21.000Z"
+    },
+    {
+      "title": "Coherent Samples 300mm SiC Substrates for AI Infrastructure",
+      "link": "https://www.powerelectronicsnews.com/coherent-samples-300mm-sic-substrates-for-ai-infrastructure/",
+      "image": "https://www.powerelectronicsnews.com/wp-content/uploads/sites/3/2026/08/300mm_20Silicon_20Carbide.png?fit=1920%2C1080",
+      "summary": "Customer sampling validates Coherent’s 300mm SiC platform for advanced thermal management, packaging and high-density computing. The post Coherent Samples 300mm SiC Substrates for AI Infrastructure appeared first on Power Electronics News .",
+      "source": "Power Electronics News",
+      "sources": [
+        "Power Electronics News"
+      ],
+      "sourceCount": 1,
+      "moduleId": "physics",
+      "module": "Semiconductor Physics",
+      "score": 62,
+      "rumor": false,
+      "publishedAt": "2026-08-24T16:00:00.000Z"
+    },
+    {
+      "title": "Mikroe Releases RTLS UWB Click Board",
+      "link": "https://www.embedded.com/mikroe-releases-rtls-uwb-click-board/",
+      "image": null,
+      "summary": "Mikroe has launched its latest Click board addition, the real-time location system (RTLS) ultra-wideband (UWB) add-on board for high-precision real-time location, distance measurement, and motion-aware tracking. The new board is suited for applications such as asset tracking, indoor positioning, personnel and equipment localization, smart logistics, and industrial monitoring. It can be used for in",
+      "source": "Embedded.com",
+      "sources": [
+        "Embedded.com"
+      ],
+      "sourceCount": 1,
+      "moduleId": "rtl-design",
+      "module": "RTL / HDL Design",
+      "score": 62,
+      "rumor": false,
+      "publishedAt": "2026-08-24T14:38:46.000Z"
+    },
+    {
+      "title": "I picked Task Manager 'to see how ready AI is for primetime… or if it would just degrade to slop' – OG dev talks to The Reg",
+      "link": "https://www.theregister.com/applications/2026/08/24/i-picked-task-manager-to-see-how-ready-ai-is-for-primetime-or-if-it-would-just-degrade-to-slop-og-dev-talks-to-the-reg/5291639",
+      "image": "https://image.theregister.com/?imageId=5291651&width=800",
+      "summary": "Original author of legendary 1996 system utility tries to answer the question: 'How would I do it today?'",
+      "source": "The Register",
+      "sources": [
+        "The Register"
+      ],
+      "sourceCount": 1,
+      "moduleId": "timing",
+      "module": "Timing & STA",
+      "score": 62,
+      "rumor": false,
+      "publishedAt": "2026-08-24T13:03:00.000Z"
+    },
+    {
+      "title": "Porsche Brings GaN Technology to High-End Automotive Audio",
+      "link": "https://www.powerelectronicsnews.com/porsche-brings-gan-technology-to-high-end-automotive-audio/",
+      "image": "https://www.powerelectronicsnews.com/wp-content/uploads/sites/3/2026/08/Porsche_GaN_Audio.jpg?fit=6000%2C3376",
+      "summary": "The GaN-based power stage reduces heat and cooling requirements, enabling a lighter amplifier with smaller passive components. The post Porsche Brings GaN Technology to High-End Automotive Audio appeared first on Power Electronics News .",
+      "source": "Power Electronics News",
+      "sources": [
+        "Power Electronics News"
+      ],
+      "sourceCount": 1,
+      "moduleId": "physics",
+      "module": "Semiconductor Physics",
+      "score": 62,
+      "rumor": false,
+      "publishedAt": "2026-08-24T12:59:23.000Z"
+    },
+    {
+      "title": "United States Government May Restrict ASML's DUV Tool Exports to China",
+      "link": "https://www.techpowerup.com/351847/united-states-government-may-restrict-asmls-duv-tool-exports-to-china",
+      "image": "https://www.techpowerup.com/img/8wh2G7saHjgOwRe2.jpg",
+      "summary": "According to the Netherlands-based NU portal, the United States government (USG) might pressure the Dutch government to compel ASML to halt nearly all exports of chip-making equipment to China. The report indicates that the Netherlands-based ASML is under pressure to stop exporting its machinery to Chinese clients, as the USG is lobbying against the export of these machines to mainland customers. ",
+      "source": "TechPowerUp",
+      "sources": [
+        "TechPowerUp"
+      ],
+      "sourceCount": 1,
+      "moduleId": "fabrication",
+      "module": "Fabrication",
+      "score": 74,
+      "rumor": false,
+      "publishedAt": "2026-08-23T08:48:54.000Z"
     },
     {
       "title": "High Bandwidth Memory in NVIDIA HGX B300: Examining the Micron HBM3E Package",
@@ -46,640 +398,63 @@
       "sourceCount": 1,
       "moduleId": "packaging",
       "module": "Packaging & Test",
-      "score": 85,
+      "score": 82,
       "rumor": false,
       "publishedAt": "2026-08-19T15:23:48.000Z"
     },
     {
-      "title": "Kenmec subsidiaries target SiC, AIDC growth",
-      "link": "https://www.digitimes.com/news/a20260820PD204/kenmec-aidc-chairman-ceo-sic.html",
-      "image": "https://img.digitimes.com/newsshow/20260820pd204_files/2_b.jpg",
-      "summary": "Kenmec Group founder and president Frank Hsieh said on August 19 that two of the company's new businesses have taken shape, with Taisic Materials focusing on silicon carbide (SiC), a third-generation semiconductor material, and Kentec targeting the AI data center (AIDC) market. Both companies are expected to list on Taiwan's Emerging Stock Board in October 2026.",
-      "source": "DIGITIMES",
-      "sources": [
-        "DIGITIMES"
-      ],
-      "sourceCount": 1,
-      "moduleId": "physics",
-      "module": "Semiconductor Physics",
-      "score": 70,
-      "rumor": false,
-      "publishedAt": "2026-08-20T02:50:21.000Z"
-    },
-    {
-      "title": "Intel Malaysia packaging expansion draws HBM flows from Taiwan",
-      "link": "https://www.digitimes.com/news/a20260820PD203/packaging-hbm-intel-taiwan-expansion.html",
-      "image": "https://img.digitimes.com/newsshow/20260820pd203_files/1_2b.jpg",
-      "summary": "South Korean export data showed a sharp shift in high-bandwidth memory, or HBM, shipments toward Malaysia and away from Taiwan, according to SemiAnalysis ChipBook . The shift suggested that some HBM shipments previously sent to Taiwan for TSMC's CoWoS packaging might be redirected to packaging plants in Malaysia.",
-      "source": "DIGITIMES",
-      "sources": [
-        "DIGITIMES"
-      ],
-      "sourceCount": 1,
-      "moduleId": "packaging",
-      "module": "Packaging & Test",
-      "score": 70,
-      "rumor": false,
-      "publishedAt": "2026-08-20T01:55:42.000Z"
-    },
-    {
-      "title": "Hon’ble PM Shri. Narendra Modi to Inaugurate SEMICON India 2026 on 17th September",
-      "link": "https://www.semiconductor-digest.com/honble-pm-shri-narendra-modi-to-inaugurate-semicon-india-2026-on-17th-september/?utm_source=rss&utm_medium=rss&utm_campaign=honble-pm-shri-narendra-modi-to-inaugurate-semicon-india-2026-on-17th-september",
-      "image": null,
-      "summary": "SEMI and the India Semiconductor Mission (ISM) today announced that Hon'ble Prime Minister Shri Narendra Modi will inaugurate SEMICON India 2026 on 17 September 2026 at Yashobhoomi (India International Convention and Expo Centre), New Delhi. The post Hon’ble PM Shri. Narendra Modi to Inaugurate SEMICON India 2026 on 17th September appeared first on Semiconductor Digest .",
-      "source": "Semiconductor Digest",
-      "sources": [
-        "Semiconductor Digest"
-      ],
-      "sourceCount": 1,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
-      "score": 77,
-      "rumor": false,
-      "publishedAt": "2026-08-19T18:05:00.000Z"
-    },
-    {
-      "title": "CXMT planned to use Samsung process data to develop DRAM, ex-engineer says",
-      "link": "https://www.digitimes.com/news/a20260819VL215/samsung-cxmt-dram-technology-data.html",
-      "image": "https://img.digitimes.com/newsshow/20260819vl215_files/1_b.jpg",
-      "summary": "A former Samsung Electronics researcher has testified that ChangXin Memory Technologies (CXMT) intended from its earliest days to develop DRAM using Samsung process data, an account that contrasts with the Chinese memory maker's description of its technology development in the prospectus for its recent Shanghai listing.",
-      "source": "DIGITIMES",
-      "sources": [
-        "DIGITIMES"
-      ],
-      "sourceCount": 1,
-      "moduleId": "digital-memory",
-      "module": "Digital Design & Memory",
-      "score": 62,
-      "rumor": false,
-      "publishedAt": "2026-08-20T01:56:42.000Z"
-    },
-    {
-      "title": "TekSiC Reaches Key Milestones",
-      "link": "https://www.semiconductor-digest.com/teksic-reaches-key-milestones-toward-europes-first-domestic-commercially-available-semi-insulating-sic-wafer-supply-for-space-defence-and-rf-applications/?utm_source=rss&utm_medium=rss&utm_campaign=teksic-reaches-key-milestones-toward-europes-first-domestic-commercially-available-semi-insulating-sic-wafer-supply-for-space-defence-and-rf-applications",
-      "image": null,
-      "summary": "TekSiC AB today announced significant progress in the development of semi-insulating silicon carbide (SI-SiC) a material Europe currently lacks the domestic capability to manufacture commercially, and one that underpins some of the most demanding RF and power electronics used in space, defence, and next-generation communications. The post TekSiC Reaches Key Milestones appeared first on Semiconduct",
-      "source": "Semiconductor Digest",
-      "sources": [
-        "Semiconductor Digest"
-      ],
-      "sourceCount": 1,
-      "moduleId": "physics",
-      "module": "Semiconductor Physics",
-      "score": 70,
-      "rumor": false,
-      "publishedAt": "2026-08-19T17:23:05.000Z"
-    },
-    {
-      "title": "Controlling Voltage Droop In 2.5D PIM Chiplet Architectures (Washington St., UW-Madison)",
-      "link": "https://semiengineering.com/controlling-voltage-droop-in-2-5d-pim-chiplet-architectures-washington-st-uw-madison/",
-      "image": null,
-      "summary": "Researchers from Washington State University and University of Wisconsin–Madison published a technical paper titled “ReVolt: Power Delivery Network-Aware Voltage Droop Control for 2.5D PIM Chiplet Architectures.” Abstract “Processing-in-memory (PIM)-based 2.5D multi-chiplet platforms are enablers for machine learning (ML) workloads. However, their performance is affected by the power delivery netw",
-      "source": "Semiconductor Engineering",
-      "sources": [
-        "Semiconductor Engineering"
-      ],
-      "sourceCount": 1,
-      "moduleId": "packaging",
-      "module": "Packaging & Test",
-      "score": 82,
-      "rumor": false,
-      "publishedAt": "2026-08-17T21:31:19.000Z"
-    },
-    {
-      "title": "YMTC parent advances IPO as NAND share hits 14% and AI storage scales",
-      "link": "https://www.digitimes.com/news/a20260819VL211/ymtc-ipo-nand-flash-market.html",
-      "image": "https://img.digitimes.com/newsshow/20260819vl211_files/3_b.jpg",
-      "summary": "Yangtze Memory Technologies Holding, the parent of Chinese NAND flash maker YMTC, has completed a key stage of its pre-IPO process just as the memory maker gains global market share, expands enterprise storage products and prepares another round of capacity growth.",
-      "source": "DIGITIMES",
-      "sources": [
-        "DIGITIMES"
-      ],
-      "sourceCount": 1,
-      "moduleId": "digital-memory",
-      "module": "Digital Design & Memory",
-      "score": 55,
-      "rumor": false,
-      "publishedAt": "2026-08-20T00:15:42.000Z"
-    },
-    {
-      "title": "Rising demand for CPO, SiPh reshapes semiconductor testing",
-      "link": "https://www.digitimes.com/news/a20260819PD211/testing-demand-cpo-siph-transmission.html",
-      "image": "https://img.digitimes.com/newsshow/20260819pd211_files/2_2b.jpg",
-      "summary": "As chip power consumption, transmission speed and architectural complexity increase, testing has shifted from being a final pre-shipment quality gate to an earlier stage in product development and ramp-to-volume, according to KPMG managing director Jesse Chen, who previously worked at IBM and in venture capital. That shift is making testing a critical factor in product verification, yield ramp and",
-      "source": "DIGITIMES",
-      "sources": [
-        "DIGITIMES"
-      ],
-      "sourceCount": 1,
-      "moduleId": "full-flow",
-      "module": "Full-Chip Flow & Product",
-      "score": 55,
-      "rumor": false,
-      "publishedAt": "2026-08-20T00:12:57.000Z"
-    },
-    {
-      "title": "AI chip strategies echo StarCraft factions as memory bottleneck reshapes the race",
-      "link": "https://www.digitimes.com/news/a20260819PD210/ai-chip-hardware-capacity-performance-chips.html",
-      "image": "https://img.digitimes.com/newsshow/20260819pd210_files/1_b.jpg",
-      "summary": "The global semiconductor ecosystem is facing an unprecedented shortage of memory chips, with hardware growth increasingly constrained by memory availability. At the same time, capacity at the world's leading advanced chipmakers has been fully booked, turning packaging capacity and memory allocation into major challenges for the broader AI market.",
-      "source": "DIGITIMES",
-      "sources": [
-        "DIGITIMES"
-      ],
-      "sourceCount": 1,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
-      "score": 54,
-      "rumor": false,
-      "publishedAt": "2026-08-20T00:10:43.000Z"
-    },
-    {
-      "title": "Latest Savage on Security Webinar Focuses on Gen-AI for Chip Design and Security",
-      "link": "https://semiwiki.com/semiconductor-services/esd-alliance/372333-latest-savage-on-security-webinar-focuses-on-gen-ai-for-chip-design-and-security/",
-      "image": null,
-      "summary": "Key Takeaways from the webinar: Multi-agent intelligent assistant systems of the future will be architected to automate and augment SoC design and security verification and redefining semiconductor innovation, reshaping design, verification and security for the next generation of trusted silicon. The ESD Alliance is delighted… Read More The post Latest Savage on Security Webinar Focuses on Gen-AI ",
-      "source": "SemiWiki",
-      "sources": [
-        "SemiWiki"
-      ],
-      "sourceCount": 1,
-      "moduleId": "full-flow",
-      "module": "Full-Chip Flow & Product",
-      "score": 63,
-      "rumor": false,
-      "publishedAt": "2026-08-19T17:00:36.000Z"
-    },
-    {
-      "title": "Meet Quadric on the Road: Three Must-Attend AI Events",
-      "link": "https://semiwiki.com/ip/quadric/372240-meet-quadric-on-the-road-three-must-attend-ai-events/",
-      "image": null,
-      "summary": "This late summer, Quadric is taking its vision for programmable, on-device AI to three of the industry’s most influential gatherings. From advanced processor design at HotChips to scalable deployment at the AI Infra Summit and physical AI at Embedded World North America, each stop offers a different opportunity to see how the… Read More The post Meet Quadric on the Road: Three Must-Attend AI Event",
-      "source": "SemiWiki",
-      "sources": [
-        "SemiWiki"
-      ],
-      "sourceCount": 1,
-      "moduleId": "full-flow",
-      "module": "Full-Chip Flow & Product",
-      "score": 63,
-      "rumor": false,
-      "publishedAt": "2026-08-19T13:00:01.000Z"
-    },
-    {
-      "title": "Samsung raises advanced foundry prices by up to 15% as AI demand fills its 4nm lines, report claims — Chinese customers accepting the largest hikes",
-      "link": "https://www.tomshardware.com/tech-industry/samsung-raises-advanced-foundry-prices-by-up-to-15-percent-as-ai-demand-fills-its-4nm-lines",
-      "image": "https://cdn.mos.cms.futurecdn.net/xH8TirG2whmYMw3dbUZpyA-1280-80.jpg",
-      "summary": "Samsung raised prices on new orders across its 4nm, 5nm, and 8nm foundry processes in July, with increases reaching 15% for customers in China.",
-      "source": "Tom's Hardware",
-      "sources": [
-        "Tom's Hardware"
-      ],
-      "sourceCount": 1,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
-      "score": 62,
-      "rumor": false,
-      "publishedAt": "2026-08-19T16:15:53.000Z"
-    },
-    {
-      "title": "Photonic integrated circuits: the next frontier of advanced optoelectronic devices",
-      "link": "https://www.electronicsweekly.com/news/business/photonic-integrated-circuits-the-next-frontier-of-advanced-optoelectronic-devices-2026-08/",
-      "image": null,
-      "summary": "Design, simulation and manufacturing advances continue to push photonic integrated circuits (PICs) to smaller sizes, which provide greater capabilities per chip, writes Liam Critchley. Advanced optics and photonics where light […] The post Photonic integrated circuits: the next frontier of advanced optoelectronic devices appeared first on Electronics Weekly .",
-      "source": "Electronics Weekly",
-      "sources": [
-        "Electronics Weekly"
-      ],
-      "sourceCount": 1,
-      "moduleId": "emerging",
-      "module": "Emerging & Research",
-      "score": 62,
-      "rumor": false,
-      "publishedAt": "2026-08-19T10:00:06.000Z"
-    },
-    {
-      "title": "Q2 revenues of Top 5 NAND producers rose 77% QoQ",
-      "link": "https://www.electronicsweekly.com/news/business/q2-revenues-of-top-5-nand-producers-rose-77-qoq-2026-08/",
-      "image": null,
-      "summary": "The Q2 revenues of the top five NAND producers rose 76% QoQ to $68.7 billion, reported TrendForce. Suppliers are generally prioritising capex on DRAM and HBM, limiting new NAND Flash […] The post Q2 revenues of Top 5 NAND producers rose 77% QoQ appeared first on Electronics Weekly .",
-      "source": "Electronics Weekly",
-      "sources": [
-        "Electronics Weekly"
-      ],
-      "sourceCount": 1,
-      "moduleId": "digital-memory",
-      "module": "Digital Design & Memory",
-      "score": 62,
-      "rumor": false,
-      "publishedAt": "2026-08-19T05:09:46.000Z"
-    },
-    {
-      "title": "HBM Shipments to Malaysia Surge, Pointing to Intel's \"Project Pelican\" Facility",
-      "link": "https://www.techpowerup.com/351658/hbm-shipments-to-malaysia-surge-pointing-to-intels-project-pelican-facility",
-      "image": "https://www.techpowerup.com/img/Guv3F88b2A00Qny2.jpg",
-      "summary": "According to SemiAnalysis Chipbook data on exports from South Korea, a significant portion of high-bandwidth memory exports is now heading to Malaysia, reducing shipments to Taiwan. This indicates that the HBM memory used by TSMC for its CoWoS family of advanced packaging technologies—CoWoS-S, CoWoS-L, and CoWoS-R—are increasingly being replaced an unknown packaging facility in Malaysia. Presumabl",
+      "title": "U.S. Wants Korean Chipmakers to Invest in US-Based Fabrication",
+      "link": "https://www.techpowerup.com/351916/u-s-wants-korean-chipmakers-to-invest-in-us-based-fabrication",
+      "image": "https://www.techpowerup.com/img/Zbutcb3QDwVoGJUa.jpg",
+      "summary": "According to the latest report from Chosun, the United States government is reportedly in talks with the government of South Korea to secure major investment in domestic memory production on American soil, as pressure on the supply chain continues to grow. Since the majority of the world's DRAM production occurs in South Korea by companies such as SK hynix and Samsung, the U.S. government, during ",
       "source": "TechPowerUp",
       "sources": [
         "TechPowerUp"
       ],
       "sourceCount": 1,
-      "moduleId": "packaging",
-      "module": "Packaging & Test",
-      "score": 74,
-      "rumor": false,
-      "publishedAt": "2026-08-17T17:19:25.000Z"
-    },
-    {
-      "title": "(PR) Socionext Broadens SoC Roadmap with Intel 18A-P Process Technology",
-      "link": "https://www.techpowerup.com/351688/socionext-broadens-soc-roadmap-with-intel-18a-p-process-technology",
-      "image": "https://www.techpowerup.com/img/fcpDuYwR2nZIHznO.jpg",
-      "summary": "Socionext Inc., a global leader in custom system-on-chip (SoC) design and advanced semiconductor solutions, announced that it will leverage Intel 18A-P process technology in the development of custom SoCs that meet the emerging needs of datacenter, edge, and high-performance computing customers. The first development is a high-performance compute chiplet. By combining its ASIC expertise with Intel",
-      "source": "TechPowerUp",
-      "sources": [
-        "TechPowerUp"
-      ],
-      "sourceCount": 1,
-      "moduleId": "full-flow",
-      "module": "Full-Chip Flow & Product",
-      "score": 70,
-      "rumor": false,
-      "publishedAt": "2026-08-18T15:48:25.000Z"
-    },
-    {
-      "title": "Bosch’s Third-Generation SiC Chips for India Set to Boost EV Efficiency and Driving Range",
-      "link": "https://www.eletimes.ai/boschs-third-generation-sic-chips-for-india-set-to-boost-ev-efficiency-and-driving-range",
-      "image": null,
-      "summary": "​With EV manufacturers aiming to boost the vehicle’s travel range, fast-charging capabilities, and powertrain efficiency, semiconductor technology is becoming an important part to the development of electric vehicles. Bosch’s third-generation silicon carbide (SiC) semiconductors, developed to enhance the efficiency and performance of EV power electronics, is an achievement in India’s electric-mobi",
-      "source": "ELE Times",
-      "sources": [
-        "ELE Times"
-      ],
-      "sourceCount": 1,
-      "moduleId": "physics",
-      "module": "Semiconductor Physics",
-      "score": 70,
-      "rumor": false,
-      "publishedAt": "2026-08-18T10:07:44.000Z"
-    },
-    {
-      "title": "Coherent starts 300mm SiC sampling for AI chips",
-      "link": "https://www.eenewseurope.com/en/coherent-starts-300mm-sic-sampling-for-ai-chips/",
-      "image": null,
-      "summary": "Coherent has started sampling 300mm high thermal conductivity silicon carbide (SiC) substrates to semiconductor customers developing chips for artificial intelligence and high-performance computing. The move takes the company’s large-diameter SiC technology from internal development into customer evaluation as thermal management becomes a bigger challenge for increasingly power-hungry processors. ",
-      "source": "EE News Europe",
-      "sources": [
-        "EE News Europe"
-      ],
-      "sourceCount": 1,
-      "moduleId": "physics",
-      "module": "Semiconductor Physics",
-      "score": 70,
-      "rumor": false,
-      "publishedAt": "2026-08-18T08:02:05.000Z"
-    },
-    {
-      "title": "India's chipmaking push faces its real test after initial wafers: yield",
-      "link": "https://www.digitimes.com/news/a20260819VL221/india-ic-manufacturing-yield-rate-wafer-fab-equipment.html",
-      "image": "https://img.digitimes.com/newsshow/20260819vl221_files/1_2b.jpg",
-      "summary": "India's semiconductor manufacturing drive will face one of its toughest tests after equipment is installed and production begins: whether new fabs can consistently produce enough working chips to compete with established plants.",
-      "source": "DIGITIMES",
-      "sources": [
-        "DIGITIMES"
-      ],
-      "sourceCount": 1,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
+      "moduleId": "digital-memory",
+      "module": "Digital Design & Memory",
       "score": 47,
-      "rumor": false,
-      "publishedAt": "2026-08-20T00:11:15.000Z"
-    },
-    {
-      "title": "Marvell-Google deal expands custom AI chip ambitions",
-      "link": "https://www.digitimes.com/news/a20260820VL201/marvell-google-infrastructure-chips-nvidia.html",
-      "image": "https://img.digitimes.com/newsshow/20260820vl201_files/1_2b.jpg",
-      "summary": "Marvell Technology is set to deepen its role in Google's AI infrastructure through an expanded agreement to develop custom chips, in a deal that could generate roughly US$120 billion in revenue for the chipmaker through fiscal 2033 if Google meets purchasing targets tied to the warrant, according to Reuters .",
-      "source": "DIGITIMES",
-      "sources": [
-        "DIGITIMES"
-      ],
-      "sourceCount": 1,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
-      "score": 46,
       "rumor": true,
-      "publishedAt": "2026-08-20T01:59:58.000Z"
+      "publishedAt": "2026-08-25T09:48:38.000Z"
     },
     {
-      "title": "Linux 7.3 Scheduler Improvements Result in Notable FPS Boost for Low-Power PC Hardware",
-      "link": "https://www.techpowerup.com/351727/linux-7-3-scheduler-improvements-result-in-notable-fps-boost-for-low-power-pc-hardware",
-      "image": "https://www.techpowerup.com/img/VTSg4Ly87VwG5m2f.jpg",
-      "summary": "Linux gaming is once again getting gaming performance improvements, this time thanks to scheduler changes scheduled to launch with Linux Kernel 7.3. The merge request noted in a kernel mailing list archive post note several changes to the scheduler that make it more efficient, improve latency, and add support for asymmetric CPU architectures, like Intel's modern mix of P-Cores and E-Cores. The res",
-      "source": "TechPowerUp",
+      "title": "Samsung, SK Hynix step up China NAND upgrades as US tool risks grow",
+      "link": "https://www.digitimes.com/news/a20260825VL206/samsung-sk-hynix-nand-equipment-production.html",
+      "image": "https://img.digitimes.com/newsshow/20260825vl206_files/2_2b.jpg",
+      "summary": "Samsung Electronics and SK Hynix are stepping up equipment spending at their NAND flash plants in China through 2027, upgrading existing production lines even as future access to Western chipmaking tools becomes less predictable.",
+      "source": "DIGITIMES",
       "sources": [
-        "TechPowerUp"
+        "DIGITIMES"
+      ],
+      "sourceCount": 1,
+      "moduleId": "digital-memory",
+      "module": "Digital Design & Memory",
+      "score": 55,
+      "rumor": false,
+      "publishedAt": "2026-08-25T02:21:49.000Z"
+    },
+    {
+      "title": "Inergy server share hits 47% on cooling, BBU demand",
+      "link": "https://www.digitimes.com/news/a20260824PD232/demand-cooling-inergy-technology-2026-management.html",
+      "image": "https://img.digitimes.com/newsshow/20260824pd232_files/2_b.jpg",
+      "summary": "Inergy Technology said strong demand for AI server cooling and power management pushed the share of server-related applications to 47% of revenue in the second quarter of 2026, with shipments of system-on-chip (SoC) cooling fan driver ICs set to ramp up in the second half of 2026 and battery backup unit (BBU) demand expected to keep rising as AI moves toward high-voltage direct current power archi",
+      "source": "DIGITIMES",
+      "sources": [
+        "DIGITIMES"
       ],
       "sourceCount": 1,
       "moduleId": "full-flow",
       "module": "Full-Chip Flow & Product",
       "score": 55,
       "rumor": false,
-      "publishedAt": "2026-08-19T18:12:58.000Z"
+      "publishedAt": "2026-08-25T00:03:53.000Z"
     },
     {
-      "title": "IBM Makes Quantum Cryogenics Modular, but Scaling Problems Remain",
-      "link": "https://www.eetimes.com/ibm-makes-quantum-cryogenics-modular-but-scaling-problems-remain/",
-      "image": "https://www.eetimes.com/wp-content/uploads/An-inside-view-of-two-of-IBMs-modular-cryogenic-systems-e1787143635275.jpg",
-      "summary": "IBM’s new cryogenic architecture tackles one obstacle to fault-tolerant quantum computing, while exposing wiring, control, interconnect, and reliability challenges. The post IBM Makes Quantum Cryogenics Modular, but Scaling Problems Remain appeared first on EE Times .",
-      "source": "EE Times",
-      "sources": [
-        "EE Times"
-      ],
-      "sourceCount": 1,
-      "moduleId": "emerging",
-      "module": "Emerging & Research",
-      "score": 55,
-      "rumor": false,
-      "publishedAt": "2026-08-19T13:55:51.000Z"
-    },
-    {
-      "title": "Manz Asia targets PLP demand with three lines and three sizes",
-      "link": "https://www.digitimes.com/news/a20260819PD225/manz-asia-equipment-packaging-technology.html",
-      "image": "https://img.digitimes.com/newsshow/20260819pd225_files/1_b.jpg",
-      "summary": "Manz Asia is broadening its push into panel-level packaging (PLP) as interest in the technology continues to rise. General manager Robert Lin said the company has shipped more than 50 panel-level electrochemical deposition (ECD) systems cumulatively from 2016 to 2026, covering sizes from 310mm to 700mm and spanning both R&D and production equipment.",
-      "source": "DIGITIMES",
-      "sources": [
-        "DIGITIMES"
-      ],
-      "sourceCount": 1,
-      "moduleId": "packaging",
-      "module": "Packaging & Test",
-      "score": 55,
-      "rumor": false,
-      "publishedAt": "2026-08-19T09:22:10.000Z"
-    },
-    {
-      "title": "UMass Amherst Engineers Make Edge AI More Efficient by Redesigning Both Algorithm and Hardware",
-      "link": "https://www.semiconductor-digest.com/umass-amherst-engineers-make-edge-ai-more-efficient-by-redesigning-both-algorithm-and-hardware/?utm_source=rss&utm_medium=rss&utm_campaign=umass-amherst-engineers-make-edge-ai-more-efficient-by-redesigning-both-algorithm-and-hardware",
-      "image": null,
-      "summary": "System leverages hyperdimensional computing algorithms and analog in-memory computing hardware to achieve quick, accurate processing. The post UMass Amherst Engineers Make Edge AI More Efficient by Redesigning Both Algorithm and Hardware appeared first on Semiconductor Digest .",
-      "source": "Semiconductor Digest",
-      "sources": [
-        "Semiconductor Digest"
-      ],
-      "sourceCount": 1,
-      "moduleId": "emerging",
-      "module": "Emerging & Research",
-      "score": 67,
-      "rumor": false,
-      "publishedAt": "2026-08-17T20:20:54.000Z"
-    },
-    {
-      "title": "Nvidia Bets on the Classical Side of Quantum Computing",
-      "link": "https://www.eetimes.com/nvidia-bets-on-the-classical-side-of-quantum-computing/",
-      "image": "https://www.eetimes.com/wp-content/uploads/low_-60224_quantum_green_dsc09884.jpg",
-      "summary": "Nvidia positions classical computing infrastructure as a critical layer in the race to build useful quantum computers. The post Nvidia Bets on the Classical Side of Quantum Computing appeared first on EE Times .",
-      "source": "EE Times",
-      "sources": [
-        "EE Times"
-      ],
-      "sourceCount": 1,
-      "moduleId": "emerging",
-      "module": "Emerging & Research",
-      "score": 67,
-      "rumor": false,
-      "publishedAt": "2026-08-17T18:31:00.000Z"
-    },
-    {
-      "title": "CXMT Breaks 9,000 MT/s Barrier with DDR5",
-      "link": "https://www.techpowerup.com/351649/cxmt-breaks-9-000-mt-s-barrier-with-ddr5",
-      "image": "https://www.techpowerup.com/img/WlTRKCZaMR0r9aYW.jpg",
-      "summary": "Chinese memory giant CXMT has finally surpassed 9,000 MT/s on the AMD platform, rivaling DRAM kits from Micron, SK hynix, and Samsung. On the Colorful iGame X870E VULCAN W OC motherboard, an iGame Shadow II 24G×2 kit with 48 GB of memory achieved speeds of 9,000 MT/s. In the provided screenshot, the kit runs at 4,507 MHz, which translates to over 9,014 MT/s, thanks to double data rate technology. ",
-      "source": "TechPowerUp",
-      "sources": [
-        "TechPowerUp"
-      ],
-      "sourceCount": 1,
-      "moduleId": "digital-memory",
-      "module": "Digital Design & Memory",
-      "score": 67,
-      "rumor": false,
-      "publishedAt": "2026-08-17T13:28:09.000Z"
-    },
-    {
-      "title": "Chips Act 2.0, Part 2: From Brussels to the Bench: What Chips Act 2.0 Means for Engineers",
-      "link": "https://www.eenewseurope.com/en/chips-act-2-engineers-europe/",
-      "image": null,
-      "summary": "For engineers, Chips Act 2.0 is less about grand rhetoric and more about where the jobs, tools, and career ladders are likely to appear. The short version is this: Europe is trying to thicken the whole engineering pipeline, not only fab headcount. That means more demand for process engineers, equipment engineers, yield and test specialists, […] The post Chips Act 2.0, Part 2: From Brussels to the ",
-      "source": "EE News Europe",
-      "sources": [
-        "EE News Europe"
-      ],
-      "sourceCount": 1,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
-      "score": 54,
-      "rumor": false,
-      "publishedAt": "2026-08-19T13:00:37.000Z"
-    },
-    {
-      "title": "Microchip advances PolarFire FPGA Ethernet Sensor Bridge with Rev 2.0",
-      "link": "https://www.electronicsweekly.com/news/products/sensors-products/microchip-advances-polarfire-fpga-ethernet-sensor-bridge-with-rev-2-0-2026-08/",
-      "image": null,
-      "summary": "Microchip Technology has released Revision 2.0 of its PolarFire FPGA Ethernet Sensor Bridge. This is a smaller, production-ready board for sensor integration using NVIDIA HSB (Holoscan Sensor Bridge) technology. The […] The post Microchip advances PolarFire FPGA Ethernet Sensor Bridge with Rev 2.0 appeared first on Electronics Weekly .",
-      "source": "Electronics Weekly",
-      "sources": [
-        "Electronics Weekly",
-        "Embedded.com"
-      ],
-      "sourceCount": 2,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
-      "score": 54,
-      "rumor": false,
-      "publishedAt": "2026-08-19T09:14:26.000Z"
-    },
-    {
-      "title": "Baidu says Chinese buyers want local AI chips due to ‘supply chain’ issues",
-      "link": "https://www.theregister.com/systems/2026/08/19/baidu-says-chinese-buyers-want-local-ai-chips-due-to-supply-chain-issues/5289377",
-      "image": "https://image.theregister.com/?imageId=226905&width=800",
-      "summary": "It seems like Nvidia’s not getting back into the Middle Kingdom anytime soon",
-      "source": "The Register",
-      "sources": [
-        "The Register"
-      ],
-      "sourceCount": 1,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
-      "score": 54,
-      "rumor": false,
-      "publishedAt": "2026-08-19T04:07:58.000Z"
-    },
-    {
-      "title": "Altera Expands DDR5 and LPDDR5 Support Across Agilex FPGAs",
-      "link": "https://www.embedded.com/altera-expands-ddr5-and-lpddr5-support-across-agilex-fpgas/",
-      "image": null,
-      "summary": "Altera Corp. has expanded memory support across its Agilex FPGA portfolio with Quartus Prime Pro Edition Software version 26.1.1. The release adds DDR5, LPDDR5, and LPDDR5X-compatible memory capabilities to additional Agilex devices, giving developers greater flexibility when optimizing system bandwidth, power consumption, PCB space, and component availability. For Agilex 7 M-Series devices, the l",
-      "source": "Embedded.com",
-      "sources": [
-        "Embedded.com"
-      ],
-      "sourceCount": 1,
-      "moduleId": "digital-memory",
-      "module": "Digital Design & Memory",
-      "score": 74,
-      "rumor": false,
-      "publishedAt": "2026-08-14T13:00:00.000Z"
-    },
-    {
-      "title": "Thermal Management Strategies for Next-Generation AI Chiplets and Photonic Integrated Circuits",
-      "link": "https://www.semiconductor-digest.com/thermal-management-strategies-for-next-generation-ai-chiplets-and-photonic-integrated-circuits/?utm_source=rss&utm_medium=rss&utm_campaign=thermal-management-strategies-for-next-generation-ai-chiplets-and-photonic-integrated-circuits",
-      "image": null,
-      "summary": "AI accelerator packages that dissipated 300-400W in 2020 routinely exceed 700W today, with roadmaps pointing past 1,000W — while the photonic ICs increasingly co-packaged alongside them need temperature stability measured in tenths of a degree. The post Thermal Management Strategies for Next-Generation AI Chiplets and Photonic Integrated Circuits appeared first on Semiconductor Digest .",
-      "source": "Semiconductor Digest",
-      "sources": [
-        "Semiconductor Digest"
-      ],
-      "sourceCount": 1,
-      "moduleId": "packaging",
-      "module": "Packaging & Test",
-      "score": 79,
-      "rumor": false,
-      "publishedAt": "2026-08-06T13:15:21.000Z"
-    },
-    {
-      "title": "Michael Robbins Named President and CEO of Semiconductor Industry Association",
-      "link": "https://www.semiconductor-digest.com/michael-robbins-named-president-and-ceo-of-semiconductor-industry-association/?utm_source=rss&utm_medium=rss&utm_campaign=michael-robbins-named-president-and-ceo-of-semiconductor-industry-association",
-      "image": null,
-      "summary": "Robbins, who currently serves as president and CEO of the Association for Uncrewed Vehicle Systems International (AUVSI), will succeed John Neuffer as head of SIA. The post Michael Robbins Named President and CEO of Semiconductor Industry Association appeared first on Semiconductor Digest .",
-      "source": "Semiconductor Digest",
-      "sources": [
-        "Semiconductor Digest"
-      ],
-      "sourceCount": 1,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
-      "score": 62,
-      "rumor": false,
-      "publishedAt": "2026-08-18T21:11:06.000Z"
-    },
-    {
-      "title": "Adata XPG Novakey RGB DDR5-6000 C30 2x16GB Review — Turning salvage into pure performance",
-      "link": "https://www.tomshardware.com/pc-components/ram/adata-xpg-novakey-rgb-ddr5-6000-c30-2x16gb-review-turning-salvage-into-pure-performance",
-      "image": "https://cdn.mos.cms.futurecdn.net/cLYptTjVsVn3A49e2N8ayV-1280-80.jpg",
-      "summary": "Amid the memory crunch, Adata unleashes its new XPG Novakey RGB memory kit series. But can the new lineup convince consumers to pick it up?",
-      "source": "Tom's Hardware",
-      "sources": [
-        "Tom's Hardware"
-      ],
-      "sourceCount": 1,
-      "moduleId": "digital-memory",
-      "module": "Digital Design & Memory",
-      "score": 62,
-      "rumor": false,
-      "publishedAt": "2026-08-18T12:30:00.000Z"
-    },
-    {
-      "title": "EPC Brings GaN Motor Drives Closer to the Actuator",
-      "link": "https://www.powerelectronicsnews.com/epc-brings-gan-motor-drives-closer-to-the-actuator/",
-      "image": "https://www.powerelectronicsnews.com/wp-content/uploads/sites/3/2026/08/Cover-Image.jpg?fit=800%2C650",
-      "summary": "The EPC91132 reference design integrates GaN power stage, sensing, protection, and feedback for robotic and drone motor drives. The post EPC Brings GaN Motor Drives Closer to the Actuator appeared first on Power Electronics News .",
-      "source": "Power Electronics News",
-      "sources": [
-        "Power Electronics News"
-      ],
-      "sourceCount": 1,
-      "moduleId": "physics",
-      "module": "Semiconductor Physics",
-      "score": 62,
-      "rumor": false,
-      "publishedAt": "2026-08-18T11:00:00.000Z"
-    },
-    {
-      "title": "(PR) Combined Revenue of Top Five NAND Flash Brands Rises 77% QoQ in 2Q26; Micron Moves Up to Third Place",
-      "link": "https://www.techpowerup.com/351676/combined-revenue-of-top-five-nand-flash-brands-rises-77-qoq-in-2q26-micron-moves-up-to-third-place",
-      "image": "https://www.techpowerup.com/img/0sazmyGSaJguArMe.jpg",
-      "summary": "TrendForce's latest NAND Flash industry research reveals that AI server demand remained steady in the second quarter of 2026—particularly for enterprise SSDs—resulting in a supply shortage across the NAND Flash market. This allowed suppliers to raise ASPs significantly through contract negotiations. As a result, the combined revenue of the top five publicly listed NAND Flash brands rose 77% QoQ to",
-      "source": "TechPowerUp",
-      "sources": [
-        "TechPowerUp"
-      ],
-      "sourceCount": 1,
-      "moduleId": "digital-memory",
-      "module": "Digital Design & Memory",
-      "score": 62,
-      "rumor": false,
-      "publishedAt": "2026-08-18T09:07:59.000Z"
-    },
-    {
-      "title": "Chip Industry Technical Paper Roundup: Aug. 18",
-      "link": "https://semiengineering.com/chip-industry-technical-paper-roundup-aug-18/",
-      "image": null,
-      "summary": "2D CFET scaling; PIM chiplet voltage-droop control; advanced-node layout repair; lithography defect prediction; 3D-IC failure analysis; chiplet and interposer optimization; 4H-SiC wafer slicing. The post Chip Industry Technical Paper Roundup: Aug. 18 appeared first on Semiconductor Engineering .",
-      "source": "Semiconductor Engineering",
-      "sources": [
-        "Semiconductor Engineering"
-      ],
-      "sourceCount": 1,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
-      "score": 62,
-      "rumor": false,
-      "publishedAt": "2026-08-18T07:01:59.000Z"
-    },
-    {
-      "title": "EPC Space Launches Rad-Hard 15V, 25V and 40V eGaN FETs",
-      "link": "https://www.powerelectronicsnews.com/epc-space-launches-rad-hard-15v-25v-and-40v-egan-fets/",
-      "image": "https://www.powerelectronicsnews.com/wp-content/uploads/sites/3/2026/08/EPC7050-7065-7066-PR-Graphic_CLEAN.jpg?fit=1500%2C1200",
-      "summary": "The new devices support up to 101A continuous current and TID above 1Mrad for high-frequency power conversion in space computing systems. The post EPC Space Launches Rad-Hard 15V, 25V and 40V eGaN FETs appeared first on Power Electronics News .",
-      "source": "Power Electronics News",
-      "sources": [
-        "Power Electronics News"
-      ],
-      "sourceCount": 1,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
-      "score": 47,
-      "rumor": false,
-      "publishedAt": "2026-08-19T13:00:00.000Z"
-    },
-    {
-      "title": "Postgres pioneer credits Oracle with helping his database take over the world",
-      "link": "https://www.theregister.com/databases/2026/08/19/postgres-pioneer-credits-oracle-with-helping-his-database-take-over-the-world/5289087",
-      "image": "https://image.theregister.com/?imageId=170448&width=800",
-      "summary": "Big Red's acquisition of MySQL sent users running toward the open source alternative, says Michael Stonebraker",
-      "source": "The Register",
-      "sources": [
-        "The Register"
-      ],
-      "sourceCount": 1,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
-      "score": 47,
-      "rumor": false,
-      "publishedAt": "2026-08-19T12:37:00.000Z"
-    },
-    {
-      "title": "New Cost-Effective Metallized Polypropylene Film Capacitors for Industrial and Automotive Applications",
-      "link": "https://www.eletimes.ai/new-cost-effective-metallized-polypropylene-film-capacitors-for-industrial-and-automotive-applications",
-      "image": null,
-      "summary": "Panasonic Industry Europe announces the release of its new ECWFJ series of metallized polypropylene film capacitors, developed to support cost-effective designs while maintaining a high level of safety and long-term reliability. The new series is aimed at engineers working across industrial and automotive power electronics (it is qualified to AEC-Q200 standards) who require dependable performance ",
-      "source": "ELE Times",
-      "sources": [
-        "ELE Times"
-      ],
-      "sourceCount": 1,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
-      "score": 47,
-      "rumor": false,
-      "publishedAt": "2026-08-19T12:04:57.000Z"
-    },
-    {
-      "title": "Why the Advanced Packaging Semiconductor Market No Longer Moves as One",
-      "link": "https://www.techinsights.com/blog/advanced-packaging-processors-market-data",
-      "image": null,
-      "summary": "Why the Advanced Packaging Semiconductor Market No Longer Moves as One LGarcia Mon, 08/17/2026 - 19:25",
+      "title": "TechInsights Blogs",
+      "link": "https://www.techinsights.com/techinsights-blogs",
+      "image": "${escapeHTML(blog.image)}",
+      "summary": "TechInsights Blogs JWinters Mon, 08/24/2026 - 19:08 Latest insights Explore Our Latest Blogs Discover technical intelligence, market commentary, and expert perspectives shaping the semiconductor industry. View all blogs → Search blogs × Sort blogs Newest first Oldest first Title: A to Z Title: Z to A All AI & Data Centers Memory & Packaging Market Analysis Devices & Teardowns Connectivity Sustaina",
       "source": "TechInsights",
       "sources": [
         "TechInsights"
@@ -687,25 +462,297 @@
       "sourceCount": 1,
       "moduleId": "industry",
       "module": "Industry & Overview",
-      "score": 59,
+      "score": 55,
       "rumor": false,
-      "publishedAt": "2026-08-17T19:25:48.000Z"
+      "publishedAt": "2026-08-24T19:08:06.000Z"
     },
     {
-      "title": "Para Light Launches ThermaFlat High-Power SiC MOSFETs",
-      "link": "https://www.powerelectronicsnews.com/para-light-launches-thermaflat-high-power-sic-mosfets/",
-      "image": "https://www.powerelectronicsnews.com/wp-content/uploads/sites/3/2026/08/ParaLight.jpg?fit=2700%2C1519",
-      "summary": "The devices limit temperature-related resistance variation to about 8%, simplifying cooling and maintaining efficiency under heavy loads. The post Para Light Launches ThermaFlat High-Power SiC MOSFETs appeared first on Power Electronics News .",
+      "title": "Windows 11 to Get Unified Memory Control Options Ahead of RTX Spark Launch",
+      "link": "https://www.techpowerup.com/351881/windows-11-to-get-unified-memory-control-options-ahead-of-rtx-spark-launch",
+      "image": "https://www.techpowerup.com/img/cSjuH68S4oiqR4AN.jpg",
+      "summary": "Microsoft is working on providing processors with unified memory dedicated control parameters in Windows 11, as indicated by the recent Windows 11 build 29648.1000. This build, originally released on August 17, includes a hidden feature called IntelligentCarveout. This feature will allow the system to manage unified memory in SoCs like NVIDIA's upcoming RTX Spark, AMD Ryzen Halo, and other APU-lik",
+      "source": "TechPowerUp",
+      "sources": [
+        "TechPowerUp"
+      ],
+      "sourceCount": 1,
+      "moduleId": "full-flow",
+      "module": "Full-Chip Flow & Product",
+      "score": 55,
+      "rumor": false,
+      "publishedAt": "2026-08-24T14:53:57.000Z"
+    },
+    {
+      "title": "Welcome to the Era of Trustworthy AI for IC Signoff and Manufacturing",
+      "link": "https://www.eetimes.com/welcome-to-the-era-of-trustworthy-ai-for-ic-signoff-and-manufacturing/",
+      "image": "https://www.eetimes.com/wp-content/uploads/Siemens-thmbnail-image-600x340-1.jpeg",
+      "summary": "Trust is the key to AI adoption in chip design. See how deterministic EDA engines and explainable AI can accelerate signoff and manufacturing. The post Welcome to the Era of Trustworthy AI for IC Signoff and Manufacturing appeared first on EE Times .",
+      "source": "EE Times",
+      "sources": [
+        "EE Times"
+      ],
+      "sourceCount": 1,
+      "moduleId": "eda-algorithms",
+      "module": "EDA Algorithms",
+      "score": 55,
+      "rumor": false,
+      "publishedAt": "2026-08-24T13:00:00.000Z"
+    },
+    {
+      "title": "TSMC suppliers reportedly plan Taiwan plant for critical chipmaking tubing",
+      "link": "https://www.digitimes.com/news/a20260825VL212/taiwan-semiconductor-supply-chain-taiwan-tsmc-plant-materials.html",
+      "image": "https://img.digitimes.com/newsshow/20260825vl212_files/2_2b.jpg",
+      "summary": "Taiwan's semiconductor supply chain is moving to close a gap that turned costly during the industry's last major crunch: the plastic tubing that carries chemicals through chip fabs. TSMC suppliers Nichias and Gold Stone Development are building a factory in Hsinchu to produce fluoropolymer (PFA) tubes domestically, Nikkei Asia reported, citing sources with direct knowledge of the plan.",
+      "source": "DIGITIMES",
+      "sources": [
+        "DIGITIMES"
+      ],
+      "sourceCount": 1,
+      "moduleId": "industry",
+      "module": "Industry & Overview",
+      "score": 54,
+      "rumor": true,
+      "publishedAt": "2026-08-25T03:45:00.000Z"
+    },
+    {
+      "title": "China-based Guangyu Xinchen says 3D-stacked edge AI chip has entered mass-production deployment",
+      "link": "https://www.digitimes.com/news/a20260825VL202/ai-memory-chips-silicon-data-shanghai.html",
+      "image": "https://img.digitimes.com/newsshow/20260825vl202_files/1_2b.jpg",
+      "summary": "According to 36Kr , Shanghai Guangyu Xinchen Technology says its TC1000 series of 3D-stacked near-memory-computing AI processors has moved from silicon validation to mass-production deployment, marking a claimed acceleration in the commercialization of memory-centric computing for edge AI.",
+      "source": "DIGITIMES",
+      "sources": [
+        "DIGITIMES"
+      ],
+      "sourceCount": 1,
+      "moduleId": "industry",
+      "module": "Industry & Overview",
+      "score": 54,
+      "rumor": false,
+      "publishedAt": "2026-08-25T02:39:35.000Z"
+    },
+    {
+      "title": "Commentary: Nvidia's 15% hike piles pressure on the AI supply chain, lifts ASIC prospects",
+      "link": "https://www.digitimes.com/news/a20260825PD211/nvidia-price-chips-cost-asic.html",
+      "image": "https://img.digitimes.com/newsshow/20260825pd211_files/1_b.jpg",
+      "summary": "Nvidia has reportedly notified major customers that server systems using its AI chips will rise by more than 15%, with the new pricing set to apply to models shipping from early 2027, including Grace Blackwell and the next-generation Vera Rubin platform. The move is expected to ripple through the chip and system supply chain, while industry figures say it could also lift the appeal of inference AS",
+      "source": "DIGITIMES",
+      "sources": [
+        "DIGITIMES"
+      ],
+      "sourceCount": 1,
+      "moduleId": "full-flow",
+      "module": "Full-Chip Flow & Product",
+      "score": 54,
+      "rumor": true,
+      "publishedAt": "2026-08-25T02:25:35.000Z"
+    },
+    {
+      "title": "Hot Chips 2026: IBM's first dual-ISA core natively executes ARM and z/Architecture in the same core; all cores run at 5.7 GHz base frequency — next-gen mainframe AI processor is built on 2nm node with 11 cores",
+      "link": "https://www.tomshardware.com/pc-components/cpus/ibms-first-dual-isa-core-natively-executes-arm-and-z-architecture-in-the-same-core-all-cores-run-at-5-7-ghz-base-frequency-next-gen-mainframe-ai-processor-is-built-on-2nm-node-with-11-cores",
+      "image": "https://cdn.mos.cms.futurecdn.net/Qb2yqb9epDdxU3XAogoxQL-1280-80.jpg",
+      "summary": "IBM is vastly expanding softwarte support on its mainframes with its first dual-ISA CPU core that natively supports z/Architecture and ARM instructions.",
+      "source": "Tom's Hardware",
+      "sources": [
+        "Tom's Hardware"
+      ],
+      "sourceCount": 1,
+      "moduleId": "industry",
+      "module": "Industry & Overview",
+      "score": 54,
+      "rumor": false,
+      "publishedAt": "2026-08-24T17:42:34.000Z"
+    },
+    {
+      "title": "Rapidus Targets 8-Reticle Interposers on 600 mm Advanced Packaging Panels by 2030",
+      "link": "https://www.techpowerup.com/351810/rapidus-targets-8-reticle-interposers-on-600-mm-advanced-packaging-panels-by-2030",
+      "image": "https://www.techpowerup.com/img/FGTXA5F35CoZjHKE.jpg",
+      "summary": "Rapidus has laid out its advanced packaging roadmap at the 2026 OCP APAC Summit, with eight-reticle-size interposers and 600 x 600 mm panel-level processing as the targets for around 2030. The roadmap was presented by Rapidus Design Solutions CTO Rozalia Beica and shows steps through interposer sizes from four reticles (3,320 mm²) to six (4,980 mm²) and eventually eight (6,640 mm²) by 2030. The 60",
+      "source": "TechPowerUp",
+      "sources": [
+        "TechPowerUp"
+      ],
+      "sourceCount": 1,
+      "moduleId": "packaging",
+      "module": "Packaging & Test",
+      "score": 74,
+      "rumor": false,
+      "publishedAt": "2026-08-21T18:59:54.000Z"
+    },
+    {
+      "title": "(PR) Transcend Launches Full Range of DDR5-7200 Embedded DRAM Modules",
+      "link": "https://www.techpowerup.com/351761/transcend-launches-full-range-of-ddr5-7200-embedded-dram-modules",
+      "image": "https://www.techpowerup.com/img/R3rnZ0WQ3F22lMm4.jpg",
+      "summary": "Transcend Information, Inc. (Transcend), a global leader in memory and storage solutions, has introduced a comprehensive lineup of DDR5-7200 embedded DRAM modules designed to meet the growing performance and data-processing demands of next-generation computing platforms. The portfolio includes CUDIMM, CSODIMM, ECC CUDIMM, ECC CSODIMM, and RDIMM modules, supporting a wide range of applications—from",
+      "source": "TechPowerUp",
+      "sources": [
+        "TechPowerUp"
+      ],
+      "sourceCount": 1,
+      "moduleId": "digital-memory",
+      "module": "Digital Design & Memory",
+      "score": 74,
+      "rumor": false,
+      "publishedAt": "2026-08-20T14:51:39.000Z"
+    },
+    {
+      "title": "Rigetti names new COO and CTO in quantum systems push",
+      "link": "https://www.eenewseurope.com/en/rigetti-names-new-coo-and-cto-in-quantum-systems-push/",
+      "image": "https://cdn.eenewseurope.com/wp-content/uploads/2026/08/Asma-eeNews-197.png",
+      "summary": "Rigetti Computing has created a dedicated systems delivery organization as it looks to scale deployments of its on-premises quantum computers while giving its engineering teams more room to focus on processor development. The US quantum computing company has also reshuffled its senior leadership, naming David Rivas as chief operating officer and Andrew Bestwick as chief […] The post Rigetti names ",
+      "source": "EE News Europe",
+      "sources": [
+        "EE News Europe"
+      ],
+      "sourceCount": 1,
+      "moduleId": "emerging",
+      "module": "Emerging & Research",
+      "score": 62,
+      "rumor": false,
+      "publishedAt": "2026-08-24T11:05:50.000Z"
+    },
+    {
+      "title": "Kyoto University builds transistor that survives 600C temperatures, compatible with standard fabs — Standard ion implantation and bottom-gate design fix leakage and voltage drift",
+      "link": "https://www.tomshardware.com/tech-industry/kyoto-university-demonstrates-a-sic-transistor-that-runs-at-600c-using-standard-ion-implantation",
+      "image": "https://cdn.mos.cms.futurecdn.net/YdZbVjBsghJp5q9fsqEwpT-1280-80.png",
+      "summary": "A research team at Kyoto University has built a silicon carbide transistor that operates at 600°C (873 K) using ion implantation.",
+      "source": "Tom's Hardware",
+      "sources": [
+        "Tom's Hardware"
+      ],
+      "sourceCount": 1,
+      "moduleId": "fabrication",
+      "module": "Fabrication",
+      "score": 62,
+      "rumor": false,
+      "publishedAt": "2026-08-24T10:30:00.000Z"
+    },
+    {
+      "title": "RISC-V extensions for high performance embedded computing",
+      "link": "https://www.eenewseurope.com/en/risc-v-extensions-for-high-performance-embedded-computing/",
+      "image": "https://cdn.eenewseurope.com/wp-content/uploads/2026/08/Asma-eeNews-199.png",
+      "summary": "One of the key advantages and challenges of the RISC-V architecture is the ability to add custom instructions. Adding instructions to a RISC-V core can make a system more secure or boost performance in areas such as cryptography and edge AI. But these instructions also carry the risk of fragmentation, with different cores becoming incompatible. […] The post RISC-V extensions for high performance e",
+      "source": "EE News Europe",
+      "sources": [
+        "EE News Europe"
+      ],
+      "sourceCount": 1,
+      "moduleId": "emerging",
+      "module": "Emerging & Research",
+      "score": 62,
+      "rumor": false,
+      "publishedAt": "2026-08-24T07:35:21.000Z"
+    },
+    {
+      "title": "BrainBoard1500 brings neuromorphic AI to embedded developers",
+      "link": "https://www.eenewseurope.com/en/brainboard1500-brings-neuromorphic-ai-to-embedded-developers/",
+      "image": "https://cdn.eenewseurope.com/wp-content/uploads/2026/08/brainchip.png",
+      "summary": "BrainChip and Croatian deep-tech company Neuromorphyx have developed the BrainBoard1500, a compact developer board built around BrainChip’s AKD1500 neural-network accelerator. The platform brings neuromorphic AI to Arduino-compatible embedded systems, with integrated tools for evaluating inference performance and power consumption. For eeNews Europe readers, the board provides a practical way to e",
+      "source": "EE News Europe",
+      "sources": [
+        "EE News Europe"
+      ],
+      "sourceCount": 1,
+      "moduleId": "emerging",
+      "module": "Emerging & Research",
+      "score": 62,
+      "rumor": false,
+      "publishedAt": "2026-08-24T07:31:56.000Z"
+    },
+    {
+      "title": "Samsung Confirms HBM4E Memory Running at 16 Gbps Per Pin",
+      "link": "https://www.techpowerup.com/351859/samsung-confirms-hbm4e-memory-running-at-16-gbps-per-pin",
+      "image": "https://www.techpowerup.com/img/pHDQDFteQNNRUNOW.jpg",
+      "summary": "At the Hot Chips 2026 conference's Advance Program, Samsung's Sangwook Han confirmed that the company is preparing to ship HBM4E memory with speeds of 16 Gbps per pin. This is a significant confidence boost for Samsung's Semiconductor division, which has been shipping HBM4E with speeds of 14 Gbps per pin since late May of this year. Essentially, the company confirmed that its scaling progress is g",
+      "source": "TechPowerUp",
+      "sources": [
+        "TechPowerUp"
+      ],
+      "sourceCount": 1,
+      "moduleId": "packaging",
+      "module": "Packaging & Test",
+      "score": 62,
+      "rumor": false,
+      "publishedAt": "2026-08-24T05:30:00.000Z"
+    },
+    {
+      "title": "Kulicke and Soffa names Raj Talluri as CEO",
+      "link": "https://www.digitimes.com/news/a20260825PR205/president-manufacturing-equipment-ceo-2026.html",
+      "image": "https://img.digitimes.com/newsshow/20260825pr205_files/2_2b.jpg",
+      "summary": "Kulicke and Soffa Industries has appointed Raj Talluri as president and chief executive officer, a leadership change that may influence the company's strategy in semiconductor equipment markets used across Asia, the US, and Europe. The move signals continuity for investors, while highlighting the global competition shaping chip manufacturing supply chains.",
+      "source": "DIGITIMES",
+      "sources": [
+        "DIGITIMES"
+      ],
+      "sourceCount": 1,
+      "moduleId": "industry",
+      "module": "Industry & Overview",
+      "score": 47,
+      "rumor": false,
+      "publishedAt": "2026-08-25T03:14:31.000Z"
+    },
+    {
+      "title": "AI infrastructure boom drives Taiwan export orders, exposing power bottleneck, net-zero tech needs",
+      "link": "https://www.digitimes.com/news/a20260825PD201/infrastructure-taiwan-net-zero-competition-technology.html",
+      "image": "https://img.digitimes.com/newsshow/20260825pd201_files/2_r.jpg",
+      "summary": "Global artificial intelligence infrastructure buildouts and rising capex by cloud service providers pushed Taiwan's July export orders for information and communications technology (ICT) products, led by AI servers, up nearly 90% year-over-year, while export orders for foundry and memory also rose by more than 70%. However, companies in advanced economies are encountering power shortages as they i",
+      "source": "DIGITIMES",
+      "sources": [
+        "DIGITIMES"
+      ],
+      "sourceCount": 1,
+      "moduleId": "industry",
+      "module": "Industry & Overview",
+      "score": 47,
+      "rumor": false,
+      "publishedAt": "2026-08-25T01:50:27.000Z"
+    },
+    {
+      "title": "Taipower pushes 'information flow' strategy to ease northern Taiwan's AI data center power crunch",
+      "link": "https://www.digitimes.com/news/a20260825PD200/taiwan-taiwan-power-company-ai-chip-aidc-data.html",
+      "image": "https://img.digitimes.com/newsshow/20260825pd200_files/1_b.jpg",
+      "summary": "As artificial intelligence chip power consumption continues to rise, server racks are moving toward the megawatt (MW) scale. Amid the \"electrical power is computing power\" trend, the importance of power electronics is increasing, while the overall power system also faces significant upgrade requirements.",
+      "source": "DIGITIMES",
+      "sources": [
+        "DIGITIMES"
+      ],
+      "sourceCount": 1,
+      "moduleId": "industry",
+      "module": "Industry & Overview",
+      "score": 47,
+      "rumor": false,
+      "publishedAt": "2026-08-25T01:18:23.000Z"
+    },
+    {
+      "title": "YouTuber's backyard fab ambitions expand from RAM to homebrew LEDs",
+      "link": "https://www.theregister.com/systems/2026/08/24/youtubers-backyard-fab-ambitions-expand-from-ram-to-homebrew-leds/5291956",
+      "image": "https://image.theregister.com/?imageId=5291973&width=800",
+      "summary": "Dr. Semiconductor's latest project lights the path toward what he tells us he hopes becomes a cottage chip industry",
+      "source": "The Register",
+      "sources": [
+        "The Register"
+      ],
+      "sourceCount": 1,
+      "moduleId": "industry",
+      "module": "Industry & Overview",
+      "score": 47,
+      "rumor": false,
+      "publishedAt": "2026-08-24T17:22:00.000Z"
+    },
+    {
+      "title": "Lotus Microsystems Moves Power Conversion Under AI Processors",
+      "link": "https://www.powerelectronicsnews.com/lotus-microsystems-moves-power-conversion-under-ai-processors/",
+      "image": "https://www.powerelectronicsnews.com/wp-content/uploads/sites/3/2026/08/image_3b3e38.jpeg?fit=1671%2C1151",
+      "summary": "LSC0580 combines silicon interconnects, integrated passives, and thermal management to reduce the power delivery path to AI processors. The post Lotus Microsystems Moves Power Conversion Under AI Processors appeared first on Power Electronics News .",
       "source": "Power Electronics News",
       "sources": [
         "Power Electronics News"
       ],
       "sourceCount": 1,
-      "moduleId": "physics",
-      "module": "Semiconductor Physics",
-      "score": 59,
+      "moduleId": "industry",
+      "module": "Industry & Overview",
+      "score": 47,
       "rumor": false,
-      "publishedAt": "2026-08-17T13:00:00.000Z"
+      "publishedAt": "2026-08-24T13:20:52.000Z"
     },
     {
       "title": "Discover What’s Next: Siemens EDA at DAC 2026",
@@ -724,164 +771,100 @@
       "publishedAt": "2026-07-14T18:48:24.000Z"
     },
     {
-      "title": "RISC-V : What Really Matters",
-      "link": "https://thechipletter.substack.com/p/risc-v-what-really-matters-and-what",
-      "image": "https://substack-post-media.s3.amazonaws.com/public/images/f31bd9e0-ae7f-491a-af59-33b1b5709281_1280x854.jpeg",
-      "summary": "Readers may have seen the recent post from Dmitri Grinberg RISC-V: They Should Have Known Better which sets out, at some length, his criticisms of the ISA.",
-      "source": "The Chip Letter",
+      "title": "AMD Confirms Radeon RX 9050 4 GB Has Smaller Infinity Cache, Lower Memory Bandwidth",
+      "link": "https://www.techpowerup.com/351784/amd-confirms-radeon-rx-9050-4-gb-has-smaller-infinity-cache-lower-memory-bandwidth",
+      "image": "https://www.techpowerup.com/img/svlX9xmTZQygKWqU.jpg",
+      "summary": "AMD has updated its documentation page for the late-July launch of the Radeon RX 9050 graphics cards, which include two models: one with 4 GB and another with 8 GB of GDDR6 memory. Both cards feature 1,024 Streaming Processors across 16 Compute Units and can boost up to a 2.6 GHz clock speed. However, the lower-end GPU has only 4 GB of GDDR6 memory on a 64-bit bus, resulting in a memory bandwidth ",
+      "source": "TechPowerUp",
       "sources": [
-        "The Chip Letter"
+        "TechPowerUp"
       ],
       "sourceCount": 1,
-      "moduleId": "emerging",
-      "module": "Emerging & Research",
+      "moduleId": "digital-memory",
+      "module": "Digital Design & Memory",
       "score": 67,
       "rumor": false,
-      "publishedAt": "2026-08-16T02:00:38.000Z"
+      "publishedAt": "2026-08-21T08:15:50.000Z"
     },
     {
-      "title": "Quanta Computer and Quantinuum team up to scale quantum computing",
-      "link": "https://www.eenewseurope.com/en/quanta-computer-and-quantinuum-team-up-to-scale-quantum-computing/",
-      "image": null,
-      "summary": "Quanta Computer and Quantinuum have signed a collaborative development agreement aimed at building the industrial infrastructure needed for large-scale quantum computers. The partnership brings together Quantinuum’s quantum computing technology with Quanta’s experience in manufacturing and scaling advanced computing platforms. For eeNews Europe readers, the deal highlights an important shift in qu",
-      "source": "EE News Europe",
+      "title": "GaN 40-V Switches Reduce Footprint by 82% for Portable Power Designs",
+      "link": "https://www.electronicdesign.com/technologies/power/product/55399605/electronic-design-infineons-gan-40-v-bidirectional-switches-cut-footprint-in-portable-power-designs",
+      "image": "https://img.electronicdesign.com/files/base/ebm/electronicdesign/image/2026/08/6a874702a5611505d919bb07-dreamstime_tsyhun_49685466_promo.png",
+      "summary": "Equipped with bidirectional voltage and current blocking capabilities, the bidirectional switches from Infineon significantly shrink PCB footprint and cut component count.",
+      "source": "Electronic Design",
       "sources": [
-        "EE News Europe"
-      ],
-      "sourceCount": 1,
-      "moduleId": "emerging",
-      "module": "Emerging & Research",
-      "score": 67,
-      "rumor": false,
-      "publishedAt": "2026-08-14T09:23:52.000Z"
-    },
-    {
-      "title": "BBCube: A Novel Chip-on-Wafer Technology for Next-Generation AI Chip Integration",
-      "link": "https://www.semiconductor-digest.com/bbcube-a-novel-chip-on-wafer-technology-for-next-generation-ai-chip-integration/?utm_source=rss&utm_medium=rss&utm_campaign=bbcube-a-novel-chip-on-wafer-technology-for-next-generation-ai-chip-integration",
-      "image": null,
-      "summary": "Three core technologies involving advanced packaging, chip interconnects, and thermal design enable high-performance semiconductor systems. The post BBCube: A Novel Chip-on-Wafer Technology for Next-Generation AI Chip Integration appeared first on Semiconductor Digest .",
-      "source": "Semiconductor Digest",
-      "sources": [
-        "Semiconductor Digest"
-      ],
-      "sourceCount": 1,
-      "moduleId": "packaging",
-      "module": "Packaging & Test",
-      "score": 72,
-      "rumor": false,
-      "publishedAt": "2026-08-12T21:28:40.000Z"
-    },
-    {
-      "title": "New ‘Shape-Shifting’ Architecture Brings Versatility to Photonic Quantum Computing",
-      "link": "https://www.semiconductor-digest.com/new-shape-shifting-architecture-brings-versatility-to-photonic-quantum-computing/?utm_source=rss&utm_medium=rss&utm_campaign=new-shape-shifting-architecture-brings-versatility-to-photonic-quantum-computing",
-      "image": null,
-      "summary": "Researchers have developed a flexible optical computing system capable of tackling problems beyond the reach of previous designs. The post New ‘Shape-Shifting’ Architecture Brings Versatility to Photonic Quantum Computing appeared first on Semiconductor Digest .",
-      "source": "Semiconductor Digest",
-      "sources": [
-        "Semiconductor Digest"
-      ],
-      "sourceCount": 1,
-      "moduleId": "emerging",
-      "module": "Emerging & Research",
-      "score": 72,
-      "rumor": false,
-      "publishedAt": "2026-08-07T19:33:28.000Z"
-    },
-    {
-      "title": "ZuriQ Raises $25.5M to Scale New Groundbreaking 2D Quantum Architecture",
-      "link": "https://www.semiconductor-digest.com/zuriq-raises-25-5m-to-scale-new-groundbreaking-2d-quantum-architecture/?utm_source=rss&utm_medium=rss&utm_campaign=zuriq-raises-25-5m-to-scale-new-groundbreaking-2d-quantum-architecture",
-      "image": null,
-      "summary": "The ETH Zürich spin-out is building trapped-ion processors on a novel two-dimensional architecture. The new funding will grow the team and expand its research efforts as the company works to increase the number of qubits it can put on a single chip. The post ZuriQ Raises $25.5M to Scale New Groundbreaking 2D Quantum Architecture appeared first on Semiconductor Digest .",
-      "source": "Semiconductor Digest",
-      "sources": [
-        "Semiconductor Digest"
-      ],
-      "sourceCount": 1,
-      "moduleId": "emerging",
-      "module": "Emerging & Research",
-      "score": 72,
-      "rumor": false,
-      "publishedAt": "2026-07-28T20:20:18.000Z"
-    },
-    {
-      "title": "V-GaN Tech Hub Opens New Test and Characterization Facility to Accelerate Microelectronics from Lab to Fab",
-      "link": "https://www.semiconductor-digest.com/v-gan-tech-hub-opens-new-test-and-characterization-facility-to-accelerate-microelectronics-from-lab-to-fab/?utm_source=rss&utm_medium=rss&utm_campaign=v-gan-tech-hub-opens-new-test-and-characterization-facility-to-accelerate-microelectronics-from-lab-to-fab",
-      "image": null,
-      "summary": "The Vermont Gallium Nitride (V-GaN) Tech Hub has officially opened a new Test and Characterization Facility (TCL), a major addition to the nation’s growing microelectronics innovation ecosystem and a critical resource for accelerating the transition of advanced semiconductor technologies from development to commercial deployment. The post V-GaN Tech Hub Opens New Test and Characterization Facility",
-      "source": "Semiconductor Digest",
-      "sources": [
-        "Semiconductor Digest"
+        "Electronic Design"
       ],
       "sourceCount": 1,
       "moduleId": "physics",
       "module": "Semiconductor Physics",
-      "score": 72,
+      "score": 67,
       "rumor": false,
-      "publishedAt": "2026-07-24T19:25:30.000Z"
+      "publishedAt": "2026-08-20T18:40:05.000Z"
     },
     {
-      "title": "Siemens to Acquire Defacto Technologies",
-      "link": "https://www.semiconductor-digest.com/siemens-to-acquire-defacto-technologies/?utm_source=rss&utm_medium=rss&utm_campaign=siemens-to-acquire-defacto-technologies",
-      "image": null,
-      "summary": "Acquisition extends Siemens' electronic design automation (EDA) portfolio across the system‑on‑a‑chip (SoC) design lifecycle. The post Siemens to Acquire Defacto Technologies appeared first on Semiconductor Digest .",
-      "source": "Semiconductor Digest",
+      "title": "G.SKILL Pays Out $2.4 Million Settlement to DDR4/DDR5 Kit Buyers",
+      "link": "https://www.techpowerup.com/351755/g-skill-pays-out-usd-2-4-million-settlement-to-ddr4-ddr5-kit-buyers",
+      "image": "https://www.techpowerup.com/img/7mtMWxbCBgS6RKdk.jpg",
+      "summary": "G.SKILL has begun distributing payments between $20 and $25 to various customers after settling a $2.4 million class-action lawsuit. The lawsuit alleged that G.SKILL misled buyers of DDR4 and DDR5 memory kits about the actual speed of their DRAM kits. Filed in 2022, the lawsuit claimed that G.SKILL did not properly label its advertising materials and misled users into believing that the maximum sp",
+      "source": "TechPowerUp",
       "sources": [
-        "Semiconductor Digest"
+        "TechPowerUp"
       ],
       "sourceCount": 1,
-      "moduleId": "eda-algorithms",
-      "module": "EDA Algorithms",
-      "score": 72,
+      "moduleId": "digital-memory",
+      "module": "Digital Design & Memory",
+      "score": 67,
       "rumor": false,
-      "publishedAt": "2026-07-23T18:35:34.000Z"
+      "publishedAt": "2026-08-20T14:03:41.000Z"
     },
     {
-      "title": "PDF Solutions’ Exensio Was Built for Semiconductor Analytics. The New Exensio Aurora Architecture Is Built for Semiconductor Intelligence.",
-      "link": "https://semiwiki.com/artificial-intelligence/372347-pdf-solutions-exensio-was-built-for-semiconductor-analytics-the-new-exensio-aurora-architecture-is-built-for-semiconductor-intelligence/",
-      "image": null,
-      "summary": "The semiconductor industry doesn’t have a shortage of data. It has a shortage of ways to turn that data into useful manufacturing insights quickly enough to matter. That is the problem PDF Solutions’ Exensio solution has addressed for years. Built specifically for semiconductor manufacturing, Exensio brings … Read More The post PDF Solutions’ Exensio Was Built for Semiconductor Analytics. The New ",
-      "source": "SemiWiki",
+      "title": "Checking Out a Neuromorphic AI Module",
+      "link": "https://www.electronicdesign.com/featured-media/video/kit-close-up/video/55399051/electronic-design-checking-out-a-neuromorphic-ai-module",
+      "image": "https://img.electronicdesign.com/files/base/ebm/electronicdesign/image/2026/08/6a88ab527c7ecd0f220c099a-kcu_akida_thumbnail.png",
+      "summary": "Bill Wong takes a quick look at the BrainChip AKD1000 M.2 module in this Kit Close-Up episode.",
+      "source": "Electronic Design",
       "sources": [
-        "SemiWiki"
-      ],
-      "sourceCount": 1,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
-      "score": 55,
-      "rumor": false,
-      "publishedAt": "2026-08-18T21:00:04.000Z"
-    },
-    {
-      "title": "BrainChip, Orama.AOI Target AI-Based Industrial Defect Detection",
-      "link": "https://www.embedded.com/brainchip-orama-aoi-target-ai-based-industrial-defect-detection/",
-      "image": null,
-      "summary": "BrainChip Inc. has partnered with Atlanta-based Orama.AOI to develop AI-based automated optical inspection solutions using BrainChip's Akida neuromorphic AI platform. Orama.AOI has retrained and optimized Akida models using its industrial inspection datasets, demonstrating the platform's application to production-oriented defect detection. Orama.AOI provides AI-powered automated optical inspection",
-      "source": "Embedded.com",
-      "sources": [
-        "Embedded.com"
+        "Electronic Design"
       ],
       "sourceCount": 1,
       "moduleId": "emerging",
       "module": "Emerging & Research",
-      "score": 55,
+      "score": 67,
       "rumor": false,
-      "publishedAt": "2026-08-18T19:10:47.000Z"
+      "publishedAt": "2026-08-19T13:53:17.000Z"
     },
     {
-      "title": "Beyond Moore: Co-Optimizing AI from Systems to Materials",
-      "link": "https://semiwiki.com/semiconductor-manufacturers/372192-beyond-moore-co-optimizing-ai-from-systems-to-materials/",
-      "image": null,
-      "summary": "At the OCP APAC Summit in Taiwan , August 11–12, 2026, Applied Materials’ Subi Kengeri framed artificial intelligence as the semiconductor industry’s largest inflection point. AI demand is accelerating the industry toward one trillion dollars in annual revenue, but the keynote’s central message was more consequential than… Read More The post Beyond Moore: Co-Optimizing AI from Systems to Materials",
-      "source": "SemiWiki",
+      "title": "Is Neuromorphic Computing the Way for AI?",
+      "link": "https://www.electronicdesign.com/blog/inside-electronics/podcast/55398868/electronic-design-is-neuromorphic-computing-the-way-for-ai",
+      "image": "https://img.electronicdesign.com/files/base/ebm/electronicdesign/image/2026/08/6a84a4491ba267bd2a4e0f61-sumeet_pulsarchip_horizontal_highqualitypromo.png",
+      "summary": "Spiking neural networks and neuromorphic processing open the door to ultra-low-power, real-time intelligence.",
+      "source": "Electronic Design",
       "sources": [
-        "SemiWiki"
+        "Electronic Design"
       ],
       "sourceCount": 1,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
+      "moduleId": "emerging",
+      "module": "Emerging & Research",
+      "score": 67,
+      "rumor": false,
+      "publishedAt": "2026-08-18T19:30:00.000Z"
+    },
+    {
+      "title": "AI-driven upgrade of communications energy storage empowers a new energy ecosystem for multiple industries",
+      "link": "https://www.theregister.com/ai-and-ml/2026/08/24/sponsored-ai-driven-upgrade-of-communications-energy-storage-empowers-a-new-energy-ecosystem-for-multiple-industries/5290186",
+      "image": "https://image.theregister.com/?imageId=5290211&width=800",
+      "summary": "SPONSORED FEATURE: Embedding AI at communication sites to empower energy optimization, power grid stability control and low-carbon development",
+      "source": "The Register",
+      "sources": [
+        "The Register"
+      ],
+      "sourceCount": 1,
+      "moduleId": "physical-design",
+      "module": "Physical Design (PnR)",
       "score": 55,
       "rumor": false,
-      "publishedAt": "2026-08-18T17:00:26.000Z"
+      "publishedAt": "2026-08-24T00:00:00.000Z"
     },
     {
       "title": "D-Wave Intros Two-Qubit, Error Correcting Gate For Its Dual-Rail Quantum Architecture",
@@ -900,135 +883,6 @@
       "publishedAt": "2026-08-07T17:13:29.000Z"
     },
     {
-      "title": "Brewer Science Strengthens America’s Semiconductor Supply Chain with Acquisition of Heraeus Epurio’s Semiconductor Chemicals Business",
-      "link": "https://www.3dincites.com/2026/08/brewer-science-acquisition/",
-      "image": null,
-      "summary": "Brewer Science Strengthens America’s Semiconductor Supply Chain with Acquisition of Heraeus Epurio’s Semiconductor Chemicals BusinessVertical integration into ultrapure chemical manufacturing extends Brewer Science’s Zero Defects standards for the purity, consistency, and reliability its customers depend on at the industry’s most advanced nodes Brewer Science, Inc., a global leader in advanced mat",
-      "source": "3DInCites (packaging)",
-      "sources": [
-        "3DInCites (packaging)"
-      ],
-      "sourceCount": 1,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
-      "score": 71,
-      "rumor": false,
-      "publishedAt": "2026-08-06T14:12:45.000Z"
-    },
-    {
-      "title": "UMC Announces Fab Expansion in Singapore and Construction of New Fab in Tainan",
-      "link": "https://www.semiconductor-digest.com/umc-announces-fab-expansion-in-singapore-and-construction-of-new-fab-in-tainan/?utm_source=rss&utm_medium=rss&utm_campaign=umc-announces-fab-expansion-in-singapore-and-construction-of-new-fab-in-tainan",
-      "image": null,
-      "summary": "The expansion will be executed in phases, leveraging a disciplined, ROI-driven strategy to balance rapid scalability with prudent capital allocation. The post UMC Announces Fab Expansion in Singapore and Construction of New Fab in Tainan appeared first on Semiconductor Digest .",
-      "source": "Semiconductor Digest",
-      "sources": [
-        "Semiconductor Digest"
-      ],
-      "sourceCount": 1,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
-      "score": 71,
-      "rumor": false,
-      "publishedAt": "2026-07-29T15:23:59.000Z"
-    },
-    {
-      "title": "New Quantum Material and Chip Architecture Tackle a Key Barrier to Scaling Quantum Computers Towards 1M Qubits",
-      "link": "https://www.semiconductor-digest.com/new-quantum-material-and-chip-architecture-tackle-a-key-barrier-to-scaling-quantum-computers-towards-1m-qubits/?utm_source=rss&utm_medium=rss&utm_campaign=new-quantum-material-and-chip-architecture-tackle-a-key-barrier-to-scaling-quantum-computers-towards-1m-qubits",
-      "image": null,
-      "summary": "A new concept from Warwick researchers could help solve one of the biggest challenges to building large-scale quantum computers: enabling communication between quantum bits (qubits) over long distances across a single chip. The post New Quantum Material and Chip Architecture Tackle a Key Barrier to Scaling Quantum Computers Towards 1M Qubits appeared first on Semiconductor Digest .",
-      "source": "Semiconductor Digest",
-      "sources": [
-        "Semiconductor Digest"
-      ],
-      "sourceCount": 1,
-      "moduleId": "emerging",
-      "module": "Emerging & Research",
-      "score": 71,
-      "rumor": true,
-      "publishedAt": "2026-07-27T16:43:53.000Z"
-    },
-    {
-      "title": "Synopsys and Intel Foundry Fast-Track Customer Readiness from Silicon to Systems on Intel 14A",
-      "link": "https://www.semiconductor-digest.com/synopsys-and-intel-foundry-fast-track-customer-readiness-from-silicon-to-systems-on-intel-14a/?utm_source=rss&utm_medium=rss&utm_campaign=synopsys-and-intel-foundry-fast-track-customer-readiness-from-silicon-to-systems-on-intel-14a",
-      "image": null,
-      "summary": "As AI and high-performance computing designs move beyond monolithic scaling, success requires connecting process technology with AI-powered EDA flows, multi-die design, integrated multiphysics analysis, and broad IP portfolio to accelerate system-level realization. The post Synopsys and Intel Foundry Fast-Track Customer Readiness from Silicon to Systems on Intel 14A appeared first on Semiconductor",
-      "source": "Semiconductor Digest",
-      "sources": [
-        "Semiconductor Digest"
-      ],
-      "sourceCount": 1,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
-      "score": 71,
-      "rumor": false,
-      "publishedAt": "2026-07-27T16:30:52.000Z"
-    },
-    {
-      "title": "Keysight Certifies Electromagnetic Design Software for Intel Foundry’s Latest Processes",
-      "link": "https://www.semiconductor-digest.com/keysight-certifies-electromagnetic-design-software-for-intel-foundrys-latest-processes/?utm_source=rss&utm_medium=rss&utm_campaign=keysight-certifies-electromagnetic-design-software-for-intel-foundrys-latest-processes",
-      "image": null,
-      "summary": "Design teams get a proven path to first-pass silicon success on Intel 14A and Intel 18A-P. The post Keysight Certifies Electromagnetic Design Software for Intel Foundry’s Latest Processes appeared first on Semiconductor Digest .",
-      "source": "Semiconductor Digest",
-      "sources": [
-        "Semiconductor Digest"
-      ],
-      "sourceCount": 1,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
-      "score": 71,
-      "rumor": false,
-      "publishedAt": "2026-07-27T16:01:26.000Z"
-    },
-    {
-      "title": "Intel's next-gen Nova Lake chips may skip game-boosting X3D cache rival for mobile SKUs and debut on Razor Lake-HX instead, leaker claims — new rumor says Razor Lake family reportedly uses TSMC's N2X node",
-      "link": "https://www.tomshardware.com/pc-components/cpus/intels-next-gen-nova-lake-chips-may-skip-bllc-for-mobile-skus-and-debut-on-razor-lake-hx-instead-leaker-claims-new-rumor-says-razor-lake-family-reportedly-uses-tsmcs-n2x-node",
-      "image": "https://cdn.mos.cms.futurecdn.net/rxLeKvgEq52xDLyGj6HuGA-1280-80.jpg",
-      "summary": "Nova Lake desktop CPUs look to be the exclusive recipient of bLLC, Intel's answer to AMD's X3D, as the company looks to debut bLLC on mobile with Razor Lake-HX, and possibly Razor Lake-AX. As such, the Razor Lake family is also rumored to be manufactured on TSCM's N2X process node.",
-      "source": "Tom's Hardware",
-      "sources": [
-        "Tom's Hardware",
-        "TechPowerUp"
-      ],
-      "sourceCount": 2,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
-      "score": 54,
-      "rumor": true,
-      "publishedAt": "2026-08-18T14:18:57.000Z"
-    },
-    {
-      "title": "Automotive Functional Safety: Why ASIL Compliance Starts with Electromagnetic Design",
-      "link": "https://www.eetimes.com/automotive-functional-safety-why-asil-compliance-starts-with-electromagnetic-design/",
-      "image": "https://www.eetimes.com/wp-content/uploads/425x230-Cadence-2.png",
-      "summary": "Automotive electronic systems face relentless pressure to meet electromagnetic compatibility (EMC), signal integrity (SI), and power integrity (PI) targets while satisfying strict ASIL safety requirements. Too often, engineers discover problems late: EMC failures surface during vehicle integration, signal ringing degrades high-speed links, via stub resonance reflects energy above 3 Gbps, power del",
-      "source": "EE Times",
-      "sources": [
-        "EE Times"
-      ],
-      "sourceCount": 1,
-      "moduleId": "physical-design",
-      "module": "Physical Design (PnR)",
-      "score": 52,
-      "rumor": false,
-      "publishedAt": "2026-08-17T14:00:00.000Z"
-    },
-    {
-      "title": "The Classical Advances Needed to Make Quantum Computers Tick",
-      "link": "https://spectrum.ieee.org/quantum-calibration-decoding",
-      "image": "https://spectrum.ieee.org/media-library/photo-collage-of-server-wires-overlapping-with-a-quantum-computers-superconducting-lines.jpg?id=66852633&width=980",
-      "summary": "Quantum computers promise to one day solve problems beyond the most powerful supercomputers imaginable. But it’s often underappreciated how much classical computing it takes just to operate these machines. As qubit counts rise, innovations in this supporting infrastructure will be essential if they’re to live up to their promise. To prepare for the scale of quantum computers the industry is workin",
-      "source": "IEEE Spectrum – Computing",
-      "sources": [
-        "IEEE Spectrum – Computing"
-      ],
-      "sourceCount": 1,
-      "moduleId": "emerging",
-      "module": "Emerging & Research",
-      "score": 70,
-      "rumor": false,
-      "publishedAt": "2026-06-03T20:06:00.000Z"
-    },
-    {
       "title": "Advanced Packaging: Intel's EMIB vs TSMC's CoWoS",
       "link": "https://www.chipstrat.com/p/advanced-packaging-intels-emib-vs",
       "image": "https://substack-post-media.s3.amazonaws.com/public/images/66122db1-838b-4405-b046-a5709a2c3585_1860x1236.png",
@@ -1045,42 +899,26 @@
       "publishedAt": "2026-05-12T00:56:12.000Z"
     },
     {
-      "title": "TIER IV Joins JST’s Next-Generation Edge AI Semiconductor R&D Program",
-      "link": "https://www.semiconductor-digest.com/tier-iv-joins-jsts-next-generation-edge-ai-semiconductor-rd-program/?utm_source=rss&utm_medium=rss&utm_campaign=tier-iv-joins-jsts-next-generation-edge-ai-semiconductor-rd-program",
-      "image": null,
-      "summary": "TIER IV has joined the Next-Generation Edge AI Semiconductor Research and Development Program led by the Japan Science and Technology Agency (JST) to advance research and development of a software-defined system-on-chip (SoC) for Level 4 autonomous driving. The post TIER IV Joins JST’s Next-Generation Edge AI Semiconductor R&D Program appeared first on Semiconductor Digest .",
-      "source": "Semiconductor Digest",
+      "title": "PCIe Prepares for the 3D Era",
+      "link": "https://www.electronicdesign.com/technologies/eda/article/55399281/electronic-design-synopsys-validates-high-speed-connectivity-for-multi-die-designs-with-3d-pcie-gen-6-chip",
+      "image": "https://img.electronicdesign.com/files/base/ebm/electronicdesign/image/2026/08/6a860cc5a5611505d9172668-dreamstime_nikitaiurginson_305679026.png",
+      "summary": "Getting 3D-stacked chiplets to chat with each other is hard, but so is making them connect to other chips in the system.",
+      "source": "Electronic Design",
       "sources": [
-        "Semiconductor Digest"
+        "Electronic Design"
       ],
       "sourceCount": 1,
-      "moduleId": "full-flow",
-      "module": "Full-Chip Flow & Product",
+      "moduleId": "packaging",
+      "module": "Packaging & Test",
       "score": 60,
       "rumor": false,
-      "publishedAt": "2026-08-14T19:19:26.000Z"
+      "publishedAt": "2026-08-19T20:25:20.000Z"
     },
     {
-      "title": "Build Your Own DRAM Supply Model",
-      "link": "https://www.chipstrat.com/p/build-your-own-dram-supply-model",
-      "image": "https://substackcdn.com/image/fetch/$s_!Iggk!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F99a7310a-fb7a-4daa-8620-085eb21cbefd_1720x786.png",
-      "summary": "Wafer starts, die size, yield, HBM mix, node migration impacts, etc. Simple enough to follow, but detailed enough to learn from.",
-      "source": "ChipStrat",
-      "sources": [
-        "ChipStrat"
-      ],
-      "sourceCount": 1,
-      "moduleId": "digital-memory",
-      "module": "Digital Design & Memory",
-      "score": 59,
-      "rumor": false,
-      "publishedAt": "2026-08-14T23:11:34.000Z"
-    },
-    {
-      "title": "NoMIS Power Advances SiC Roadmap with 6.5 kV MOSFET",
-      "link": "https://www.powerelectronicsnews.com/nomis-power-advances-sic-roadmap-with-6-5-kv-mosfet/",
-      "image": "https://www.powerelectronicsnews.com/wp-content/uploads/sites/3/2026/08/Semiconductor_Wafer.png?fit=1000%2C527",
-      "summary": "The large-die device delivers over 8 kV blocking, 90 mΩ on-resistance and 55 A drain current for emerging high-voltage power systems. The post NoMIS Power Advances SiC Roadmap with 6.5 kV MOSFET appeared first on Power Electronics News .",
+      "title": "PowerUP’s Data Center Panel, Monitoring the Output Current of Offboard LED Drivers, GaN Motor Drives: Electronics Week Insights",
+      "link": "https://www.powerelectronicsnews.com/powerups-data-center-panel-monitoring-the-output-current-of-offboard-led-drivers-gan-motor-drives-electronics-week-insights/",
+      "image": "https://www.powerelectronicsnews.com/wp-content/uploads/sites/3/2022/07/shutterstock_404891800-weekly.jpg?fit=2500%2C1669",
+      "summary": "Here’s a RoundUp of this week’s must-read articles – we’ll delve into the latest developments on PowerUP’s Data Center Panel, Monitoring the Output Current of Offboard LED Drivers, and GaN Motor Drives! The post PowerUP’s Data Center Panel, Monitoring the Output Current of Offboard LED Drivers, GaN Motor Drives: Electronics Week Insights appeared first on Power Electronics News .",
       "source": "Power Electronics News",
       "sources": [
         "Power Electronics News"
@@ -1090,23 +928,23 @@
       "module": "Semiconductor Physics",
       "score": 59,
       "rumor": false,
-      "publishedAt": "2026-08-14T13:00:00.000Z"
+      "publishedAt": "2026-08-21T13:35:01.000Z"
     },
     {
-      "title": "Chip Industry Week In Review",
-      "link": "https://semiengineering.com/chip-industry-week-in-review-151/",
-      "image": null,
-      "summary": "Lam Research and ASE expansions; data center shifts; CPO system architecture initiative; 2D-transistor interface solution; USENIX HW security; patent suits; image sensors; programmable AI memtransistor; Nvidia's new plan; earnings; Tier IV's L4 auto chip. The post Chip Industry Week In Review appeared first on Semiconductor Engineering .",
-      "source": "Semiconductor Engineering",
+      "title": "RISC-V : What Really Matters",
+      "link": "https://thechipletter.substack.com/p/risc-v-what-really-matters-and-what",
+      "image": "https://substack-post-media.s3.amazonaws.com/public/images/f31bd9e0-ae7f-491a-af59-33b1b5709281_1280x854.jpeg",
+      "summary": "Readers may have seen the recent post from Dmitri Grinberg RISC-V: They Should Have Known Better which sets out, at some length, his criticisms of the ISA.",
+      "source": "The Chip Letter",
       "sources": [
-        "Semiconductor Engineering"
+        "The Chip Letter"
       ],
       "sourceCount": 1,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
-      "score": 59,
+      "moduleId": "emerging",
+      "module": "Emerging & Research",
+      "score": 64,
       "rumor": false,
-      "publishedAt": "2026-08-14T07:01:48.000Z"
+      "publishedAt": "2026-08-16T02:00:38.000Z"
     },
     {
       "title": "Compact Integrated GaN Drive Built for Robots, Drones",
@@ -1123,23 +961,6 @@
       "score": 64,
       "rumor": false,
       "publishedAt": "2026-08-12T19:07:50.000Z"
-    },
-    {
-      "title": "New model bridges ferroelectric physics and circuit modeling",
-      "link": "https://techxplore.com/news/2026-08-bridges-ferroelectric-physics-circuit.html",
-      "image": "https://scx1.b-cdn.net/csz/news/tmb/2026/new-model-bridges-ferr.jpg",
-      "summary": "A new physics-based analytical model can accurately predict ferroelectric behavior under real-world, complex voltages, according to a study led by University of Michigan Engineering. The model bridges the longstanding gap between fundamental switching physics and practical device engineering.",
-      "source": "Phys.org – Semiconductors",
-      "sources": [
-        "Phys.org – Semiconductors",
-        "TechXplore – Semiconductors"
-      ],
-      "sourceCount": 2,
-      "moduleId": "emerging",
-      "module": "Emerging & Research",
-      "score": 64,
-      "rumor": false,
-      "publishedAt": "2026-08-12T16:40:09.000Z"
     },
     {
       "title": "GaN DC-DC Converter Lifts Efficiency and Power-Density Levels",
@@ -1174,135 +995,6 @@
       "publishedAt": "2026-08-12T14:00:01.000Z"
     },
     {
-      "title": "OpenLight and Tower Semiconductor Expand PH18DA Photonics Ecosystem to Accelerate Photonic IC Development",
-      "link": "https://www.semiconductor-digest.com/openlight-and-tower-semiconductor-expand-ph18da-photonics-ecosystem-to-accelerate-photonic-ic-development/?utm_source=rss&utm_medium=rss&utm_campaign=openlight-and-tower-semiconductor-expand-ph18da-photonics-ecosystem-to-accelerate-photonic-ic-development",
-      "image": null,
-      "summary": "The PH18DA ecosystem brings together OpenLight’s photonics IP, Tower’s process and manufacturing expertise, and Cadence’s leading EDA tools. The post OpenLight and Tower Semiconductor Expand PH18DA Photonics Ecosystem to Accelerate Photonic IC Development appeared first on Semiconductor Digest .",
-      "source": "Semiconductor Digest",
-      "sources": [
-        "Semiconductor Digest",
-        "Embedded.com"
-      ],
-      "sourceCount": 2,
-      "moduleId": "eda-algorithms",
-      "module": "EDA Algorithms",
-      "score": 64,
-      "rumor": false,
-      "publishedAt": "2026-08-11T21:53:47.000Z"
-    },
-    {
-      "title": "Innovating Through Precision and Speed: How Laser Etching Is Redefining RF Manufacturing",
-      "link": "https://www.3dincites.com/2026/08/heraeus-electronics-laser-etching-article/",
-      "image": null,
-      "summary": "As satellites shrink, 5G systems scale, and sensing technologies push into harsher and more demanding environments, the margin for error all but disappears. Circuit traces must be tighter. Performance must be repeatable. And manufacturing processes must keep pace with an industry that no longer has time to slow down. This is where the story of […] The post Innovating Through Precision and Speed: H",
-      "source": "3DInCites (packaging)",
-      "sources": [
-        "3DInCites (packaging)"
-      ],
-      "sourceCount": 1,
-      "moduleId": "fabrication",
-      "module": "Fabrication",
-      "score": 64,
-      "rumor": false,
-      "publishedAt": "2026-08-10T14:52:04.000Z"
-    },
-    {
-      "title": "700-V GaN Semiconductors Enhance Energy Efficiency in High-Demand Apps",
-      "link": "https://www.electronicdesign.com/technologies/power/product/55396168/electronic-design-stmicroelectronics-700-v-gan-semiconductors-improve-energy-efficiency-for-high-demand-applications",
-      "image": "https://img.electronicdesign.com/files/base/ebm/electronicdesign/image/2026/08/6a7489309f6ca5651fbf997c-stmicro_3_promo.png",
-      "summary": "STMicroelectronics’ new GaN-based power semiconductors are designed to improve efficiency and increase power density in applications such as AI, robotics, industrial power supplies, and smart-grid converters.",
-      "source": "Electronic Design",
-      "sources": [
-        "Electronic Design"
-      ],
-      "sourceCount": 1,
-      "moduleId": "physics",
-      "module": "Semiconductor Physics",
-      "score": 64,
-      "rumor": false,
-      "publishedAt": "2026-08-06T13:24:42.000Z"
-    },
-    {
-      "title": "Conference Report: Hybrid Bonding Advances at ECTC Meeting",
-      "link": "https://www.semiconductor-digest.com/conference-report-hybrid-bonding-advances-at-ectc-meeting/?utm_source=rss&utm_medium=rss&utm_campaign=conference-report-hybrid-bonding-advances-at-ectc-meeting",
-      "image": null,
-      "summary": "Dave Lammers surveys how Applied Materials, EV Group, imec, ITRI, Leti, and Tokyo Electron are pushing hybrid bonding past its current limits. The post Conference Report: Hybrid Bonding Advances at ECTC Meeting appeared first on Semiconductor Digest .",
-      "source": "Semiconductor Digest",
-      "sources": [
-        "Semiconductor Digest"
-      ],
-      "sourceCount": 1,
-      "moduleId": "packaging",
-      "module": "Packaging & Test",
-      "score": 64,
-      "rumor": false,
-      "publishedAt": "2026-08-06T13:21:31.000Z"
-    },
-    {
-      "title": "29 Common Mistakes Electronics Engineers Make: Cost, Reliability, Power Efficiency, and Signal Integrity",
-      "link": "https://www.3dincites.com/2026/08/29-common-mistakes-electronics-engineers-make-cost-reliability-power-efficiency-and-signal-integrity/",
-      "image": null,
-      "summary": "Introduction Even experienced electronics engineers can overlook design decisions that appear minor during development but later result in higher manufacturing costs, excessive power consumption, reduced reliability, or poor signal integrity. As embedded systems, high-speed digital interfaces, FPGAs, and multilayer PCBs become increasingly complex, successful hardware design depends not only on se",
-      "source": "3DInCites (packaging)",
-      "sources": [
-        "3DInCites (packaging)"
-      ],
-      "sourceCount": 1,
-      "moduleId": "physical-design",
-      "module": "Physical Design (PnR)",
-      "score": 64,
-      "rumor": false,
-      "publishedAt": "2026-08-05T13:27:59.000Z"
-    },
-    {
-      "title": "New 3D Flash Memory Technology from Kioxia and Sandisk Achieves Industry’s Highest Bit Density for QLC NAND",
-      "link": "https://www.semiconductor-digest.com/new-3d-flash-memory-technology-from-kioxia-and-sandisk-achieves-industrys-highest-bit-density-for-qlc-nand/?utm_source=rss&utm_medium=rss&utm_campaign=new-3d-flash-memory-technology-from-kioxia-and-sandisk-achieves-industrys-highest-bit-density-for-qlc-nand",
-      "image": null,
-      "summary": "10th-generation QLC 3D flash memory represents a major leap forward for AI storage architectures, cloud platforms, and data‑intensive innovations. The post New 3D Flash Memory Technology from Kioxia and Sandisk Achieves Industry’s Highest Bit Density for QLC NAND appeared first on Semiconductor Digest .",
-      "source": "Semiconductor Digest",
-      "sources": [
-        "Semiconductor Digest"
-      ],
-      "sourceCount": 1,
-      "moduleId": "digital-memory",
-      "module": "Digital Design & Memory",
-      "score": 64,
-      "rumor": false,
-      "publishedAt": "2026-08-04T20:11:17.000Z"
-    },
-    {
-      "title": "How Ion Implantation Process Drift Impacts Yield and Throughput in Semiconductor Fabs",
-      "link": "https://www.semiconductor-digest.com/how-ion-implantation-process-drift-impacts-yield-and-throughput-in-semiconductor-fabs/?utm_source=rss&utm_medium=rss&utm_campaign=how-ion-implantation-process-drift-impacts-yield-and-throughput-in-semiconductor-fabs",
-      "image": null,
-      "summary": "Ion implantation is one of the most tightly controlled steps in chip manufacturing, and SkyWater's Viswa Kalaga focuses on a failure mode that's easy to miss: process drift. The post How Ion Implantation Process Drift Impacts Yield and Throughput in Semiconductor Fabs appeared first on Semiconductor Digest .",
-      "source": "Semiconductor Digest",
-      "sources": [
-        "Semiconductor Digest"
-      ],
-      "sourceCount": 1,
-      "moduleId": "fabrication",
-      "module": "Fabrication",
-      "score": 64,
-      "rumor": false,
-      "publishedAt": "2026-08-04T12:56:14.000Z"
-    },
-    {
-      "title": "From Data Deluge to Advanced Packaging: Why the Semiconductor Growth Story Is Only Just Beginning",
-      "link": "https://www.semiconductor-digest.com/from-data-deluge-to-advanced-packaging-why-the-semiconductor-growth-story-is-only-just-beginning/?utm_source=rss&utm_medium=rss&utm_campaign=from-data-deluge-to-advanced-packaging-why-the-semiconductor-growth-story-is-only-just-beginning",
-      "image": null,
-      "summary": "the next decade of semiconductor growth won't be defined solely by design innovation, but by what the industry can actually manufacture — repeatably, reliably, and at scale. The post From Data Deluge to Advanced Packaging: Why the Semiconductor Growth Story Is Only Just Beginning appeared first on Semiconductor Digest .",
-      "source": "Semiconductor Digest",
-      "sources": [
-        "Semiconductor Digest"
-      ],
-      "sourceCount": 1,
-      "moduleId": "packaging",
-      "module": "Packaging & Test",
-      "score": 64,
-      "rumor": false,
-      "publishedAt": "2026-08-04T12:50:06.000Z"
-    },
-    {
       "title": "IBM Claims Quantum Advantage With New Validation Techniques",
       "link": "https://spectrum.ieee.org/ibm-verifiable-quantum-advantage",
       "image": "https://spectrum.ieee.org/media-library/on-the-left-a-many-tiered-gold-structure-with-cylindrical-design-on-the-right-a-metallic-chip.jpg?id=67557437&width=980",
@@ -1319,166 +1011,20 @@
       "publishedAt": "2026-07-31T14:00:01.000Z"
     },
     {
-      "title": "Qnity Strengthens Long-Term Innovation and Advanced Packaging Roadmap",
-      "link": "https://www.semiconductor-digest.com/qnity-strengthens-long-term-innovation-and-advanced-packaging-roadmap/?utm_source=rss&utm_medium=rss&utm_campaign=qnity-strengthens-long-term-innovation-and-advanced-packaging-roadmap",
-      "image": null,
-      "summary": "Qnity Electronics, Inc. today announced it is accelerating investments in next-generation technologies through access to a broad portfolio of research programs. The post Qnity Strengthens Long-Term Innovation and Advanced Packaging Roadmap appeared first on Semiconductor Digest .",
-      "source": "Semiconductor Digest",
+      "title": "Advantech launches high-performance fanless edge computer",
+      "link": "https://www.eenewseurope.com/en/advantech-launches-high-performance-fanless-edge-computer/",
+      "image": "https://cdn.eenewseurope.com/wp-content/uploads/2026/08/Asma-eeNews-194.png",
+      "summary": "Advantech has launched the UNO-2484V3, a fanless industrial edge computer built around Intel Core Ultra Series 2 processors and DDR5 memory. The compact system targets machine automation, data acquisition, machine vision and equipment-monitoring applications that need more local processing power without moving to a larger industrial PC. The launch highlights the continued move toward more […] The ",
+      "source": "EE News Europe",
       "sources": [
-        "Semiconductor Digest"
-      ],
-      "sourceCount": 1,
-      "moduleId": "packaging",
-      "module": "Packaging & Test",
-      "score": 64,
-      "rumor": false,
-      "publishedAt": "2026-07-29T15:20:18.000Z"
-    },
-    {
-      "title": "SEMI Reports Worldwide Silicon Wafer Shipments Increase 7.4% Year-on-Year in Q2 2026",
-      "link": "https://www.semiconductor-digest.com/semi-reports-worldwide-silicon-wafer-shipments-increase-7-4-year-on-year-in-q2-2026/?utm_source=rss&utm_medium=rss&utm_campaign=semi-reports-worldwide-silicon-wafer-shipments-increase-7-4-year-on-year-in-q2-2026",
-      "image": null,
-      "summary": "Growth in global silicon wafer shipments driven by AI demand as industrial and automotive markets show signs of recovery. The post SEMI Reports Worldwide Silicon Wafer Shipments Increase 7.4% Year-on-Year in Q2 2026 appeared first on Semiconductor Digest .",
-      "source": "Semiconductor Digest",
-      "sources": [
-        "Semiconductor Digest"
-      ],
-      "sourceCount": 1,
-      "moduleId": "fabrication",
-      "module": "Fabrication",
-      "score": 64,
-      "rumor": false,
-      "publishedAt": "2026-07-29T14:58:43.000Z"
-    },
-    {
-      "title": "Primis AI Becomes ChipNexus and Launches NEX for Agentic Chip-Design Automation",
-      "link": "https://www.semiconductor-digest.com/primis-ai-becomes-chipnexus-and-launches-nex-for-agentic-chip-design-automation-2/?utm_source=rss&utm_medium=rss&utm_campaign=primis-ai-becomes-chipnexus-and-launches-nex-for-agentic-chip-design-automation-2",
-      "image": null,
-      "summary": "New identity reflects the company’s expansion from AI-assisted code generation to multi-step semiconductor engineering workflows; seed round supports enterprise growth. The post Primis AI Becomes ChipNexus and Launches NEX for Agentic Chip-Design Automation appeared first on Semiconductor Digest .",
-      "source": "Semiconductor Digest",
-      "sources": [
-        "Semiconductor Digest"
-      ],
-      "sourceCount": 1,
-      "moduleId": "eda-algorithms",
-      "module": "EDA Algorithms",
-      "score": 64,
-      "rumor": false,
-      "publishedAt": "2026-07-24T19:40:55.000Z"
-    },
-    {
-      "title": "BrainChip Partners with Celus to Bring Its Neuromorphic Edge AI Processor to the CELUS Design Platform",
-      "link": "https://www.semiconductor-digest.com/brainchip-partners-with-celus-to-bring-its-neuromorphic-edge-ai-processor-to-the-celus-design-platform/?utm_source=rss&utm_medium=rss&utm_campaign=brainchip-partners-with-celus-to-bring-its-neuromorphic-edge-ai-processor-to-the-celus-design-platform",
-      "image": null,
-      "summary": "Strategic collaboration will soon give engineers direct access to BrainChip’s AKD1500 architecture through CELUS’s AI-guided design tools for device design. The post BrainChip Partners with Celus to Bring Its Neuromorphic Edge AI Processor to the CELUS Design Platform appeared first on Semiconductor Digest .",
-      "source": "Semiconductor Digest",
-      "sources": [
-        "Semiconductor Digest"
-      ],
-      "sourceCount": 1,
-      "moduleId": "emerging",
-      "module": "Emerging & Research",
-      "score": 64,
-      "rumor": false,
-      "publishedAt": "2026-07-22T17:48:32.000Z"
-    },
-    {
-      "title": "Würth Elektronik Updates REDEXPERT DC-DC Design Tool",
-      "link": "https://www.powerelectronicsnews.com/wurth-elektronik-updates-redexpert-dc-dc-design-tool/",
-      "image": "https://www.powerelectronicsnews.com/wp-content/uploads/sites/3/2026/08/Wurth_PR.png?fit=1080%2C810",
-      "summary": "The updated tool accounts for DC bias, worst-case conditions and component losses to improve converter selection and generate a complete BOM. The post Würth Elektronik Updates REDEXPERT DC-DC Design Tool appeared first on Power Electronics News .",
-      "source": "Power Electronics News",
-      "sources": [
-        "Power Electronics News"
-      ],
-      "sourceCount": 1,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
-      "score": 47,
-      "rumor": false,
-      "publishedAt": "2026-08-18T13:00:00.000Z"
-    },
-    {
-      "title": "Memory Technology Roadmap Webinar | DRAM, NAND, HBM & Emerging Memory",
-      "link": "https://www.techinsights.com/webinar/memory-technology-roadmap-webinar-dram-nand-hbm-emerging-memory",
-      "image": null,
-      "summary": "Memory Technology Roadmap Webinar | DRAM, NAND, HBM & Emerging Memory JWinters Wed, 08/26/2026 - 11:00",
-      "source": "TechInsights",
-      "sources": [
-        "TechInsights"
-      ],
-      "sourceCount": 1,
-      "moduleId": "digital-memory",
-      "module": "Digital Design & Memory",
-      "score": 64,
-      "rumor": false,
-      "publishedAt": null
-    },
-    {
-      "title": "PowerUP’s Data Center Panel: Understanding where the 800-V DC architecture stands",
-      "link": "https://www.powerelectronicsnews.com/powerups-data-center-panel-understanding-where-the-800-v-dc-architecture-stands/",
-      "image": "https://www.powerelectronicsnews.com/wp-content/uploads/sites/3/2026/08/powerup-2026-session-graphics-panel-day-1.jpg?fit=1280%2C720",
-      "summary": "The panel explores how hyperscalers are addressing rising AI power demands through DC distribution, circuit protection, energy storage and advanced power conversion. The post PowerUP’s Data Center Panel: Understanding where the 800-V DC architecture stands appeared first on Power Electronics News .",
-      "source": "Power Electronics News",
-      "sources": [
-        "Power Electronics News"
+        "EE News Europe"
       ],
       "sourceCount": 1,
       "moduleId": "industry",
       "module": "Industry & Overview",
       "score": 44,
       "rumor": false,
-      "publishedAt": "2026-08-17T16:07:19.000Z"
-    },
-    {
-      "title": "Panasonic Thick-Film Resistors Offer Alternative to Metal Shunts",
-      "link": "https://www.powerelectronicsnews.com/panasonic-thick-film-resistors-offer-alternative-to-metal-shunts/",
-      "image": "https://www.powerelectronicsnews.com/wp-content/uploads/sites/3/2026/08/Thick-film-alternative-metal-shunt-PR-image.png?fit=600%2C400",
-      "summary": "With resistance values down to 10mΩ and TCRs as low as ±75ppm/°C, the resistors target accurate, thermally stable current measurement. The post Panasonic Thick-Film Resistors Offer Alternative to Metal Shunts appeared first on Power Electronics News .",
-      "source": "Power Electronics News",
-      "sources": [
-        "Power Electronics News"
-      ],
-      "sourceCount": 1,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
-      "score": 44,
-      "rumor": false,
-      "publishedAt": "2026-08-17T15:00:00.000Z"
-    },
-    {
-      "title": "Researchers develop AI agent technology to automate semiconductor design verification",
-      "link": "https://techxplore.com/news/2026-07-ai-agent-technology-automate-semiconductor.html",
-      "image": "https://scx1.b-cdn.net/csz/news/tmb/2026/snu-researchers-develo-19.jpg",
-      "summary": "A research team led by Hyun Oh Song, a professor in Seoul National University College of Engineering's Department of Computer Science and Engineering, in collaboration with Samsung AI Center, has developed \"Rule2DRC,\" an AI agent technology that automatically generates inspection codes required for semiconductor design verification.",
-      "source": "Phys.org – Semiconductors",
-      "sources": [
-        "Phys.org – Semiconductors",
-        "TechXplore – Semiconductors"
-      ],
-      "sourceCount": 2,
-      "moduleId": "verification",
-      "module": "Functional Verification",
-      "score": 62,
-      "rumor": false,
-      "publishedAt": "2026-07-20T20:20:09.000Z"
-    },
-    {
-      "title": "Study highlights how micro-transfer printing can lead to advanced silicon photonics",
-      "link": "https://techxplore.com/news/2026-07-highlights-micro-advanced-silicon-photonics.html",
-      "image": "https://scx1.b-cdn.net/csz/news/tmb/2026/study-highlights-how-m.jpg",
-      "summary": "The rapid growth of artificial intelligence and related computing infrastructure has exposed the limited bandwidth of conventional electrical interconnects in integrated circuits as a major bottleneck to system performance. Silicon photonics, which transmits data using photons instead of electrons, has emerged as a promising approach for overcoming bandwidth and latency limitations. The platform i",
-      "source": "Phys.org – Semiconductors",
-      "sources": [
-        "Phys.org – Semiconductors",
-        "TechXplore – Semiconductors"
-      ],
-      "sourceCount": 2,
-      "moduleId": "emerging",
-      "module": "Emerging & Research",
-      "score": 62,
-      "rumor": false,
-      "publishedAt": "2026-07-20T11:20:01.000Z"
+      "publishedAt": "2026-08-23T07:19:31.000Z"
     },
     {
       "title": "🎙️ PicoJool’s Al Yuen: The Case for GaAs VCSELs in Scale-Up Interconnects",
@@ -1511,22 +1057,6 @@
       "score": 62,
       "rumor": false,
       "publishedAt": "2026-06-30T12:00:01.000Z"
-    },
-    {
-      "title": "Students from across the Northeast step inside MIT.nano’s cleanroom",
-      "link": "https://news.mit.edu/2026/students-across-northeast-step-inside-mitnanos-cleanroom-0626",
-      "image": "https://news.mit.edu/sites/default/files/styles/news_article__cover_image__original/public/images/202606/LEAP%20group%204x3_0.jpg?itok=L_e7yVbs",
-      "summary": "A hands-on boot camp teaches integrated photonics to community and four-year college students in the region.",
-      "source": "MIT News – Nanotech",
-      "sources": [
-        "MIT News – Nanotech"
-      ],
-      "sourceCount": 1,
-      "moduleId": "fabrication",
-      "module": "Fabrication",
-      "score": 62,
-      "rumor": false,
-      "publishedAt": "2026-06-26T14:00:00.000Z"
     },
     {
       "title": "Floating Point: The Origin Story",
@@ -1593,54 +1123,6 @@
       "publishedAt": "2026-03-25T19:30:55.000Z"
     },
     {
-      "title": "Beyond simulation: Unlocking absolute certainty in hardware design with formal verification",
-      "link": "https://blogs.sw.siemens.com/verificationhorizons/2026/02/16/beyond-simulation-unlocking-absolute-certainty-in-hardware-design-with-formal-verification/",
-      "image": "https://blogs.sw.siemens.com/wp-content/uploads/sites/54/2026/02/SIE-APC-KV-Laptop-Split_original-scaled.jpg",
-      "summary": "Explore how formal verification is revolutionizing hardware design by offering not just confidence, but absolute certainty in design’s correctness.",
-      "source": "Siemens Verification Horizons",
-      "sources": [
-        "Siemens Verification Horizons"
-      ],
-      "sourceCount": 1,
-      "moduleId": "verification",
-      "module": "Functional Verification",
-      "score": 62,
-      "rumor": false,
-      "publishedAt": "2026-02-16T18:15:17.000Z"
-    },
-    {
-      "title": "Scaling the Memory Wall: The Rise and Roadmap of HBM",
-      "link": "https://semianalysis.com/2025/08/12/scaling-the-memory-wall-the-rise-and-roadmap-of-hbm/",
-      "image": null,
-      "summary": "The first portion of this report will explain HBM, the manufacturing process, dynamics between vendors, KVCache offload, disaggregated prefill decode, and wide / high-rank EP. The rest of the report will dive deeply into the future of HBM. We will cover the revolutionary change coming to HBM4 with custom base dies for HBM, what various […]",
-      "source": "SemiAnalysis",
-      "sources": [
-        "SemiAnalysis"
-      ],
-      "sourceCount": 1,
-      "moduleId": "digital-memory",
-      "module": "Digital Design & Memory",
-      "score": 62,
-      "rumor": false,
-      "publishedAt": "2025-08-12T01:16:06.000Z"
-    },
-    {
-      "title": "Intel 18A Details & Cost, Future of DRAM 4F2 vs 3D, Backside Power Adoption (or Not), China’s FlipFET, Digital Twins from Atoms to Fabs, and More",
-      "link": "https://semianalysis.com/2025/07/21/vlsi2025/",
-      "image": null,
-      "summary": "Long time readers will recall that SemiAnalysis covers more than just datacenters and AMD. Today we’re back to semiconductors with a tech-focused roundup of the best from this year’s VLSI conference, the premiere design and integration. That includes the latest in chips manufacturing: fab digital twins, the future of advanced logic transistors and interconnects, DRAM […]",
-      "source": "SemiAnalysis",
-      "sources": [
-        "SemiAnalysis"
-      ],
-      "sourceCount": 1,
-      "moduleId": "digital-memory",
-      "module": "Digital Design & Memory",
-      "score": 62,
-      "rumor": false,
-      "publishedAt": "2025-07-21T14:23:37.000Z"
-    },
-    {
       "title": "Webinar - Memory Process and Integration Challenges: DRAM & NAND",
       "link": "https://www.techinsights.com/webinar/memory-process-and-integration-challenges-dram-nand",
       "image": null,
@@ -1673,197 +1155,100 @@
       "publishedAt": "2026-07-16T21:13:48.000Z"
     },
     {
-      "title": "Amkor Joins Arizona Economic Delegation to the Republic of Korea",
-      "link": "https://www.3dincites.com/2026/08/amkor-joins-arizona-economic-delegation-to-the-republic-of-korea/",
-      "image": null,
-      "summary": "Advancing Semiconductor Innovation, Investment & Supply Chain Resilience Through International Collaboration As Arizona’s semiconductor industry continues to grow, collaboration across industry, government, and the broader semiconductor ecosystem remains essential to building a strong and resilient future. This week, Amkor Technology, Inc. is participating in an economic delegation to the Republic",
-      "source": "3DInCites (packaging)",
-      "sources": [
-        "3DInCites (packaging)"
-      ],
-      "sourceCount": 1,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
-      "score": 52,
-      "rumor": false,
-      "publishedAt": "2026-08-14T13:12:07.000Z"
-    },
-    {
-      "title": "NVIDIA Secures TSMC A16 Node for Next-Generation \"Feynman\" GPUs",
-      "link": "https://www.techpowerup.com/351607/nvidia-secures-tsmc-a16-node-for-next-generation-feynman-gpus",
-      "image": "https://www.techpowerup.com/img/tecirc3tGf2Bvmth.jpg",
-      "summary": "According to supply chain sources and those close to TSMC, NVIDIA is already working on prototyping the replacement for its \"Rubin\" and \"Rubin Ultra\" GPU designs with the next-generation \"Feynman\" GPU microarchitecture. As noted in the latest report from DigiTimes, NVIDIA is opting for TSMC's A16 node, bypassing the N2 family of nodes entirely in favor of the more advanced 1.6 nm A16 design. Mass ",
+      "title": "Linux 7.3 Scheduler Boosts FPS for Low-Power Hardware",
+      "link": "https://www.techpowerup.com/351727/linux-7-3-scheduler-boosts-fps-for-low-power-hardware",
+      "image": "https://www.techpowerup.com/img/VTSg4Ly87VwG5m2f.jpg",
+      "summary": "Linux gaming is once again getting gaming performance improvements, this time thanks to scheduler changes scheduled to launch with Linux Kernel 7.3. The merge request noted in a kernel mailing list archive post note several changes to the scheduler that make it more efficient, improve latency, and add support for asymmetric CPU architectures, like Intel's modern mix of P-Cores and E-Cores. The res",
       "source": "TechPowerUp",
       "sources": [
         "TechPowerUp"
+      ],
+      "sourceCount": 1,
+      "moduleId": "full-flow",
+      "module": "Full-Chip Flow & Product",
+      "score": 52,
+      "rumor": false,
+      "publishedAt": "2026-08-19T18:12:58.000Z"
+    },
+    {
+      "title": "BrainChip, Orama.AOI Target AI-Based Industrial Defect Detection",
+      "link": "https://www.embedded.com/brainchip-orama-aoi-target-ai-based-industrial-defect-detection/",
+      "image": null,
+      "summary": "BrainChip Inc. has partnered with Atlanta-based Orama.AOI to develop AI-based automated optical inspection solutions using BrainChip's Akida neuromorphic AI platform. Orama.AOI has retrained and optimized Akida models using its industrial inspection datasets, demonstrating the platform's application to production-oriented defect detection. Orama.AOI provides AI-powered automated optical inspection",
+      "source": "Embedded.com",
+      "sources": [
+        "Embedded.com"
+      ],
+      "sourceCount": 1,
+      "moduleId": "emerging",
+      "module": "Emerging & Research",
+      "score": 52,
+      "rumor": false,
+      "publishedAt": "2026-08-18T19:10:47.000Z"
+    },
+    {
+      "title": "Advanced RF Systems, Agilex FPGAs, a Neuromorphic Chip for AI Optical Inspection: Embedded Week Insights",
+      "link": "https://www.embedded.com/advanced-rf-systems-agilex-fpgas-a-neuromorphic-chip-for-ai-optical-inspection-embedded-week-insights/",
+      "image": null,
+      "summary": "Here's a roundup of this week's must-read articles. We'll cover the latest developments on advanced RF systems for mil-aero communications, Agilex FPGAs, and a neuromorphic chip for AI optical inspection. Also, check News Archives - Embedded and Technical Articles Archives - Embedded for the complete list of news and articles from our website. NEWS Aetina Introduces Palm-Sized In-Vehicle Edge [...",
+      "source": "Embedded.com",
+      "sources": [
+        "Embedded.com"
       ],
       "sourceCount": 1,
       "moduleId": "industry",
       "module": "Industry & Overview",
       "score": 51,
       "rumor": false,
-      "publishedAt": "2026-08-14T09:56:44.000Z"
+      "publishedAt": "2026-08-21T19:11:26.000Z"
     },
     {
-      "title": "Indium Corporation Opens New Manufacturing Facility in Guadalajara, Mexico, Expanding Global Production Network",
-      "link": "https://www.3dincites.com/2026/08/indium-expanding-manufacturing/",
-      "image": null,
-      "summary": "Indium Corporation, a leading provider of innovative materials solutions for electronics assembly, semiconductor packaging, and thermal management applications, today announced the opening of a new manufacturing facility in Guadalajara, Mexico. Company executives, employees, sales channel partners, and local guests gathered to celebrate the milestone during a ribbon-cutting ceremony. The newly com",
-      "source": "3DInCites (packaging)",
+      "title": "Donut Lab Acquires Nordic Nano Group to Expand Nanotechnology",
+      "link": "https://www.powerelectronicsnews.com/donut-lab-acquires-nordic-nano-group-to-expand-nanotechnology/",
+      "image": "https://www.powerelectronicsnews.com/wp-content/uploads/sites/3/2026/08/DonutLab_NordicNano.png?fit=1536%2C865",
+      "summary": "The acquisition brings nanomaterials expertise and intellectual property for solar, energy storage and hydrogen applications into Donut Lab. The post Donut Lab Acquires Nordic Nano Group to Expand Nanotechnology appeared first on Power Electronics News .",
+      "source": "Power Electronics News",
       "sources": [
-        "3DInCites (packaging)"
+        "Power Electronics News"
       ],
       "sourceCount": 1,
-      "moduleId": "packaging",
-      "module": "Packaging & Test",
-      "score": 57,
+      "moduleId": "industry",
+      "module": "Industry & Overview",
+      "score": 51,
       "rumor": false,
-      "publishedAt": "2026-08-11T16:07:37.000Z"
+      "publishedAt": "2026-08-21T13:00:00.000Z"
     },
     {
-      "title": "How AI Is Reshaping Semiconductor Design and the Emerging Questions Around Human Inventorship",
-      "link": "https://www.semiconductor-digest.com/how-ai-is-reshaping-semiconductor-design-and-the-emerging-questions-around-human-inventorship/?utm_source=rss&utm_medium=rss&utm_campaign=how-ai-is-reshaping-semiconductor-design-and-the-emerging-questions-around-human-inventorship",
+      "title": "Why the Advanced Packaging Semiconductor Market No Longer Moves as One",
+      "link": "https://www.techinsights.com/blog/advanced-packaging-processors-market-data",
       "image": null,
-      "summary": "IP attorney Stephen Kudla argues that's changing fast: new \"agentic\" AI systems can now interpret a design specification, generate RTL, build verification environments, and iterate through fixes with minimal human involvement between steps. The post How AI Is Reshaping Semiconductor Design and the Emerging Questions Around Human Inventorship appeared first on Semiconductor Digest .",
-      "source": "Semiconductor Digest",
+      "summary": "Why the Advanced Packaging Semiconductor Market No Longer Moves as One LGarcia Mon, 08/17/2026 - 19:25",
+      "source": "TechInsights",
       "sources": [
-        "Semiconductor Digest"
+        "TechInsights"
       ],
       "sourceCount": 1,
-      "moduleId": "rtl-design",
-      "module": "RTL / HDL Design",
-      "score": 57,
+      "moduleId": "industry",
+      "module": "Industry & Overview",
+      "score": 56,
       "rumor": false,
-      "publishedAt": "2026-08-10T14:35:14.000Z"
+      "publishedAt": "2026-08-17T19:25:48.000Z"
     },
     {
-      "title": "Everspin Technologies and MaxLinear Collaborate to Advance Memory Efficiency in AI Servers",
-      "link": "https://www.semiconductor-digest.com/everspin-technologies-and-maxlinear-collaborate-to-advance-memory-efficiency-in-ai-servers-2/?utm_source=rss&utm_medium=rss&utm_campaign=everspin-technologies-and-maxlinear-collaborate-to-advance-memory-efficiency-in-ai-servers-2",
-      "image": null,
-      "summary": "Work will focus on persistent MRAM for metadata management, log data, write buffering and cache functions. The post Everspin Technologies and MaxLinear Collaborate to Advance Memory Efficiency in AI Servers appeared first on Semiconductor Digest .",
-      "source": "Semiconductor Digest",
+      "title": "Build Your Own DRAM Supply Model",
+      "link": "https://www.chipstrat.com/p/build-your-own-dram-supply-model",
+      "image": "https://substackcdn.com/image/fetch/$s_!Iggk!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F99a7310a-fb7a-4daa-8620-085eb21cbefd_1720x786.png",
+      "summary": "Wafer starts, die size, yield, HBM mix, node migration impacts, etc. Simple enough to follow, but detailed enough to learn from.",
+      "source": "ChipStrat",
       "sources": [
-        "Semiconductor Digest"
+        "ChipStrat"
       ],
       "sourceCount": 1,
-      "moduleId": "emerging",
-      "module": "Emerging & Research",
-      "score": 57,
+      "moduleId": "digital-memory",
+      "module": "Digital Design & Memory",
+      "score": 56,
       "rumor": false,
-      "publishedAt": "2026-08-06T21:13:39.000Z"
-    },
-    {
-      "title": "AlixLabs Expands Footprint at RISE ProNano in Lund by 400 Square Meters",
-      "link": "https://www.semiconductor-digest.com/alixlabs-expands-footprint-at-rise-pronano-in-lund-by-400-square-meters/?utm_source=rss&utm_medium=rss&utm_campaign=alixlabs-expands-footprint-at-rise-pronano-in-lund-by-400-square-meters",
-      "image": null,
-      "summary": "AlixLabs AB, a Swedish semiconductor technology company pioneering Atomic Pitch Splitting, APS, today announced that it is expanding its cleanroom space at the Lund-based RISE ProNano lab by 400 square meters. The post AlixLabs Expands Footprint at RISE ProNano in Lund by 400 Square Meters appeared first on Semiconductor Digest .",
-      "source": "Semiconductor Digest",
-      "sources": [
-        "Semiconductor Digest"
-      ],
-      "sourceCount": 1,
-      "moduleId": "fabrication",
-      "module": "Fabrication",
-      "score": 57,
-      "rumor": false,
-      "publishedAt": "2026-08-06T21:11:30.000Z"
-    },
-    {
-      "title": "IBM and The University of Chicago Demonstrate Quantum Advantage",
-      "link": "https://www.semiconductor-digest.com/ibm-and-the-university-of-chicago-demonstrate-quantum-advantage/?utm_source=rss&utm_medium=rss&utm_campaign=ibm-and-the-university-of-chicago-demonstrate-quantum-advantage",
-      "image": null,
-      "summary": "Scientists used a new error correction method to encode 70 logical qubits and crack a classically intractable problem. The post IBM and The University of Chicago Demonstrate Quantum Advantage appeared first on Semiconductor Digest .",
-      "source": "Semiconductor Digest",
-      "sources": [
-        "Semiconductor Digest"
-      ],
-      "sourceCount": 1,
-      "moduleId": "emerging",
-      "module": "Emerging & Research",
-      "score": 57,
-      "rumor": false,
-      "publishedAt": "2026-07-31T16:40:51.000Z"
-    },
-    {
-      "title": "Breaking Down Barriers: A Roadmap to Perfect Contacts in 2D Electronics",
-      "link": "https://www.semiconductor-digest.com/breaking-down-barriers-a-roadmap-to-perfect-contacts-in-2d-electronics/?utm_source=rss&utm_medium=rss&utm_campaign=breaking-down-barriers-a-roadmap-to-perfect-contacts-in-2d-electronics",
-      "image": null,
-      "summary": "As two-dimensional (2D) materials emerge as leading candidates for next-generation electronics, a critical challenge remains: the quality of electrical contact with metal electrodes. A new review published in Nano Research systematically explores the dual nature of the Schottky barrier at 2D material–metal interfaces, offering a comprehensive roadmap for engineering both Ohmic and Schottky contact",
-      "source": "Semiconductor Digest",
-      "sources": [
-        "Semiconductor Digest"
-      ],
-      "sourceCount": 1,
-      "moduleId": "physics",
-      "module": "Semiconductor Physics",
-      "score": 57,
-      "rumor": false,
-      "publishedAt": "2026-07-29T15:32:34.000Z"
-    },
-    {
-      "title": "Micross to Acquire AEMtec",
-      "link": "https://www.semiconductor-digest.com/micross-to-acquire-aemtec/?utm_source=rss&utm_medium=rss&utm_campaign=micross-to-acquire-aemtec",
-      "image": null,
-      "summary": "AEMtec is a provider of complex micro- and optoelectronic modules, advanced packaging, test and assembly services for high-reliability applications, headquartered in Berlin, Germany and a portfolio company of Capiton. The post Micross to Acquire AEMtec appeared first on Semiconductor Digest .",
-      "source": "Semiconductor Digest",
-      "sources": [
-        "Semiconductor Digest"
-      ],
-      "sourceCount": 1,
-      "moduleId": "packaging",
-      "module": "Packaging & Test",
-      "score": 57,
-      "rumor": false,
-      "publishedAt": "2026-07-28T20:26:19.000Z"
-    },
-    {
-      "title": "Siemens Advances Self-Verifying Agentic AI Workflows for Semiconductor and PCB Design",
-      "link": "https://www.semiconductor-digest.com/siemens-advances-self-verifying-agentic-ai-workflows-for-semiconductor-and-pcb-design/?utm_source=rss&utm_medium=rss&utm_campaign=siemens-advances-self-verifying-agentic-ai-workflows-for-semiconductor-and-pcb-design",
-      "image": null,
-      "summary": "Siemens today announced an expansion of its strategic partnership with NVIDIA to deliver self-verifying agentic AI workflows to EDA, helping semiconductor and printed circuit board (PCB) engineering teams move from autonomous task orchestration toward more trusted, continuously validated engineering outcomes. The post Siemens Advances Self-Verifying Agentic AI Workflows for Semiconductor and PCB D",
-      "source": "Semiconductor Digest",
-      "sources": [
-        "Semiconductor Digest"
-      ],
-      "sourceCount": 1,
-      "moduleId": "eda-algorithms",
-      "module": "EDA Algorithms",
-      "score": 57,
-      "rumor": false,
-      "publishedAt": "2026-07-27T16:16:31.000Z"
-    },
-    {
-      "title": "Low-temperature technique grows crystal-aligned semiconductor films",
-      "link": "https://techxplore.com/news/2026-07-temperature-technique-crystal-aligned-semiconductor.html",
-      "image": "https://scx1.b-cdn.net/csz/news/tmb/2026/kaist-develops-low-tem.jpg",
-      "summary": "Building next-generation semiconductors and low-power electronic devices requires precisely stacking materials with different functions. In this process, it is essential to preserve each material's intrinsic properties, as well as the interface where the two materials meet, without damage. Layered van der Waals materials, including transition metal dichalcogenides (TMDs), have attracted considerab",
-      "source": "Phys.org – Semiconductors",
-      "sources": [
-        "Phys.org – Semiconductors",
-        "TechXplore – Semiconductors"
-      ],
-      "sourceCount": 2,
-      "moduleId": "emerging",
-      "module": "Emerging & Research",
-      "score": 57,
-      "rumor": false,
-      "publishedAt": "2026-07-27T16:00:05.000Z"
-    },
-    {
-      "title": "FAMES Pilot Line & SiNANO Institute to Present FAMES’ Latest Technical Results at ESSERC 2026 in Palma de Mallorca, Spain",
-      "link": "https://www.semiconductor-digest.com/fames-pilot-line-sinano-institute-to-present-fames-latest-technical-results-at-esserc-2026-in-palma-de-mallorca-spain/?utm_source=rss&utm_medium=rss&utm_campaign=fames-pilot-line-sinano-institute-to-present-fames-latest-technical-results-at-esserc-2026-in-palma-de-mallorca-spain",
-      "image": null,
-      "summary": "Sept. 7, 2026 workshop will feature comprehensive technical update, spanning advanced FD-SOI nodes, embedded memories, RF filters, 3D integration and power management ICs. The post FAMES Pilot Line & SiNANO Institute to Present FAMES’ Latest Technical Results at ESSERC 2026 in Palma de Mallorca, Spain appeared first on Semiconductor Digest .",
-      "source": "Semiconductor Digest",
-      "sources": [
-        "Semiconductor Digest"
-      ],
-      "sourceCount": 1,
-      "moduleId": "advanced-devices",
-      "module": "Advanced Devices",
-      "score": 57,
-      "rumor": false,
-      "publishedAt": "2026-07-23T18:56:14.000Z"
+      "publishedAt": "2026-08-14T23:11:34.000Z"
     },
     {
       "title": "Will ASML Finally Charge for Its Value?",
@@ -1896,86 +1281,6 @@
       "score": 56,
       "rumor": false,
       "publishedAt": "2026-07-29T20:18:00.000Z"
-    },
-    {
-      "title": "GlobalFoundries Signs Letter of Intent with the U.S. Department of Commerce for a $300M Award to Accelerate U.S. Silicon Photonics Leadership",
-      "link": "https://www.semiconductor-digest.com/globalfoundries-signs-letter-of-intent-with-the-u-s-department-of-commerce-for-a-300m-award-to-accelerate-u-s-silicon-photonics-leadership/?utm_source=rss&utm_medium=rss&utm_campaign=globalfoundries-signs-letter-of-intent-with-the-u-s-department-of-commerce-for-a-300m-award-to-accelerate-u-s-silicon-photonics-leadership",
-      "image": null,
-      "summary": "LOI for CHIPS R&D award advances the optical technologies powering AI and high-performance computing. The post GlobalFoundries Signs Letter of Intent with the U.S. Department of Commerce for a $300M Award to Accelerate U.S. Silicon Photonics Leadership appeared first on Semiconductor Digest .",
-      "source": "Semiconductor Digest",
-      "sources": [
-        "Semiconductor Digest"
-      ],
-      "sourceCount": 1,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
-      "score": 56,
-      "rumor": false,
-      "publishedAt": "2026-07-29T14:53:21.000Z"
-    },
-    {
-      "title": "Beyond Human Intuition: Algorithms Create Foundry-Ready Photonic Circuits",
-      "link": "https://www.semiconductor-digest.com/beyond-human-intuition-algorithms-create-foundry-ready-photonic-circuits/?utm_source=rss&utm_medium=rss&utm_campaign=beyond-human-intuition-algorithms-create-foundry-ready-photonic-circuits",
-      "image": null,
-      "summary": "Photonic microchips can process data at extremely high speeds and are embedded in a wide variety of today’s technologies. Researchers at the Max Planck Institute for the Science of Light (MPL) and Harvard University have now succeeded in developing three functional components for such chips that are up to 500 times smaller than conventional designs. The researchers used inverse design, a computer ",
-      "source": "Semiconductor Digest",
-      "sources": [
-        "Semiconductor Digest"
-      ],
-      "sourceCount": 1,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
-      "score": 56,
-      "rumor": false,
-      "publishedAt": "2026-07-28T21:09:15.000Z"
-    },
-    {
-      "title": "ZEISS SMT Expands Capacity For the Future of the Semiconductor Industry",
-      "link": "https://www.semiconductor-digest.com/zeiss-smt-expands-capacity-for-the-future-of-the-semiconductor-industry/?utm_source=rss&utm_medium=rss&utm_campaign=zeiss-smt-expands-capacity-for-the-future-of-the-semiconductor-industry",
-      "image": null,
-      "summary": "To reliably support customers worldwide in the future, ZEISS Semiconductor Manufacturing Technology (SMT) is strategically expanding its capacity. The post ZEISS SMT Expands Capacity For the Future of the Semiconductor Industry appeared first on Semiconductor Digest .",
-      "source": "Semiconductor Digest",
-      "sources": [
-        "Semiconductor Digest"
-      ],
-      "sourceCount": 1,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
-      "score": 56,
-      "rumor": false,
-      "publishedAt": "2026-07-24T19:33:56.000Z"
-    },
-    {
-      "title": "Mind the (Band)gap! The Evolving Power Electronics Materials Landscape",
-      "link": "https://www.semiconductor-digest.com/mind-the-bandgap-the-evolving-power-electronics-materials-landscape/?utm_source=rss&utm_medium=rss&utm_campaign=mind-the-bandgap-the-evolving-power-electronics-materials-landscape",
-      "image": null,
-      "summary": "IDTechEx expects the power electronics market to grow to US$65.2 billion by 2036, representing a CAGR of 10% over the forecasting period. The post Mind the (Band)gap! The Evolving Power Electronics Materials Landscape appeared first on Semiconductor Digest .",
-      "source": "Semiconductor Digest",
-      "sources": [
-        "Semiconductor Digest"
-      ],
-      "sourceCount": 1,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
-      "score": 56,
-      "rumor": false,
-      "publishedAt": "2026-07-24T19:29:48.000Z"
-    },
-    {
-      "title": "Salience Labs Wants To Scale Up AI With Silicon Photonics Optical Switch",
-      "link": "https://www.nextplatform.com/connect/2026/07/22/salience-labs-wants-to-scale-up-ai-with-silicon-photonics-optical-switch/5276643",
-      "image": "https:&#x2F;&#x2F;image.nextplatform.com&#x2F;5276645.jpg?imageId&#x3D;5276645&panox&#x3D;0.00&panoy&#x3D;0.00&panow&#x3D;100.00&panoh&#x3D;100.00&heightx&#x3D;0.00&heighty&#x3D;0.00&heightw&#x3D;100.00&heighth&#x3D;100.00&width&#x3D;1058&height&#x3D;478&format&#x3D;webp&format=jpg",
-      "summary": "",
-      "source": "The Next Platform",
-      "sources": [
-        "The Next Platform"
-      ],
-      "sourceCount": 1,
-      "moduleId": "emerging",
-      "module": "Emerging & Research",
-      "score": 56,
-      "rumor": false,
-      "publishedAt": "2026-07-22T20:28:10.000Z"
     },
     {
       "title": "Largest Probabilistic Computer Hits 1 Million P-Bits",
@@ -2026,68 +1331,20 @@
       "publishedAt": "2026-07-07T13:30:01.000Z"
     },
     {
-      "title": "Records Fall for 3D Chip Tech",
-      "link": "https://spectrum.ieee.org/hybrid-bonding-2677022836",
-      "image": "https://spectrum.ieee.org/media-library/sem-image-of-high-density-3d-connections-between-metal-interconnects-on-two-chips.jpg?id=67023217&width=980",
-      "summary": "As transistor sizes shrink to their atomic limits, computing demands are only growing. Sending chips to the third dimension is the future: Chips stacked on other chips can get more work done in the same footprint, saving time and energy. A 3D chipmaking technology called hybrid bonding is leading the charge in such efforts. Last month, two research teams used the tech to make hundreds of thousands",
-      "source": "IEEE Spectrum – Semiconductors",
+      "title": "Salience Labs Wants To Scale Up AI With Silicon Photonics Optical Switch",
+      "link": "https://www.nextplatform.com/connect/2026/07/22/salience-labs-wants-to-scale-up-ai-with-silicon-photonics-optical-switch/5276643",
+      "image": "https:&#x2F;&#x2F;image.nextplatform.com&#x2F;5276645.jpg?imageId&#x3D;5276645&panox&#x3D;0.00&panoy&#x3D;0.00&panow&#x3D;100.00&panoh&#x3D;100.00&heightx&#x3D;0.00&heighty&#x3D;0.00&heightw&#x3D;100.00&heighth&#x3D;100.00&width&#x3D;1058&height&#x3D;478&format&#x3D;webp&format=jpg",
+      "summary": "",
+      "source": "The Next Platform",
       "sources": [
-        "IEEE Spectrum – Semiconductors"
-      ],
-      "sourceCount": 1,
-      "moduleId": "packaging",
-      "module": "Packaging & Test",
-      "score": 55,
-      "rumor": false,
-      "publishedAt": "2026-06-25T14:00:01.000Z"
-    },
-    {
-      "title": "Finding Success in Industry as a Chip Designer",
-      "link": "https://spectrum.ieee.org/chip-design-academic-vs-industry",
-      "image": "https://spectrum.ieee.org/media-library/engineer-testing-electronic-components-at-a-lab-bench-with-cables-and-equipment.png?id=66821207&width=980",
-      "summary": "I have been an application-specific IC (ASIC) designer for almost three decades. Over that time, I’ve moved through the full academic trajectory, from graduate student to full professor; later, I transitioned to industry after an unsuccessful stint at entrepreneurship. When I made the switch to the private sector in 2019, I began focusing on a critically important aspect of the electronic industry",
-      "source": "IEEE Spectrum – Semiconductors",
-      "sources": [
-        "IEEE Spectrum – Semiconductors"
-      ],
-      "sourceCount": 1,
-      "moduleId": "full-flow",
-      "module": "Full-Chip Flow & Product",
-      "score": 55,
-      "rumor": false,
-      "publishedAt": "2026-05-28T13:00:01.000Z"
-    },
-    {
-      "title": "The hidden structure behind a widely used class of materials",
-      "link": "https://news.mit.edu/2026/hidden-structure-behind-widely-used-class-materials-0430",
-      "image": "https://news.mit.edu/sites/default/files/styles/news_article__cover_image__original/public/images/202604/MIT-Polar-Domains-02-press_0.jpg?itok=imKNuV7q",
-      "summary": "Relaxor ferroelectrics have been used in electronics and sensors for decades, but the source of their unique properties was a mystery until now.",
-      "source": "MIT News – Nanotech",
-      "sources": [
-        "MIT News – Nanotech"
+        "The Next Platform"
       ],
       "sourceCount": 1,
       "moduleId": "emerging",
       "module": "Emerging & Research",
-      "score": 55,
+      "score": 54,
       "rumor": false,
-      "publishedAt": "2026-04-30T18:00:00.000Z"
-    },
-    {
-      "title": "Another Giant Leap: The Rubin CPX Specialized Accelerator & Rack",
-      "link": "https://semianalysis.com/2025/09/10/another-giant-leap-the-rubin-cpx-specialized-accelerator-rack/",
-      "image": null,
-      "summary": "Nvidia announced the Rubin CPX, a solution that is specifically designed to be optimized for the prefill phase, with the single-die Rubin CPX heavily emphasizing compute FLOPS over memory bandwidth. This is a game changer for inference, and its significance is surpassed only by the March 2024 announcement of the GB200 NVL72 Oberon rack-scale form […]",
-      "source": "SemiAnalysis",
-      "sources": [
-        "SemiAnalysis"
-      ],
-      "sourceCount": 1,
-      "moduleId": "digital-memory",
-      "module": "Digital Design & Memory",
-      "score": 55,
-      "rumor": false,
-      "publishedAt": "2025-09-10T19:57:18.000Z"
+      "publishedAt": "2026-07-22T20:28:10.000Z"
     },
     {
       "title": "Google Uses AI Reinforcement Learning For Quantum Error Correction",
@@ -2110,12 +1367,11 @@
       "link": "https://spectrum.ieee.org/high-bandwidth-flash",
       "image": "https://spectrum.ieee.org/media-library/schematic-of-high-bandwidth-flash-die-stacked-on-top-of-a-logic-die.jpg?id=67145585&width=980",
       "summary": "Large Language Models (LLMs) demand immense amounts of memory, and the more people use them, the more memory is required. Memory makers responded by accelerating plans to build new memory fabs, with a focus on High Bandwidth Memory (HBM) and DRAM, the first of which is scheduled to start production in 2027. But the demand for memory may also provide an opportunity for new ideas to find footing. On",
-      "source": "IEEE Spectrum – Semiconductors",
+      "source": "IEEE Spectrum – Computing",
       "sources": [
-        "IEEE Spectrum – Semiconductors",
         "IEEE Spectrum – Computing"
       ],
-      "sourceCount": 2,
+      "sourceCount": 1,
       "moduleId": "packaging",
       "module": "Packaging & Test",
       "score": 54,
@@ -2155,22 +1411,6 @@
       "publishedAt": "2026-06-17T19:49:52.000Z"
     },
     {
-      "title": "Improving the performance of high-power electronics",
-      "link": "https://news.mit.edu/2026/improving-high-power-electronics-performance-0608",
-      "image": "https://news.mit.edu/sites/default/files/styles/news_article__cover_image__original/public/images/202606/MIT-DiamondBridge-01-press.jpg?itok=fTfa8Boe",
-      "summary": "By using a thin layer of diamond to manage excessive heat, researchers can boost the speed and energy-efficiency of next-generation wireless devices.",
-      "source": "MIT News – Nanotech",
-      "sources": [
-        "MIT News – Nanotech"
-      ],
-      "sourceCount": 1,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
-      "score": 54,
-      "rumor": false,
-      "publishedAt": "2026-06-08T04:00:00.000Z"
-    },
-    {
       "title": "Qualcomm's Ventana RISC-V Acquisition",
       "link": "https://thechipletter.substack.com/p/qualcomms-risc-ventana-fusion",
       "image": "https://substackcdn.com/image/fetch/$s_!O2W4!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F643a0b0a-a9c8-4f47-9e32-dac749a3c2e0_1631x1080.jpeg",
@@ -2203,22 +1443,6 @@
       "publishedAt": "2025-11-06T22:00:20.000Z"
     },
     {
-      "title": "Huawei Ascend Production Ramp: Die Banks, TSMC Continued Production, HBM is The Bottleneck",
-      "link": "https://semianalysis.com/2025/09/08/huawei-ascend-production-ramp/",
-      "image": null,
-      "summary": "Compute is the lifeblood of AI. He who controls the spice controls the universe the compute will control the production of tokens and reap the benefits of AI. Without compute you do not have a seat at the table. The United States technology community is all in on compute and AI as the next platform […]",
-      "source": "SemiAnalysis",
-      "sources": [
-        "SemiAnalysis"
-      ],
-      "sourceCount": 1,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
-      "score": 54,
-      "rumor": false,
-      "publishedAt": "2025-09-08T09:54:57.000Z"
-    },
-    {
       "title": "Foundry Idea(s)",
       "link": "https://www.fabricatedknowledge.com/p/foundry-ideas",
       "image": "https://substack-post-media.s3.amazonaws.com/public/images/112d2fbb-2d4a-45f2-9150-7ed1d9a89c47_1024x1024.png",
@@ -2235,10 +1459,10 @@
       "publishedAt": "2025-08-25T20:30:50.000Z"
     },
     {
-      "title": "Toshiba Adds Low-Power Quad-Channel Digital Isolators",
-      "link": "https://www.powerelectronicsnews.com/toshiba-adds-low-power-quad-channel-digital-isolators/",
-      "image": "https://www.powerelectronicsnews.com/wp-content/uploads/sites/3/2026/08/7698_HR.jpg?fit=2100%2C1500",
-      "summary": "The new devices support 2.25–5.5V supplies, 3,000 Vrms isolation and 30kV/μs CMTI in a compact SSOP16 package. The post Toshiba Adds Low-Power Quad-Channel Digital Isolators appeared first on Power Electronics News .",
+      "title": "Vishay Introduces RPWA 650W Thick-Film Power Resistors",
+      "link": "https://www.powerelectronicsnews.com/vishay-introduces-rpwa-650w-thick-film-power-resistors/",
+      "image": "https://www.powerelectronicsnews.com/wp-content/uploads/sites/3/2026/08/55459310806_88e2122dbf_h.jpg?fit=1600%2C1067",
+      "summary": "The low-profile devices integrate optional NTC sensing and customizable cabling while supporting up to 6kV and 3.5J repetitive pulse energy. The post Vishay Introduces RPWA 650W Thick-Film Power Resistors appeared first on Power Electronics News .",
       "source": "Power Electronics News",
       "sources": [
         "Power Electronics News"
@@ -2248,13 +1472,13 @@
       "module": "Industry & Overview",
       "score": 44,
       "rumor": false,
-      "publishedAt": "2026-08-14T13:42:39.000Z"
+      "publishedAt": "2026-08-21T14:11:04.000Z"
     },
     {
-      "title": "As Robots Leave the Factory, Battery Architecture Moves to the Foreground",
-      "link": "https://www.powerelectronicsnews.com/as-robots-leave-the-factory-battery-architecture-moves-to-the-foreground/",
-      "image": "https://www.powerelectronicsnews.com/wp-content/uploads/sites/3/2026/08/Single_Bus_Antenna_Vs_Multi_Hub_Tree_Vs_Multi_BMS_Humanoid_Robots_.png?fit=2917%2C2084",
-      "summary": "Humanoid robots demand flexible distributed battery architectures that balance mass distribution, runtime, and cell-level monitoring complexity. The post As Robots Leave the Factory, Battery Architecture Moves to the Foreground appeared first on Power Electronics News .",
+      "title": "Enphase Launches IQ Battery C80 for Commercial Energy Storage",
+      "link": "https://www.powerelectronicsnews.com/enphase-launches-iq-battery-c80-for-commercial-energy-storage/",
+      "image": "https://www.powerelectronicsnews.com/wp-content/uploads/sites/3/2026/08/Hero_V2.png?fit=2800%2C2800",
+      "summary": "The system supports demand charge management, solar self-consumption and grid services, with shipments scheduled to begin in early 2027. The post Enphase Launches IQ Battery C80 for Commercial Energy Storage appeared first on Power Electronics News .",
       "source": "Power Electronics News",
       "sources": [
         "Power Electronics News"
@@ -2264,72 +1488,55 @@
       "module": "Industry & Overview",
       "score": 44,
       "rumor": false,
-      "publishedAt": "2026-08-14T11:00:00.000Z"
+      "publishedAt": "2026-08-20T13:00:00.000Z"
     },
     {
-      "title": "Koh Young Technology to Double Production Capacity as AI Server and Advanced Semiconductor Demand Grows",
-      "link": "https://www.3dincites.com/2026/08/koh-young-productioncenter/",
-      "image": null,
-      "summary": "New 12,800-square-meter production center will support rising demand from AI server and advanced semiconductor markets while creating capacity for future growth Koh Young Technology, the industry leader in True 3D measurement-based inspection solutions, announced plans to expand its Yeoju production complex in Gyeonggi Province, Korea, with the construction of a second production center. The strat",
-      "source": "3DInCites (packaging)",
+      "title": "Power Corner: Modeling the AI Data Center Power Train with MathWorks",
+      "link": "https://www.powerelectronicsnews.com/power-corner-modeling-the-ai-data-center-power-train-with-mathworks/",
+      "image": "https://www.powerelectronicsnews.com/wp-content/uploads/sites/3/2026/08/Mathworks-thumbnail.png?fit=1280%2C720",
+      "summary": "MathWorks' Tony Lennon explains how multi-domain simulation models AI data center power, cooling, and grid interconnection. The post Power Corner: Modeling the AI Data Center Power Train with MathWorks appeared first on Power Electronics News .",
+      "source": "Power Electronics News",
       "sources": [
-        "3DInCites (packaging)"
+        "Power Electronics News"
       ],
       "sourceCount": 1,
       "moduleId": "industry",
       "module": "Industry & Overview",
-      "score": 49,
+      "score": 44,
       "rumor": false,
-      "publishedAt": "2026-08-12T14:05:05.000Z"
+      "publishedAt": "2026-08-20T11:00:00.000Z"
     },
     {
-      "title": "SEMI Applauds Statement from Senators Crapo and Wyden Supporting U.S. Tax Credit for Semiconductor Manufacturing",
-      "link": "https://www.semiconductor-digest.com/semi-applauds-statement-from-senators-crapo-and-wyden-supporting-u-s-tax-credit-for-semiconductor-manufacturing/?utm_source=rss&utm_medium=rss&utm_campaign=semi-applauds-statement-from-senators-crapo-and-wyden-supporting-u-s-tax-credit-for-semiconductor-manufacturing",
-      "image": null,
-      "summary": "Following Senate Finance Committee Chairman Mike Crapo (R-ID) and Ranking Member Ron Wyden (D-OR) reaffirming support for the Section 48D Advanced Manufacturing Investment Credit (AMIC), SEMI today released a statement from its President and CEO Ajit Manocha commending the action on behalf of the semiconductor supply chain. The post SEMI Applauds Statement from Senators Crapo and Wyden Supporting ",
-      "source": "Semiconductor Digest",
+      "title": "EPC Space Launches Rad-Hard 15V, 25V and 40V eGaN FETs",
+      "link": "https://www.powerelectronicsnews.com/epc-space-launches-rad-hard-15v-25v-and-40v-egan-fets/",
+      "image": "https://www.powerelectronicsnews.com/wp-content/uploads/sites/3/2026/08/EPC7050-7065-7066-PR-Graphic_CLEAN.jpg?fit=1500%2C1200",
+      "summary": "The new devices support up to 101A continuous current and TID above 1Mrad for high-frequency power conversion in space computing systems. The post EPC Space Launches Rad-Hard 15V, 25V and 40V eGaN FETs appeared first on Power Electronics News .",
+      "source": "Power Electronics News",
       "sources": [
-        "Semiconductor Digest"
+        "Power Electronics News"
       ],
       "sourceCount": 1,
       "moduleId": "industry",
       "module": "Industry & Overview",
-      "score": 49,
+      "score": 44,
       "rumor": false,
-      "publishedAt": "2026-08-06T21:05:39.000Z"
+      "publishedAt": "2026-08-19T13:00:00.000Z"
     },
     {
       "title": "SEM-Guided Low-kV FIB Finishing for Leading-Edge Semiconductor Failure Analysis",
       "link": "https://event.on24.com/wcc/r/5418459/287E3D5B99470D34C830D69A24B3B207",
       "image": "https://assets.rbl.ms/66728517/origin.png",
       "summary": "Discover how the ZEISS Crossbeam 750 FIBSEM sets a new benchmark for precise TEM lamella prep, tomography, and advanced nanofabrication. This delivers better resolution, better SNR, larger usable FOV, and shorter acquisition times. Learn how uninterrupted FIB milling will reduce damage and rework, accelerate time to TEM, and increase first pass success—so your FA, yield, and materials teams make f",
-      "source": "IEEE Spectrum – Semiconductors",
+      "source": "IEEE Spectrum – Computing",
       "sources": [
-        "IEEE Spectrum – Semiconductors",
         "IEEE Spectrum – Computing"
-      ],
-      "sourceCount": 2,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
-      "score": 47,
-      "rumor": false,
-      "publishedAt": "2026-07-20T15:55:00.000Z"
-    },
-    {
-      "title": "Stacking Chips Sideways Gives AI More Memory",
-      "link": "https://spectrum.ieee.org/stacking-chips-sideways",
-      "image": "https://spectrum.ieee.org/media-library/a-prototype-memory-chip-consisting-of-a-silver-cube-with-orange-strips-on-two-sides-and-large-grey-blobs-on-the-other-sides.jpg?id=67103305&width=980",
-      "summary": "GPUs and other big AI chips just can’t get enough memory. Today’s data center computers stack DRAM 12 dies high. But as memory makers try to build higher stacks to pack in more bits and bandwidth, experts worry this high bandwidth-memory (HBM) will trap enough heat to cook itself into oblivion. That will be especially true if GPU makers choose to start stacking HBM atop their already hot processor",
-      "source": "IEEE Spectrum – Semiconductors",
-      "sources": [
-        "IEEE Spectrum – Semiconductors"
       ],
       "sourceCount": 1,
       "moduleId": "industry",
       "module": "Industry & Overview",
       "score": 47,
       "rumor": false,
-      "publishedAt": "2026-07-08T10:00:02.000Z"
+      "publishedAt": "2026-07-20T15:55:00.000Z"
     },
     {
       "title": "High Bandwidth Flash: The Full Report",
@@ -2410,38 +1617,6 @@
       "score": 46,
       "rumor": false,
       "publishedAt": "2026-06-09T15:58:56.000Z"
-    },
-    {
-      "title": "TSMC's Margins in Uncharted Territory",
-      "link": "https://www.chipstrat.com/p/tsmcs-margins-in-uncharted-territory",
-      "image": "https://substackcdn.com/image/fetch/$s_!hXab!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F2fc55e15-bd17-4d90-8a44-83e52356cf4b_1866x1092.png",
-      "summary": "66.2% in the weakest quarter of the year. The biggest sequential jump on record. And 10 points above the long-term target they just raised.",
-      "source": "ChipStrat",
-      "sources": [
-        "ChipStrat"
-      ],
-      "sourceCount": 1,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
-      "score": 46,
-      "rumor": false,
-      "publishedAt": "2026-04-23T14:58:57.000Z"
-    },
-    {
-      "title": "TSMC could spend $10B more on N2 capacity. Why won’t they?",
-      "link": "https://www.chipstrat.com/p/tsmc-could-spend-10b-more-on-n2-capacity",
-      "image": "https://substackcdn.com/image/fetch/$s_!0Uol!,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Ffca3391e-974e-420b-97b5-37b08acd52a2_1920x1000.png",
-      "summary": "TSMC has the cash... Why not build more N2? Implications of not doing so? And more",
-      "source": "ChipStrat",
-      "sources": [
-        "ChipStrat"
-      ],
-      "sourceCount": 1,
-      "moduleId": "industry",
-      "module": "Industry & Overview",
-      "score": 40,
-      "rumor": true,
-      "publishedAt": "2026-07-24T22:51:52.000Z"
     }
   ]
 }

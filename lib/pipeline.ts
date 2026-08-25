@@ -6,6 +6,7 @@ import { SOURCES, Source } from "../data/sources";
 import { tagArticle } from "./tag";
 import { scoreArticle } from "./score";
 import { dedupeArticles, DedupItem } from "./dedup";
+import { bestModuleByMeaning } from "./moduleVectors";
 
 const parser = new XMLParser({ ignoreAttributes: false, attributeNamePrefix: "@_" });
 
@@ -185,18 +186,85 @@ async function enrichImages(articles: Article[]): Promise<void> {
 
 type Kept = DedupItem & Omit<Article, "sources" | "sourceCount">;
 
+// --- Gap 1 safe-hybrid rescue -------------------------------------------------
+// Articles that got NO keyword tag are normally dropped. Here we give them a
+// second chance by meaning: embed the text, and if it clearly matches a module
+// (cosine >= RESCUE_THRESHOLD) tag it there. Keyword tagging stays primary and
+// unchanged; only would-be-dropped items reach this. Cached per link so each is
+// embedded at most once across cycles; budget-capped so one build can't run away.
+const RESCUE_THRESHOLD = 0.43;
+const RESCUE_BUDGET = 400; // max NEW embeddings per build
+const rescueCache = new Map<string, { id: string; name: string; score: number } | null>();
+
+type Untagged = {
+  title: string;
+  summary: string;
+  link: string;
+  image: string | null;
+  published: Date | null;
+  tier: 1 | 2;
+  srcName: string;
+};
+
+async function rescueUntagged(items: Untagged[], kept: Kept[]): Promise<void> {
+  let budget = RESCUE_BUDGET;
+  let rescued = 0;
+  for (const u of items) {
+    if (!u.link) continue;
+    if (!rescueCache.has(u.link)) {
+      if (budget <= 0) continue; // over budget this cycle -> retry next time
+      budget--;
+      rescueCache.set(u.link, await bestModuleByMeaning(`${u.title}. ${u.summary}`, RESCUE_THRESHOLD));
+    }
+    const found = rescueCache.get(u.link);
+    if (!found) continue; // tried, not confident -> stays dropped
+    // synthetic tag: relevance scales with confidence, never tops strong keyword hits
+    const tag = { moduleId: found.id, moduleName: found.name, score: Math.min(6, found.score * 10), matched: [] as string[] };
+    const r = scoreArticle({ title: u.title, summary: u.summary, link: u.link, publishedAt: u.published, tier: u.tier, tag });
+    if (!r.keep) continue;
+    rescued++;
+    if (rescued <= 40) console.log(`  [rescue ${found.score.toFixed(2)}] ${found.name} <- ${u.title.slice(0, 80)}`);
+    kept.push({
+      title: u.title,
+      link: u.link,
+      image: u.image,
+      summary: u.summary,
+      source: u.srcName,
+      tier: u.tier,
+      moduleId: found.id,
+      module: found.name,
+      score: r.score,
+      rumor: r.rumor,
+      publishedAt: u.published ? u.published.toISOString() : null,
+    });
+  }
+  if (rescued > 0) console.log(`  rescued ${rescued} article(s) by meaning (keyword missed)`);
+}
+
 export async function buildNews(): Promise<Article[]> {
   const on = SOURCES.filter((s) => s.on);
   const feeds = await Promise.all(on.map((s) => fetchSource(s)));
 
   const kept: Kept[] = [];
+  const untagged: Untagged[] = [];
   on.forEach((src, i) => {
     for (const it of feeds[i]) {
       const title = titleOf(it);
       if (!title) continue;
       const summary = summaryOf(it);
       const tag = tagArticle(title, summary);
-      if (!tag) continue;
+      if (!tag) {
+        untagged.push({
+          title,
+          summary,
+          link: linkOf(it),
+          image: imageOf(it),
+          published: dateOf(it),
+          tier: src.tier,
+          srcName: src.name,
+        });
+        continue;
+      }
       const link = linkOf(it);
       const published = dateOf(it);
       const r = scoreArticle({ title, summary, link, publishedAt: published, tier: src.tier, tag });
@@ -216,6 +284,11 @@ export async function buildNews(): Promise<Article[]> {
       });
     }
   });
+
+  // Gap 1 (safe hybrid): rescue would-be-dropped articles by meaning. Keyword
+  // tagging above stays primary; embedding only tags leftovers, and only when
+  // confident, so nothing keyword-tagged changes.
+  await rescueUntagged(untagged, kept);
 
   const clusters = dedupeArticles(kept);
 
