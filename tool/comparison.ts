@@ -5,7 +5,7 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 
-const GROQ_MODEL = "llama-3.3-70b-versatile";
+const GROQ_MODEL = "openai/gpt-oss-120b";
 const GROQ_URL = "https://api.groq.com/openai/v1/chat/completions";
 
 export type Player = {
@@ -61,7 +61,8 @@ export async function fetchComparison(keyword: string, limit = 8): Promise<Compa
       signal: AbortSignal.timeout(30000),
     });
     if (!res.ok) {
-      return { players: [], error: `Groq API error ${res.status}` };
+      const body = await res.text().catch(() => "");
+      return { players: [], error: `Groq API error ${res.status}: ${body.slice(0, 300)}` };
     }
     const data = await res.json();
     const content = data?.choices?.[0]?.message?.content || "{}";
