@@ -61,6 +61,18 @@ export function Header() {
           </div>
         </form>
 
+        <Link
+          href="/explore"
+          aria-label="Explore any topic"
+          className="flex shrink-0 items-center gap-1.5 rounded-full border border-[var(--border)] bg-[var(--panel)] px-3 py-1.5 text-sm font-medium text-[var(--text)] transition-colors hover:bg-[var(--hover)]"
+        >
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <path d="m16.24 7.76-2.12 6.36-6.36 2.12 2.12-6.36z" />
+          </svg>
+          <span className="hidden sm:inline">Explore</span>
+        </Link>
+
         <SavedLink />
       </div>
     </header>

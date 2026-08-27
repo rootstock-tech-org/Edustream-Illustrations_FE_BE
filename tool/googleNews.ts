@@ -45,15 +45,19 @@ export async function fetchGoogleNews(keyword: string, opts: NewsOpts = {}): Pro
     `https://news.google.com/rss/search?q=${encodeURIComponent(query)}` +
     `&hl=${hl}&gl=${gl}&ceid=${gl}:${hl.split("-")[0]}`;
 
-  const res = await fetch(url, {
-    headers: { "User-Agent": "RootstockNewsBot/1.0" },
-    signal: AbortSignal.timeout(15000),
-  });
-  if (!res.ok) return [];
-
-  const data = parser.parse(await res.text());
-  const raw = data?.rss?.channel?.item;
-  const items = raw ? (Array.isArray(raw) ? raw : [raw]) : [];
+  let items: any[] = [];
+  try {
+    const res = await fetch(url, {
+      headers: { "User-Agent": "RootstockNewsBot/1.0" },
+      signal: AbortSignal.timeout(15000),
+    });
+    if (!res.ok) return [];
+    const data = parser.parse(await res.text());
+    const raw = data?.rss?.channel?.item;
+    items = raw ? (Array.isArray(raw) ? raw : [raw]) : [];
+  } catch {
+    return [];
+  }
 
   const out: NewsItem[] = [];
   for (const it of items) {
