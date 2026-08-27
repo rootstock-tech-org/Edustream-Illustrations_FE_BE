@@ -1,4 +1,5 @@
 import { getNews } from "../../../lib/getNews";
+import { semanticRank } from "../../../lib/semanticSearch";
 import { Header } from "../../components/Header";
 import { NewsCard } from "../../components/NewsCard";
 
@@ -44,6 +45,16 @@ export default async function SearchPage({
         .map((r) => r.a)
     : [];
 
+  // Gap 3: meaning-based matches the word search missed (different wording, same
+  // idea). Shown as a separate "Related by meaning" section below exact matches.
+  const keywordLinks = new Set(results.map((a) => a.link));
+  const related = query
+    ? (await semanticRank(query, articles, 0.4))
+        .filter((s) => !keywordLinks.has(s.item.link))
+        .slice(0, 6)
+        .map((s) => s.item)
+    : [];
+
   return (
     <>
       <Header />
@@ -57,16 +68,34 @@ export default async function SearchPage({
           </p>
         </div>
 
-        {query && results.length === 0 ? (
+        {query && results.length === 0 && related.length === 0 ? (
           <p className="border border-dashed border-[var(--border-strong)] bg-[var(--panel)] p-10 text-center text-[var(--muted)]">
             No stories matched &ldquo;{query}&rdquo;. Try a broader term like EUV, HBM or chiplet.
           </p>
         ) : (
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {results.map((it) => (
-              <NewsCard key={it.link} item={it} accent={BRAND} variant="default" />
-            ))}
-          </div>
+          <>
+            {results.length > 0 && (
+              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                {results.map((it) => (
+                  <NewsCard key={it.link} item={it} accent={BRAND} variant="default" />
+                ))}
+              </div>
+            )}
+
+            {related.length > 0 && (
+              <section className="mt-10">
+                <h2 className="text-lg font-bold text-[var(--text)]">Related by meaning</h2>
+                <p className="mb-4 text-sm text-[var(--muted)]">
+                  Stories close in meaning to &ldquo;{query}&rdquo;, even without the exact words.
+                </p>
+                <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                  {related.map((it) => (
+                    <NewsCard key={it.link} item={it} accent={BRAND} variant="default" />
+                  ))}
+                </div>
+              </section>
+            )}
+          </>
         )}
       </div>
     </>
