@@ -196,6 +196,11 @@ const RESCUE_THRESHOLD = 0.43;
 const RESCUE_BUDGET = 400; // max NEW embeddings per build
 const rescueCache = new Map<string, { id: string; name: string; score: number } | null>();
 
+// Newsletters, roundups and finance-hype titles are never real topic news, even
+// when their wording is semantically close. Dropped before the meaning check.
+const JUNK_TITLE_RE =
+  /\bnewsletter\b|\bsubscribe\b|what'?s in the|research bits|\bround-?up\b|table of contents|\bsoars?\b|\bplunges?\b|\bshares?\b|\bIPO\b/i;
+
 type Untagged = {
   title: string;
   summary: string;
@@ -208,9 +213,9 @@ type Untagged = {
 
 async function rescueUntagged(items: Untagged[], kept: Kept[]): Promise<void> {
   let budget = RESCUE_BUDGET;
-  let rescued = 0;
   for (const u of items) {
     if (!u.link) continue;
+    if (JUNK_TITLE_RE.test(u.title)) continue; // skip newsletters/roundups/finance hype
     if (!rescueCache.has(u.link)) {
       if (budget <= 0) continue; // over budget this cycle -> retry next time
       budget--;
@@ -222,8 +227,6 @@ async function rescueUntagged(items: Untagged[], kept: Kept[]): Promise<void> {
     const tag = { moduleId: found.id, moduleName: found.name, score: Math.min(6, found.score * 10), matched: [] as string[] };
     const r = scoreArticle({ title: u.title, summary: u.summary, link: u.link, publishedAt: u.published, tier: u.tier, tag });
     if (!r.keep) continue;
-    rescued++;
-    if (rescued <= 40) console.log(`  [rescue ${found.score.toFixed(2)}] ${found.name} <- ${u.title.slice(0, 80)}`);
     kept.push({
       title: u.title,
       link: u.link,
@@ -238,7 +241,6 @@ async function rescueUntagged(items: Untagged[], kept: Kept[]): Promise<void> {
       publishedAt: u.published ? u.published.toISOString() : null,
     });
   }
-  if (rescued > 0) console.log(`  rescued ${rescued} article(s) by meaning (keyword missed)`);
 }
 
 export async function buildNews(): Promise<Article[]> {
