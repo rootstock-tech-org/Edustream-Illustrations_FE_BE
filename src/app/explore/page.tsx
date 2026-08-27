@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import Link from "next/link";
 import { Header } from "../../components/Header";
 import { topHeadlines, latestNews } from "../../../tool/googleNews";
 import { getNews, getPapersAndPeople, getComparison } from "../../lib/exploreData";
@@ -23,7 +24,10 @@ export default async function ExplorePage({
     <>
       <Header />
       <div className="mx-auto max-w-6xl px-4 pb-16">
-        <div className="mb-6 mt-8">
+        <Link href="/" className="inst-label mt-8 inline-flex items-center transition-colors hover:text-[var(--accent)]">
+          &larr; Back to latest news
+        </Link>
+        <div className="mb-6 mt-4">
           <h1 className="text-2xl font-bold tracking-tight text-[var(--text)]">Explore any topic</h1>
           <p className="text-sm text-[var(--muted)]">
             Type a keyword to get news, research papers, people and a comparison.
