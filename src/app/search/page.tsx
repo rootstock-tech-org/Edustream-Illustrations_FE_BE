@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { getNews } from "../../../lib/getNews";
 import { Header } from "../../components/Header";
 import { NewsCard } from "../../components/NewsCard";
@@ -48,7 +49,10 @@ export default async function SearchPage({
     <>
       <Header />
       <div className="mx-auto max-w-6xl px-4 pb-16">
-        <div className="mb-6 mt-8">
+        <Link href="/" className="inst-label mt-8 inline-flex items-center transition-colors hover:text-[var(--accent)]">
+          &larr; Back to latest news
+        </Link>
+        <div className="mb-6 mt-4">
           <h1 className="text-2xl font-bold tracking-tight text-[var(--text)]">
             {query ? <>Results for &ldquo;{query}&rdquo;</> : "Search"}
           </h1>
