@@ -6,6 +6,7 @@ import { SOURCES, Source } from "../data/sources";
 import { tagArticle } from "./tag";
 import { scoreArticle } from "./score";
 import { dedupeArticles, DedupItem } from "./dedup";
+import { mergeByMeaning } from "./semanticDedup";
 import { bestModuleByMeaning } from "./moduleVectors";
 
 const parser = new XMLParser({ ignoreAttributes: false, attributeNamePrefix: "@_" });
@@ -293,8 +294,10 @@ export async function buildNews(): Promise<Article[]> {
   await rescueUntagged(untagged, kept);
 
   const clusters = dedupeArticles(kept);
+  // Gap 2: second pass merges same-story clusters that were worded differently.
+  const merged = await mergeByMeaning(clusters);
 
-  const articles: Article[] = clusters.map((c) => ({
+  const articles: Article[] = merged.map((c) => ({
     title: c.rep.title,
     link: c.rep.link,
     image: c.rep.image,
