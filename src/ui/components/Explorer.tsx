@@ -149,6 +149,7 @@ export function Explorer() {
               { label: 'Combinational Logic', onSelect: () => setCombOpen(true) },
               { label: 'Sequential Logic', onSelect: () => setSeqOpen(true) },
               { label: 'Fabrication', onSelect: () => setFabOpen(true) },
+              { label: 'Sandbox', onSelect: () => window.location.href = '/sandbox' },
             ]}
           />
           <ThemeToggle />
