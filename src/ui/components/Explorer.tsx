@@ -1,4 +1,8 @@
 'use client';
+import { FabricationSection } from './FabricationSection';
+import { FabricationAnalysisSection } from './FabricationAnalysisSection';
+import { MetrologySection } from './metrology/MetrologySection';
+import { FeedbackBar } from './FeedbackBar';
 import { useCallback, useEffect, useState } from 'react';
 import type { Explanation } from '@/domain/explainability/explanation.types';
 import { formatQuantity } from '@/domain/units';
@@ -34,7 +38,6 @@ const FinfetScene3D = dynamic(() => import('@/viz/three/FinfetScene3D').then((m)
   loading: () => <div className="h-full w-full animate-pulse rounded-xl bg-surface-elevated" />,
 });
 import { GateSceneCard } from '@/viz/three/GateSceneCard';
-import { FabricationSection } from './FabricationSection';
 import { SequentialLogicSection } from './sequential/SequentialLogicSection';
 import { CombinationalLogicSection } from './combinational/CombinationalLogicSection';
 import { LogicGatesSection } from './logic/LogicGatesSection';
@@ -66,6 +69,10 @@ const TABS: ReadonlyArray<{ id: Tab; label: string }> = [
  */
 export function Explorer() {
   const { device, values, setParameter } = useDevice();
+  const liveSimulation = {
+    device,
+    values,
+  };
   const isTransistor = device.kind === 'transistor';
   // The CMOS-inverter nav schematic only makes sense for the inverter-family
   // devices; the standalone MOSFET/FinFET stages hide it but keep the
@@ -79,6 +86,8 @@ export function Explorer() {
   const [tab, setTab] = useState<Tab>('explore');
   const [inspected, setInspected] = useState<{ title: string; explanation: Explanation } | null>(null);
   const [fabOpen, setFabOpen] = useState(false);
+  const [fabAnalysisOpen, setFabAnalysisOpen] = useState(false);
+  const [metrologyOpen, setMetrologyOpen] = useState(false);
   const [seqOpen, setSeqOpen] = useState(false);
   const [combOpen, setCombOpen] = useState(false);
   const [gatesOpen, setGatesOpen] = useState(false);
@@ -131,6 +140,24 @@ export function Explorer() {
 
   // Fabrication walkthrough / Sequential Logic lab / Combinational Logic lab each fully replace the bench while open.
   if (fabOpen) return <FabricationSection onClose={() => setFabOpen(false)} />;
+  if (fabAnalysisOpen) {
+    return (
+      <FabricationAnalysisSection
+        onClose={() => setFabAnalysisOpen(false)}
+        device={liveSimulation.device}
+        values={liveSimulation.values}
+      />
+    );
+  }
+  if (metrologyOpen) {
+    return (
+      <MetrologySection
+        onClose={() => setMetrologyOpen(false)}
+        device={liveSimulation.device}
+        values={liveSimulation.values}
+      />
+    );
+  }
   if (seqOpen) return <SequentialLogicSection onClose={() => setSeqOpen(false)} />;
   if (combOpen) return <CombinationalLogicSection onClose={() => setCombOpen(false)} />;
   if (gatesOpen) return <LogicGatesSection onClose={() => setGatesOpen(false)} />;
@@ -149,6 +176,8 @@ export function Explorer() {
               { label: 'Combinational Logic', onSelect: () => setCombOpen(true) },
               { label: 'Sequential Logic', onSelect: () => setSeqOpen(true) },
               { label: 'Fabrication', onSelect: () => setFabOpen(true) },
+              { label: 'Metrology', onSelect: () => setMetrologyOpen(true) },
+              { label: 'Fabrication Analysis', onSelect: () => setFabAnalysisOpen(true) },
             ]}
           />
           <ThemeToggle />
