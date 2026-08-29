@@ -200,7 +200,7 @@ const rescueCache = new Map<string, { id: string; name: string; score: number } 
 // Newsletters, roundups and finance-hype titles are never real topic news, even
 // when their wording is semantically close. Dropped before the meaning check.
 const JUNK_TITLE_RE =
-  /\bnewsletter\b|\bsubscribe\b|what'?s in the|research bits|\bround-?up\b|table of contents|\bsoars?\b|\bplunges?\b|\bshares?\b|\bIPO\b/i;
+  /\bnewsletter\b|\bsubscribe\b|what['\u2019]?s in the|research bits|\bround-?up\b|table of contents|\bsoars?\b|\bplunges?\b|\bshares?\b|\bIPO\b/i;
 
 type Untagged = {
   title: string;
@@ -244,9 +244,19 @@ async function rescueUntagged(items: Untagged[], kept: Kept[]): Promise<void> {
   }
 }
 
-export async function buildNews(): Promise<Article[]> {
+// Feature toggles so the eval can compare ON vs OFF on the same fetched data.
+export type BuildOpts = { rescue?: boolean; meaningDedup?: boolean; enrich?: boolean };
+
+// Fetch every enabled source's raw feed items once.
+export async function fetchAllFeeds(): Promise<{ on: Source[]; feeds: any[][] }> {
   const on = SOURCES.filter((s) => s.on);
   const feeds = await Promise.all(on.map((s) => fetchSource(s)));
+  return { on, feeds };
+}
+
+// Tag -> score -> (rescue) -> dedupe -> (meaning-dedup) -> rank -> (enrich).
+export async function buildFromFeeds(on: Source[], feeds: any[][], opts: BuildOpts = {}): Promise<Article[]> {
+  const { rescue = true, meaningDedup = true, enrich = true } = opts;
 
   const kept: Kept[] = [];
   const untagged: Untagged[] = [];
@@ -291,11 +301,11 @@ export async function buildNews(): Promise<Article[]> {
   // Gap 1 (safe hybrid): rescue would-be-dropped articles by meaning. Keyword
   // tagging above stays primary; embedding only tags leftovers, and only when
   // confident, so nothing keyword-tagged changes.
-  await rescueUntagged(untagged, kept);
+  if (rescue) await rescueUntagged(untagged, kept);
 
   const clusters = dedupeArticles(kept);
   // Gap 2: second pass merges same-story clusters that were worded differently.
-  const merged = await mergeByMeaning(clusters);
+  const merged = meaningDedup ? await mergeByMeaning(clusters) : clusters;
 
   const articles: Article[] = merged.map((c) => ({
     title: c.rep.title,
@@ -324,7 +334,7 @@ export async function buildNews(): Promise<Article[]> {
 
   // Pull an og:image for articles the feed gave no picture for, before the
   // dedupe pass below so a fetched image can't repeat one already in use.
-  await enrichImages(articles);
+  if (enrich) await enrichImages(articles);
 
   // Show each image only once: the top-ranked article with a given image keeps
   // it; later articles that reuse the same image render text-only (no repeats).
@@ -336,6 +346,11 @@ export async function buildNews(): Promise<Article[]> {
   }
 
   return articles;
+}
+
+export async function buildNews(opts: BuildOpts = {}): Promise<Article[]> {
+  const { on, feeds } = await fetchAllFeeds();
+  return buildFromFeeds(on, feeds, opts);
 }
 
 function freshnessBoost(iso: string | null): number {
