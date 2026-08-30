@@ -4,7 +4,7 @@ import { Header } from "../../components/Header";
 import { topHeadlines, latestNews } from "../../../tool/googleNews";
 import { getNews, getPapersAndPeople, getComparison } from "../../lib/exploreData";
 
-const csvHref = (query: string, type: string) => `/api/export?q=${encodeURIComponent(query)}&type=${type}`;
+const csvHref = (query: string) => `/api/export?q=${encodeURIComponent(query)}`;
 
 export const dynamic = "force-dynamic";
 
@@ -53,6 +53,14 @@ export default async function ExplorePage({
           <EmptyState />
         ) : (
           <div className="space-y-12">
+            <div>
+              <a
+                href={csvHref(query)}
+                className="inst-panel inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-[var(--signal)] transition-colors hover:border-[var(--signal)]"
+              >
+                ⬇ Download CSV (all categories)
+              </a>
+            </div>
             <Suspense key={`news-${query}`} fallback={<Loading title="Top Headlines" />}>
               <NewsBlock query={query} />
             </Suspense>
@@ -130,10 +138,10 @@ async function NewsBlock({ query }: { query: string }) {
   const latest = latestNews(news);
   return (
     <>
-      <Section title="Top Headlines" count={headlines.length} download={csvHref(query, "headlines")}>
+      <Section title="Top Headlines" count={headlines.length}>
         <NewsList items={headlines} />
       </Section>
-      <Section title="Latest News" count={latest.length} download={csvHref(query, "latest")}>
+      <Section title="Latest News" count={latest.length}>
         <NewsList items={latest} />
       </Section>
     </>
@@ -144,7 +152,7 @@ async function PapersAndPeopleBlock({ query }: { query: string }) {
   const { papers, people } = await getPapersAndPeople(query);
   return (
     <>
-      <Section title="Latest Research Papers" count={papers.length} download={csvHref(query, "papers")}>
+      <Section title="Latest Research Papers" count={papers.length}>
         <ul className="space-y-3">
           {papers.map((p) => (
             <li key={p.url} className="inst-panel p-4">
@@ -160,7 +168,7 @@ async function PapersAndPeopleBlock({ query }: { query: string }) {
           ))}
         </ul>
       </Section>
-      <Section title="People Working in This Area" count={people.length} download={csvHref(query, "people")}>
+      <Section title="People Working in This Area" count={people.length}>
         <ul className="grid gap-3 sm:grid-cols-2">
           {people.map((p) => (
             <li key={p.name} className="inst-panel p-4">
@@ -179,20 +187,31 @@ async function PapersAndPeopleBlock({ query }: { query: string }) {
 async function ComparisonBlock({ query }: { query: string }) {
   const comparison = await getComparison(query);
   return (
-    <Section title="Product / Player Comparison" count={comparison.players.length} download={csvHref(query, "comparison")}>
+    <Section title="Product / Player Comparison" count={comparison.players.length}>
       {comparison.error ? (
         <p className="text-sm text-[var(--muted)]">Comparison unavailable right now.</p>
       ) : (
-        <div className="grid gap-3 sm:grid-cols-2">
-          {comparison.players.map((pl) => (
-            <div key={pl.name} className="inst-panel p-4">
-              <p className="font-medium text-[var(--text)]">
-                {pl.name} <span className="text-xs font-normal text-[var(--muted)]">({pl.type})</span>
-              </p>
-              <p className="mt-1 text-sm text-[var(--text)]">{pl.focus}</p>
-              <p className="mt-1 text-xs text-[var(--muted)]">Strength: {pl.strength}</p>
-            </div>
-          ))}
+        <div className="inst-panel overflow-x-auto">
+          <table className="w-full text-left text-sm">
+            <thead>
+              <tr className="border-b border-[var(--border)] text-xs uppercase tracking-wide text-[var(--muted)]">
+                <th className="p-3">Name</th>
+                <th className="p-3">Type</th>
+                <th className="p-3">Focus</th>
+                <th className="p-3">Strength</th>
+              </tr>
+            </thead>
+            <tbody>
+              {comparison.players.map((pl) => (
+                <tr key={pl.name} className="border-b border-[var(--border)] align-top last:border-0">
+                  <td className="p-3 font-medium text-[var(--text)]">{pl.name}</td>
+                  <td className="p-3 text-[var(--muted)]">{pl.type}</td>
+                  <td className="p-3 text-[var(--text)]">{pl.focus}</td>
+                  <td className="p-3 text-[var(--muted)]">{pl.strength}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
     </Section>
