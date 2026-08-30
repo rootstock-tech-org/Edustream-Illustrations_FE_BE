@@ -28,7 +28,7 @@ export function getNews(q: string) {
 export function getPapersAndPeople(q: string): Promise<{ papers: Paper[]; people: Person[] }> {
   return cached(`pp:${norm(q)}`, TEN_MIN, async () => {
     const papers = await fetchPapers(q);
-    const people = await fetchPeople(papers);
+    const people = await fetchPeople(papers, q);
     return { papers, people };
   });
 }

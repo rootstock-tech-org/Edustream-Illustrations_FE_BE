@@ -6,11 +6,13 @@ import { fetchPeople } from "./people";
 async function main() {
   const kw = process.argv[2] || "quantum computing";
   const papers = await fetchPapers(kw);
-  const people = await fetchPeople(papers);
+  const people = await fetchPeople(papers, kw);
   console.log(`"${kw}" -> ${people.length} people (from ${papers.length} papers' authors)\n`);
   for (const p of people) {
-    console.log(`- ${p.name} (${p.papers} papers)`);
-    console.log(`  ${p.affiliation || "affiliation not listed"}`);
+    console.log(`- ${p.name}`);
+    console.log(`  affiliation: ${p.affiliation || "not listed"}`);
+    console.log(`  relevance: ${p.relevance}`);
+    console.log(`  profile: ${p.profileUrl || "not found"}`);
   }
 }
 

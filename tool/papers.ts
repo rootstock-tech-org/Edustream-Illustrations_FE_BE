@@ -11,6 +11,7 @@ export type Paper = {
   source: "arXiv" | "Semantic Scholar";
   url: string;
   abstract: string;
+  summary: string; // one-line version of the abstract (short & scannable)
 };
 
 function text(v: any): string {
@@ -22,6 +23,15 @@ function text(v: any): string {
 
 function clean(s: string): string {
   return s.replace(/\s+/g, " ").trim();
+}
+
+// First sentence of the abstract (or a trimmed slice) as a one-line summary.
+function oneLine(abstract: string, max = 180): string {
+  const a = clean(abstract);
+  if (!a) return "";
+  const end = a.search(/[.!?]\s/);
+  if (end > 0 && end + 1 <= max) return a.slice(0, end + 1);
+  return a.length <= max ? a : a.slice(0, max).replace(/\s+\S*$/, "") + "\u2026";
 }
 
 // arXiv Atom API — phrase-matched for relevance, then newest first.
@@ -40,13 +50,15 @@ async function fetchArxiv(keyword: string, limit: number): Promise<Paper[]> {
     return entries.map((e: any): Paper => {
       const a = e.author ? (Array.isArray(e.author) ? e.author : [e.author]) : [];
       const published = text(e.published);
+      const abstract = clean(text(e.summary));
       return {
         title: clean(text(e.title)),
         authors: a.map((x: any) => clean(text(x.name))).filter(Boolean),
         year: published ? new Date(published).getFullYear() : null,
         source: "arXiv",
         url: text(e.id),
-        abstract: clean(text(e.summary)),
+        abstract,
+        summary: oneLine(abstract),
       };
     });
   } catch {
@@ -64,14 +76,18 @@ async function fetchSemanticScholar(keyword: string, limit: number): Promise<Pap
     if (!res.ok) return [];
     const data = await res.json();
     const rows = Array.isArray(data?.data) ? data.data : [];
-    return rows.map((p: any): Paper => ({
-      title: clean(p.title || ""),
-      authors: (p.authors || []).map((a: any) => clean(a.name || "")).filter(Boolean),
-      year: typeof p.year === "number" ? p.year : null,
-      source: "Semantic Scholar",
-      url: p.url || "",
-      abstract: clean(p.abstract || ""),
-    }));
+    return rows.map((p: any): Paper => {
+      const abstract = clean(p.abstract || "");
+      return {
+        title: clean(p.title || ""),
+        authors: (p.authors || []).map((a: any) => clean(a.name || "")).filter(Boolean),
+        year: typeof p.year === "number" ? p.year : null,
+        source: "Semantic Scholar",
+        url: p.url || "",
+        abstract,
+        summary: oneLine(abstract),
+      };
+    });
   } catch {
     return [];
   }

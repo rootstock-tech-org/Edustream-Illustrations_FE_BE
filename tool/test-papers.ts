@@ -13,6 +13,7 @@ async function main() {
     console.log(
       `  ${p.authors.slice(0, 3).join(", ")}${p.authors.length > 3 ? " et al." : ""} | ${p.year ?? "?"} | ${p.source}`
     );
+    console.log(`  summary: ${p.summary || "(no abstract)"}`);
     console.log(`  ${p.url}`);
   }
 }

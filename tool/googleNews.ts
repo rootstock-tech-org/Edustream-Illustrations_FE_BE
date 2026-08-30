@@ -3,6 +3,7 @@
 // finance/stock/market junk so results stay accurate to the keyword.
 import { XMLParser } from "fast-xml-parser";
 import { BLOCKED_DOMAINS, NOISE_WORDS } from "../data/sources";
+import { TIER1_SOURCES } from "./sources.config";
 
 const parser = new XMLParser({ ignoreAttributes: false, attributeNamePrefix: "@_" });
 
@@ -87,16 +88,9 @@ export async function fetchGoogleNews(keyword: string, opts: NewsOpts = {}): Pro
   return out;
 }
 
-// Preferred wire services shown first in Top Headlines (Reuters-first, as asked).
-const PREFERRED = [
-  "reuters",
-  "bloomberg",
-  "associated press",
-  "ap news",
-  "financial times",
-  "the wall street journal",
-  "cnbc",
-];
+// Preferred wire services shown first in Top Headlines (from the source config,
+// so ordering is edited in one place, not hardcoded here). Reuters first.
+const PREFERRED = TIER1_SOURCES.map((s) => s.name.toLowerCase());
 
 const byDateDesc = (a: NewsItem, b: NewsItem) => (b.date || "").localeCompare(a.date || "");
 

@@ -30,7 +30,7 @@ async function main() {
     fetchPapers(keyword),
     fetchComparison(keyword),
   ]);
-  const people = await fetchPeople(papers);
+  const people = await fetchPeople(papers, keyword);
 
   if (comparison.error) console.log(`NOTE (comparison): ${comparison.error}`);
 
