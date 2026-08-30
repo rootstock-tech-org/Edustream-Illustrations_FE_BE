@@ -15,16 +15,29 @@ function slug(s: string): string {
 }
 
 async function main() {
-  const keyword = process.argv[2];
+  const args = process.argv.slice(2);
+  const keyword = args.find((a) => !a.startsWith("--"));
   if (!keyword) {
-    console.error('Usage: ... tool/run.ts "your keyword"');
+    console.error('Usage: ... tool/run.ts "your keyword" [--days=7] [--region=US] [--tier1]');
     process.exit(1);
   }
+  // Optional filters (mail: date range, region, source type).
+  const flag = (name: string) => {
+    const a = args.find((x) => x.startsWith(`--${name}=`));
+    return a ? a.split("=")[1] : undefined;
+  };
+  const days = flag("days");
+  const region = flag("region"); // country code, e.g. US, IN, GB
+  const tier1Only = args.includes("--tier1");
+  const when = `${days || "7"}d`;
+  const gl = region || "US";
+  const hl = region ? `en-${region}` : "en-US";
+
   const date = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
-  console.log(`\nRunning Module A for "${keyword}" ...\n`);
+  console.log(`\nRunning Module A for "${keyword}" (days=${days || 7}, region=${gl}${tier1Only ? ", tier-1 only" : ""}) ...\n`);
 
   // Fetch everything in parallel; each source already fails safe (returns []).
-  const news = await fetchGoogleNews(keyword, { when: "7d" });
+  const news = await fetchGoogleNews(keyword, { when, gl, hl, tier1Only });
   const [papers, comparison] = await Promise.all([fetchPapers(keyword), fetchComparison(keyword)]);
   const people = await fetchPeople(papers, keyword);
 

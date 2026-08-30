@@ -35,7 +35,12 @@ const hasNoise = (s: string) => {
   return NOISE_WORDS.some((w) => t.includes(w.toLowerCase()));
 };
 
-export type NewsOpts = { when?: string; hl?: string; gl?: string };
+export type NewsOpts = { when?: string; hl?: string; gl?: string; tier1Only?: boolean };
+
+const isTier1 = (source: string) => {
+  const s = source.toLowerCase();
+  return TIER1_SOURCES.some((t) => s.includes(t.name.toLowerCase()));
+};
 
 // keyword -> clean, keyword-accurate news items (junk removed).
 export async function fetchGoogleNews(keyword: string, opts: NewsOpts = {}): Promise<NewsItem[]> {
@@ -85,7 +90,7 @@ export async function fetchGoogleNews(keyword: string, opts: NewsOpts = {}): Pro
       link: text(it.link),
     });
   }
-  return out;
+  return opts.tier1Only ? out.filter((n) => isTier1(n.source)) : out;
 }
 
 // Preferred wire services shown first in Top Headlines (from the source config,
