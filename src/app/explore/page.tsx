@@ -2,9 +2,15 @@ import { Suspense } from "react";
 import Link from "next/link";
 import { Header } from "../../components/Header";
 import { topHeadlines, latestNews } from "../../../tool/googleNews";
-import { getNews, getPapersAndPeople, getComparison } from "../../lib/exploreData";
+import { getNews, getPapersAndPeople, getComparison, type NewsFilters } from "../../lib/exploreData";
 
-const csvHref = (query: string) => `/api/export?q=${encodeURIComponent(query)}`;
+const csvHref = (query: string, f: NewsFilters) => {
+  const p = new URLSearchParams({ q: query });
+  if (f.days) p.set("days", f.days);
+  if (f.region) p.set("region", f.region);
+  if (f.tier1Only) p.set("tier1", "1");
+  return `/api/export?${p.toString()}`;
+};
 
 export const dynamic = "force-dynamic";
 
@@ -15,10 +21,12 @@ export const dynamic = "force-dynamic";
 export default async function ExplorePage({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string }>;
+  searchParams: Promise<{ q?: string; days?: string; region?: string; tier1?: string }>;
 }) {
-  const { q = "" } = await searchParams;
+  const { q = "", days, region, tier1 } = await searchParams;
   const query = q.trim();
+  const filters: NewsFilters = { days, region, tier1Only: !!tier1 };
+  const fkey = `${days || ""}-${region || ""}-${tier1 ? 1 : 0}`;
 
   return (
     <>
@@ -34,7 +42,7 @@ export default async function ExplorePage({
           </p>
         </div>
 
-        <form action="/explore" className="mb-10 max-w-lg">
+        <form action="/explore" className="mb-10 max-w-2xl space-y-3">
           <div className="inst-panel flex items-center gap-2 px-3 py-2 focus-within:border-[var(--signal)]">
             <input
               name="q"
@@ -47,6 +55,30 @@ export default async function ExplorePage({
               Search
             </button>
           </div>
+          {/* Optional filters (date range, region, source type). */}
+          <div className="flex flex-wrap items-center gap-3 text-xs text-[var(--muted)]">
+            <label className="flex items-center gap-1.5">
+              Date
+              <select name="days" defaultValue={days || "7"} className="inst-panel bg-transparent px-2 py-1 text-[var(--text)]">
+                <option value="1">Last 24 hours</option>
+                <option value="7">Last 7 days</option>
+                <option value="30">Last 30 days</option>
+              </select>
+            </label>
+            <label className="flex items-center gap-1.5">
+              Region
+              <select name="region" defaultValue={region || "US"} className="inst-panel bg-transparent px-2 py-1 text-[var(--text)]">
+                <option value="US">US</option>
+                <option value="IN">India</option>
+                <option value="GB">UK</option>
+                <option value="AU">Australia</option>
+              </select>
+            </label>
+            <label className="flex items-center gap-1.5">
+              <input type="checkbox" name="tier1" value="1" defaultChecked={!!tier1} />
+              Trusted sources only
+            </label>
+          </div>
         </form>
 
         {!query ? (
@@ -55,14 +87,14 @@ export default async function ExplorePage({
           <div className="space-y-12">
             <div>
               <a
-                href={csvHref(query)}
+                href={csvHref(query, filters)}
                 className="inst-panel inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-[var(--signal)] transition-colors hover:border-[var(--signal)]"
               >
                 ⬇ Download CSV (all categories)
               </a>
             </div>
-            <Suspense key={`news-${query}`} fallback={<Loading title="Top Headlines" />}>
-              <NewsBlock query={query} />
+            <Suspense key={`news-${query}-${fkey}`} fallback={<Loading title="Top Headlines" />}>
+              <NewsBlock query={query} filters={filters} />
             </Suspense>
             <Suspense key={`papers-${query}`} fallback={<Loading title="Latest Research Papers" />}>
               <PapersAndPeopleBlock query={query} />
@@ -132,8 +164,8 @@ function EmptyState() {
   );
 }
 
-async function NewsBlock({ query }: { query: string }) {
-  const news = await getNews(query);
+async function NewsBlock({ query, filters }: { query: string; filters: NewsFilters }) {
+  const news = await getNews(query, filters);
   const headlines = topHeadlines(news);
   const latest = latestNews(news);
   return (
@@ -164,6 +196,7 @@ async function PapersAndPeopleBlock({ query }: { query: string }) {
                 {p.authors.length > 3 ? " et al." : ""}
                 {p.year ? ` · ${p.year}` : ""} · {p.source}
               </p>
+              {p.summary ? <p className="mt-1 text-sm text-[var(--text)]">{p.summary}</p> : null}
             </li>
           ))}
         </ul>
@@ -172,10 +205,17 @@ async function PapersAndPeopleBlock({ query }: { query: string }) {
         <ul className="grid gap-3 sm:grid-cols-2">
           {people.map((p) => (
             <li key={p.name} className="inst-panel p-4">
-              <p className="font-medium text-[var(--text)]">{p.name}</p>
-              <p className="mt-1 text-xs text-[var(--muted)]">
-                {p.affiliation || "Affiliation not listed"} · {p.papers} paper{p.papers > 1 ? "s" : ""}
+              <p className="font-medium text-[var(--text)]">
+                {p.profileUrl ? (
+                  <a href={p.profileUrl} target="_blank" rel="noopener noreferrer" className="hover:text-[var(--signal)]">
+                    {p.name}
+                  </a>
+                ) : (
+                  p.name
+                )}
               </p>
+              <p className="mt-1 text-xs text-[var(--muted)]">{p.affiliation || "Affiliation not listed"}</p>
+              <p className="mt-1 text-xs text-[var(--muted)]">{p.relevance}</p>
             </li>
           ))}
         </ul>

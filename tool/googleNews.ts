@@ -90,7 +90,15 @@ export async function fetchGoogleNews(keyword: string, opts: NewsOpts = {}): Pro
       link: text(it.link),
     });
   }
-  return opts.tier1Only ? out.filter((n) => isTier1(n.source)) : out;
+  // Drop duplicate stories (same headline from Google News via different URLs).
+  const seen = new Set<string>();
+  const deduped = out.filter((n) => {
+    const k = n.headline.toLowerCase().replace(/\s+/g, " ").trim();
+    if (seen.has(k)) return false;
+    seen.add(k);
+    return true;
+  });
+  return opts.tier1Only ? deduped.filter((n) => isTier1(n.source)) : deduped;
 }
 
 // Preferred wire services shown first in Top Headlines (from the source config,

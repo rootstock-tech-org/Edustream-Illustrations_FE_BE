@@ -14,7 +14,13 @@ export async function GET(req: Request) {
   const q = (searchParams.get("q") || "").trim();
   if (!q) return new Response("Missing keyword (q)", { status: 400 });
 
-  const [news, pp, cmp] = await Promise.all([getNews(q), getPapersAndPeople(q), getComparison(q)]);
+  const filters = {
+    days: searchParams.get("days") || undefined,
+    region: searchParams.get("region") || undefined,
+    tier1Only: searchParams.get("tier1") === "1",
+  };
+
+  const [news, pp, cmp] = await Promise.all([getNews(q, filters), getPapersAndPeople(q), getComparison(q)]);
 
   const rows: ExportRow[] = [
     ...newsRows(topHeadlines(news), "Top Headlines"),

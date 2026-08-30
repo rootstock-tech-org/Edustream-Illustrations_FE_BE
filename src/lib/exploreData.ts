@@ -21,8 +21,14 @@ async function cached<T>(key: string, ttl: number, fn: () => Promise<T>): Promis
 
 const norm = (q: string) => q.trim().toLowerCase();
 
-export function getNews(q: string) {
-  return cached(`news:${norm(q)}`, TEN_MIN, () => fetchGoogleNews(q, { when: "7d" }));
+export type NewsFilters = { days?: string; region?: string; tier1Only?: boolean };
+
+export function getNews(q: string, f: NewsFilters = {}) {
+  const when = `${f.days || "7"}d`;
+  const gl = f.region || "US";
+  const hl = f.region ? `en-${f.region}` : "en-US";
+  const key = `news:${norm(q)}:${when}:${gl}:${f.tier1Only ? 1 : 0}`;
+  return cached(key, TEN_MIN, () => fetchGoogleNews(q, { when, gl, hl, tier1Only: f.tier1Only }));
 }
 
 export function getPapersAndPeople(q: string): Promise<{ papers: Paper[]; people: Person[] }> {
