@@ -35,7 +35,7 @@ const STOPWORDS = new Set([
 ]);
 
 // topic -> suggested keywords, most frequent first.
-export async function suggestKeywords(topic: string, region?: string, limit = 15): Promise<SuggestedKeyword[]> {
+export async function suggestKeywords(topic: string, region?: string, limit = 30): Promise<SuggestedKeyword[]> {
   const items = await fetchGoogleNews(topic, regionOpts(region));
   const topicWords = new Set(topic.toLowerCase().split(/\s+/).filter(Boolean));
 

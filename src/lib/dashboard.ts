@@ -5,6 +5,7 @@ import { fetchGoogleNews, resolveSourceDomain, type NewsItem } from "./googleNew
 import { regionOpts } from "./regions";
 import { getTopicMemory } from "./memory";
 import { NON_NEWS } from "./sources";
+import { fetchSiteFeed } from "./siteFeed";
 import type { AppConfig } from "./config";
 
 const norm = (s: string) => s.toLowerCase().replace(/\s+/g, " ").trim();
@@ -16,8 +17,9 @@ const looksLikeDomain = (s: string) =>
 const cleanHost = (s: string) =>
   s.trim().replace(/^https?:\/\//i, "").replace(/^www\./i, "").split("/")[0];
 
-export async function buildDashboardNews(cfg: AppConfig, limit = 40): Promise<NewsItem[]> {
-  const opts = regionOpts(cfg.region);
+export async function buildDashboardNews(cfg: AppConfig, limit = 40, when?: string): Promise<NewsItem[]> {
+  const base = regionOpts(cfg.region);
+  const opts = when ? { ...base, when } : base;
   const items = await fetchGoogleNews(cfg.topic, opts);
 
   // Honour the same curation as the Sources screen: never show sources the user
@@ -40,11 +42,14 @@ export async function buildDashboardNews(cfg: AppConfig, limit = 40): Promise<Ne
     if (missing.length) {
       const extra = await Promise.all(
         missing.map(async (s) => {
-          const domain = looksLikeDomain(s) ? cleanHost(s) : await resolveSourceDomain(s, opts);
+          const domain = looksLikeDomain(s) ? cleanHost(s) : await resolveSourceDomain(s, base);
           if (!domain) return [] as NewsItem[];
-          return fetchGoogleNews(`${cfg.topic} site:${domain}`, opts)
-            .then((list) => list.slice(0, 10))
-            .catch(() => [] as NewsItem[]);
+          // Google News (news-indexed) + the site's own RSS/blog feed.
+          const [viaNews, viaFeed] = await Promise.all([
+            fetchGoogleNews(`${cfg.topic} site:${domain}`, opts).then((l) => l.slice(0, 10)).catch(() => [] as NewsItem[]),
+            fetchSiteFeed(domain, cfg.topic).catch(() => [] as NewsItem[]),
+          ]);
+          return [...viaNews, ...viaFeed];
         })
       );
       pool = pool.concat(...extra);
@@ -53,6 +58,14 @@ export async function buildDashboardNews(cfg: AppConfig, limit = 40): Promise<Ne
 
   // A source removed on the Sources screen must never appear in the news.
   pool = pool.filter((i) => !removed.has(norm(i.source)));
+
+  // Blog-feed items are not date-scoped by Google News `when:`, so apply the
+  // date range across the whole pool to keep the filter consistent.
+  const days = when === "1d" ? 1 : when === "7d" ? 7 : when === "1m" ? 30 : 0;
+  if (days) {
+    const cutoff = Date.now() - days * 86400000;
+    pool = pool.filter((i) => !i.date || new Date(i.date).getTime() >= cutoff);
+  }
 
   // Remove duplicate headlines.
   const seen = new Set<string>();
