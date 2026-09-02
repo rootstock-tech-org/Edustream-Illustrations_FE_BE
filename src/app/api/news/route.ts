@@ -10,7 +10,7 @@ export async function GET(req: Request) {
   const when = new URL(req.url).searchParams.get("when") || undefined;
   const cfg = readConfig();
   if (!cfg.topic) return NextResponse.json({ error: "No topic set" }, { status: 400 });
-  const items = await buildDashboardNews(cfg, 40, when);
+  const items = await buildDashboardNews(cfg, 100, when);
   recordSnapshot(cfg.topic, countKeywords(items.map((i) => i.headline)));
   return NextResponse.json({ topic: cfg.topic, region: cfg.region, sources: cfg.sources, keywords: cfg.keywords, count: items.length, items });
 }

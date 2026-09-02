@@ -229,6 +229,7 @@ export default function DashboardPage() {
   const [topicSaved, setTopicSaved] = useState(false);
   const [trends, setTrends] = useState<Trends | null>(null);
   const [exportOpen, setExportOpen] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(40);
 
   const loadNews = useCallback(
     (silent = false) => {
@@ -243,6 +244,7 @@ export default function DashboardPage() {
           setKeywords(d.keywords || []);
           setItems(d.items || []);
           setLastUpdated(Date.now());
+          setVisibleCount(40);
         })
         .catch(() => {
           if (!silent) setItems([]);
@@ -452,7 +454,7 @@ export default function DashboardPage() {
 
   const clusters = useMemo(() => clusterStories(view, groupSimilar), [view, groupSimilar]);
   const featured = clusters[0];
-  const rest = clusters.slice(1);
+  const rest = clusters.slice(1, visibleCount);
   const featuredMeta = useMemo(
     () => (featured ? { sentiment: sentimentOf(featured.lead.headline), entities: entitiesOf(featured.lead.headline) } : null),
     [featured]
@@ -652,7 +654,7 @@ export default function DashboardPage() {
             </div>
 
             <p className="mt-4 text-xs text-slate-500 dark:text-slate-400">
-              Showing {clusters.length} of {items.length} stories
+              Showing {Math.min(visibleCount, clusters.length)} of {clusters.length} stories
               {groupSimilar && clusters.length < view.length ? ` · merged ${view.length - clusters.length} duplicates` : ""}
             </p>
 
@@ -720,10 +722,18 @@ export default function DashboardPage() {
           </>
         )}
 
-        <div className="mt-10">
+        <div className="mt-10 flex flex-col items-center gap-4">
+          {clusters.length > visibleCount && (
+            <button
+              onClick={() => setVisibleCount((v) => v + 40)}
+              className="rounded-lg bg-slate-900 px-6 py-2.5 font-medium text-white hover:bg-slate-700 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-white"
+            >
+              Know more
+            </button>
+          )}
           <button
             onClick={() => router.push(`/keywords?topic=${encodeURIComponent(topic)}&region=${region}`)}
-            className="rounded-lg border border-slate-300 px-5 py-2.5 font-medium text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800"
+            className="rounded-lg border border-slate-300 px-5 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
           >
             Back
           </button>
