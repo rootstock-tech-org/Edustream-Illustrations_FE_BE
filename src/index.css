@@ -1,0 +1,140 @@
+@import 'tailwindcss';
+
+/* Enable the `light:` utility variant (class on <html>). Default is dark. */
+@custom-variant light (&:where(.light, .light *));
+
+/*
+ * Smart Factory interactive tools: shared dark "control room" theme.
+ * Each module tool renders full-screen on this base.
+ */
+@theme {
+  --font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --color-brand-400: #22d3ee;
+  --color-brand-500: #06b6d4;
+  --color-brand-600: #0891b2;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #0a0e14;
+  color: #e2e8f0;
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden; /* each tool manages its own scrolling */
+}
+
+.light body {
+  background-color: #eef2f7;
+  color: #0f172a;
+}
+.light {
+  scrollbar-color: #cbd5e1 transparent;
+}
+.light *::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+}
+
+/* ---- Light theme: remap the dark "control room" palette used across the app ---- */
+.light .text-slate-100 { color: #0f172a; }
+.light .text-slate-200 { color: #1e293b; }
+.light .text-slate-300 { color: #334155; }
+.light .text-slate-400 { color: #475569; }
+.light .text-slate-500 { color: #64748b; }
+.light .text-emerald-300 { color: #047857; }
+.light .text-emerald-400 { color: #059669; }
+.light .text-brand-300 { color: #0e7490; }
+.light .text-brand-400 { color: #0891b2; }
+.light .text-brand-200 { color: #0e7490; }
+.light .text-cyan-300 { color: #0e7490; }
+.light .text-amber-300 { color: #b45309; }
+.light .text-rose-300 { color: #be123c; }
+
+/* Deeper accent shades (-100/-200) used on active/tinted panel controls.
+   Remapped to readable dark inks in light mode. rose-200 is intentionally left
+   dark-pale here because it also appears on a dark attacker pill; those panel
+   spots use an explicit light: override instead. */
+.light .text-emerald-200 { color: #047857; }
+.light .text-emerald-100 { color: #065f46; }
+.light .text-amber-200 { color: #b45309; }
+.light .text-amber-100 { color: #b45309; }
+.light .text-rose-100 { color: #be123c; }
+.light .text-brand-100 { color: #0e7490; }
+.light .text-teal-100 { color: #0f766e; }
+.light .text-teal-200 { color: #0f766e; }
+.light .text-violet-100 { color: #6d28d9; }
+.light .text-violet-200 { color: #6d28d9; }
+.light .text-indigo-100 { color: #4338ca; }
+.light .text-cyan-100 { color: #0e7490; }
+
+/* Surfaces */
+.light .bg-slate-950\/90 { background-color: rgba(255,255,255,0.9); }
+.light .bg-slate-950\/85 { background-color: rgba(255,255,255,0.88); }
+.light .bg-slate-950\/80 { background-color: rgba(255,255,255,0.82); }
+.light .bg-slate-950\/60 { background-color: rgba(255,255,255,0.7); }
+.light .bg-slate-950\/50 { background-color: rgba(255,255,255,0.6); }
+.light .bg-slate-950 { background-color: #ffffff; }
+.light .bg-slate-900\/90 { background-color: rgba(241,245,249,0.94); }
+.light .bg-slate-900\/85 { background-color: rgba(241,245,249,0.9); }
+.light .bg-slate-900\/80 { background-color: rgba(241,245,249,0.85); }
+.light .bg-slate-900\/70 { background-color: rgba(241,245,249,0.8); }
+.light .bg-slate-900\/60 { background-color: rgba(241,245,249,0.75); }
+.light .bg-slate-800\/60 { background-color: rgba(226,232,240,0.8); }
+.light .bg-slate-800\/50 { background-color: rgba(226,232,240,0.7); }
+.light .bg-slate-800\/40 { background-color: rgba(226,232,240,0.6); }
+.light .bg-slate-800 { background-color: #e2e8f0; }
+.light .bg-slate-200 { background-color: #e2e8f0; }
+
+/* Borders + rings */
+.light .border-slate-800 { border-color: #e2e8f0; }
+.light .border-slate-700 { border-color: #cbd5e1; }
+.light .border-slate-700\/80 { border-color: #cbd5e1; }
+.light .border-white\/10 { border-color: rgba(15,23,42,0.10); }
+.light .ring-white\/5 { --tw-ring-color: rgba(15,23,42,0.06); }
+
+/* Neutral gradient panels -> light */
+.light .from-slate-800\/70,
+.light .from-slate-800\/60,
+.light .from-slate-700\/50 {
+  --tw-gradient-from: #ffffff var(--tw-gradient-from-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+.light .to-slate-950\/85,
+.light .to-slate-950\/80,
+.light .to-slate-950\/70,
+.light .to-slate-900\/70,
+.light .to-slate-900\/60 {
+  --tw-gradient-to: #eef2f7 var(--tw-gradient-to-position);
+}
+
+/* Thin scrollbars inside tool panels. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #334155 transparent;
+}
+*::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: #334155;
+  border-radius: 9999px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
