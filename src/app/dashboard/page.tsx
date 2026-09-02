@@ -2,17 +2,28 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import ThumbImage from "@/components/ThumbImage";
 import CountUp from "@/components/CountUp";
 import { REGIONS } from "@/lib/regions";
 
 type NewsItem = { headline: string; source: string; date: string | null; link: string };
 
-// A search term for the card's photo: the topic plus the longest word from the
-// headline (usually a name/place), for a relevant but varied image.
-function imgTerm(headline: string, topic: string): string {
-  const words = (headline.match(/[A-Za-z]{4,}/g) || []).sort((a, b) => b.length - a.length);
-  return `${topic} ${words[0] || ""}`.trim();
+// Deterministic accent color per source, so each publisher looks consistent.
+const PALETTE = ["#4f46e5", "#db2777", "#0ea5e9", "#7c3aed", "#0f766e", "#b91c1c", "#1d4ed8", "#059669"];
+function sourceColor(seed: string): string {
+  let h = 0;
+  for (let i = 0; i < seed.length; i++) h = (h * 31 + seed.charCodeAt(i)) >>> 0;
+  return PALETTE[h % PALETTE.length];
+}
+
+function SourceAvatar({ source, size = 28 }: { source: string; size?: number }) {
+  return (
+    <span
+      className="grid shrink-0 place-items-center rounded-md font-bold text-white"
+      style={{ background: sourceColor(source || "?"), width: size, height: size, fontSize: size * 0.45 }}
+    >
+      {(source || "?").charAt(0).toUpperCase()}
+    </span>
+  );
 }
 
 function timeAgo(iso: string | null): string {
@@ -170,20 +181,19 @@ export default function DashboardPage() {
                 href={featured.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group grid overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:shadow-md md:grid-cols-2"
+                style={{ borderLeftColor: sourceColor(featured.source), borderLeftWidth: 4 }}
+                className="group block rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:shadow-md md:p-8"
               >
-                <ThumbImage q={imgTerm(featured.headline, topic)} seed={featured.source} label={featured.source} className="h-56 w-full md:h-full" />
-                <div className="flex flex-col justify-center p-6">
-                  <span className="mb-2 w-fit rounded-full bg-slate-900 px-2.5 py-0.5 text-xs font-medium text-white">
-                    Top story
-                  </span>
-                  <h2 className="text-xl font-semibold leading-snug text-slate-900 group-hover:underline">
-                    {featured.headline}
-                  </h2>
-                  <div className="mt-3 flex items-center gap-2 text-sm text-slate-500">
-                    <span className="font-medium text-slate-700">{featured.source || "Unknown"}</span>
-                    {featured.date && <span>· {timeAgo(featured.date)}</span>}
-                  </div>
+                <span className="mb-3 inline-block rounded-full bg-slate-900 px-2.5 py-0.5 text-xs font-medium text-white">
+                  Top story
+                </span>
+                <h2 className="text-2xl font-semibold leading-snug text-slate-900 group-hover:underline md:text-3xl">
+                  {featured.headline}
+                </h2>
+                <div className="mt-4 flex items-center gap-2.5 text-sm text-slate-500">
+                  <SourceAvatar source={featured.source} />
+                  <span className="font-medium text-slate-700">{featured.source || "Unknown"}</span>
+                  {featured.date && <span>· {timeAgo(featured.date)}</span>}
                 </div>
               </a>
             )}
@@ -195,19 +205,17 @@ export default function DashboardPage() {
                   href={it.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={{ animationDelay: `${Math.min(i, 12) * 45}ms` }}
-                  className="card-in group flex flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition hover:shadow-md"
+                  style={{ animationDelay: `${Math.min(i, 12) * 45}ms`, borderTopColor: sourceColor(it.source), borderTopWidth: 3 }}
+                  className="card-in group flex flex-col rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md"
                 >
-                  <ThumbImage q={imgTerm(it.headline, topic)} seed={it.source} label={it.source} className="h-36 w-full" />
-                  <div className="flex flex-1 flex-col p-4">
-                    <h3 className="font-medium leading-snug text-slate-900 group-hover:underline">
-                      {it.headline}
-                    </h3>
-                    <div className="mt-auto flex items-center gap-2 pt-3 text-xs text-slate-500">
-                      <span className="font-medium text-slate-700">{it.source || "Unknown"}</span>
-                      {it.date && <span>· {timeAgo(it.date)}</span>}
-                    </div>
+                  <div className="mb-3 flex items-center gap-2 text-xs text-slate-500">
+                    <SourceAvatar source={it.source} size={22} />
+                    <span className="font-medium text-slate-700">{it.source || "Unknown"}</span>
+                    {it.date && <span>· {timeAgo(it.date)}</span>}
                   </div>
+                  <h3 className="font-medium leading-snug text-slate-900 group-hover:underline">
+                    {it.headline}
+                  </h3>
                 </a>
               ))}
             </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 type DiscoveredSource = { name: string; count: number };
@@ -16,8 +16,6 @@ function SourcesInner() {
   const [custom, setCustom] = useState("");
   const [loading, setLoading] = useState(true);
   const [saved, setSaved] = useState<number | null>(null);
-
-  const countOf = useMemo(() => new Map(all.map((s) => [s.name, s.count])), [all]);
 
   useEffect(() => {
     if (!topic) return;
@@ -39,8 +37,12 @@ function SourcesInner() {
   }
 
   function addCustom() {
-    const name = custom.trim();
-    if (!name || selected.includes(name)) return;
+    const name = custom
+      .trim()
+      .replace(/^https?:\/\//i, "")
+      .replace(/^www\./i, "")
+      .replace(/\/+$/, "");
+    if (!name || selected.some((s) => s.toLowerCase() === name.toLowerCase())) return;
     setSelected((s) => [...s, name]);
     setCustom("");
     setSaved(null);
@@ -86,7 +88,6 @@ function SourcesInner() {
                 className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-3 py-1.5 text-sm text-slate-800"
               >
                 {name}
-                {countOf.has(name) && <span className="text-slate-400">({countOf.get(name)})</span>}
                 <button
                   onClick={() => remove(name)}
                   className="ml-1 rounded-full text-slate-400 hover:text-red-600"
@@ -98,12 +99,12 @@ function SourcesInner() {
             ))}
           </div>
 
-          <div className="flex gap-2 mb-8">
+          <div className="flex gap-2 mb-2">
             <input
               value={custom}
               onChange={(e) => setCustom(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && addCustom()}
-              placeholder="Add a source, e.g. BBC Sport"
+              placeholder="Add any source, e.g. The Verge or huggingface.co"
               className="flex-1 rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-slate-900 outline-none focus:border-slate-900"
             />
             <button
@@ -113,6 +114,11 @@ function SourcesInner() {
               + Add
             </button>
           </div>
+          <p className="mb-8 text-xs text-slate-500">
+            Add any source by name (e.g. <span className="font-medium">The Verge</span>) or a site
+            (e.g. <span className="font-medium">huggingface.co</span>) and its stories on this topic
+            will be pulled in.
+          </p>
 
           <div className="flex items-center gap-4">
             <button

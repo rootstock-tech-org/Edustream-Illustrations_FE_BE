@@ -7,7 +7,7 @@ import { regionOpts } from "./regions";
 export type DiscoveredSource = { name: string; count: number };
 
 // Social / aggregator domains that are not real news sources.
-const NON_NEWS = new Set([
+export const NON_NEWS = new Set([
   "facebook.com", "twitter.com", "x.com", "youtube.com", "reddit.com",
   "instagram.com", "tiktok.com", "linkedin.com", "pinterest.com",
 ]);
@@ -25,9 +25,9 @@ export async function discoverSources(topic: string, region?: string): Promise<D
     .map(([name, count]) => ({ name, count }))
     .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
 
-  // Sources that really cover a topic show up more than once. Drop the long
-  // tail of one-off, tangential sources. If too few remain (a niche topic),
-  // fall back to the top sources by count so the list is not empty.
-  const strong = sorted.filter((s) => s.count >= 2);
-  return strong.length >= 6 ? strong : sorted.slice(0, 12);
+  // Show every real-news publisher that actually appeared for this topic,
+  // strongest (most stories) first. Social/aggregator domains are already
+  // filtered out above, so the list stays relevant while being much richer
+  // than the old count>=2 cutoff. Capped so it stays manageable.
+  return sorted.slice(0, 40);
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
 type SuggestedKeyword = { word: string; count: number };
@@ -16,8 +16,6 @@ function KeywordsInner() {
   const [custom, setCustom] = useState("");
   const [loading, setLoading] = useState(true);
   const [saved, setSaved] = useState<number | null>(null);
-
-  const countOf = useMemo(() => new Map(all.map((k) => [k.word, k.count])), [all]);
 
   useEffect(() => {
     if (!topic) return;
@@ -84,7 +82,6 @@ function KeywordsInner() {
                 className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-3 py-1.5 text-sm text-slate-800"
               >
                 {word}
-                {countOf.has(word) && <span className="text-slate-400">({countOf.get(word)})</span>}
                 <button
                   onClick={() => remove(word)}
                   className="ml-1 rounded-full text-slate-400 hover:text-red-600"
