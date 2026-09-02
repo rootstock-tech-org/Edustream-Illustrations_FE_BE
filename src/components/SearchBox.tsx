@@ -75,11 +75,11 @@ export default function SearchBox({
         onFocus={() => sugs.length && setOpen(true)}
         onBlur={() => setTimeout(() => setOpen(false), 120)}
         placeholder={placeholder}
-        className="relative w-full rounded-lg border border-slate-300 bg-transparent px-4 py-3 text-base text-slate-900 outline-none focus:border-slate-900"
+        className="relative w-full rounded-lg border border-slate-300 bg-transparent px-4 py-3 text-base text-slate-900 outline-none focus:border-slate-900 dark:border-slate-700 dark:text-slate-100 dark:focus:border-slate-400"
       />
 
       {open && sugs.length > 0 && (
-        <ul className="absolute left-0 right-0 top-full z-20 mt-1 overflow-hidden rounded-lg border border-slate-200 bg-white shadow-lg">
+        <ul className="absolute left-0 right-0 top-full z-20 mt-1 overflow-hidden rounded-lg border border-slate-200 bg-white shadow-lg dark:border-slate-700 dark:bg-slate-800">
           {sugs.map((s) => (
             <li
               key={s}
@@ -89,7 +89,7 @@ export default function SearchBox({
                 setOpen(false);
                 onSubmit(s);
               }}
-              className="cursor-pointer px-4 py-2 text-sm text-slate-800 hover:bg-slate-50"
+              className="cursor-pointer px-4 py-2 text-sm text-slate-800 hover:bg-slate-50 dark:text-slate-200 dark:hover:bg-slate-700"
             >
               {s}
             </li>

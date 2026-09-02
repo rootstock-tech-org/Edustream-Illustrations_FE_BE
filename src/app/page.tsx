@@ -83,13 +83,13 @@ export default function Home() {
       </div>
 
       <div className="relative z-10 flex w-full max-w-xl flex-col gap-4">
-        <div className="w-full rounded-2xl border border-white/40 bg-white/70 p-8 shadow-xl backdrop-blur-md">
+        <div className="w-full rounded-2xl border border-white/40 bg-white/70 p-8 shadow-xl backdrop-blur-md dark:border-white/10 dark:bg-slate-900/70">
         <div className="mb-2 flex items-center justify-between gap-3">
-          <p className="text-sm font-medium tracking-wide text-slate-600">STEP 1 OF 4</p>
+          <p className="text-sm font-medium tracking-wide text-slate-600 dark:text-slate-400">STEP 1 OF 4</p>
           <select
             value={region}
             onChange={(e) => setRegion(e.target.value)}
-            className="rounded-lg border border-slate-300 bg-white/90 px-3 py-1.5 text-sm text-slate-700 outline-none focus:border-slate-900"
+            className="rounded-lg border border-slate-300 bg-white/90 px-3 py-1.5 text-sm text-slate-700 outline-none focus:border-slate-900 dark:border-slate-700 dark:bg-slate-800/90 dark:text-slate-200 dark:focus:border-slate-400"
             aria-label="Region"
           >
             {REGIONS.map((r) => (
@@ -99,10 +99,10 @@ export default function Home() {
             ))}
           </select>
         </div>
-        <h1 className="text-3xl sm:text-4xl font-semibold text-slate-900 mb-3">
+        <h1 className="text-3xl sm:text-4xl font-semibold text-slate-900 mb-3 dark:text-slate-100">
           What would you like to search?
         </h1>
-        <p className="mb-6 text-slate-600">
+        <p className="mb-6 text-slate-600 dark:text-slate-400">
           Try:{" "}
           <span key={idx} className="rotating-word font-semibold text-indigo-600">
             {EXAMPLES[idx]}
@@ -113,7 +113,7 @@ export default function Home() {
           <SearchBox value={topic} onChange={setTopic} onSubmit={go} />
           <button
             type="submit"
-            className="rounded-lg bg-slate-900 px-5 py-3 font-medium text-white hover:bg-slate-700"
+            className="rounded-lg bg-slate-900 px-5 py-3 font-medium text-white hover:bg-slate-700 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-white"
           >
             Search
           </button>
@@ -121,15 +121,15 @@ export default function Home() {
         </div>
 
         {saved.length > 0 && (
-          <div className="w-full rounded-2xl border border-white/40 bg-white/60 p-4 shadow-lg backdrop-blur-md">
-            <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">Saved topics</p>
+          <div className="w-full rounded-2xl border border-white/40 bg-white/60 p-4 shadow-lg backdrop-blur-md dark:border-white/10 dark:bg-slate-900/60">
+            <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Saved topics</p>
             <div className="flex flex-wrap gap-2">
               {saved.map((t) => (
                 <span
                   key={t.id}
-                  className="inline-flex items-center gap-2 rounded-full border border-white/60 bg-white/80 px-3 py-1.5 text-sm text-slate-800 shadow-sm"
+                  className="inline-flex items-center gap-2 rounded-full border border-white/60 bg-white/80 px-3 py-1.5 text-sm text-slate-800 shadow-sm dark:border-white/10 dark:bg-slate-800/80 dark:text-slate-200"
                 >
-                  <button onClick={() => loadTopic(t)} className="font-medium capitalize hover:text-indigo-600">
+                  <button onClick={() => loadTopic(t)} className="font-medium capitalize hover:text-indigo-600 dark:hover:text-indigo-400">
                     {t.topic}
                   </button>
                   <span className="text-xs text-slate-400">{regionLabel(t.region)}</span>
@@ -138,7 +138,7 @@ export default function Home() {
                     aria-label={`Delete ${t.topic}`}
                     className="text-slate-400 hover:text-red-600"
                   >
-                    ✕
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6 6 18M6 6l12 12" /></svg>
                   </button>
                 </span>
               ))}

@@ -154,25 +154,25 @@ function StoryCard({ cluster, index }: { cluster: Cluster; index: number }) {
   return (
     <div
       style={{ animationDelay: `${Math.min(index, 12) * 45}ms`, borderTopColor: sourceColor(it.source), borderTopWidth: 3 }}
-      className="card-in flex flex-col rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md"
+      className="card-in flex flex-col rounded-xl border border-slate-200 bg-white p-5 shadow-sm transition hover:shadow-md dark:border-slate-800 dark:bg-slate-900"
     >
-      <div className="mb-3 flex items-center gap-2 text-xs text-slate-500">
+      <div className="mb-3 flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400">
         <SourceAvatar source={it.source} size={22} />
-        <span className="font-medium text-slate-700">{it.source || "Unknown"}</span>
+        <span className="font-medium text-slate-700 dark:text-slate-300">{it.source || "Unknown"}</span>
         {it.date && <span>· {timeAgo(it.date)}</span>}
       </div>
       <a href={it.link} target="_blank" rel="noopener noreferrer" className="group">
-        <h3 className="font-medium leading-snug text-slate-900 group-hover:underline">{it.headline}</h3>
+        <h3 className="font-medium leading-snug text-slate-900 group-hover:underline dark:text-slate-100">{it.headline}</h3>
       </a>
       {(sentiment !== "neutral" || entities.length > 0) && (
         <div className="mt-2 flex flex-wrap items-center gap-1.5">
           {sentiment !== "neutral" && (
-            <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase ${sentiment === "positive" ? "bg-emerald-100 text-emerald-700" : "bg-rose-100 text-rose-700"}`}>
+            <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase ${sentiment === "positive" ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300" : "bg-rose-100 text-rose-700 dark:bg-rose-500/15 dark:text-rose-300"}`}>
               {sentiment}
             </span>
           )}
           {entities.map((e) => (
-            <span key={e} className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-medium text-slate-600">{e}</span>
+            <span key={e} className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-300">{e}</span>
           ))}
         </div>
       )}
@@ -180,10 +180,12 @@ function StoryCard({ cluster, index }: { cluster: Cluster; index: number }) {
         <div className="mt-3">
           <button
             onClick={() => setOpen((o) => !o)}
-            className="inline-flex w-fit items-center gap-1 rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-600 hover:bg-slate-200"
+            className="inline-flex w-fit items-center gap-1 rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
           >
             +{extra.length} {extra.length === 1 ? "source" : "sources"}
-            <span className={`text-[10px] transition-transform ${open ? "rotate-180" : ""}`}>▾</span>
+            <span className={`transition-transform ${open ? "rotate-180" : ""}`}>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9l6 6 6-6" /></svg>
+            </span>
           </button>
           {open && (
             <div className="mt-2 flex flex-col gap-1.5">
@@ -193,10 +195,10 @@ function StoryCard({ cluster, index }: { cluster: Cluster; index: number }) {
                   href={s.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs leading-snug hover:bg-slate-100"
+                  className="block rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs leading-snug hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700"
                 >
-                  <span className="font-medium text-slate-700">{s.name}</span>
-                  <span className="text-slate-500"> — {s.headline}</span>
+                  <span className="font-medium text-slate-700 dark:text-slate-300">{s.name}</span>
+                  <span className="text-slate-500 dark:text-slate-400"> — {s.headline}</span>
                 </a>
               ))}
             </div>
@@ -466,42 +468,49 @@ export default function DashboardPage() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-50">
-      <header className="sticky top-0 z-10 border-b border-slate-200 bg-white/80 backdrop-blur">
+    <main className="min-h-screen bg-slate-50 dark:bg-slate-950">
+      <header className="sticky top-0 z-10 border-b border-slate-200 bg-white/80 backdrop-blur dark:border-slate-800 dark:bg-slate-900/80">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
           <div className="flex items-center gap-2">
-            <span className="grid h-8 w-8 place-items-center rounded-lg bg-slate-900 text-sm font-bold text-white">N</span>
-            <span className="font-semibold text-slate-900">News Report Builder</span>
+            <span className="grid h-8 w-8 place-items-center rounded-lg bg-slate-900 text-sm font-bold text-white dark:bg-slate-100 dark:text-slate-900">N</span>
+            <span className="font-semibold text-slate-900 dark:text-slate-100">News Report Builder</span>
           </div>
           <div className="flex items-center gap-3">
             <button
               onClick={() => router.push("/")}
-              className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100"
+              className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800"
             >
               New search
             </button>
             <button
               onClick={saveThisTopic}
               disabled={!topic}
-              className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 disabled:opacity-50"
+              className="rounded-lg border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 disabled:opacity-50 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800"
             >
-              {topicSaved ? "Saved ✓" : "Save topic"}
+              {topicSaved ? "Saved" : "Save topic"}
             </button>
             <div className="relative">
               <button
                 onClick={(e) => { e.stopPropagation(); setExportOpen((o) => !o); }}
                 disabled={building || items.length === 0}
-                className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-700 disabled:cursor-not-allowed disabled:bg-slate-300"
+                className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-700 disabled:cursor-not-allowed disabled:bg-slate-300 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-white dark:disabled:bg-slate-700"
               >
-                {building ? "Creating report..." : "Download report ▾"}
+                {building ? (
+                  "Creating report..."
+                ) : (
+                  <span className="inline-flex items-center gap-1.5">
+                    Download report
+                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M6 9l6 6 6-6" /></svg>
+                  </span>
+                )}
               </button>
               {exportOpen && (
                 <>
                   <button className="fixed inset-0 z-10 cursor-default" onClick={() => setExportOpen(false)} aria-hidden tabIndex={-1} />
-                  <div className="absolute right-0 z-20 mt-1 w-44 overflow-hidden rounded-lg border border-slate-200 bg-white shadow-lg">
-                    <button onClick={() => { setExportOpen(false); downloadReport(); }} className="block w-full px-4 py-2 text-left text-sm text-slate-700 hover:bg-slate-50">PDF report</button>
-                    <button onClick={() => { setExportOpen(false); downloadMarkdown(); }} className="block w-full px-4 py-2 text-left text-sm text-slate-700 hover:bg-slate-50">Markdown (.md)</button>
-                    <button onClick={() => { setExportOpen(false); downloadCSV(); }} className="block w-full px-4 py-2 text-left text-sm text-slate-700 hover:bg-slate-50">CSV (.csv)</button>
+                  <div className="absolute right-0 z-20 mt-1 w-44 overflow-hidden rounded-lg border border-slate-200 bg-white shadow-lg dark:border-slate-700 dark:bg-slate-800">
+                    <button onClick={() => { setExportOpen(false); downloadReport(); }} className="block w-full px-4 py-2 text-left text-sm text-slate-700 hover:bg-slate-50 dark:text-slate-200 dark:hover:bg-slate-700">PDF report</button>
+                    <button onClick={() => { setExportOpen(false); downloadMarkdown(); }} className="block w-full px-4 py-2 text-left text-sm text-slate-700 hover:bg-slate-50 dark:text-slate-200 dark:hover:bg-slate-700">Markdown (.md)</button>
+                    <button onClick={() => { setExportOpen(false); downloadCSV(); }} className="block w-full px-4 py-2 text-left text-sm text-slate-700 hover:bg-slate-50 dark:text-slate-200 dark:hover:bg-slate-700">CSV (.csv)</button>
                   </div>
                 </>
               )}
@@ -511,25 +520,25 @@ export default function DashboardPage() {
       </header>
 
       <div className="mx-auto max-w-6xl px-4 py-8">
-        <p className="text-xs font-medium uppercase tracking-wide text-slate-500">Step 4 of 4 · Dashboard</p>
-        <h1 className="mt-1 text-3xl font-bold capitalize text-slate-900">{topic || "News"}</h1>
+        <p className="text-xs font-medium uppercase tracking-wide text-slate-500 dark:text-slate-400">Step 4 of 4 · Dashboard</p>
+        <h1 className="mt-1 text-3xl font-bold capitalize text-slate-900 dark:text-slate-100">{topic || "News"}</h1>
         {(sources.length > 0 || keywords.length > 0) && (
-          <p className="mt-1 text-sm text-slate-500">
+          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
             <CountUp value={sources.length} /> sources · <CountUp value={keywords.length} /> keywords ·{" "}
             <CountUp value={items.length} /> stories
           </p>
         )}
 
         <div className="mt-4 flex flex-wrap items-center gap-2">
-          <span className="text-xs font-medium text-slate-500">Time</span>
+          <span className="text-xs font-medium text-slate-500 dark:text-slate-400">Time</span>
           {RANGES.map((r) => (
             <button
               key={r.value}
               onClick={() => setRange(r.value)}
               className={`rounded-full border px-3 py-1 text-xs font-medium ${
                 range === r.value
-                  ? "border-slate-900 bg-slate-900 text-white"
-                  : "border-slate-300 bg-white text-slate-600 hover:bg-slate-100"
+                  ? "border-slate-900 bg-slate-900 text-white dark:border-slate-100 dark:bg-slate-100 dark:text-slate-900"
+                  : "border-slate-300 bg-white text-slate-600 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800"
               }`}
             >
               {r.label}
@@ -537,14 +546,14 @@ export default function DashboardPage() {
           ))}
         </div>
 
-        <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-slate-500">
+        <div className="mt-2 flex flex-wrap items-center gap-3 text-xs text-slate-500 dark:text-slate-400">
           {lastUpdated && (
             <span>Updated {new Date(lastUpdated).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</span>
           )}
           <button
             onClick={() => loadNews(true)}
             disabled={refreshing || loading}
-            className="font-medium text-slate-700 hover:underline disabled:opacity-50"
+            className="font-medium text-slate-700 hover:underline disabled:opacity-50 dark:text-slate-300"
           >
             {refreshing ? "Refreshing..." : "Refresh"}
           </button>
@@ -555,22 +564,25 @@ export default function DashboardPage() {
         </div>
 
         {trends && trends.hasHistory && (trends.rising.length > 0 || trends.falling.length > 0 || trends.fresh.length > 0) && (
-          <div className="mt-4 rounded-xl border border-slate-200 bg-white p-4">
-            <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500">Trending keywords</p>
+          <div className="mt-4 rounded-xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
+            <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">Trending keywords</p>
             <div className="flex flex-wrap gap-2">
               {trends.rising.map((t) => (
-                <button key={"r" + t.word} onClick={() => setQuery(t.word)} className="rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-medium text-emerald-700 hover:bg-emerald-100">
-                  ↑ {t.word}
+                <button key={"r" + t.word} onClick={() => setQuery(t.word)} className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-medium text-emerald-700 hover:bg-emerald-100 dark:bg-emerald-500/15 dark:text-emerald-300 dark:hover:bg-emerald-500/25">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M12 19V5M5 12l7-7 7 7" /></svg>
+                  {t.word}
                 </button>
               ))}
               {trends.fresh.map((w) => (
-                <button key={"f" + w} onClick={() => setQuery(w)} className="rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 hover:bg-indigo-100">
-                  ★ {w}
+                <button key={"f" + w} onClick={() => setQuery(w)} className="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-2.5 py-0.5 text-xs font-medium text-indigo-700 hover:bg-indigo-100 dark:bg-indigo-500/15 dark:text-indigo-300 dark:hover:bg-indigo-500/25">
+                  <span className="text-[9px] font-bold uppercase">new</span>
+                  {w}
                 </button>
               ))}
               {trends.falling.map((t) => (
-                <button key={"d" + t.word} onClick={() => setQuery(t.word)} className="rounded-full bg-rose-50 px-2.5 py-0.5 text-xs font-medium text-rose-600 hover:bg-rose-100">
-                  ↓ {t.word}
+                <button key={"d" + t.word} onClick={() => setQuery(t.word)} className="inline-flex items-center gap-1 rounded-full bg-rose-50 px-2.5 py-0.5 text-xs font-medium text-rose-600 hover:bg-rose-100 dark:bg-rose-500/15 dark:text-rose-300 dark:hover:bg-rose-500/25">
+                  <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M12 5v14M5 12l7 7 7-7" /></svg>
+                  {t.word}
                 </button>
               ))}
             </div>
@@ -578,9 +590,9 @@ export default function DashboardPage() {
         )}
 
         {loading ? (
-          <p className="mt-10 text-slate-500">Fetching the latest news...</p>
+          <p className="mt-10 text-slate-500 dark:text-slate-400">Fetching the latest news...</p>
         ) : items.length === 0 ? (
-          <p className="mt-10 text-slate-500">No news found. Go back and adjust your sources or keywords.</p>
+          <p className="mt-10 text-slate-500 dark:text-slate-400">No news found. Go back and adjust your sources or keywords.</p>
         ) : (
           <>
             <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -588,15 +600,15 @@ export default function DashboardPage() {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Search these stories..."
-                className="flex-1 rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 outline-none focus:border-slate-900"
+                className="flex-1 rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 outline-none focus:border-slate-900 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:focus:border-slate-400"
               />
-              <div className="inline-flex overflow-hidden rounded-lg border border-slate-300">
+              <div className="inline-flex overflow-hidden rounded-lg border border-slate-300 dark:border-slate-700">
                 {(["relevant", "newest"] as const).map((s) => (
                   <button
                     key={s}
                     onClick={() => setSortBy(s)}
                     className={`px-4 py-2.5 text-sm font-medium ${
-                      sortBy === s ? "bg-slate-900 text-white" : "bg-white text-slate-700 hover:bg-slate-100"
+                      sortBy === s ? "bg-slate-900 text-white dark:bg-slate-100 dark:text-slate-900" : "bg-white text-slate-700 hover:bg-slate-100 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800"
                     }`}
                   >
                     {s === "relevant" ? "Most relevant" : "Newest"}
@@ -606,7 +618,7 @@ export default function DashboardPage() {
               <button
                 onClick={() => setGroupSimilar((g) => !g)}
                 className={`rounded-lg border px-4 py-2.5 text-sm font-medium ${
-                  groupSimilar ? "border-slate-900 bg-slate-900 text-white" : "border-slate-300 bg-white text-slate-700 hover:bg-slate-100"
+                  groupSimilar ? "border-slate-900 bg-slate-900 text-white dark:border-slate-100 dark:bg-slate-100 dark:text-slate-900" : "border-slate-300 bg-white text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800"
                 }`}
               >
                 Group similar
@@ -618,8 +630,8 @@ export default function DashboardPage() {
                 onClick={() => setActiveSources(new Set())}
                 className={`rounded-full border px-3 py-1 text-xs font-medium ${
                   activeSources.size === 0
-                    ? "border-slate-900 bg-slate-900 text-white"
-                    : "border-slate-300 bg-white text-slate-600 hover:bg-slate-100"
+                    ? "border-slate-900 bg-slate-900 text-white dark:border-slate-100 dark:bg-slate-100 dark:text-slate-900"
+                    : "border-slate-300 bg-white text-slate-600 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800"
                 }`}
               >
                 All sources
@@ -630,8 +642,8 @@ export default function DashboardPage() {
                   onClick={() => toggleSource(name)}
                   className={`rounded-full border px-3 py-1 text-xs font-medium ${
                     activeSources.has(name)
-                      ? "border-slate-900 bg-slate-900 text-white"
-                      : "border-slate-300 bg-white text-slate-700 hover:bg-slate-100"
+                      ? "border-slate-900 bg-slate-900 text-white dark:border-slate-100 dark:bg-slate-100 dark:text-slate-900"
+                      : "border-slate-300 bg-white text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-300 dark:hover:bg-slate-800"
                   }`}
                 >
                   {name}
@@ -639,42 +651,42 @@ export default function DashboardPage() {
               ))}
             </div>
 
-            <p className="mt-4 text-xs text-slate-500">
+            <p className="mt-4 text-xs text-slate-500 dark:text-slate-400">
               Showing {clusters.length} of {items.length} stories
               {groupSimilar && clusters.length < view.length ? ` · merged ${view.length - clusters.length} duplicates` : ""}
             </p>
 
             {view.length === 0 ? (
-              <p className="mt-8 text-slate-500">No stories match your search or filter.</p>
+              <p className="mt-8 text-slate-500 dark:text-slate-400">No stories match your search or filter.</p>
             ) : (
               <div className="mt-4 space-y-8">
                 {featured && (
                   <div
                     style={{ borderLeftColor: sourceColor(featured.lead.source), borderLeftWidth: 4 }}
-                    className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm md:p-8"
+                    className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm md:p-8 dark:border-slate-800 dark:bg-slate-900"
                   >
-                    <span className="mb-3 inline-block rounded-full bg-slate-900 px-2.5 py-0.5 text-xs font-medium text-white">
+                    <span className="mb-3 inline-block rounded-full bg-slate-900 px-2.5 py-0.5 text-xs font-medium text-white dark:bg-slate-700">
                       Top story{featured.sources.length > 1 ? ` · ${featured.sources.length} sources` : ""}
                     </span>
                     <a href={featured.lead.link} target="_blank" rel="noopener noreferrer" className="group block">
-                      <h2 className="text-2xl font-semibold leading-snug text-slate-900 group-hover:underline md:text-3xl">
+                      <h2 className="text-2xl font-semibold leading-snug text-slate-900 group-hover:underline md:text-3xl dark:text-slate-100">
                         {featured.lead.headline}
                       </h2>
                     </a>
-                    <div className="mt-4 flex items-center gap-2.5 text-sm text-slate-500">
+                    <div className="mt-4 flex items-center gap-2.5 text-sm text-slate-500 dark:text-slate-400">
                       <SourceAvatar source={featured.lead.source} />
-                      <span className="font-medium text-slate-700">{featured.lead.source || "Unknown"}</span>
+                      <span className="font-medium text-slate-700 dark:text-slate-300">{featured.lead.source || "Unknown"}</span>
                       {featured.lead.date && <span>· {timeAgo(featured.lead.date)}</span>}
                     </div>
                     {featuredMeta && (featuredMeta.sentiment !== "neutral" || featuredMeta.entities.length > 0) && (
                       <div className="mt-3 flex flex-wrap items-center gap-1.5">
                         {featuredMeta.sentiment !== "neutral" && (
-                          <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase ${featuredMeta.sentiment === "positive" ? "bg-emerald-100 text-emerald-700" : "bg-rose-100 text-rose-700"}`}>
+                          <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase ${featuredMeta.sentiment === "positive" ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300" : "bg-rose-100 text-rose-700 dark:bg-rose-500/15 dark:text-rose-300"}`}>
                             {featuredMeta.sentiment}
                           </span>
                         )}
                         {featuredMeta.entities.map((e) => (
-                          <span key={e} className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-medium text-slate-600">{e}</span>
+                          <span key={e} className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-medium text-slate-600 dark:bg-slate-800 dark:text-slate-300">{e}</span>
                         ))}
                       </div>
                     )}
@@ -688,7 +700,7 @@ export default function DashboardPage() {
                             target="_blank"
                             rel="noopener noreferrer"
                             title={s.headline}
-                            className="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-0.5 text-xs text-slate-600 hover:bg-slate-100"
+                            className="rounded-full border border-slate-200 bg-slate-50 px-2.5 py-0.5 text-xs text-slate-600 hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
                           >
                             {s.name}
                           </a>
@@ -711,7 +723,7 @@ export default function DashboardPage() {
         <div className="mt-10">
           <button
             onClick={() => router.push(`/keywords?topic=${encodeURIComponent(topic)}&region=${region}`)}
-            className="rounded-lg border border-slate-300 px-5 py-2.5 font-medium text-slate-700 hover:bg-slate-100"
+            className="rounded-lg border border-slate-300 px-5 py-2.5 font-medium text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800"
           >
             Back
           </button>

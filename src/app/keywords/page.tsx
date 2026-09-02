@@ -59,27 +59,27 @@ function KeywordsInner() {
     router.push("/dashboard");
   }
 
-  if (!topic) return <p className="text-slate-600">No topic. Go back and enter one.</p>;
+  if (!topic) return <p className="text-slate-600 dark:text-slate-400">No topic. Go back and enter one.</p>;
 
   return (
     <div className="w-full max-w-2xl">
-      <p className="text-sm font-medium tracking-wide text-slate-500 mb-2">STEP 3 OF 4</p>
-      <h1 className="text-3xl font-semibold text-slate-900 mb-1">Keywords</h1>
-      <p className="text-slate-600 mb-6">
-        Suggested keywords for <span className="font-semibold text-slate-900">{topic}</span>. Remove any you
+      <p className="text-sm font-medium tracking-wide text-slate-500 mb-2 dark:text-slate-400">STEP 3 OF 4</p>
+      <h1 className="text-3xl font-semibold text-slate-900 mb-1 dark:text-slate-100">Keywords</h1>
+      <p className="text-slate-600 mb-6 dark:text-slate-400">
+        Suggested keywords for <span className="font-semibold text-slate-900 dark:text-slate-100">{topic}</span>. Remove any you
         do not want, or add your own.
       </p>
 
       {loading ? (
-        <p className="text-slate-500">Suggesting keywords...</p>
+        <p className="text-slate-500 dark:text-slate-400">Suggesting keywords...</p>
       ) : (
         <>
           <div className="flex flex-wrap gap-2 mb-6">
-            {selected.length === 0 && <p className="text-slate-500">No keywords selected.</p>}
+            {selected.length === 0 && <p className="text-slate-500 dark:text-slate-400">No keywords selected.</p>}
             {selected.map((word) => (
               <span
                 key={word}
-                className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-3 py-1.5 text-sm text-slate-800"
+                className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-3 py-1.5 text-sm text-slate-800 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
               >
                 {word}
                 <button
@@ -87,7 +87,7 @@ function KeywordsInner() {
                   className="ml-1 rounded-full text-slate-400 hover:text-red-600"
                   aria-label={`Remove ${word}`}
                 >
-                  ✕
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M18 6 6 18M6 6l12 12" /></svg>
                 </button>
               </span>
             ))}
@@ -99,11 +99,11 @@ function KeywordsInner() {
               onChange={(e) => setCustom(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && addCustom()}
               placeholder="Add a keyword, e.g. transfers"
-              className="flex-1 rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-slate-900 outline-none focus:border-slate-900"
+              className="flex-1 rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-slate-900 outline-none focus:border-slate-900 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:focus:border-slate-400"
             />
             <button
               onClick={addCustom}
-              className="rounded-lg border border-slate-300 px-4 py-2.5 font-medium text-slate-800 hover:bg-slate-100"
+              className="rounded-lg border border-slate-300 px-4 py-2.5 font-medium text-slate-800 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800"
             >
               + Add
             </button>
@@ -112,13 +112,13 @@ function KeywordsInner() {
           <div className="flex items-center gap-4">
             <button
               onClick={() => router.push(`/sources?topic=${encodeURIComponent(topic)}&region=${region}`)}
-              className="rounded-lg border border-slate-300 px-5 py-2.5 font-medium text-slate-700 hover:bg-slate-100"
+              className="rounded-lg border border-slate-300 px-5 py-2.5 font-medium text-slate-700 hover:bg-slate-100 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800"
             >
               Back
             </button>
             <button
               onClick={saveAndContinue}
-              className="rounded-lg bg-slate-900 px-5 py-2.5 font-medium text-white hover:bg-slate-700"
+              className="rounded-lg bg-slate-900 px-5 py-2.5 font-medium text-white hover:bg-slate-700 dark:bg-slate-100 dark:text-slate-900 dark:hover:bg-white"
             >
               Save &amp; continue
             </button>
@@ -134,8 +134,8 @@ function KeywordsInner() {
 
 export default function KeywordsPage() {
   return (
-    <main className="min-h-screen flex items-center justify-center bg-slate-50 px-4 py-12">
-      <Suspense fallback={<p className="text-slate-500">Loading...</p>}>
+    <main className="min-h-screen flex items-center justify-center bg-slate-50 px-4 py-12 dark:bg-slate-950">
+      <Suspense fallback={<p className="text-slate-500 dark:text-slate-400">Loading...</p>}>
         <KeywordsInner />
       </Suspense>
     </main>
