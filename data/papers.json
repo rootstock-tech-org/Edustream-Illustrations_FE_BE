@@ -1,0 +1,3147 @@
+{
+  "generatedAt": "2026-09-03T14:29:43.580Z",
+  "count": 148,
+  "papers": [
+    {
+      "id": "http://arxiv.org/abs/2402.00708v1",
+      "title": "Benchmarking human-robot collaborative assembly tasks",
+      "authors": [
+        "Laura Duarte",
+        "Miguel Neves",
+        "Pedro Neto"
+      ],
+      "published": "2024-02-01T16:04:36Z",
+      "year": 2024,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2402.00708v1",
+      "pdf": "https://arxiv.org/pdf/2402.00708v1",
+      "moduleId": "cobots",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2603.11461v3",
+      "title": "CoViLLM: An Adaptive Human-Robot Collaborative Assembly Framework Using Large Language Models",
+      "authors": [
+        "Jiabao Zhao",
+        "Jonghan Lim",
+        "Hongliang Li",
+        "Ilya Kovalenko"
+      ],
+      "published": "2026-03-12T02:37:48Z",
+      "year": 2026,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2603.11461v3",
+      "pdf": "https://arxiv.org/pdf/2603.11461v3",
+      "moduleId": "cobots",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2406.01915v2",
+      "title": "Enhancing Human-Robot Collaborative Assembly in Manufacturing Systems Using Large Language Models",
+      "authors": [
+        "Jonghan Lim",
+        "Sujani Patel",
+        "Alex Evans",
+        "John Pimley"
+      ],
+      "published": "2024-06-04T02:52:26Z",
+      "year": 2024,
+      "categories": [
+        "cs.RO",
+        "cs.HC"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2406.01915v2",
+      "pdf": "https://arxiv.org/pdf/2406.01915v2",
+      "moduleId": "cobots",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2608.25284v1",
+      "title": "Generative Action-Chunk Sampling for Adaptive Stiffness Control in Physical Human-Robot Collaboration",
+      "authors": [
+        "Aoi Otake",
+        "Ferdinand Hartmann",
+        "Ko Igari",
+        "Shingo Murata"
+      ],
+      "published": "2026-08-26T01:44:11Z",
+      "year": 2026,
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2608.25284v1",
+      "pdf": "https://arxiv.org/pdf/2608.25284v1",
+      "moduleId": "cobots",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2505.17490v2",
+      "title": "DTRT: Enhancing Human Intent Estimation and Role Allocation for Physical Human-Robot Collaboration",
+      "authors": [
+        "Haotian Liu",
+        "Yuchuang Tong",
+        "Zhengtao Zhang"
+      ],
+      "published": "2025-05-23T05:33:59Z",
+      "year": 2025,
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2505.17490v2",
+      "pdf": "https://arxiv.org/pdf/2505.17490v2",
+      "moduleId": "cobots",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2403.05306v1",
+      "title": "A Collaborative Robot-Assisted Manufacturing Assembly Process",
+      "authors": [
+        "Miguel Neves",
+        "Laura Duarte",
+        "Pedro Neto"
+      ],
+      "published": "2024-03-08T13:34:09Z",
+      "year": 2024,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2403.05306v1",
+      "pdf": "https://arxiv.org/pdf/2403.05306v1",
+      "moduleId": "cobots",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2507.18947v1",
+      "title": "GEAR: Gaze-Enabled Human-Robot Collaborative Assembly",
+      "authors": [
+        "Asad Ali Shahid",
+        "Angelo Moroncelli",
+        "Drazen Brscic",
+        "Takayuki Kanda"
+      ],
+      "published": "2025-07-25T04:33:51Z",
+      "year": 2025,
+      "categories": [
+        "cs.RO",
+        "cs.HC"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2507.18947v1",
+      "pdf": "https://arxiv.org/pdf/2507.18947v1",
+      "moduleId": "cobots",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2411.07402v1",
+      "title": "Development of a Collaborative Robotic Arm-based Bimanual Haptic Display",
+      "authors": [
+        "Joong-Ku Lee",
+        "Donghyeon Kim",
+        "Seong-Su Park",
+        "Jiye Lee"
+      ],
+      "published": "2024-11-11T22:19:19Z",
+      "year": 2024,
+      "categories": [
+        "cs.RO",
+        "cs.HC"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2411.07402v1",
+      "pdf": "https://arxiv.org/pdf/2411.07402v1",
+      "moduleId": "cobots",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2412.20699v2",
+      "title": "Air-Ground Collaborative Robots for Fire and Rescue Missions: Towards Mapping and Navigation Perspective",
+      "authors": [
+        "Ying Zhang",
+        "Haibao Yan",
+        "Danni Zhu",
+        "Jiankun Wang"
+      ],
+      "published": "2024-12-30T04:24:31Z",
+      "year": 2024,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2412.20699v2",
+      "pdf": "https://arxiv.org/pdf/2412.20699v2",
+      "moduleId": "cobots",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2504.21619v2",
+      "title": "3D Hand-Eye Calibration for Collaborative Robot Arm: Look at Robot Base Once",
+      "authors": [
+        "Leihui Li",
+        "Lixuepiao Wan",
+        "Volker Krueger",
+        "Xuping Zhang"
+      ],
+      "published": "2025-04-30T13:20:57Z",
+      "year": 2025,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2504.21619v2",
+      "pdf": "https://arxiv.org/pdf/2504.21619v2",
+      "moduleId": "cobots",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2603.05252v1",
+      "title": "Rethinking the Role of Collaborative Robots in Rehabilitation",
+      "authors": [
+        "Vivek Gupte",
+        "Shalutha Rajapakshe",
+        "Emmanuel Senft"
+      ],
+      "published": "2026-03-05T15:06:11Z",
+      "year": 2026,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2603.05252v1",
+      "pdf": "https://arxiv.org/pdf/2603.05252v1",
+      "moduleId": "cobots",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2510.12340v1",
+      "title": "Achieving Meaningful Collaboration: Worker-centered Design of a Physical Human-Robot Collaborative Blending Task",
+      "authors": [
+        "Nicky Mol",
+        "Luka Peternel",
+        "Alessandro Ianniello",
+        "Denis Zatyagov"
+      ],
+      "published": "2025-10-14T09:51:22Z",
+      "year": 2025,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2510.12340v1",
+      "pdf": "https://arxiv.org/pdf/2510.12340v1",
+      "moduleId": "cobots",
+      "kind": "latest",
+      "score": 4
+    },
+    {
+      "id": "http://arxiv.org/abs/2508.20457v1",
+      "title": "Learning Fast, Tool aware Collision Avoidance for Collaborative Robots",
+      "authors": [
+        "Joonho Lee",
+        "Yunho Kim",
+        "Seokjoon Kim",
+        "Quan Nguyen"
+      ],
+      "published": "2025-08-28T06:10:29Z",
+      "year": 2025,
+      "categories": [
+        "cs.RO",
+        "eess.SY"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2508.20457v1",
+      "pdf": "https://arxiv.org/pdf/2508.20457v1",
+      "moduleId": "cobots",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2507.10055v2",
+      "title": "Hand Gesture Recognition for Collaborative Robots Using Lightweight Deep Learning in Real-Time Robotic Systems",
+      "authors": [
+        "Muhtadin",
+        "I Wayan Agus Darmawan",
+        "Muhammad Hilmi Rusydiansyah",
+        "I Ketut Eddy Purnama"
+      ],
+      "published": "2025-07-14T08:40:24Z",
+      "year": 2025,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2507.10055v2",
+      "pdf": "https://arxiv.org/pdf/2507.10055v2",
+      "moduleId": "cobots",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2506.13149v1",
+      "title": "Cognitive Synergy Architecture: SEGO for Human-Centric Collaborative Robots",
+      "authors": [
+        "Jaehong Oh"
+      ],
+      "published": "2025-06-16T07:01:56Z",
+      "year": 2025,
+      "categories": [
+        "cs.RO",
+        "eess.SY"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2506.13149v1",
+      "pdf": "https://arxiv.org/pdf/2506.13149v1",
+      "moduleId": "cobots",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2505.04722v2",
+      "title": "Fitts' List Revisited: An Empirical Study on Function Allocation in a Two-Agent Physical Human-Robot Collaborative Position/Force Task",
+      "authors": [
+        "Nicky Mol",
+        "J. Micah Prendergast",
+        "David A. Abbink",
+        "Luka Peternel"
+      ],
+      "published": "2025-05-07T18:20:45Z",
+      "year": 2025,
+      "categories": [
+        "cs.RO",
+        "cs.HC"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2505.04722v2",
+      "pdf": "https://arxiv.org/pdf/2505.04722v2",
+      "moduleId": "cobots",
+      "kind": "latest",
+      "score": 4
+    },
+    {
+      "id": "http://arxiv.org/abs/2503.20237v1",
+      "title": "A Virtual Fencing Framework for Safe and Efficient Collaborative Robotics",
+      "authors": [
+        "Vineela Reddy Pippera Badguna",
+        "Aliasghar Arab",
+        "Durga Avinash Kodavalla"
+      ],
+      "published": "2025-03-26T05:05:16Z",
+      "year": 2025,
+      "categories": [
+        "cs.RO",
+        "eess.SY"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2503.20237v1",
+      "pdf": "https://arxiv.org/pdf/2503.20237v1",
+      "moduleId": "cobots",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2409.20184v3",
+      "title": "Adaptive Collision Sensitivity for Efficient and Safe Human-Robot Collaboration",
+      "authors": [
+        "Lukas Rustler",
+        "Matej Misar",
+        "Matej Hoffmann"
+      ],
+      "published": "2024-09-30T10:52:14Z",
+      "year": 2024,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2409.20184v3",
+      "pdf": "https://arxiv.org/pdf/2409.20184v3",
+      "moduleId": "cobots",
+      "kind": "latest",
+      "score": 4
+    },
+    {
+      "id": "http://arxiv.org/abs/2409.07145v1",
+      "title": "The Critical Role of Effective Communication in Human-Robot Collaborative Assembly",
+      "authors": [
+        "Davide Ferrari",
+        "Cristian Secchi"
+      ],
+      "published": "2024-09-11T09:49:21Z",
+      "year": 2024,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2409.07145v1",
+      "pdf": "https://arxiv.org/pdf/2409.07145v1",
+      "moduleId": "cobots",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2409.06369v2",
+      "title": "Adaptive Electronic Skin Sensitivity for Safe Human-Robot Interaction",
+      "authors": [
+        "Lukas Rustler",
+        "Matej Misar",
+        "Matej Hoffmann"
+      ],
+      "published": "2024-09-10T09:49:14Z",
+      "year": 2024,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2409.06369v2",
+      "pdf": "https://arxiv.org/pdf/2409.06369v2",
+      "moduleId": "hri-safety",
+      "kind": "top",
+      "score": 10
+    },
+    {
+      "id": "http://arxiv.org/abs/2502.01256v1",
+      "title": "Soft is Safe: Human-Robot Interaction for Soft Robots",
+      "authors": [
+        "Rajashekhar V S",
+        "Gowdham Prabhakar"
+      ],
+      "published": "2025-02-03T11:26:32Z",
+      "year": 2025,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2502.01256v1",
+      "pdf": "https://arxiv.org/pdf/2502.01256v1",
+      "moduleId": "hri-safety",
+      "kind": "top",
+      "score": 10
+    },
+    {
+      "id": "http://arxiv.org/abs/2503.16960v1",
+      "title": "Somatic Safety: An Embodied Approach Towards Safe Human-Robot Interaction",
+      "authors": [
+        "Steve Benford",
+        "Eike Schneiders",
+        "Juan Pablo Martinez Avila",
+        "Praminda Caleb-Solly"
+      ],
+      "published": "2025-03-21T09:09:58Z",
+      "year": 2025,
+      "categories": [
+        "cs.HC",
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.HC",
+      "url": "https://arxiv.org/abs/2503.16960v1",
+      "pdf": "https://arxiv.org/pdf/2503.16960v1",
+      "moduleId": "hri-safety",
+      "kind": "top",
+      "score": 10
+    },
+    {
+      "id": "http://arxiv.org/abs/2405.09109v2",
+      "title": "Motion Prediction with Gaussian Processes for Safe Human-Robot Interaction in Virtual Environments",
+      "authors": [
+        "Stanley Mugisha",
+        "Vamsi Krishna Guda",
+        "Christine Chevallereau",
+        "Damien Chablat"
+      ],
+      "published": "2024-05-15T05:51:41Z",
+      "year": 2024,
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2405.09109v2",
+      "pdf": "https://arxiv.org/pdf/2405.09109v2",
+      "moduleId": "hri-safety",
+      "kind": "top",
+      "score": 10
+    },
+    {
+      "id": "http://arxiv.org/abs/2110.12940v2",
+      "title": "CoboGuider: Haptic Potential Fields for Safe Human-Robot Interaction",
+      "authors": [
+        "Viktor Rakhmatulin",
+        "Miguel Altamirano Cabrera",
+        "Fikre Hagos",
+        "Oleg Sautenkov"
+      ],
+      "published": "2021-10-25T13:20:33Z",
+      "year": 2021,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2110.12940v2",
+      "pdf": "https://arxiv.org/pdf/2110.12940v2",
+      "moduleId": "hri-safety",
+      "kind": "top",
+      "score": 9
+    },
+    {
+      "id": "http://arxiv.org/abs/2308.00096v1",
+      "title": "AirTouch: Towards Safe Human-Robot Interaction Using Air Pressure Feedback and IR Mocap System",
+      "authors": [
+        "Viktor Rakhmatulin",
+        "Denis Grankin",
+        "Mikhail Konenkov",
+        "Sergei Davidenko"
+      ],
+      "published": "2023-07-31T19:18:23Z",
+      "year": 2023,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2308.00096v1",
+      "pdf": "https://arxiv.org/pdf/2308.00096v1",
+      "moduleId": "hri-safety",
+      "kind": "top",
+      "score": 9
+    },
+    {
+      "id": "http://arxiv.org/abs/2211.14748v1",
+      "title": "Safe Human Robot-Interaction using Switched Model Reference Admittance Control",
+      "authors": [
+        "Chayan Kumar Paul",
+        "Bhabani Shankar Dey",
+        "Udayan Banerjee",
+        "Indra Narayan Kar"
+      ],
+      "published": "2022-11-27T07:07:29Z",
+      "year": 2022,
+      "categories": [
+        "cs.RO",
+        "eess.SY"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2211.14748v1",
+      "pdf": "https://arxiv.org/pdf/2211.14748v1",
+      "moduleId": "hri-safety",
+      "kind": "top",
+      "score": 9
+    },
+    {
+      "id": "http://arxiv.org/abs/2312.04056v1",
+      "title": "A Cost-Effective Test Bench for Evaluating Safe Human-Robot Interaction in Mobile Robotics",
+      "authors": [
+        "Atefeh Fereydooni",
+        "Armin Azarakhsh",
+        "Ayda Shafiei",
+        "Hesam Zandi"
+      ],
+      "published": "2023-12-07T05:37:36Z",
+      "year": 2023,
+      "categories": [
+        "cs.RO",
+        "eess.SY"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2312.04056v1",
+      "pdf": "https://arxiv.org/pdf/2312.04056v1",
+      "moduleId": "hri-safety",
+      "kind": "top",
+      "score": 9
+    },
+    {
+      "id": "http://arxiv.org/abs/2303.03504v1",
+      "title": "Learning Responsibility Allocations for Safe Human-Robot Interaction with Applications to Autonomous Driving",
+      "authors": [
+        "Ryan K. Cosner",
+        "Yuxiao Chen",
+        "Karen Leung",
+        "Marco Pavone"
+      ],
+      "published": "2023-03-06T21:23:43Z",
+      "year": 2023,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2303.03504v1",
+      "pdf": "https://arxiv.org/pdf/2303.03504v1",
+      "moduleId": "hri-safety",
+      "kind": "top",
+      "score": 9
+    },
+    {
+      "id": "http://arxiv.org/abs/1907.02125v1",
+      "title": "Sensing Volume Coverage of Robot Workspace using On-Robot Time-of-Flight Sensor Arrays for Safe Human Robot Interaction",
+      "authors": [
+        "Shitij Kumar",
+        "Ferat Sahin"
+      ],
+      "published": "2019-07-03T20:39:47Z",
+      "year": 2019,
+      "categories": [
+        "cs.RO",
+        "cs.MA"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/1907.02125v1",
+      "pdf": "https://arxiv.org/pdf/1907.02125v1",
+      "moduleId": "hri-safety",
+      "kind": "top",
+      "score": 8
+    },
+    {
+      "id": "http://arxiv.org/abs/2508.13982v1",
+      "title": "The Social Context of Human-Robot Interactions",
+      "authors": [
+        "Sydney Thompson",
+        "Kate Candon",
+        "Marynel Vázquez"
+      ],
+      "published": "2025-08-19T16:15:58Z",
+      "year": 2025,
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.HC",
+        "cs.MA"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2508.13982v1",
+      "pdf": "https://arxiv.org/pdf/2508.13982v1",
+      "moduleId": "hri-safety",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2504.02724v1",
+      "title": "Autonomous Human-Robot Interaction via Operator Imitation",
+      "authors": [
+        "Sammy Christen",
+        "David Müller",
+        "Agon Serifi",
+        "Ruben Grandia"
+      ],
+      "published": "2025-04-03T16:06:44Z",
+      "year": 2025,
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2504.02724v1",
+      "pdf": "https://arxiv.org/pdf/2504.02724v1",
+      "moduleId": "hri-safety",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2412.20826v1",
+      "title": "ReStory: VLM-augmentation of Social Human-Robot Interaction Datasets",
+      "authors": [
+        "Fanjun Bu",
+        "Wendy Ju"
+      ],
+      "published": "2024-12-30T09:38:00Z",
+      "year": 2024,
+      "categories": [
+        "cs.RO",
+        "cs.HC"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2412.20826v1",
+      "pdf": "https://arxiv.org/pdf/2412.20826v1",
+      "moduleId": "hri-safety",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2410.18373v3",
+      "title": "UGotMe: An Embodied System for Affective Human-Robot Interaction",
+      "authors": [
+        "Peizhen Li",
+        "Longbing Cao",
+        "Xiao-Ming Wu",
+        "Xiaohan Yu"
+      ],
+      "published": "2024-10-24T02:32:56Z",
+      "year": 2024,
+      "categories": [
+        "cs.RO",
+        "cs.HC"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2410.18373v3",
+      "pdf": "https://arxiv.org/pdf/2410.18373v3",
+      "moduleId": "hri-safety",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2409.06503v1",
+      "title": "Advancements in Gesture Recognition Techniques and Machine Learning for Enhanced Human-Robot Interaction: A Comprehensive Review",
+      "authors": [
+        "Sajjad Hussain",
+        "Khizer Saeed",
+        "Almas Baimagambetov",
+        "Shanay Rab"
+      ],
+      "published": "2024-09-10T13:38:03Z",
+      "year": 2024,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2409.06503v1",
+      "pdf": "https://arxiv.org/pdf/2409.06503v1",
+      "moduleId": "hri-safety",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2406.00869v1",
+      "title": "Using 3-D LiDAR Data for Safe Physical Human-Robot Interaction",
+      "authors": [
+        "Sarthak Arora",
+        "Karthik Subramanian",
+        "Odysseus Adamides",
+        "Ferat Sahin"
+      ],
+      "published": "2024-06-02T21:09:15Z",
+      "year": 2024,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2406.00869v1",
+      "pdf": "https://arxiv.org/pdf/2406.00869v1",
+      "moduleId": "hri-safety",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2403.18692v1",
+      "title": "Teaching Introductory HRI: UChicago Course \"Human-Robot Interaction: Research and Practice\"",
+      "authors": [
+        "Sarah Sebo"
+      ],
+      "published": "2024-03-27T15:42:01Z",
+      "year": 2024,
+      "categories": [
+        "cs.RO",
+        "cs.HC"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2403.18692v1",
+      "pdf": "https://arxiv.org/pdf/2403.18692v1",
+      "moduleId": "hri-safety",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2403.15323v1",
+      "title": "Introduction to Human-Robot Interaction: A Multi-Perspective Introductory Course",
+      "authors": [
+        "Tom Williams"
+      ],
+      "published": "2024-03-22T16:19:56Z",
+      "year": 2024,
+      "categories": [
+        "cs.RO",
+        "cs.HC"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2403.15323v1",
+      "pdf": "https://arxiv.org/pdf/2403.15323v1",
+      "moduleId": "hri-safety",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2403.10994v1",
+      "title": "SSUP-HRI: Social Signaling in Urban Public Human-Robot Interaction dataset",
+      "authors": [
+        "Fanjun Bu",
+        "Wendy Ju"
+      ],
+      "published": "2024-03-16T18:44:21Z",
+      "year": 2024,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2403.10994v1",
+      "pdf": "https://arxiv.org/pdf/2403.10994v1",
+      "moduleId": "hri-safety",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2403.08061v1",
+      "title": "Gaze-based Human-Robot Interaction System for Infrastructure Inspections",
+      "authors": [
+        "Sunwoong Choi",
+        "Zaid Abbas Al-Sabbag",
+        "Sriram Narasimhan",
+        "Chul Min Yeum"
+      ],
+      "published": "2024-03-12T20:26:51Z",
+      "year": 2024,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2403.08061v1",
+      "pdf": "https://arxiv.org/pdf/2403.08061v1",
+      "moduleId": "hri-safety",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2405.06336v1",
+      "title": "Efficient End-to-End Detection of 6-DoF Grasps for Robotic Bin Picking",
+      "authors": [
+        "Yushi Liu",
+        "Alexander Qualmann",
+        "Zehao Yu",
+        "Miroslav Gabriel"
+      ],
+      "published": "2024-05-10T09:09:53Z",
+      "year": 2024,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2405.06336v1",
+      "pdf": "https://arxiv.org/pdf/2405.06336v1",
+      "moduleId": "industrial",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2411.08851v1",
+      "title": "Experience-based Subproblem Planning for Multi-Robot Motion Planning",
+      "authors": [
+        "Irving Solis",
+        "James Motes",
+        "Mike Qin",
+        "Marco Morales"
+      ],
+      "published": "2024-11-13T18:30:28Z",
+      "year": 2024,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2411.08851v1",
+      "pdf": "https://arxiv.org/pdf/2411.08851v1",
+      "moduleId": "industrial",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2404.15410v1",
+      "title": "Planning the path with Reinforcement Learning: Optimal Robot Motion Planning in RoboCup Small Size League Environments",
+      "authors": [
+        "Mateus G. Machado",
+        "João G. Melo",
+        "Cleber Zanchettin",
+        "Pedro H. M. Braga"
+      ],
+      "published": "2024-04-23T18:01:30Z",
+      "year": 2024,
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2404.15410v1",
+      "pdf": "https://arxiv.org/pdf/2404.15410v1",
+      "moduleId": "industrial",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2605.20395v1",
+      "title": "Scalable Multi-robot Motion Planning via Hierarchical Subproblem Expansion and Workspace Decomposition Refinement",
+      "authors": [
+        "Isaac Ngui",
+        "Courtney McBeth",
+        "James D. Motes",
+        "Marco Morales"
+      ],
+      "published": "2026-05-19T18:44:09Z",
+      "year": 2026,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2605.20395v1",
+      "pdf": "https://arxiv.org/pdf/2605.20395v1",
+      "moduleId": "industrial",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2504.06429v1",
+      "title": "Extended Version: Multi-Robot Motion Planning with Cooperative Localization",
+      "authors": [
+        "Anne Theurkauf",
+        "Nisar Ahmed",
+        "Morteza Lahijanian"
+      ],
+      "published": "2025-04-08T20:58:19Z",
+      "year": 2025,
+      "categories": [
+        "cs.RO",
+        "cs.MA"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2504.06429v1",
+      "pdf": "https://arxiv.org/pdf/2504.06429v1",
+      "moduleId": "industrial",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2606.12070v1",
+      "title": "Fibration Trees: A Unified Approach to Multi-Robot Motion Planning",
+      "authors": [
+        "Andreas Orthey",
+        "Florian T. Pokorny",
+        "Lydia E. Kavraki"
+      ],
+      "published": "2026-06-10T13:33:45Z",
+      "year": 2026,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2606.12070v1",
+      "pdf": "https://arxiv.org/pdf/2606.12070v1",
+      "moduleId": "industrial",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2509.25352v1",
+      "title": "SRMP: Search-Based Robot Motion Planning Library",
+      "authors": [
+        "Itamar Mishani",
+        "Yorai Shaoul",
+        "Ramkumar Natarajan",
+        "Jiaoyang Li"
+      ],
+      "published": "2025-09-29T18:04:32Z",
+      "year": 2025,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2509.25352v1",
+      "pdf": "https://arxiv.org/pdf/2509.25352v1",
+      "moduleId": "industrial",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2404.14547v1",
+      "title": "Integrating Disambiguation and User Preferences into Large Language Models for Robot Motion Planning",
+      "authors": [
+        "Mohammed Abugurain",
+        "Shinkyu Park"
+      ],
+      "published": "2024-04-22T19:38:37Z",
+      "year": 2024,
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "eess.SY"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2404.14547v1",
+      "pdf": "https://arxiv.org/pdf/2404.14547v1",
+      "moduleId": "industrial",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2502.03607v2",
+      "title": "Simultaneous Multi-Robot Motion Planning with Projected Diffusion Models",
+      "authors": [
+        "Jinhao Liang",
+        "Jacob K Christopher",
+        "Sven Koenig",
+        "Ferdinando Fioretto"
+      ],
+      "published": "2025-02-05T20:51:28Z",
+      "year": 2025,
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2502.03607v2",
+      "pdf": "https://arxiv.org/pdf/2502.03607v2",
+      "moduleId": "industrial",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2504.19652v1",
+      "title": "Robot Motion Planning using One-Step Diffusion with Noise-Optimized Approximate Motions",
+      "authors": [
+        "Tomoharu Aizu",
+        "Takeru Oba",
+        "Yuki Kondo",
+        "Norimichi Ukita"
+      ],
+      "published": "2025-04-28T10:10:17Z",
+      "year": 2025,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2504.19652v1",
+      "pdf": "https://arxiv.org/pdf/2504.19652v1",
+      "moduleId": "industrial",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2607.12423v1",
+      "title": "Model-Based Diffusion Optimal Control for Multi-Robot Motion Planning",
+      "authors": [
+        "Zhilin He",
+        "Yorai Shaoul",
+        "Jiaoyang Li"
+      ],
+      "published": "2026-07-14T06:54:03Z",
+      "year": 2026,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2607.12423v1",
+      "pdf": "https://arxiv.org/pdf/2607.12423v1",
+      "moduleId": "industrial",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2606.27495v1",
+      "title": "AO-ARC: Almost-Surely Asymptotically Optimal Multi-Robot Motion Planning with ARC",
+      "authors": [
+        "James D. Motes",
+        "Marco Morales",
+        "Nancy M. Amato"
+      ],
+      "published": "2026-06-25T19:20:26Z",
+      "year": 2026,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2606.27495v1",
+      "pdf": "https://arxiv.org/pdf/2606.27495v1",
+      "moduleId": "industrial",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2605.27697v1",
+      "title": "Simulation-Informed Diffusion for Decentralized Multi-robot Motion Planning",
+      "authors": [
+        "Jinhao Liang",
+        "Sven Koenig",
+        "Ferdinando Fioretto"
+      ],
+      "published": "2026-05-26T21:17:53Z",
+      "year": 2026,
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2605.27697v1",
+      "pdf": "https://arxiv.org/pdf/2605.27697v1",
+      "moduleId": "industrial",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2605.09801v1",
+      "title": "Efficient Multi-Robot Motion Planning with Precomputed Translation-Invariant Edge Bundles",
+      "authors": [
+        "Himanshu Gupta",
+        "Paul Motter",
+        "Aritra Chakrabarty",
+        "Rishabh Sodani"
+      ],
+      "published": "2026-05-10T22:44:19Z",
+      "year": 2026,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2605.09801v1",
+      "pdf": "https://arxiv.org/pdf/2605.09801v1",
+      "moduleId": "industrial",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2603.12649v1",
+      "title": "Autonomous Integration and Improvement of Robotic Assembly using Skill Graph Representations",
+      "authors": [
+        "Peiqi Yu",
+        "Philip Huang",
+        "Chaitanya Chawla",
+        "Guanya Shi"
+      ],
+      "published": "2026-03-13T04:41:10Z",
+      "year": 2026,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2603.12649v1",
+      "pdf": "https://arxiv.org/pdf/2603.12649v1",
+      "moduleId": "industrial",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2502.19340v1",
+      "title": "Hybrid Robot Learning for Automatic Robot Motion Planning in Manufacturing",
+      "authors": [
+        "Siddharth Singh",
+        "Tian Yu",
+        "Qing Chang",
+        "John Karigiannis"
+      ],
+      "published": "2025-02-26T17:32:22Z",
+      "year": 2025,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2502.19340v1",
+      "pdf": "https://arxiv.org/pdf/2502.19340v1",
+      "moduleId": "industrial",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2311.12385v1",
+      "title": "Joint-Space Multi-Robot Motion Planning with Learned Decentralized Heuristics",
+      "authors": [
+        "Fengze Xie",
+        "Marcus Dominguez-Kuhne",
+        "Benjamin Riviere",
+        "Jialin Song"
+      ],
+      "published": "2023-11-21T06:52:49Z",
+      "year": 2023,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2311.12385v1",
+      "pdf": "https://arxiv.org/pdf/2311.12385v1",
+      "moduleId": "industrial",
+      "kind": "latest",
+      "score": 6
+    },
+    {
+      "id": "http://arxiv.org/abs/2311.10176v4",
+      "title": "Scalable Multi-Robot Motion Planning Using Workspace Guidance-Informed Hypergraphs",
+      "authors": [
+        "Courtney McBeth",
+        "James Motes",
+        "Isaac Ngui",
+        "Marco Morales"
+      ],
+      "published": "2023-11-16T20:06:09Z",
+      "year": 2023,
+      "categories": [
+        "cs.RO",
+        "cs.MA"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2311.10176v4",
+      "pdf": "https://arxiv.org/pdf/2311.10176v4",
+      "moduleId": "industrial",
+      "kind": "latest",
+      "score": 6
+    },
+    {
+      "id": "http://arxiv.org/abs/2310.08599v2",
+      "title": "A Survey of Multi-Robot Motion Planning",
+      "authors": [
+        "Hoang-Dung Bui"
+      ],
+      "published": "2023-10-05T18:59:41Z",
+      "year": 2023,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2310.08599v2",
+      "pdf": "https://arxiv.org/pdf/2310.08599v2",
+      "moduleId": "industrial",
+      "kind": "latest",
+      "score": 6
+    },
+    {
+      "id": "http://arxiv.org/abs/2307.14110v1",
+      "title": "Reinforced Potential Field for Multi-Robot Motion Planning in Cluttered Environments",
+      "authors": [
+        "Dengyu Zhang",
+        "Xinyu Zhang",
+        "Zheng Zhang",
+        "Bo Zhu"
+      ],
+      "published": "2023-07-26T11:13:14Z",
+      "year": 2023,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2307.14110v1",
+      "pdf": "https://arxiv.org/pdf/2307.14110v1",
+      "moduleId": "industrial",
+      "kind": "latest",
+      "score": 6
+    },
+    {
+      "id": "http://arxiv.org/abs/2404.17070v7",
+      "title": "Deep Reinforcement Learning for Bipedal Locomotion: A Brief Survey",
+      "authors": [
+        "Lingfan Bao",
+        "Joseph Humphreys",
+        "Tianhu Peng",
+        "Chengxu Zhou"
+      ],
+      "published": "2024-04-25T22:41:59Z",
+      "year": 2024,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2404.17070v7",
+      "pdf": "https://arxiv.org/pdf/2404.17070v7",
+      "moduleId": "humanoid",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2601.01409v1",
+      "title": "Sampling Strategy Design for Model Predictive Path Integral Control on Legged Robot Locomotion",
+      "authors": [
+        "Chuyuan Tao",
+        "Fanxin Wang",
+        "Haolong Jiang",
+        "Jia He"
+      ],
+      "published": "2026-01-04T07:25:37Z",
+      "year": 2026,
+      "categories": [
+        "eess.SY",
+        "cs.RO"
+      ],
+      "venue": "arXiv · eess.SY",
+      "url": "https://arxiv.org/abs/2601.01409v1",
+      "pdf": "https://arxiv.org/pdf/2601.01409v1",
+      "moduleId": "humanoid",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2504.09997v1",
+      "title": "GenTe: Generative Real-world Terrains for General Legged Robot Locomotion Control",
+      "authors": [
+        "Hanwen Wan",
+        "Mengkang Li",
+        "Donghao Wu",
+        "Yebin Zhong"
+      ],
+      "published": "2025-04-14T09:01:44Z",
+      "year": 2025,
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2504.09997v1",
+      "pdf": "https://arxiv.org/pdf/2504.09997v1",
+      "moduleId": "humanoid",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2508.11929v2",
+      "title": "No More Blind Spots: Learning Vision-Based Omnidirectional Bipedal Locomotion for Challenging Terrain",
+      "authors": [
+        "Mohitvishnu S. Gadde",
+        "Pranay Dugar",
+        "Ashish Malik",
+        "Alan Fern"
+      ],
+      "published": "2025-08-16T06:20:46Z",
+      "year": 2025,
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2508.11929v2",
+      "pdf": "https://arxiv.org/pdf/2508.11929v2",
+      "moduleId": "humanoid",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2409.15780v4",
+      "title": "A Learning Framework for Diverse Legged Robot Locomotion Using Barrier-Based Style Rewards",
+      "authors": [
+        "Gijeong Kim",
+        "Yong-Hoon Lee",
+        "Hae-Won Park"
+      ],
+      "published": "2024-09-24T06:22:28Z",
+      "year": 2024,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2409.15780v4",
+      "pdf": "https://arxiv.org/pdf/2409.15780v4",
+      "moduleId": "humanoid",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2602.05596v2",
+      "title": "TOLEBI: Learning Fault-Tolerant Bipedal Locomotion via Online Status Estimation and Fallibility Rewards",
+      "authors": [
+        "Hokyun Lee",
+        "Woo-Jeong Baek",
+        "Junhyeok Cha",
+        "Jaeheung Park"
+      ],
+      "published": "2026-02-05T12:30:49Z",
+      "year": 2026,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2602.05596v2",
+      "pdf": "https://arxiv.org/pdf/2602.05596v2",
+      "moduleId": "humanoid",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2509.18466v1",
+      "title": "RL-augmented Adaptive Model Predictive Control for Bipedal Locomotion over Challenging Terrain",
+      "authors": [
+        "Junnosuke Kamohara",
+        "Feiyang Wu",
+        "Chinmayee Wamorkar",
+        "Seth Hutchinson"
+      ],
+      "published": "2025-09-22T22:43:07Z",
+      "year": 2025,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2509.18466v1",
+      "pdf": "https://arxiv.org/pdf/2509.18466v1",
+      "moduleId": "humanoid",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2511.17387v1",
+      "title": "Human Imitated Bipedal Locomotion with Frequency Based Gait Generator Network",
+      "authors": [
+        "Yusuf Baran Ates",
+        "Omer Morgul"
+      ],
+      "published": "2025-11-21T16:50:00Z",
+      "year": 2025,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2511.17387v1",
+      "pdf": "https://arxiv.org/pdf/2511.17387v1",
+      "moduleId": "humanoid",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2409.15710v1",
+      "title": "Autotuning Bipedal Locomotion MPC with GRFM-Net for Efficient Sim-to-Real Transfer",
+      "authors": [
+        "Qianzhong Chen",
+        "Junheng Li",
+        "Sheng Cheng",
+        "Naira Hovakimyan"
+      ],
+      "published": "2024-09-24T03:58:18Z",
+      "year": 2024,
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "eess.SY"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2409.15710v1",
+      "pdf": "https://arxiv.org/pdf/2409.15710v1",
+      "moduleId": "humanoid",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2510.01592v1",
+      "title": "Real-time Multi-Plane Segmentation Based on GPU Accelerated High-Resolution 3D Voxel Mapping for Legged Robot Locomotion",
+      "authors": [
+        "Shun Niijima",
+        "Ryoichi Tsuzaki",
+        "Noriaki Takasugi",
+        "Masaya Kinoshita"
+      ],
+      "published": "2025-10-02T02:15:40Z",
+      "year": 2025,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2510.01592v1",
+      "pdf": "https://arxiv.org/pdf/2510.01592v1",
+      "moduleId": "humanoid",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2608.26505v1",
+      "title": "Closing the Loop on the Poppy Humanoid: Bipedal Locomotion with Linear-Quadratic Control and Learned Cost Functions",
+      "authors": [
+        "Xulin Chen",
+        "Borui He",
+        "Ruipeng Liu",
+        "Naveed Tahir"
+      ],
+      "published": "2026-08-27T01:03:45Z",
+      "year": 2026,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2608.26505v1",
+      "pdf": "https://arxiv.org/pdf/2608.26505v1",
+      "moduleId": "humanoid",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2607.11855v1",
+      "title": "Robust bipedal locomotion on flowable slopes via foot-driven terrain manipulation",
+      "authors": [
+        "Deniz Kerimoglu",
+        "Junnosuke Kamohara",
+        "Jiyeon Maeng",
+        "Ziwon Yoon"
+      ],
+      "published": "2026-07-13T17:42:03Z",
+      "year": 2026,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2607.11855v1",
+      "pdf": "https://arxiv.org/pdf/2607.11855v1",
+      "moduleId": "humanoid",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2607.11624v3",
+      "title": "SKooP: Symmetric Koopman Predictions for Faster and More Generalizable Legged Robot Locomotion with Reinforcement Learning",
+      "authors": [
+        "Evelyn D'Elia",
+        "Weishu Zhan",
+        "Giulio Turrisi",
+        "Giulio Romualdi"
+      ],
+      "published": "2026-07-13T14:44:28Z",
+      "year": 2026,
+      "categories": [
+        "cs.RO",
+        "cs.LG"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2607.11624v3",
+      "pdf": "https://arxiv.org/pdf/2607.11624v3",
+      "moduleId": "humanoid",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2607.01574v1",
+      "title": "Multi-Rate Nonlinear Model Predictive Control for Wall-Supported Bipedal Locomotion of Quadrupedal Robots",
+      "authors": [
+        "Taizoon Chunawala",
+        "Jeeseop Kim",
+        "Kaveh Akbari Hamed"
+      ],
+      "published": "2026-07-02T01:09:09Z",
+      "year": 2026,
+      "categories": [
+        "cs.RO",
+        "math.OC"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2607.01574v1",
+      "pdf": "https://arxiv.org/pdf/2607.01574v1",
+      "moduleId": "humanoid",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2606.17011v1",
+      "title": "ROVE: Unlocking Human Interventions for Humanoid Manipulation via Reinforcement Learning",
+      "authors": [
+        "Wei Xiao",
+        "Weiliang Tang",
+        "Yuying Ge",
+        "Hui Zhou"
+      ],
+      "published": "2026-06-15T17:45:06Z",
+      "year": 2026,
+      "categories": [
+        "cs.RO",
+        "cs.LG"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2606.17011v1",
+      "pdf": "https://arxiv.org/pdf/2606.17011v1",
+      "moduleId": "humanoid",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2606.11034v1",
+      "title": "A Spiking Neural Architecture for Coordinating Arm and Locomotor Control",
+      "authors": [
+        "Lea Steffen",
+        "Kathryn Simone",
+        "Graeme Damberger",
+        "Travis DeWolf"
+      ],
+      "published": "2026-06-09T16:05:27Z",
+      "year": 2026,
+      "categories": [
+        "cs.RO",
+        "cs.NE"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2606.11034v1",
+      "pdf": "https://arxiv.org/pdf/2606.11034v1",
+      "moduleId": "humanoid",
+      "kind": "latest",
+      "score": 4
+    },
+    {
+      "id": "http://arxiv.org/abs/2603.29050v1",
+      "title": "Stable Walking for Bipedal Locomotion under Foot-Slip via Virtual Nonholonomic Constraints",
+      "authors": [
+        "Leonardo Colombo",
+        "Álvaro Rodríguez Abella",
+        "Alexandre Anahory Simoes",
+        "Anthony Bloch"
+      ],
+      "published": "2026-03-30T22:38:45Z",
+      "year": 2026,
+      "categories": [
+        "eess.SY",
+        "cs.RO",
+        "math.DS",
+        "math.OC"
+      ],
+      "venue": "arXiv · eess.SY",
+      "url": "https://arxiv.org/abs/2603.29050v1",
+      "pdf": "https://arxiv.org/pdf/2603.29050v1",
+      "moduleId": "humanoid",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2602.06643v2",
+      "title": "Humanoid Manipulation Interface: Humanoid Whole-Body Manipulation from Robot-Free Demonstrations",
+      "authors": [
+        "Ruiqian Nai",
+        "Boyuan Zheng",
+        "Junming Zhao",
+        "Haodong Zhu"
+      ],
+      "published": "2026-02-06T12:10:47Z",
+      "year": 2026,
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2602.06643v2",
+      "pdf": "https://arxiv.org/pdf/2602.06643v2",
+      "moduleId": "humanoid",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2512.25072v1",
+      "title": "Coordinated Humanoid Manipulation with Choice Policies",
+      "authors": [
+        "Haozhi Qi",
+        "Yen-Jen Wang",
+        "Toru Lin",
+        "Brent Yi"
+      ],
+      "published": "2025-12-31T18:59:53Z",
+      "year": 2025,
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2512.25072v1",
+      "pdf": "https://arxiv.org/pdf/2512.25072v1",
+      "moduleId": "humanoid",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2512.12993v1",
+      "title": "Learning Terrain Aware Bipedal Locomotion via Reduced Dimensional Perceptual Representations",
+      "authors": [
+        "Guillermo A. Castillo",
+        "Himanshu Lodha",
+        "Ayonga Hereid"
+      ],
+      "published": "2025-12-15T05:38:08Z",
+      "year": 2025,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2512.12993v1",
+      "pdf": "https://arxiv.org/pdf/2512.12993v1",
+      "moduleId": "humanoid",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2504.09047v1",
+      "title": "Multi-Robot Coordination with Adversarial Perception",
+      "authors": [
+        "Rayan Bahrami",
+        "Hamidreza Jafarnejadsani"
+      ],
+      "published": "2025-04-12T02:04:07Z",
+      "year": 2025,
+      "categories": [
+        "cs.RO",
+        "eess.SY"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2504.09047v1",
+      "pdf": "https://arxiv.org/pdf/2504.09047v1",
+      "moduleId": "mobile-field",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2503.02584v1",
+      "title": "Research on visual simultaneous localization and mapping technology based on near infrared light",
+      "authors": [
+        "Rui Ma",
+        "Mengfang Liu",
+        "Boliang Li",
+        "Xinghui Li"
+      ],
+      "published": "2025-03-04T13:07:54Z",
+      "year": 2025,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2503.02584v1",
+      "pdf": "https://arxiv.org/pdf/2503.02584v1",
+      "moduleId": "mobile-field",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2604.11028v2",
+      "title": "Federated Single-Agent Robotics: Multi-Robot Coordination Without Intra-Robot Multi-Agent Fragmentation",
+      "authors": [
+        "Xue Qin",
+        "Simin Luan",
+        "John See",
+        "Cong Yang"
+      ],
+      "published": "2026-04-13T05:51:13Z",
+      "year": 2026,
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2604.11028v2",
+      "pdf": "https://arxiv.org/pdf/2604.11028v2",
+      "moduleId": "mobile-field",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2507.02521v1",
+      "title": "Safe and Socially Aware Multi-Robot Coordination in Multi-Human Social Care Settings",
+      "authors": [
+        "Ayodeji O. Abioye",
+        "Jayati Deshmukh",
+        "Athina Georgara",
+        "Dominic Price"
+      ],
+      "published": "2025-07-03T10:37:22Z",
+      "year": 2025,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2507.02521v1",
+      "pdf": "https://arxiv.org/pdf/2507.02521v1",
+      "moduleId": "mobile-field",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2503.20723v1",
+      "title": "Multi-Robot Coordination Under Physical Limitations",
+      "authors": [
+        "Tohid Kargar Tasooji",
+        "Sakineh Khodadadi"
+      ],
+      "published": "2025-03-26T17:06:53Z",
+      "year": 2025,
+      "categories": [
+        "cs.RO",
+        "cs.MA"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2503.20723v1",
+      "pdf": "https://arxiv.org/pdf/2503.20723v1",
+      "moduleId": "mobile-field",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2504.04239v1",
+      "title": "Nonlinear Observer Design for Landmark-Inertial Simultaneous Localization and Mapping",
+      "authors": [
+        "Mouaad Boughellaba",
+        "Soulaimane Berkane",
+        "Abdelhamid Tayebi"
+      ],
+      "published": "2025-04-05T17:50:16Z",
+      "year": 2025,
+      "categories": [
+        "eess.SY",
+        "cs.RO"
+      ],
+      "venue": "arXiv · eess.SY",
+      "url": "https://arxiv.org/abs/2504.04239v1",
+      "pdf": "https://arxiv.org/pdf/2504.04239v1",
+      "moduleId": "mobile-field",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2406.07371v1",
+      "title": "iMESA: Incremental Distributed Optimization for Collaborative Simultaneous Localization and Mapping",
+      "authors": [
+        "Daniel McGann",
+        "Michael Kaess"
+      ],
+      "published": "2024-06-11T15:40:44Z",
+      "year": 2024,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2406.07371v1",
+      "pdf": "https://arxiv.org/pdf/2406.07371v1",
+      "moduleId": "mobile-field",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2404.04377v1",
+      "title": "LOSS-SLAM: Lightweight Open-Set Semantic Simultaneous Localization and Mapping",
+      "authors": [
+        "Kurran Singh",
+        "Tim Magoun",
+        "John J. Leonard"
+      ],
+      "published": "2024-04-05T19:42:55Z",
+      "year": 2024,
+      "categories": [
+        "cs.RO",
+        "cs.CV"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2404.04377v1",
+      "pdf": "https://arxiv.org/pdf/2404.04377v1",
+      "moduleId": "mobile-field",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2605.06662v1",
+      "title": "Multi-Robot Coordination in V2X Environments",
+      "authors": [
+        "John Pravin Arockiasamy",
+        "Alexey Vinel"
+      ],
+      "published": "2026-05-07T17:58:48Z",
+      "year": 2026,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2605.06662v1",
+      "pdf": "https://arxiv.org/pdf/2605.06662v1",
+      "moduleId": "mobile-field",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2506.06771v1",
+      "title": "LoopDB: A Loop Closure Dataset for Large Scale Simultaneous Localization and Mapping",
+      "authors": [
+        "Mohammad-Maher Nakshbandi",
+        "Ziad Sharawy",
+        "Dorian Cojocaru",
+        "Sorin Grigorescu"
+      ],
+      "published": "2025-06-07T11:39:39Z",
+      "year": 2025,
+      "categories": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.CV",
+      "url": "https://arxiv.org/abs/2506.06771v1",
+      "pdf": "https://arxiv.org/pdf/2506.06771v1",
+      "moduleId": "mobile-field",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2604.02696v1",
+      "title": "VBGS-SLAM: Variational Bayesian Gaussian Splatting Simultaneous Localization and Mapping",
+      "authors": [
+        "Yuhan Zhu",
+        "Yanyu Zhang",
+        "Jie Xu",
+        "Wei Ren"
+      ],
+      "published": "2026-04-03T03:44:01Z",
+      "year": 2026,
+      "categories": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.CV",
+      "url": "https://arxiv.org/abs/2604.02696v1",
+      "pdf": "https://arxiv.org/pdf/2604.02696v1",
+      "moduleId": "mobile-field",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2509.04443v3",
+      "title": "EMMA: Scaling Mobile Manipulation via Egocentric Human Data",
+      "authors": [
+        "Lawrence Y. Zhu",
+        "Pranav Kuppili",
+        "Ryan Punamiya",
+        "Patcharapong Aphiwetsa"
+      ],
+      "published": "2025-09-04T17:59:10Z",
+      "year": 2025,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2509.04443v3",
+      "pdf": "https://arxiv.org/pdf/2509.04443v3",
+      "moduleId": "mobile-field",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2504.06684v2",
+      "title": "SDHN: Skewness-Driven Hypergraph Networks for Enhanced Localized Multi-Robot Coordination",
+      "authors": [
+        "Delin Zhao",
+        "Yanbo Shan",
+        "Chang Liu",
+        "Shenghang Lin"
+      ],
+      "published": "2025-04-09T08:41:57Z",
+      "year": 2025,
+      "categories": [
+        "cs.RO",
+        "cs.MA"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2504.06684v2",
+      "pdf": "https://arxiv.org/pdf/2504.06684v2",
+      "moduleId": "mobile-field",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2410.10669v2",
+      "title": "MLP-SLAM: Multilayer Perceptron-Based Simultaneous Localization and Mapping",
+      "authors": [
+        "Taozhe Li",
+        "Wei Sun"
+      ],
+      "published": "2024-10-14T16:13:52Z",
+      "year": 2024,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2410.10669v2",
+      "pdf": "https://arxiv.org/pdf/2410.10669v2",
+      "moduleId": "mobile-field",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2401.03453v2",
+      "title": "Reconfigurable Holographic Surface Aided Wireless Simultaneous Localization and Mapping",
+      "authors": [
+        "Haobo Zhang",
+        "Ziang Yang",
+        "Hongliang Zhang",
+        "Boya Di"
+      ],
+      "published": "2024-01-07T11:20:10Z",
+      "year": 2024,
+      "categories": [
+        "eess.SP"
+      ],
+      "venue": "arXiv · eess.SP",
+      "url": "https://arxiv.org/abs/2401.03453v2",
+      "pdf": "https://arxiv.org/pdf/2401.03453v2",
+      "moduleId": "mobile-field",
+      "kind": "latest",
+      "score": 5
+    },
+    {
+      "id": "http://arxiv.org/abs/2311.16916v2",
+      "title": "Stein Variational Belief Propagation for Multi-Robot Coordination",
+      "authors": [
+        "Jana Pavlasek",
+        "Joshua Jing Zhi Mah",
+        "Ruihan Xu",
+        "Odest Chadwicke Jenkins"
+      ],
+      "published": "2023-11-28T16:19:30Z",
+      "year": 2023,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2311.16916v2",
+      "pdf": "https://arxiv.org/pdf/2311.16916v2",
+      "moduleId": "mobile-field",
+      "kind": "latest",
+      "score": 6
+    },
+    {
+      "id": "http://arxiv.org/abs/2306.03953v2",
+      "title": "Rao-Blackwellized Particle Smoothing for Simultaneous Localization and Mapping",
+      "authors": [
+        "Manon Kok",
+        "Arno Solin",
+        "Thomas B. Schön"
+      ],
+      "published": "2023-06-06T18:30:03Z",
+      "year": 2023,
+      "categories": [
+        "cs.RO",
+        "eess.SP",
+        "eess.SY"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2306.03953v2",
+      "pdf": "https://arxiv.org/pdf/2306.03953v2",
+      "moduleId": "mobile-field",
+      "kind": "latest",
+      "score": 6
+    },
+    {
+      "id": "http://arxiv.org/abs/2305.13635v1",
+      "title": "Exploiting Radio Fingerprints for Simultaneous Localization and Mapping",
+      "authors": [
+        "Ran Liu",
+        "Billy Pik Lik Lau",
+        "Khairuldanial Ismail",
+        "Achala Chathuranga"
+      ],
+      "published": "2023-05-23T03:01:37Z",
+      "year": 2023,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2305.13635v1",
+      "pdf": "https://arxiv.org/pdf/2305.13635v1",
+      "moduleId": "mobile-field",
+      "kind": "latest",
+      "score": 6
+    },
+    {
+      "id": "http://arxiv.org/abs/2305.13567v1",
+      "title": "M-EMBER: Tackling Long-Horizon Mobile Manipulation via Factorized Domain Transfer",
+      "authors": [
+        "Bohan Wu",
+        "Roberto Martin-Martin",
+        "Li Fei-Fei"
+      ],
+      "published": "2023-05-23T00:53:30Z",
+      "year": 2023,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2305.13567v1",
+      "pdf": "https://arxiv.org/pdf/2305.13567v1",
+      "moduleId": "mobile-field",
+      "kind": "latest",
+      "score": 6
+    },
+    {
+      "id": "http://arxiv.org/abs/2304.09793v2",
+      "title": "Event-based Simultaneous Localization and Mapping: A Comprehensive Survey",
+      "authors": [
+        "Kunping Huang",
+        "Sen Zhang",
+        "Jing Zhang",
+        "Dacheng Tao"
+      ],
+      "published": "2023-04-19T16:21:14Z",
+      "year": 2023,
+      "categories": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.CV",
+      "url": "https://arxiv.org/abs/2304.09793v2",
+      "pdf": "https://arxiv.org/pdf/2304.09793v2",
+      "moduleId": "mobile-field",
+      "kind": "latest",
+      "score": 6
+    },
+    {
+      "id": "http://arxiv.org/abs/2606.14409v2",
+      "title": "Hy-Embodied-0.5-VLA: From Vision-Language-Action Models to a Real-World Robot Learning Stack",
+      "authors": [
+        "He Zhang",
+        "Lingzhu Xiang",
+        "Haitao Lin",
+        "Zeyu Huang"
+      ],
+      "published": "2026-06-12T12:45:18Z",
+      "year": 2026,
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2606.14409v2",
+      "pdf": "https://arxiv.org/pdf/2606.14409v2",
+      "moduleId": "ai-perception",
+      "kind": "top",
+      "score": 10
+    },
+    {
+      "id": "http://arxiv.org/abs/2603.08862v2",
+      "title": "APPLV: Adaptive Planner Parameter Learning from Vision-Language-Action Model",
+      "authors": [
+        "Yuanjie Lu",
+        "Beichen Wang",
+        "Zhengqi Wu",
+        "Yang Li"
+      ],
+      "published": "2026-03-09T19:23:09Z",
+      "year": 2026,
+      "categories": [
+        "cs.RO",
+        "cs.LG"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2603.08862v2",
+      "pdf": "https://arxiv.org/pdf/2603.08862v2",
+      "moduleId": "ai-perception",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2506.19850v1",
+      "title": "Unified Vision-Language-Action Model",
+      "authors": [
+        "Yuqi Wang",
+        "Xinghang Li",
+        "Wenxuan Wang",
+        "Junbo Zhang"
+      ],
+      "published": "2025-06-24T17:59:57Z",
+      "year": 2025,
+      "categories": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.CV",
+      "url": "https://arxiv.org/abs/2506.19850v1",
+      "pdf": "https://arxiv.org/pdf/2506.19850v1",
+      "moduleId": "ai-perception",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2510.24795v2",
+      "title": "A Survey on Efficient Vision-Language-Action Models",
+      "authors": [
+        "Zhaoshu Yu",
+        "Bo Wang",
+        "Pengpeng Zeng",
+        "Haonan Zhang"
+      ],
+      "published": "2025-10-27T17:57:33Z",
+      "year": 2025,
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.LG",
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.CV",
+      "url": "https://arxiv.org/abs/2510.24795v2",
+      "pdf": "https://arxiv.org/pdf/2510.24795v2",
+      "moduleId": "ai-perception",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2412.04453v2",
+      "title": "NaVILA: Legged Robot Vision-Language-Action Model for Navigation",
+      "authors": [
+        "An-Chieh Cheng",
+        "Yandong Ji",
+        "Zhaojing Yang",
+        "Zaitian Gongye"
+      ],
+      "published": "2024-12-05T18:58:17Z",
+      "year": 2024,
+      "categories": [
+        "cs.RO",
+        "cs.CV"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2412.04453v2",
+      "pdf": "https://arxiv.org/pdf/2412.04453v2",
+      "moduleId": "ai-perception",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2510.11027v2",
+      "title": "Vlaser: Vision-Language-Action Model with Synergistic Embodied Reasoning",
+      "authors": [
+        "Ganlin Yang",
+        "Tianyi Zhang",
+        "Haoran Hao",
+        "Weiyun Wang"
+      ],
+      "published": "2025-10-13T05:51:22Z",
+      "year": 2025,
+      "categories": [
+        "cs.CV"
+      ],
+      "venue": "arXiv · cs.CV",
+      "url": "https://arxiv.org/abs/2510.11027v2",
+      "pdf": "https://arxiv.org/pdf/2510.11027v2",
+      "moduleId": "ai-perception",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2512.11865v1",
+      "title": "Explainable Adversarial-Robust Vision-Language-Action Model for Robotic Manipulation",
+      "authors": [
+        "Ju-Young Kim",
+        "Ji-Hong Park",
+        "Myeongjun Kim",
+        "Gun-Woo Kim"
+      ],
+      "published": "2025-12-05T15:06:18Z",
+      "year": 2025,
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.CV",
+      "url": "https://arxiv.org/abs/2512.11865v1",
+      "pdf": "https://arxiv.org/pdf/2512.11865v1",
+      "moduleId": "ai-perception",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2503.22020v1",
+      "title": "CoT-VLA: Visual Chain-of-Thought Reasoning for Vision-Language-Action Models",
+      "authors": [
+        "Qingqing Zhao",
+        "Yao Lu",
+        "Moo Jin Kim",
+        "Zipeng Fu"
+      ],
+      "published": "2025-03-27T22:23:04Z",
+      "year": 2025,
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.LG",
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.CV",
+      "url": "https://arxiv.org/abs/2503.22020v1",
+      "pdf": "https://arxiv.org/pdf/2503.22020v1",
+      "moduleId": "ai-perception",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2606.09009v1",
+      "title": "Scaling by Diversified Experience for Vision-Language-Action Models",
+      "authors": [
+        "Leiyu Wang",
+        "Zhaofengnian Wang",
+        "Xueqi Li",
+        "Luoyi Fan"
+      ],
+      "published": "2026-06-08T04:13:38Z",
+      "year": 2026,
+      "categories": [
+        "cs.CV"
+      ],
+      "venue": "arXiv · cs.CV",
+      "url": "https://arxiv.org/abs/2606.09009v1",
+      "pdf": "https://arxiv.org/pdf/2606.09009v1",
+      "moduleId": "ai-perception",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2509.21986v1",
+      "title": "Developing Vision-Language-Action Model from Egocentric Videos",
+      "authors": [
+        "Tomoya Yoshida",
+        "Shuhei Kurita",
+        "Taichi Nishimura",
+        "Shinsuke Mori"
+      ],
+      "published": "2025-09-26T07:09:33Z",
+      "year": 2025,
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2509.21986v1",
+      "pdf": "https://arxiv.org/pdf/2509.21986v1",
+      "moduleId": "ai-perception",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2608.24603v1",
+      "title": "Gripper-aware Vision Language Action Models",
+      "authors": [
+        "Hanyi Zhang",
+        "Zihong Luo",
+        "Tianyu Li",
+        "Khang Nguyen"
+      ],
+      "published": "2026-08-25T14:24:51Z",
+      "year": 2026,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2608.24603v1",
+      "pdf": "https://arxiv.org/pdf/2608.24603v1",
+      "moduleId": "ai-perception",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2608.16074v1",
+      "title": "US-VLA: An Ultrasound Vision-Language-Action Model for Embodied Abdomina",
+      "authors": [
+        "Cheng Zhang",
+        "Xingzheng Wu",
+        "Guihao Yan",
+        "Xifeng Hu"
+      ],
+      "published": "2026-08-17T04:12:21Z",
+      "year": 2026,
+      "categories": [
+        "cs.RO",
+        "cs.CV"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2608.16074v1",
+      "pdf": "https://arxiv.org/pdf/2608.16074v1",
+      "moduleId": "ai-perception",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2608.15009v1",
+      "title": "ForceU-VLA: A Force-Aware Vision-Language-Action Model for Embodied Ultrasound Scanning",
+      "authors": [
+        "Xingzheng Wu",
+        "Cheng Zhang",
+        "Guihao Yan",
+        "Xifeng Hu"
+      ],
+      "published": "2026-08-15T03:39:40Z",
+      "year": 2026,
+      "categories": [
+        "cs.RO",
+        "cs.CV"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2608.15009v1",
+      "pdf": "https://arxiv.org/pdf/2608.15009v1",
+      "moduleId": "ai-perception",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2608.10484v1",
+      "title": "Lost in Reconstruction: Aligning Action Representations with Language in Vision-Language-Action Models",
+      "authors": [
+        "Li Wenjie",
+        "Yash Jangir",
+        "Ignacy Stepka",
+        "Yash Agarwal"
+      ],
+      "published": "2026-08-11T04:57:17Z",
+      "year": 2026,
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.CL"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2608.10484v1",
+      "pdf": "https://arxiv.org/pdf/2608.10484v1",
+      "moduleId": "ai-perception",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2607.29596v1",
+      "title": "FibVLA: An Efficient Temporal Vision-Language-Action Model with Fibonacci Sampling",
+      "authors": [
+        "Li Lin",
+        "Wujun Xu",
+        "Weiwei Meng",
+        "Kaiwen Xia"
+      ],
+      "published": "2026-07-31T16:23:07Z",
+      "year": 2026,
+      "categories": [
+        "cs.RO",
+        "cs.CV"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2607.29596v1",
+      "pdf": "https://arxiv.org/pdf/2607.29596v1",
+      "moduleId": "ai-perception",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2607.01212v1",
+      "title": "FurnitureVLA: Learning Long-Horizon Bimanual Furniture Assembly with Vision-Language-Action Model",
+      "authors": [
+        "Chenyang Ma",
+        "Yue Yang",
+        "Radu Corcodel",
+        "Siddarth Jain"
+      ],
+      "published": "2026-07-01T17:51:21Z",
+      "year": 2026,
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2607.01212v1",
+      "pdf": "https://arxiv.org/pdf/2607.01212v1",
+      "moduleId": "ai-perception",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2606.21501v1",
+      "title": "UniviewVLA: A Unified Multiview Vision-Language-Action Model with World Modeling",
+      "authors": [
+        "Tao Xu",
+        "Runhao Zhang",
+        "Zhijian Huang",
+        "Jiayi Guan"
+      ],
+      "published": "2026-06-19T14:53:40Z",
+      "year": 2026,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2606.21501v1",
+      "pdf": "https://arxiv.org/pdf/2606.21501v1",
+      "moduleId": "ai-perception",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2606.18043v1",
+      "title": "Uncertainty Quantification for Flow-Based Vision-Language-Action Models",
+      "authors": [
+        "Ralf Römer",
+        "Maximilian Seeliger",
+        "Saida Liu",
+        "Ben Sturgis"
+      ],
+      "published": "2026-06-16T15:19:09Z",
+      "year": 2026,
+      "categories": [
+        "cs.RO",
+        "cs.LG"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2606.18043v1",
+      "pdf": "https://arxiv.org/pdf/2606.18043v1",
+      "moduleId": "ai-perception",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2605.22812v1",
+      "title": "GesVLA: Gesture-Aware Vision-Language-Action Model Embedded Representations",
+      "authors": [
+        "Wenxuan Guo",
+        "Ziyuan Li",
+        "Meng Zhang",
+        "Yichen Liu"
+      ],
+      "published": "2026-05-21T17:57:44Z",
+      "year": 2026,
+      "categories": [
+        "cs.RO",
+        "cs.CV"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2605.22812v1",
+      "pdf": "https://arxiv.org/pdf/2605.22812v1",
+      "moduleId": "ai-perception",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2605.14950v1",
+      "title": "Evo-Depth: A Lightweight Depth-Enhanced Vision-Language-Action Model",
+      "authors": [
+        "Tao Lin",
+        "Yuxin Du",
+        "Jiting Liu",
+        "Nuobei Zhu"
+      ],
+      "published": "2026-05-14T15:21:36Z",
+      "year": 2026,
+      "categories": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.CV",
+      "url": "https://arxiv.org/abs/2605.14950v1",
+      "pdf": "https://arxiv.org/pdf/2605.14950v1",
+      "moduleId": "ai-perception",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2601.13232v1",
+      "title": "MATTERIX: toward a digital twin for robotics-assisted chemistry laboratory automation",
+      "authors": [
+        "Kourosh Darvish",
+        "Arjun Sohal",
+        "Abhijoy Mandal",
+        "Hatem Fakhruldeen"
+      ],
+      "published": "2026-01-19T17:06:08Z",
+      "year": 2026,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2601.13232v1",
+      "pdf": "https://arxiv.org/pdf/2601.13232v1",
+      "moduleId": "digital-twin",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2609.01418v1",
+      "title": "Provably Safe Sim-to-Real Transfer",
+      "authors": [
+        "Tingting Ni",
+        "Maryam Kamgarpour"
+      ],
+      "published": "2026-09-01T15:34:57Z",
+      "year": 2026,
+      "categories": [
+        "cs.LG",
+        "cs.AI"
+      ],
+      "venue": "arXiv · cs.LG",
+      "url": "https://arxiv.org/abs/2609.01418v1",
+      "pdf": "https://arxiv.org/pdf/2609.01418v1",
+      "moduleId": "digital-twin",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2504.07694v1",
+      "title": "Sim-to-Real Transfer in Reinforcement Learning for Maneuver Control of a Variable-Pitch MAV",
+      "authors": [
+        "Zhikun Wang",
+        "Shiyu Zhao"
+      ],
+      "published": "2025-04-10T12:27:59Z",
+      "year": 2025,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2504.07694v1",
+      "pdf": "https://arxiv.org/pdf/2504.07694v1",
+      "moduleId": "digital-twin",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2503.11012v1",
+      "title": "Robotic Sim-to-Real Transfer for Long-Horizon Pick-and-Place Tasks in the Robotic Sim2Real Competition",
+      "authors": [
+        "Ming Yang",
+        "Hongyu Cao",
+        "Lixuan Zhao",
+        "Chenrui Zhang"
+      ],
+      "published": "2025-03-14T02:16:35Z",
+      "year": 2025,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2503.11012v1",
+      "pdf": "https://arxiv.org/pdf/2503.11012v1",
+      "moduleId": "digital-twin",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2508.11117v1",
+      "title": "Robot Policy Evaluation for Sim-to-Real Transfer: A Benchmarking Perspective",
+      "authors": [
+        "Xuning Yang",
+        "Clemens Eppner",
+        "Jonathan Tremblay",
+        "Dieter Fox"
+      ],
+      "published": "2025-08-14T23:50:41Z",
+      "year": 2025,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2508.11117v1",
+      "pdf": "https://arxiv.org/pdf/2508.11117v1",
+      "moduleId": "digital-twin",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2511.04249v3",
+      "title": "Can Context Bridge the Reality Gap? Sim-to-Real Transfer of Context-Aware Policies",
+      "authors": [
+        "Marco Iannotta",
+        "Yuxuan Yang",
+        "Johannes A. Stork",
+        "Erik Schaffernicht"
+      ],
+      "published": "2025-11-06T10:35:21Z",
+      "year": 2025,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2511.04249v3",
+      "pdf": "https://arxiv.org/pdf/2511.04249v3",
+      "moduleId": "digital-twin",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2602.20871v2",
+      "title": "GeCo-SRT: Geometry-aware Continual Adaptation for Robotic Cross-Task Sim-to-Real Transfer",
+      "authors": [
+        "Wenbo Yu",
+        "Wenke Xia",
+        "Weitao Zhang",
+        "Di Hu"
+      ],
+      "published": "2026-02-24T13:15:38Z",
+      "year": 2026,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2602.20871v2",
+      "pdf": "https://arxiv.org/pdf/2602.20871v2",
+      "moduleId": "digital-twin",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2504.16916v1",
+      "title": "Zero-shot Sim-to-Real Transfer for Reinforcement Learning-based Visual Servoing of Soft Continuum Arms",
+      "authors": [
+        "Hsin-Jung Yang",
+        "Mahsa Khosravi",
+        "Benjamin Walt",
+        "Girish Krishnan"
+      ],
+      "published": "2025-04-23T17:41:55Z",
+      "year": 2025,
+      "categories": [
+        "cs.RO",
+        "eess.SY"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2504.16916v1",
+      "pdf": "https://arxiv.org/pdf/2504.16916v1",
+      "moduleId": "digital-twin",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2406.09798v3",
+      "title": "Sim-to-Real Transfer via 3D Feature Fields for Vision-and-Language Navigation",
+      "authors": [
+        "Zihan Wang",
+        "Xiangyang Li",
+        "Jiahao Yang",
+        "Yeqi Liu"
+      ],
+      "published": "2024-06-14T07:50:09Z",
+      "year": 2024,
+      "categories": [
+        "cs.RO",
+        "cs.CV"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2406.09798v3",
+      "pdf": "https://arxiv.org/pdf/2406.09798v3",
+      "moduleId": "digital-twin",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2509.23075v3",
+      "title": "In-Hand Manipulation of Articulated Tools with Dexterous Robot Hands with Sim-to-Real Transfer",
+      "authors": [
+        "Soofiyan Atar",
+        "Daniel Huang",
+        "Florian Richter",
+        "Michael Yip"
+      ],
+      "published": "2025-09-27T02:56:57Z",
+      "year": 2025,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2509.23075v3",
+      "pdf": "https://arxiv.org/pdf/2509.23075v3",
+      "moduleId": "digital-twin",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2607.15642v1",
+      "title": "Difference-Based Relational Learning for Zero-Shot Object-Goal Visual Navigation With Direct Sim-to-Real Transfer",
+      "authors": [
+        "Guolei Qi",
+        "Feitian Zhang"
+      ],
+      "published": "2026-07-17T05:35:40Z",
+      "year": 2026,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2607.15642v1",
+      "pdf": "https://arxiv.org/pdf/2607.15642v1",
+      "moduleId": "digital-twin",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2606.31101v1",
+      "title": "Efficient Sim-to-Real Transfer of World-Action Models from Synthetic Priors",
+      "authors": [
+        "Zixing Wang",
+        "Kausik Sivakumar",
+        "Jinghuan Shang",
+        "Yafei Hu"
+      ],
+      "published": "2026-06-30T03:49:31Z",
+      "year": 2026,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2606.31101v1",
+      "pdf": "https://arxiv.org/pdf/2606.31101v1",
+      "moduleId": "digital-twin",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2606.18959v1",
+      "title": "TactSpace: Learning a Physics-enriched Shared Latent Space for Tactile Sim-to-Real Transfer",
+      "authors": [
+        "Arunim Joarder",
+        "Arjun Bhardwaj",
+        "René Zurbrügg",
+        "Mayank Mittal"
+      ],
+      "published": "2026-06-17T11:41:27Z",
+      "year": 2026,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2606.18959v1",
+      "pdf": "https://arxiv.org/pdf/2606.18959v1",
+      "moduleId": "digital-twin",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2605.15559v1",
+      "title": "NavRL++: A System-Level Framework for Improving Sim-to-Real Transfer in Reinforcement Learning-Based Robot Navigation",
+      "authors": [
+        "Zhefan Xu",
+        "Hanyu Jin",
+        "Kenji Shimada"
+      ],
+      "published": "2026-05-15T02:58:25Z",
+      "year": 2026,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2605.15559v1",
+      "pdf": "https://arxiv.org/pdf/2605.15559v1",
+      "moduleId": "digital-twin",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2605.05241v1",
+      "title": "DexSim2Real: Foundation Model-Guided Sim-to-Real Transfer for Generalizable Dexterous Manipulation",
+      "authors": [
+        "Zijian Zeng",
+        "Fei Ding",
+        "Huiming Yang",
+        "Xianwei Li"
+      ],
+      "published": "2026-05-03T17:29:29Z",
+      "year": 2026,
+      "categories": [
+        "cs.RO",
+        "cs.LG"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2605.05241v1",
+      "pdf": "https://arxiv.org/pdf/2605.05241v1",
+      "moduleId": "digital-twin",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2604.09487v2",
+      "title": "Sim-to-Real Transfer for Muscle-Actuated Robots via Generalized Actuator Networks",
+      "authors": [
+        "Jan Schneider",
+        "Mridul Mahajan",
+        "Le Chen",
+        "Simon Guist"
+      ],
+      "published": "2026-04-10T16:52:54Z",
+      "year": 2026,
+      "categories": [
+        "cs.RO",
+        "cs.LG"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2604.09487v2",
+      "pdf": "https://arxiv.org/pdf/2604.09487v2",
+      "moduleId": "digital-twin",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2601.03200v2",
+      "title": "A High-Fidelity Digital Twin for Robotic Manipulation Based on 3D Gaussian Splatting",
+      "authors": [
+        "Ziyang Sun",
+        "Lingfan Bao",
+        "Tianhu Peng",
+        "Jingcheng Sun"
+      ],
+      "published": "2026-01-06T17:29:10Z",
+      "year": 2026,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2601.03200v2",
+      "pdf": "https://arxiv.org/pdf/2601.03200v2",
+      "moduleId": "digital-twin",
+      "kind": "latest",
+      "score": 4
+    },
+    {
+      "id": "http://arxiv.org/abs/2511.06465v1",
+      "title": "Sim-to-Real Transfer in Deep Reinforcement Learning for Bipedal Locomotion",
+      "authors": [
+        "Lingfan Bao",
+        "Tianhu Peng",
+        "Chengxu Zhou"
+      ],
+      "published": "2025-11-09T17:20:04Z",
+      "year": 2025,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2511.06465v1",
+      "pdf": "https://arxiv.org/pdf/2511.06465v1",
+      "moduleId": "digital-twin",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2510.02538v1",
+      "title": "A Recipe for Efficient Sim-to-Real Transfer in Manipulation with Online Imitation-Pretrained World Models",
+      "authors": [
+        "Yilin Wang",
+        "Shangzhe Li",
+        "Haoyi Niu",
+        "Zhiao Huang"
+      ],
+      "published": "2025-10-02T20:14:39Z",
+      "year": 2025,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2510.02538v1",
+      "pdf": "https://arxiv.org/pdf/2510.02538v1",
+      "moduleId": "digital-twin",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2509.18648v4",
+      "title": "SPiDR: A Simple Approach for Zero-Shot Safety in Sim-to-Real Transfer",
+      "authors": [
+        "Yarden As",
+        "Chengrui Qu",
+        "Benjamin Unger",
+        "Dongho Kang"
+      ],
+      "published": "2025-09-23T05:03:00Z",
+      "year": 2025,
+      "categories": [
+        "cs.RO",
+        "cs.AI"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2509.18648v4",
+      "pdf": "https://arxiv.org/pdf/2509.18648v4",
+      "moduleId": "digital-twin",
+      "kind": "latest",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2403.12945v2",
+      "title": "DROID: A Large-Scale In-The-Wild Robot Manipulation Dataset",
+      "authors": [
+        "Alexander Khazatsky",
+        "Karl Pertsch",
+        "Suraj Nair",
+        "Ashwin Balakrishna"
+      ],
+      "published": "2024-03-19T17:48:38Z",
+      "year": 2024,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2403.12945v2",
+      "pdf": "https://arxiv.org/pdf/2403.12945v2",
+      "moduleId": "industry-research",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2405.18860v2",
+      "title": "Empowering Embodied Manipulation: A Bimanual-Mobile Robot Manipulation Dataset for Household Tasks",
+      "authors": [
+        "Tianle Zhang",
+        "Dongjiang Li",
+        "Yihang Li",
+        "Zecui Zeng"
+      ],
+      "published": "2024-05-29T08:15:56Z",
+      "year": 2024,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2405.18860v2",
+      "pdf": "https://arxiv.org/pdf/2405.18860v2",
+      "moduleId": "industry-research",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2505.15517v2",
+      "title": "Robo2VLM: Visual Question Answering from Large-Scale In-the-Wild Robot Manipulation Datasets",
+      "authors": [
+        "Kaiyuan Chen",
+        "Shuangyu Xie",
+        "Zehan Ma",
+        "Pannag R Sanketi"
+      ],
+      "published": "2025-05-21T13:42:52Z",
+      "year": 2025,
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.CL",
+        "cs.LG"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2505.15517v2",
+      "pdf": "https://arxiv.org/pdf/2505.15517v2",
+      "moduleId": "industry-research",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2604.25788v2",
+      "title": "KinDER: A Physical Reasoning Benchmark for Robot Learning and Planning",
+      "authors": [
+        "Yixuan Huang",
+        "Bowen Li",
+        "Vaibhav Saxena",
+        "Yichao Liang"
+      ],
+      "published": "2026-04-28T15:58:09Z",
+      "year": 2026,
+      "categories": [
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2604.25788v2",
+      "pdf": "https://arxiv.org/pdf/2604.25788v2",
+      "moduleId": "industry-research",
+      "kind": "top",
+      "score": 7
+    },
+    {
+      "id": "http://arxiv.org/abs/2308.03620v1",
+      "title": "Exploring Visual Pre-training for Robot Manipulation: Datasets, Models and Methods",
+      "authors": [
+        "Ya Jing",
+        "Xuelin Zhu",
+        "Xingbin Liu",
+        "Qie Sima"
+      ],
+      "published": "2023-08-07T14:24:52Z",
+      "year": 2023,
+      "categories": [
+        "cs.RO",
+        "cs.CV"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2308.03620v1",
+      "pdf": "https://arxiv.org/pdf/2308.03620v1",
+      "moduleId": "industry-research",
+      "kind": "top",
+      "score": 6
+    },
+    {
+      "id": "http://arxiv.org/abs/2009.12293v3",
+      "title": "robosuite: A Modular Simulation Framework and Benchmark for Robot Learning",
+      "authors": [
+        "Yuke Zhu",
+        "Josiah Wong",
+        "Ajay Mandlekar",
+        "Roberto Martín-Martín"
+      ],
+      "published": "2020-09-25T15:32:31Z",
+      "year": 2020,
+      "categories": [
+        "cs.RO",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2009.12293v3",
+      "pdf": "https://arxiv.org/pdf/2009.12293v3",
+      "moduleId": "industry-research",
+      "kind": "top",
+      "score": 6
+    },
+    {
+      "id": "http://arxiv.org/abs/2408.14037v1",
+      "title": "Re-Mix: Optimizing Data Mixtures for Large Scale Imitation Learning",
+      "authors": [
+        "Joey Hejna",
+        "Chethan Bhateja",
+        "Yichen Jiang",
+        "Karl Pertsch"
+      ],
+      "published": "2024-08-26T06:14:25Z",
+      "year": 2024,
+      "categories": [
+        "cs.RO",
+        "cs.LG"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2408.14037v1",
+      "pdf": "https://arxiv.org/pdf/2408.14037v1",
+      "moduleId": "industry-research",
+      "kind": "top",
+      "score": 4
+    },
+    {
+      "id": "http://arxiv.org/abs/2405.12213v2",
+      "title": "Octo: An Open-Source Generalist Robot Policy",
+      "authors": [
+        "Octo Model Team",
+        "Dibya Ghosh",
+        "Homer Walke",
+        "Karl Pertsch"
+      ],
+      "published": "2024-05-20T17:57:01Z",
+      "year": 2024,
+      "categories": [
+        "cs.RO",
+        "cs.LG"
+      ],
+      "venue": "arXiv · cs.RO",
+      "url": "https://arxiv.org/abs/2405.12213v2",
+      "pdf": "https://arxiv.org/pdf/2405.12213v2",
+      "moduleId": "industry-research",
+      "kind": "top",
+      "score": 4
+    },
+    {
+      "id": "http://arxiv.org/abs/2509.24241v1",
+      "title": "FreeAction: Training-Free Techniques for Enhanced Fidelity of Trajectory-to-Video Generation",
+      "authors": [
+        "Seungwook Kim",
+        "Seunghyeon Lee",
+        "Minsu Cho"
+      ],
+      "published": "2025-09-29T03:30:40Z",
+      "year": 2025,
+      "categories": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "venue": "arXiv · cs.CV",
+      "url": "https://arxiv.org/abs/2509.24241v1",
+      "pdf": "https://arxiv.org/pdf/2509.24241v1",
+      "moduleId": "industry-research",
+      "kind": "top",
+      "score": 4
+    }
+  ]
+}

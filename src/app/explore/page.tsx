@@ -1,0 +1,301 @@
+import { Suspense } from "react";
+import Link from "next/link";
+import { Header } from "../../components/Header";
+import { topHeadlines, latestNews } from "../../../tool/googleNews";
+import { getNews, getPapersAndPeople, getComparison, type NewsFilters } from "../../lib/exploreData";
+
+const csvHref = (query: string, f: NewsFilters) => {
+  const p = new URLSearchParams({ q: query });
+  if (f.days) p.set("days", f.days);
+  if (f.region) p.set("region", f.region);
+  if (f.tier1Only) p.set("tier1", "1");
+  return `/api/export?${p.toString()}`;
+};
+
+export const dynamic = "force-dynamic";
+
+// Live keyword explorer (Module A): type any topic -> fresh news, research
+// papers, people working in the field, and a product/player comparison.
+// Each block streams in on its own (Suspense) so one slow source never blocks
+// the whole page.
+export default async function ExplorePage({
+  searchParams,
+}: {
+  searchParams: Promise<{ q?: string; days?: string; region?: string; tier1?: string }>;
+}) {
+  const { q = "", days, region, tier1 } = await searchParams;
+  const query = q.trim();
+  const filters: NewsFilters = { days, region, tier1Only: !!tier1 };
+  const fkey = `${days || ""}-${region || ""}-${tier1 ? 1 : 0}`;
+
+  return (
+    <>
+      <Header />
+      <div className="mx-auto max-w-6xl px-4 pb-16">
+        <Link href="/" className="inst-label mt-8 inline-flex items-center transition-colors hover:text-[var(--accent)]">
+          &larr; Back to latest news
+        </Link>
+        <div className="mb-6 mt-4">
+          <h1 className="text-2xl font-bold tracking-tight text-[var(--text)]">Explore any topic</h1>
+          <p className="text-sm text-[var(--muted)]">
+            Type a keyword to get news, research papers, people and a comparison.
+          </p>
+        </div>
+
+        <form action="/explore" className="mb-10 max-w-2xl space-y-3">
+          <div className="inst-panel flex items-center gap-2 px-3 py-2 focus-within:border-[var(--signal)]">
+            <input
+              name="q"
+              defaultValue={query}
+              suppressHydrationWarning
+              placeholder="e.g. cobots, humanoid robots, human-robot interaction"
+              className="w-full bg-transparent text-sm text-[var(--text)] placeholder:text-[var(--muted)] focus:outline-none"
+            />
+            <button type="submit" className="shrink-0 text-sm font-semibold text-[var(--signal)]">
+              Search
+            </button>
+          </div>
+          {/* Optional filter (date range). */}
+          <div className="flex flex-wrap items-center gap-3 text-xs text-[var(--muted)]">
+            <label className="flex items-center gap-1.5">
+              Date
+              <select name="days" defaultValue={days || "7"} className="inst-panel bg-transparent px-2 py-1 text-[var(--text)]">
+                <option value="1">Last 24 hours</option>
+                <option value="7">Last 7 days</option>
+                <option value="30">Last 30 days</option>
+              </select>
+            </label>
+          </div>
+        </form>
+
+        {!query ? (
+          <EmptyState />
+        ) : (
+          <div className="space-y-12">
+            <div>
+              <a
+                href={csvHref(query, filters)}
+                className="inst-panel inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold text-[var(--signal)] transition-colors hover:border-[var(--signal)]"
+              >
+                ⬇ Download CSV (all categories)
+              </a>
+            </div>
+            <Suspense key={`news-${query}-${fkey}`} fallback={<Loading title="Top Headlines" />}>
+              <NewsBlock query={query} filters={filters} />
+            </Suspense>
+            <Suspense key={`papers-${query}`} fallback={<Loading title="Latest Research Papers" />}>
+              <PapersAndPeopleBlock query={query} />
+            </Suspense>
+            <Suspense key={`cmp-${query}`} fallback={<Loading title="Product / Player Comparison" />}>
+              <ComparisonBlock query={query} />
+            </Suspense>
+          </div>
+        )}
+      </div>
+    </>
+  );
+}
+
+const POPULAR = [
+  "Cobots",
+  "Humanoid Robots",
+  "Human-Robot Interaction",
+  "Warehouse Robots",
+  "Drones",
+  "Digital Twin",
+  "Robot Safety",
+  "SLAM",
+];
+
+const WHAT_YOU_GET = [
+  { title: "Stay updated", desc: "Latest industry news so you can talk about your field with confidence." },
+  { title: "Papers to read", desc: "Recent research for your assignments, projects and seminars." },
+  { title: "Find experts & labs", desc: "People and institutions you can learn from or reach out to." },
+  { title: "Know the top companies", desc: "Where you could intern, apply or build a career." },
+  { title: "All in one place", desc: "Everything about a topic together, so you save hours of searching." },
+];
+
+function EmptyState() {
+  return (
+    <div className="space-y-10">
+      <div>
+        <p className="mb-3 text-sm font-semibold text-[var(--text)]">Popular topics</p>
+        <div className="flex flex-wrap gap-2">
+          {POPULAR.map((t) => (
+            <a
+              key={t}
+              href={`/explore?q=${encodeURIComponent(t)}`}
+              className="rounded-full border border-[var(--border)] bg-[var(--panel)] px-3 py-1.5 text-sm text-[var(--text)] transition-colors hover:bg-[var(--hover)] hover:border-[var(--signal)]"
+            >
+              {t}
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <div>
+        <p className="mb-3 text-sm font-semibold text-[var(--text)]">How this helps you</p>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {WHAT_YOU_GET.map((w, i) => (
+            <div key={w.title} className="inst-panel p-4">
+              <p className="font-medium text-[var(--text)]">
+                <span className="mr-2 text-[var(--signal)]">{i + 1}.</span>
+                {w.title}
+              </p>
+              <p className="mt-1 text-xs text-[var(--muted)]">{w.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+async function NewsBlock({ query, filters }: { query: string; filters: NewsFilters }) {
+  const news = await getNews(query, filters);
+  const headlines = topHeadlines(news);
+  const latest = latestNews(news);
+  return (
+    <>
+      <Section title="Top Headlines" count={headlines.length}>
+        <NewsList items={headlines} />
+      </Section>
+      <Section title="Latest News" count={latest.length}>
+        <NewsList items={latest} />
+      </Section>
+    </>
+  );
+}
+
+async function PapersAndPeopleBlock({ query }: { query: string }) {
+  const { papers, people } = await getPapersAndPeople(query);
+  return (
+    <>
+      <Section title="Latest Research Papers" count={papers.length}>
+        <ul className="space-y-3">
+          {papers.map((p) => (
+            <li key={p.url} className="inst-panel p-4">
+              <a href={p.url} target="_blank" rel="noopener noreferrer" className="font-medium text-[var(--text)] hover:text-[var(--signal)]">
+                {p.title}
+              </a>
+              <p className="mt-1 text-xs text-[var(--muted)]">
+                {p.authors.slice(0, 3).join(", ")}
+                {p.authors.length > 3 ? " et al." : ""}
+                {p.year ? ` · ${p.year}` : ""} · {p.source}
+              </p>
+              {p.summary ? <p className="mt-1 text-sm text-[var(--text)]">{p.summary}</p> : null}
+            </li>
+          ))}
+        </ul>
+      </Section>
+      <Section title="People Working in This Area" count={people.length}>
+        <ul className="grid gap-3 sm:grid-cols-2">
+          {people.map((p) => (
+            <li key={p.name} className="inst-panel p-4">
+              <p className="font-medium text-[var(--text)]">
+                {p.profileUrl ? (
+                  <a href={p.profileUrl} target="_blank" rel="noopener noreferrer" className="hover:text-[var(--signal)]">
+                    {p.name}
+                  </a>
+                ) : (
+                  p.name
+                )}
+              </p>
+              <p className="mt-1 text-xs text-[var(--muted)]">{p.affiliation || "Affiliation not listed"}</p>
+              <p className="mt-1 text-xs text-[var(--muted)]">{p.relevance}</p>
+            </li>
+          ))}
+        </ul>
+      </Section>
+    </>
+  );
+}
+
+async function ComparisonBlock({ query }: { query: string }) {
+  const comparison = await getComparison(query);
+  return (
+    <Section title="Product / Player Comparison" count={comparison.players.length}>
+      {comparison.error ? (
+        <p className="text-sm text-[var(--muted)]">Comparison unavailable right now.</p>
+      ) : (
+        <div className="inst-panel overflow-x-auto">
+          <table className="w-full text-left text-sm">
+            <thead>
+              <tr className="border-b border-[var(--border)] text-xs uppercase tracking-wide text-[var(--muted)]">
+                <th className="p-3">Name</th>
+                <th className="p-3">Type</th>
+                <th className="p-3">Focus</th>
+                <th className="p-3">Strength</th>
+              </tr>
+            </thead>
+            <tbody>
+              {comparison.players.map((pl) => (
+                <tr key={pl.name} className="border-b border-[var(--border)] align-top last:border-0">
+                  <td className="p-3 font-medium text-[var(--text)]">{pl.name}</td>
+                  <td className="p-3 text-[var(--muted)]">{pl.type}</td>
+                  <td className="p-3 text-[var(--text)]">{pl.focus}</td>
+                  <td className="p-3 text-[var(--muted)]">{pl.strength}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </Section>
+  );
+}
+
+function NewsList({ items }: { items: { headline: string; source: string; date: string | null; link: string }[] }) {
+  return (
+    <ul className="space-y-3">
+      {items.map((h) => (
+        <li key={h.link} className="inst-panel p-4">
+          <a href={h.link} target="_blank" rel="noopener noreferrer" className="font-medium text-[var(--text)] hover:text-[var(--signal)]">
+            {h.headline}
+          </a>
+          <p className="mt-1 text-xs text-[var(--muted)]">
+            {h.source}
+            {h.date ? ` · ${h.date.slice(0, 10)}` : ""}
+          </p>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function Section({
+  title,
+  count,
+  download,
+  children,
+}: {
+  title: string;
+  count: number;
+  download?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section>
+      <div className="mb-3 flex items-center justify-between gap-3">
+        <h2 className="text-lg font-bold text-[var(--text)]">
+          {title} <span className="text-sm font-normal text-[var(--muted)]">({count})</span>
+        </h2>
+        {download && count > 0 ? (
+          <a href={download} className="shrink-0 text-xs font-semibold text-[var(--signal)] hover:underline">
+            Download CSV
+          </a>
+        ) : null}
+      </div>
+      {count === 0 ? <p className="text-sm text-[var(--muted)]">Nothing found.</p> : children}
+    </section>
+  );
+}
+
+function Loading({ title }: { title: string }) {
+  return (
+    <section>
+      <h2 className="mb-3 text-lg font-bold text-[var(--text)]">{title}</h2>
+      <p className="text-sm text-[var(--muted)]">Loading…</p>
+    </section>
+  );
+}
