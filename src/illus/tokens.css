@@ -1,0 +1,49 @@
+/*
+ * Smart Factory — Illustration tokens (Illustration Rulebook §7).
+ * These variables are consumed by every illustration; figures never hard-code hex
+ * (except the fixed <defs> hatch patterns). Dark is the app default (:root);
+ * `.light` remaps to the rulebook's light column (§7.7). Geometry/weights/dashes
+ * never change between themes — only these colors do.
+ */
+:root {
+  --ill-canvas: #071329;
+  --ill-surface: #0d1d38;
+  --ill-surface-2: #12264a;
+  --ill-structure: #f6f2ee;
+  --ill-primary: #6f83c0;
+  --ill-secondary: #c58f70;
+  --ill-inactive: #b5b6c0;
+  --ill-hairline: rgba(255, 255, 255, 0.1);
+  --ill-disabled: #6b6d78;
+  --ill-select: #6f83c0;
+  --ill-success: #5c9b73;
+  --ill-warn: #d19a5e;
+  --ill-fault: #d97070;
+  --ill-copper: #c58f70;
+}
+
+.light {
+  --ill-canvas: #fdfdfd;
+  --ill-surface: #f6f2ee;
+  --ill-surface-2: #eae4e0;
+  --ill-structure: #041b4c;
+  --ill-primary: #465889;
+  --ill-secondary: #b78369;
+  --ill-inactive: #767e95;
+  --ill-hairline: #d1cfd2;
+  --ill-disabled: #b5b6c0;
+  --ill-select: #1d4ed8;
+  --ill-success: #1f5a3a;
+  --ill-warn: #a66a32;
+  --ill-fault: #a33a3a;
+  --ill-copper: #b78369;
+}
+
+/* Keyboard focus ring for pickable figure elements (§13.3). */
+.ill-pick:focus-visible {
+  outline: 2px dashed var(--ill-select);
+  outline-offset: 3px;
+}
+.ill-pick:focus {
+  outline: none;
+}
