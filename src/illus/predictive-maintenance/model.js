@@ -28,6 +28,11 @@ export function evaluate(params, faults = {}) {
   // Bearing temperature: ambient + friction (rises with load, defect, lube loss).
   const tempC = 30 + 22 * load + 18 * defect + lub * 25;
 
+  // Crest factor (peak/RMS): a classic bearing-defect indicator. A healthy
+  // bearing runs near the sinusoidal 1.41; spalling adds sharp impacts that lift
+  // the peak far more than the RMS, so the ratio climbs before the RMS alarm.
+  const crest = 1.41 + 3.4 * defect * defect + 0.6 * defect + imb * 0.25 + mis * 0.35 + lub * 0.5;
+
   // RUL: hours until vibration reaches the failure threshold, from the current
   // degradation rate (∝ severity and load). Floors at 0 when already failed.
   const degRatePerH = 0.004 * (0.3 + defect) * (0.5 + load) * (1 + 0.6 * lub); // mm/s per hour
@@ -68,6 +73,16 @@ export function evaluate(params, faults = {}) {
         steps: [['v_fail', `${VIB_FAIL} mm/s`], ['v now', `${vibMm.toFixed(1)} mm/s`], ['degradation', `${(degRatePerH * 1000).toFixed(2)} µm/s per h`], ['RUL', Number.isFinite(rulH) ? `${Math.round(rulH)} h` : '—']],
         result: Number.isFinite(rulH) ? `${Math.round(rulH)} h` : '—',
         assumptions: ['Linear degradation extrapolation from the current rate.', 'RUL is an estimate, not a guarantee; re-assess as condition changes.'],
+      },
+    },
+    crest: {
+      si: crest, unit: '1',
+      explanation: {
+        formulaId: 'crest', title: 'Crest factor (peak/RMS)',
+        latex: 'CF = A_{peak} / A_{rms}',
+        steps: [['healthy baseline', '1.41 (sinusoid)'], ['defect d', defect.toFixed(2)], ['fault terms', `${(imb * 0.25 + mis * 0.35 + lub * 0.5).toFixed(2)}`], ['CF', crest.toFixed(2)]],
+        result: crest.toFixed(2),
+        assumptions: ['Impulsive defects lift the peak faster than the RMS.', 'Rises before the RMS velocity alarm - an early indicator.'],
       },
     },
   };

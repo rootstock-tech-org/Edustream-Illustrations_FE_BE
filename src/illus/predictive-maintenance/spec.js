@@ -16,6 +16,7 @@ export const PM_SPEC = {
     { key: 'vib', tag: 'VE-201', label: 'Vibration', unit: 'm/s', display: { symbol: 'mm/s', scale: 1000 }, range: [0, 12], sigFigs: 2, anchor: 'bearing', limits: { hi: ZONES.alarm / 1000, hiHi: ZONES.danger / 1000 }, formulaId: 'vib' },
     { key: 'temp', tag: 'TE-202', label: 'Bearing temp', unit: 'K', display: { symbol: '°C', scale: 1, offset: -K }, range: [20, 120], sigFigs: 3, anchor: 'bearing', limits: { hi: 80 + K, hiHi: 100 + K }, formulaId: 'temp' },
     { key: 'rul', tag: 'RUL', label: 'Remaining life', unit: 's', display: { symbol: 'h', scale: 1 / 3600 }, range: [0, 4000], sigFigs: 3, anchor: 'bearing', limits: { lo: 500 * 3600, loLo: 100 * 3600 }, formulaId: 'rul' },
+    { key: 'crest', tag: 'CF-203', label: 'Crest factor', unit: '1', display: { symbol: '×', scale: 1 }, range: [1, 6], sigFigs: 2, anchor: 'bearing', limits: { hi: 3.5, hiHi: 5 }, formulaId: 'crest' },
   ],
 
   parameters: [

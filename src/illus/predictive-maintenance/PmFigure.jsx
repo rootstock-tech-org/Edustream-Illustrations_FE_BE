@@ -15,7 +15,7 @@ export default function PmFigure({ spec, bound = [], tSim = 0, showGrid = true, 
   const pick = (id, label) => (onPick ? { tabIndex: 0, role: 'button', 'aria-label': label, className: 'ill-pick', style: { cursor: 'pointer' }, onClick: () => onPick(id), onKeyDown: key(() => onPick(id)) } : {});
 
   const shaftY = 240;
-  const readoutPos = { 'VE-201': [120, 360], 'TE-202': [400, 360], 'RUL': [680, 360] };
+  const readoutPos = { 'VE-201': [96, 360], 'TE-202': [304, 360], 'RUL': [512, 360], 'CF-203': [720, 360] };
 
   return (
     <svg viewBox={`0 0 ${w} ${h}`} width="100%" role="img" aria-labelledby="pm-ttl pm-desc" style={{ maxHeight: '100%' }}>
