@@ -10,8 +10,8 @@ import { C, W, GRID, TYPE } from '../tokens';
 
 const RAIL_L = 72;
 const RAIL_R = 560;
-const Y_PUMP = 210;
-const Y_SEAL = 262;
+const Y_PUMP = 208;
+const Y_SEAL = 260;
 const Y_VALVE = 360;
 
 export default function PlcFigure({ spec, contacts, level = 0, params, bound = [], tSim = 0, showGrid = true, onPick, selected }) {

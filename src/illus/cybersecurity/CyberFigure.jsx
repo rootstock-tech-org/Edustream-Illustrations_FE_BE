@@ -23,10 +23,10 @@ export default function CyberFigure({ spec, bound = [], tSim = 0, showGrid = tru
   const riskS = boundOf('RISK')?.state || 'normal';
   const zoneStroke = riskS === 'fault' ? C.fault : riskS === 'warning' ? C.warn : C.structure;
 
-  const zx = GRID.safe + 24; const zw = 340; let zy = 96; const zh = 66; const gap = 44;
+  const zx = GRID.safe + 24; const zw = 340; let zy = 96; const zh = 64; const gap = 44;
   const zonePos = ZONES.map((_, i) => zy + i * (zh + gap));
 
-  const readoutPos = { RISK: [520, 130], EXP: [740, 130], BLAST: [520, 240], DEPTH: [740, 240] };
+  const readoutPos = { RISK: [520, 132], EXP: [740, 132], BLAST: [520, 240], DEPTH: [740, 240] };
 
   return (
     <svg viewBox={`0 0 ${w} ${h}`} width="100%" role="img" aria-labelledby="cy-ttl cy-desc" style={{ maxHeight: '100%' }}>

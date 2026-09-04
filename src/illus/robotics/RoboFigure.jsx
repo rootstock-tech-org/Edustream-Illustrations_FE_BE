@@ -7,7 +7,7 @@ import { Defs, Frame, Grid, ProvenanceBadge, FigureTitle, Legend, Readout } from
 import { L1, L2 } from './model';
 import { C, W, GRID, TYPE } from '../tokens';
 
-const BASE = [330, 430];
+const BASE = [332, 432];
 const SCALE = 150; // px per metre
 
 export default function RoboFigure({ spec, bound = [], params = {}, tSim = 0, showGrid = true, onPick, selected }) {
