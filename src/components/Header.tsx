@@ -30,6 +30,9 @@ function BrandBlock() {
         <span className="block truncate text-base font-bold tracking-tight text-[var(--text)]">
           Collab Robotics
         </span>
+        <span className="inst-label block leading-[1.2] tracking-[0.08em] text-[8px]">
+          Powered by Rootstock Technology
+        </span>
       </span>
     </Link>
   );
