@@ -1,0 +1,221 @@
+{% extends "_shell.html" %}
+{% set active_page = 'process' %}
+
+{% block title %}Process Control{% endblock %}
+{% block body_attrs %}data-theme-owner="page"{% endblock %}
+{% block page_title %}Process Control{% endblock %}
+{% block page_sub %}ISA-101 operations view &middot; Netra Unit #1{% endblock %}
+
+{% block head_scripts %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+{% endblock %}
+
+{% block topbar_status %}
+    <span class="row" style="gap:7px; font-size:12px">
+        <span id="conn-dot" class="w-3 h-3 rounded-full bg-gray-500"></span>
+        <span id="conn-text" class="muted">DISCONNECTED</span>
+    </span>
+{% endblock %}
+
+{% block content %}
+
+<!-- Drive control strip -->
+<div class="card" style="margin-bottom:14px">
+    <div class="card-body row" style="gap:14px; flex-wrap:wrap">
+        <span class="card-title" style="margin-right:4px">Drive Control</span>
+        <button class="btn btn-safe" id="btn-start">Start</button>
+        <button class="btn btn-danger" id="btn-stop">Stop</button>
+        <button class="btn" id="btn-reset">Reset</button>
+        <div class="row" style="margin-left:auto; gap:18px; font-size:12px">
+            <span><span class="faint">SYS_HEALTH</span> <strong class="kpi-safe">NOMINAL</strong></span>
+            <span><span class="faint">INTERLOCKS</span> <strong class="kpi-safe">CLOSED</strong></span>
+            <span><span class="faint">DRIVE</span> <strong id="diag-motor">STOPPED</strong></span>
+        </div>
+    </div>
+</div>
+
+<!-- KPIs -->
+<div class="kpi-grid" style="margin-bottom:14px">
+    <div class="kpi">
+        <div class="kpi-label">Total Throughput</div>
+        <div class="kpi-value" id="kpi-total">0<span class="kpi-unit">units</span></div>
+        <div class="kpi-foot"><span id="kpi-tph">0.00 Est. TPH</span></div>
+    </div>
+    <div class="kpi">
+        <div class="kpi-label"><span class="dot" style="color:var(--safe)"></span>Safe Material (RDF)</div>
+        <div class="kpi-value kpi-safe" id="kpi-safe">0<span class="kpi-unit">units</span></div>
+        <div class="kpi-foot"><span id="kpi-safe-pct">0% of total stream</span></div>
+    </div>
+    <div class="kpi" id="card-hazard">
+        <div class="kpi-label"><span class="dot" style="color:var(--hazard)"></span>Hazard Diverted</div>
+        <div class="kpi-value kpi-hazard" id="kpi-hazard">0<span class="kpi-unit">units</span></div>
+        <div class="kpi-foot"><span id="kpi-hazard-pct">0% rejection rate</span></div>
+    </div>
+    <div class="kpi">
+        <div class="kpi-label">AI Confidence</div>
+        <div class="kpi-value kpi-accent" id="kpi-accuracy">0<span class="kpi-unit">%</span></div>
+        <div class="kpi-foot">Multi-sensor average</div>
+    </div>
+</div>
+
+<!-- P&amp;ID -->
+<div class="card" style="margin-bottom:14px">
+    <div class="card-head">
+        <span class="card-title">Process Flow Schematic</span>
+        <div class="card-actions">
+            <span class="pill">HOP-101</span><span class="pill">CV-101</span>
+            <span class="pill">XV-101</span>
+        </div>
+    </div>
+    <div class="card-body" style="display:grid; place-items:center; padding:22px 16px">
+        <svg id="pid-schematic" viewBox="0 0 880 230" style="width: 100%; max-width: 880px; max-height: 220px;" class="text-isa-text-light dark:text-isa-text-dark">
+        <!-- Base lines -->
+        <line x1="40" y1="180" x2="840" y2="180" stroke="currentColor" stroke-width="2"/>
+
+        <!-- Material flow particles — animate only while .flow-run is set -->
+        <g aria-hidden="true" opacity="0.85">
+            <circle class="flow-particle" cx="125" cy="138" r="3.2"/>
+            <circle class="flow-particle" cx="125" cy="138" r="3.2" style="animation-delay:-.85s"/>
+            <circle class="flow-particle" cx="125" cy="138" r="3.2" style="animation-delay:-1.7s"/>
+            <circle class="flow-particle" cx="125" cy="138" r="3.2" style="animation-delay:-2.55s"/>
+        </g>
+        <!-- Belt motion dashes -->
+        <line class="flow-belt-dash" x1="120" y1="138" x2="680" y2="138"
+              stroke="currentColor" stroke-width="1.4" opacity="0.35"/>
+
+        <!-- 1. FEED HOPPER (HOP-101) -->
+        <g transform="translate(45, 35)">
+        <polygon points="0,0 70,0 55,75 15,75" fill="none" stroke="currentColor" stroke-width="2"/>
+        <rect x="25" y="75" width="20" height="25" fill="none" stroke="currentColor" stroke-width="2"/>
+        <text x="35" y="-6" text-anchor="middle" font-size="11" font-weight="700" fill="currentColor">HOP-101</text>
+        <!-- Status text -->
+        <text id="pid-hopper-state" x="35" y="123" text-anchor="middle" font-size="10" font-weight="700" fill="currentColor">IDLE</text>
+        </g>
+
+        <!-- 2. CONVEYOR BELT (CV-101) -->
+        <rect x="115" y="130" width="570" height="16" fill="none" stroke="currentColor" stroke-width="2"/>
+        <circle cx="125" cy="138" r="10" fill="none" stroke="currentColor" stroke-width="2"/>
+        <circle cx="675" cy="138" r="10" fill="none" stroke="currentColor" stroke-width="2"/>
+
+        <!-- Drive Motor (M-101) -->
+        <g transform="translate(105, 165)">
+        <circle cx="18" cy="15" r="14" fill="none" stroke="currentColor" stroke-width="2"/>
+        <text x="18" y="19" text-anchor="middle" font-size="12" font-weight="800" fill="currentColor">M</text>
+        <text x="38" y="18" font-size="10" font-weight="700" fill="currentColor">M-101</text>
+        <text id="pid-motor-status" x="38" y="30" font-size="9" font-weight="700" fill="currentColor">STOP</text>
+        </g>
+
+        <!-- 3. INSTRUMENTS -->
+        <!-- RealSense 3D (SE-101) -->
+        <g transform="translate(225, 30)">
+        <line x1="20" y1="50" x2="20" y2="100" stroke="currentColor" stroke-width="2" stroke-dasharray="4,4"/>
+        <circle cx="20" cy="30" r="18" fill="none" stroke="currentColor" stroke-width="2"/>
+        <line x1="2" y1="30" x2="38" y2="30" stroke="currentColor" stroke-width="2"/>
+        <text x="20" y="24" text-anchor="middle" font-size="8" font-weight="700" fill="currentColor">SE</text>
+        <text x="20" y="42" text-anchor="middle" font-size="8" font-weight="700" fill="currentColor">101</text>
+        <polygon points="12,100 28,100 38,130 2,130" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="1" stroke-dasharray="2,2"/>
+        <text id="pid-se-val" x="20" y="118" text-anchor="middle" font-size="9" font-weight="700" class="text-blue-600 dark:text-blue-400" fill="currentColor">ACTIVE</text>
+        </g>
+
+        <!-- NIR Spectrometer (AE-101) -->
+        <g transform="translate(325, 30)">
+        <line x1="20" y1="50" x2="20" y2="100" stroke="currentColor" stroke-width="2" stroke-dasharray="4,4"/>
+        <circle cx="20" cy="30" r="18" fill="none" stroke="currentColor" stroke-width="2"/>
+        <line x1="2" y1="30" x2="38" y2="30" stroke="currentColor" stroke-width="2"/>
+        <text x="20" y="24" text-anchor="middle" font-size="8" font-weight="700" fill="currentColor">AE</text>
+        <text x="20" y="42" text-anchor="middle" font-size="8" font-weight="700" fill="currentColor">101</text>
+        <polygon points="14,100 26,100 36,130 4,130" fill="currentColor" fill-opacity="0.1" stroke="currentColor" stroke-width="1" stroke-dasharray="2,2"/>
+        <text id="pid-nir-val" x="20" y="118" text-anchor="middle" font-size="9" font-weight="700" class="text-purple-600 dark:text-purple-400" fill="currentColor">ACTIVE</text>
+        </g>
+
+        <!-- Inductive Metal Detector (MD-101) -->
+        <g transform="translate(425, 30)">
+        <line x1="20" y1="50" x2="20" y2="100" stroke="currentColor" stroke-width="2" stroke-dasharray="4,4"/>
+        <circle cx="20" cy="30" r="18" fill="none" stroke="currentColor" stroke-width="2"/>
+        <line x1="2" y1="30" x2="38" y2="30" stroke="currentColor" stroke-width="2"/>
+        <text x="20" y="24" text-anchor="middle" font-size="8" font-weight="700" fill="currentColor">MD</text>
+        <text x="20" y="42" text-anchor="middle" font-size="8" font-weight="700" fill="currentColor">101</text>
+        <rect x="8" y="122" width="24" height="8" fill="none" stroke="currentColor" stroke-width="2"/>
+        <text id="pid-ind-val" x="20" y="118" text-anchor="middle" font-size="9" font-weight="700" class="text-green-600 dark:text-green-500" fill="currentColor">CLEAR</text>
+        </g>
+
+        <!-- Load Cell (WE-101) -->
+        <g transform="translate(515, 30)">
+        <line x1="20" y1="50" x2="20" y2="130" stroke="currentColor" stroke-width="2" stroke-dasharray="4,4"/>
+        <circle cx="20" cy="30" r="18" fill="none" stroke="currentColor" stroke-width="2"/>
+        <line x1="2" y1="30" x2="38" y2="30" stroke="currentColor" stroke-width="2"/>
+        <text x="20" y="24" text-anchor="middle" font-size="8" font-weight="700" fill="currentColor">WE</text>
+        <text x="20" y="42" text-anchor="middle" font-size="8" font-weight="700" fill="currentColor">101</text>
+        <text id="pid-we-val" x="20" y="118" text-anchor="middle" font-size="9" font-weight="700" class="text-isa-text-light dark:text-isa-text-dark" fill="currentColor">0.0 kg</text>
+        </g>
+
+        <!-- Diverter Gate (XV-101) -->
+        <g id="inst-diverter" transform="translate(630, 75)">
+        <line x1="20" y1="18" x2="20" y2="55" stroke="currentColor" stroke-width="2"/>
+        <circle cx="20" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"/>
+        <polygon points="5,55 35,55 5,75 35,75" fill="none" stroke="currentColor" stroke-width="2"/>
+        <text x="20" y="-4" text-anchor="middle" font-size="10" font-weight="700" fill="currentColor">XV-101</text>
+        </g>
+
+        <!-- Chute 1: RDF (Safe) -->
+        <g transform="translate(705, 115)">
+        <polygon points="0,15 70,15 90,65 20,65" fill="none" stroke="currentColor" stroke-width="2"/>
+        <text x="45" y="42" text-anchor="middle" font-size="10" font-weight="800" fill="currentColor">CHUTE 1</text>
+        <text x="45" y="55" text-anchor="middle" font-size="8" font-weight="700" fill="currentColor">SAFE</text>
+        </g>
+
+        <!-- Chute 2: Hazard (Reject) -->
+        <g transform="translate(625, 165)">
+        <polygon points="10,0 50,0 60,45 0,45" fill="none" stroke="currentColor" stroke-width="2"/>
+        <text x="30" y="24" text-anchor="middle" font-size="10" font-weight="800" fill="currentColor">CHUTE 2</text>
+        <text x="30" y="37" text-anchor="middle" font-size="8" font-weight="700" fill="currentColor">REJECT</text>
+        </g>
+        </svg>
+    </div>
+    <div class="grid" style="grid-template-columns:repeat(4,minmax(0,1fr)); gap:0; border-top:1px solid var(--border)">
+        <div style="padding:10px 16px; border-right:1px solid var(--border)">
+            <div class="health ok" title="Belt drive CV-101"><span class="health-dot"></span><span class="health-name">Conveyor</span><span class="health-state" id="sys-conveyor">CV-101</span></div>
+            <div class="health ok" title="RealSense D435i + segmenter"><span class="health-dot"></span><span class="health-name">Vision</span><span class="health-state">READY</span></div>
+        </div>
+        <div style="padding:10px 16px; border-right:1px solid var(--border)">
+            <div class="health ok" title="Specim FX17 line scanner"><span class="health-dot"></span><span class="health-name">NIR</span><span class="health-state">ONLINE</span></div>
+            <div class="health ok" title="D435i time-of-flight depth"><span class="health-dot"></span><span class="health-name">ToF</span><span class="health-state">ONLINE</span></div>
+        </div>
+        <div style="padding:10px 16px; border-right:1px solid var(--border)">
+            <div class="health ok" title="Diverter air supply"><span class="health-dot"></span><span class="health-name">Pneumatics</span><span class="health-state">STANDBY</span></div>
+            <div class="health ok" title="Safety interlock loop"><span class="health-dot"></span><span class="health-name">Interlock</span><span class="health-state">CLOSED</span></div>
+        </div>
+        <div style="padding:10px 16px">
+            <div class="health ok" title="Random Forest classifier"><span class="health-dot"></span><span class="health-name">AI engine</span><span class="health-state">ONLINE</span></div>
+            <div class="health ok" title="HX711 load cell"><span class="health-dot"></span><span class="health-name">Load cell</span><span class="health-state">OK</span></div>
+        </div>
+    </div>
+</div>
+
+<!-- Charts -->
+<div class="card" style="margin-bottom:14px">
+    <div class="card-head">
+        <span class="card-title">Feed Throughput Trend</span>
+        <div class="card-actions"><span class="pill">items / min</span></div>
+    </div>
+    <div class="card-body"><div style="height:250px"><canvas id="trend-chart"></canvas></div></div>
+</div>
+
+<div class="grid grid-2">
+    <div class="card">
+        <div class="card-head"><span class="card-title">Material Composition</span></div>
+        <div class="card-body"><div style="height:280px"><canvas id="donut-chart"></canvas></div></div>
+    </div>
+    <div class="card">
+        <div class="card-head"><span class="card-title">Stream Breakdown</span></div>
+        <div class="card-body" id="breakdown-list">
+            <div class="faint" style="font-size:12px">Awaiting classified items&hellip;</div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/ntpc.js"></script>
+{% endblock %}

@@ -1,0 +1,29 @@
+# Keep the build context small and free of anything that should not ship.
+.git
+.gitignore
+.github
+
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+
+# Inert developer artifacts (see CLAUDE.md) — not part of the application.
+extract.py
+extract.log
+fetched.html
+templates/ntpc.html.bak
+
+# Hardware drivers are not installable in the image and are not used in MOCK mode.
+requirements-hardware.txt
+
+# Notebooks and docs are not needed at runtime.
+colab/
+*.md
+
+Dockerfile
+.dockerignore
+
+.DS_Store
+*.log

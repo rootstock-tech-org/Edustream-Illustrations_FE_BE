@@ -1,0 +1,425 @@
+{% extends "_shell.html" %}
+{% set active_page = 'knowledge' %}
+
+{% block title %}Knowledge{% endblock %}
+{% block page_title %}Knowledge{% endblock %}
+{% block page_sub %}How the sensor array is laid out and how a decision is reached{% endblock %}
+
+{% block head_extra %}
+<style>
+    /* Diagrams inherit the page foreground so they read in both themes. */
+    .kb-fig { margin: 0 0 4px; }
+    .kb-fig svg { width: 100%; height: auto; color: var(--text); display: block; }
+    .kb-fig figcaption {
+        color: var(--text-muted); font-size: 12.5px; line-height: 1.55;
+        margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border);
+    }
+    .kb-belt   { fill: var(--safe-soft);   stroke: var(--safe);   stroke-width: 1.5; }
+    .kb-zone   { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.5; }
+    .kb-blind  { fill: var(--hazard-soft); stroke: var(--hazard); stroke-width: 1.5; stroke-dasharray: 4 3; }
+    .kb-part   { fill: var(--surface); stroke: currentColor; stroke-width: 1.4; }
+    .kb-lens   { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.4; }
+    .kb-lbl    { fill: currentColor; font-size: 11.5px; font-family: var(--font); }
+    .kb-lbl-sm { fill: var(--text-muted); font-size: 10.5px; font-family: var(--mono); }
+    .kb-lead   { stroke: var(--text-faint); stroke-width: 1; fill: none; }
+    .kb-flow   { stroke: currentColor; stroke-width: 1.6; fill: none; }
+    .kb-ray    { stroke: var(--warn); stroke-width: 1; stroke-dasharray: 3 2; fill: none; }
+
+    .kb-steps { counter-reset: kb; list-style: none; padding: 0; margin: 0; }
+    .kb-steps li {
+        position: relative; padding: 0 0 14px 38px; margin: 0;
+        border-left: 1px solid var(--border); margin-left: 12px;
+    }
+    .kb-steps li:last-child { border-left-color: transparent; padding-bottom: 0; }
+    .kb-steps li::before {
+        counter-increment: kb; content: counter(kb);
+        position: absolute; left: -12px; top: 0;
+        width: 24px; height: 24px; border-radius: 50%;
+        background: var(--accent-soft); color: var(--accent);
+        border: 1px solid var(--accent-line);
+        font-size: 11.5px; font-weight: 700;
+        display: flex; align-items: center; justify-content: center;
+    }
+    .kb-steps h4 { margin: 2px 0 4px; font-size: 13.5px; color: var(--text); }
+    .kb-steps p  { margin: 0; font-size: 12.5px; color: var(--text-muted); line-height: 1.6; }
+    .kb-steps code { font-family: var(--mono); font-size: 11.5px; }
+    .kb-prose { font-size: 13px; color: var(--text-muted); line-height: 1.65; }
+    .kb-prose strong { color: var(--text); }
+</style>
+{% endblock %}
+
+{% block topbar_status %}
+    <span class="pill">Reference</span>
+{% endblock %}
+
+{% block content %}
+
+<div class="callout">
+    <strong>What SMART-SEG is</strong>
+    <div class="t-meta">
+        A simulation of an industrial waste-segregation line for NTPC. Items ride a conveyor
+        past a sensor array, an AI classifier reads only what the sensors observed, and a
+        diverter gate routes each item to RDF or to reject. Everything on this page describes
+        the modelled physical installation — the pages under Monitoring show it running.
+    </div>
+</div>
+
+<!-- ─── The physical array ─────────────────────────────────────────────── -->
+<div class="grid grid-2">
+
+    <div class="card">
+        <div class="card-head">
+            <span class="card-title">Sensor Array · Plan View</span>
+            <div class="card-actions"><span class="pill">Looking down on the belt</span></div>
+        </div>
+        <div class="card-body">
+            <figure class="kb-fig">
+                <svg viewBox="0 0 560 300" role="img"
+                     aria-label="Plan view of the conveyor: material enters at the left, passes a height and separation gauge, then a camera and diffusion light station, a blind zone, the NIR scanner, and finally the diverter arm area.">
+                    <defs>
+                        <marker id="kb-ar" viewBox="0 0 10 10" refX="9" refY="5"
+                                markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                            <path d="M0 0 L10 5 L0 10 z" fill="currentColor"/>
+                        </marker>
+                    </defs>
+
+                    <!-- Belt running left to right -->
+                    <rect class="kb-belt" x="20" y="110" width="520" height="110" rx="3"/>
+
+                    <!-- Metal separation / height gauge -->
+                    <rect class="kb-part" x="118" y="102" width="16" height="126" rx="3"/>
+                    <path class="kb-lead" d="M126 228 L112 262" marker-end="url(#kb-ar)"/>
+                    <text class="kb-lbl" x="40" y="278">Metal gauge — height &amp; separation</text>
+
+                    <!-- Camera station with diffusion light -->
+                    <rect class="kb-part" x="212" y="98" width="88" height="134" rx="3"/>
+                    <circle class="kb-lens" cx="256" cy="165" r="15"/>
+                    <path class="kb-ray" d="M228 108 L252 152 M284 108 L260 152"/>
+                    <rect class="kb-part" x="222" y="98" width="12" height="14" rx="2"/>
+                    <rect class="kb-part" x="278" y="98" width="12" height="14" rx="2"/>
+                    <path class="kb-lead" d="M256 96 L246 62" marker-end="url(#kb-ar)"/>
+                    <text class="kb-lbl" x="176" y="54">Diffusion light + RGB-D camera</text>
+                    <text class="kb-lbl-sm" x="222" y="248">CAMERA AREA</text>
+
+                    <!-- Blind zone between stations -->
+                    <rect class="kb-blind" x="300" y="110" width="52" height="110"/>
+                    <text class="kb-lbl-sm" x="300" y="248">BLIND ZONE</text>
+
+                    <!-- NIR scanner -->
+                    <rect class="kb-zone" x="352" y="102" width="58" height="126" rx="3"/>
+                    <path class="kb-lead" d="M381 100 L396 62" marker-end="url(#kb-ar)"/>
+                    <text class="kb-lbl" x="372" y="54">NIR line scanner</text>
+
+                    <!-- Diverter arm reach -->
+                    <rect class="kb-part" x="424" y="102" width="106" height="126" rx="3"
+                          stroke-dasharray="5 3"/>
+                    <text class="kb-lbl-sm" x="440" y="248">ARM AREA</text>
+
+                    <!-- Travel direction -->
+                    <path class="kb-flow" d="M20 88 L200 88" marker-end="url(#kb-ar)"/>
+                    <text class="kb-lbl-sm" x="20" y="80">BELT TRAVEL</text>
+                </svg>
+                <figcaption>
+                    Each station owns a slice of belt length, so an item is measured by one
+                    sensor at a time as it travels. The <strong>blind zone</strong> between the
+                    camera and the NIR scanner is why readings are latched rather than sampled
+                    once — an item at a station's edge reads low.
+                </figcaption>
+            </figure>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-head">
+            <span class="card-title">Sensor Array · Side Elevation</span>
+            <div class="card-actions"><span class="pill">Inclined belt</span></div>
+        </div>
+        <div class="card-body">
+            <figure class="kb-fig">
+                <svg viewBox="0 0 560 300" role="img"
+                     aria-label="Side elevation: an inclined belt carries material under a dust filter and diffusion light past the camera, through a blind zone, over an inductive and capacitive sensor mounted in the bed. A gauge marks the maximum item height.">
+                    <defs>
+                        <marker id="kb-ar2" viewBox="0 0 10 10" refX="9" refY="5"
+                                markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                            <path d="M0 0 L10 5 L0 10 z" fill="currentColor"/>
+                        </marker>
+                    </defs>
+
+                    <!-- Inclined belt. Surface follows y = 252 - 0.204(x-30);
+                         every part below is placed against that line. -->
+                    <path class="kb-belt" d="M30 252 L530 150 L530 166 L30 268 z"/>
+                    <path class="kb-lead" d="M30 268 L530 268"/>
+                    <path class="kb-lead" d="M96 254 L96 268"/>
+                    <text class="kb-lbl-sm" x="104" y="266">incline</text>
+
+                    <!-- Max item height: gauge stands on the belt surface -->
+                    <path class="kb-lead" d="M150 170 L150 225" marker-end="url(#kb-ar2)"/>
+                    <path class="kb-lead" d="M138 170 L162 170"/>
+                    <text class="kb-lbl" x="52" y="164">Max item height</text>
+
+                    <!-- Gantry beam over the belt, carrying the optics -->
+                    <path class="kb-part" d="M250 92 L376 92" fill="none" stroke-width="5"/>
+                    <path class="kb-part" d="M316 92 L316 126" fill="none" stroke-width="3"/>
+                    <path class="kb-part" d="M376 92 L376 182" fill="none" stroke-width="3"/>
+
+                    <!-- Dust filter, sitting on the beam -->
+                    <rect class="kb-part" x="248" y="70" width="42" height="22" rx="3"/>
+                    <path class="kb-lead" d="M248 82 L214 74" marker-end="url(#kb-ar2)"/>
+                    <text class="kb-lbl" x="128" y="70">Dust filter</text>
+
+                    <!-- Camera and the two diffusion lights flanking it -->
+                    <rect class="kb-part" x="288" y="126" width="11" height="20" rx="2"/>
+                    <rect class="kb-part" x="334" y="126" width="11" height="20" rx="2"/>
+                    <circle class="kb-lens" cx="316" cy="138" r="13"/>
+                    <path class="kb-ray" d="M293 148 L288 156 M340 148 L347 156"/>
+                    <path class="kb-lead" d="M348 132 L392 118" marker-end="url(#kb-ar2)"/>
+                    <text class="kb-lbl" x="396" y="114">Diffusion light</text>
+
+                    <!-- Item riding the belt, inside the blind zone -->
+                    <rect class="kb-blind" x="288" y="157" width="60" height="36" rx="4"/>
+                    <path class="kb-lead" d="M356 176 L392 170" marker-end="url(#kb-ar2)"/>
+                    <text class="kb-lbl" x="396" y="166">Blind zone</text>
+
+                    <!-- Inductive / capacitive probe, beneath the belt bed -->
+                    <rect class="kb-part" x="292" y="214" width="52" height="20" rx="3"/>
+                    <path class="kb-lead" d="M318 236 L300 272" marker-end="url(#kb-ar2)"/>
+                    <text class="kb-lbl" x="176" y="290">Inductive / capacitive sensor, under the bed</text>
+                </svg>
+                <figcaption>
+                    The belt is inclined so material settles into a single layer before the scan
+                    zone. The <strong>dust filter</strong> and <strong>diffusion light</strong>
+                    keep the optical path usable in a plant environment; the metal probe sits
+                    under the bed, so it reads through the belt rather than needing line of sight.
+                </figcaption>
+            </figure>
+        </div>
+    </div>
+</div>
+
+<!-- ─── Signal chain ───────────────────────────────────────────────────── -->
+<div class="card" style="margin-top:14px">
+    <div class="card-head">
+        <span class="card-title">Signal Chain</span>
+        <div class="card-actions"><span class="pill">Order of measurement</span></div>
+    </div>
+    <div class="card-body">
+        <figure class="kb-fig">
+            <svg viewBox="0 0 900 210" role="img"
+                 aria-label="Signal chain: an item travels along the belt and is measured in order by the camera and depth sensor, then the NIR scanner, then the inductive and capacitive probe. The accumulated readings go to the classifier, which drives the divergent arm.">
+                <defs>
+                    <marker id="kb-ar3" viewBox="0 0 10 10" refX="9" refY="5"
+                            markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                        <path d="M0 0 L10 5 L0 10 z" fill="currentColor"/>
+                    </marker>
+                </defs>
+
+                <!-- The item and its path -->
+                <rect class="kb-blind" x="20" y="92" width="52" height="34" rx="4"/>
+                <text class="kb-lbl-sm" x="20" y="84">ITEM</text>
+                <path class="kb-flow" d="M78 109 L742 109" marker-end="url(#kb-ar3)"/>
+
+                <!-- Measurement stations, tapping the belt from above and below -->
+                <g>
+                    <rect class="kb-zone" x="150" y="20" width="112" height="40" rx="5"/>
+                    <text class="kb-lbl" x="206" y="38" text-anchor="middle">Camera / Depth</text>
+                    <text class="kb-lbl-sm" x="206" y="52" text-anchor="middle">dimensions</text>
+                    <path class="kb-lead" d="M206 62 L206 100" marker-end="url(#kb-ar3)"/>
+                </g>
+                <g>
+                    <rect class="kb-zone" x="330" y="20" width="112" height="40" rx="5"/>
+                    <text class="kb-lbl" x="386" y="38" text-anchor="middle">NIR Scanner</text>
+                    <text class="kb-lbl-sm" x="386" y="52" text-anchor="middle">C-H · O-H</text>
+                    <path class="kb-lead" d="M386 62 L386 100" marker-end="url(#kb-ar3)"/>
+                </g>
+                <g>
+                    <rect class="kb-zone" x="510" y="158" width="132" height="40" rx="5"/>
+                    <text class="kb-lbl" x="576" y="176" text-anchor="middle">Inductive / Capacitive</text>
+                    <text class="kb-lbl-sm" x="576" y="190" text-anchor="middle">metal · dielectric</text>
+                    <path class="kb-lead" d="M576 156 L576 120" marker-end="url(#kb-ar3)"/>
+                </g>
+
+                <!-- Load cell reads continuously under the whole span -->
+                <rect class="kb-part" x="150" y="158" width="292" height="26" rx="4"/>
+                <text class="kb-lbl-sm" x="296" y="175" text-anchor="middle">LOAD CELL — mass, latched across the span</text>
+                <path class="kb-lead" d="M296 156 L296 120" marker-end="url(#kb-ar3)"/>
+                <text class="kb-lbl-sm" x="86" y="128">BELT TRAVEL</text>
+
+                <!-- Decision and actuation -->
+                <rect class="kb-part" x="756" y="88" width="126" height="42" rx="5"/>
+                <text class="kb-lbl" x="819" y="106" text-anchor="middle">Divergent Arm</text>
+                <text class="kb-lbl-sm" x="819" y="120" text-anchor="middle">SAFE ↓ · HAZARD →</text>
+            </svg>
+            <figcaption>
+                Measurements accumulate as the item travels; the classifier runs once, when the
+                track crosses the end of the scan zone, and the arm actuates downstream of that.
+                Every feature is the <strong>maximum</strong> seen across the span, not a single
+                reading — an object at a sensor's edge reads low, and one sample would throw the
+                classification.
+            </figcaption>
+        </figure>
+    </div>
+</div>
+
+<!-- ─── Pipeline ───────────────────────────────────────────────────────── -->
+<div class="main-split" style="margin-top:14px">
+    <div class="stack">
+        <div class="card">
+            <div class="card-head">
+                <span class="card-title">What happens to one item</span>
+                <div class="card-actions"><span class="pill">{{ cfg.TICK_RATE_HZ }} Hz loop</span></div>
+            </div>
+            <div class="card-body">
+                <ol class="kb-steps">
+                    <li>
+                        <h4>Spawn</h4>
+                        <p>An item enters at the head of the belt with a true material type, mass
+                        and dimensions drawn from the material table. This is ground truth, and
+                        nothing downstream of segmentation is allowed to see it.</p>
+                    </li>
+                    <li>
+                        <h4>Travel</h4>
+                        <p>Position advances by <code>speed × dt</code> each tick. Belt speed and
+                        width come from Line Control on the Overview.</p>
+                    </li>
+                    <li>
+                        <h4>Sense</h4>
+                        <p>The array renders this frame's raw signals — a depth frame, an NIR line,
+                        a scalar mass, an inductive strength — each with modelled noise.</p>
+                    </li>
+                    <li>
+                        <h4>Segment &amp; track</h4>
+                        <p>OpenCV segments the <em>depth frame</em> into objects and assigns stable
+                        track IDs. From here on the pipeline sees tracks, never items.</p>
+                    </li>
+                    <li>
+                        <h4>Accumulate</h4>
+                        <p>While a track sits over a sensor it collects readings. Features are the
+                        latched maxima of what was observed.</p>
+                    </li>
+                    <li>
+                        <h4>Classify</h4>
+                        <p>Once, at <code>{{ cfg.SCAN_ZONE_START_M + cfg.SCAN_ZONE_LENGTH_M }} m</code>,
+                        the Random Forest reads the eight-feature vector and the failsafes get a
+                        veto. Below {{ (cfg.CONFIDENCE_THRESHOLD * 100)|int }}% confidence the
+                        decision is flagged for review but not overridden.</p>
+                    </li>
+                    <li>
+                        <h4>Divert</h4>
+                        <p>At <code>{{ cfg.DIVERTER_GATE_POS_M }} m</code> the gate routes the item.
+                        Only here is the track matched back to the physical item — by xy-proximity —
+                        to actuate and to score accuracy.</p>
+                    </li>
+                </ol>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-head"><span class="card-title">Two decision layers</span></div>
+            <div class="card-body kb-prose">
+                <p style="margin-top:0">
+                    The Random Forest runs first, then <strong>hard-coded failsafes can override
+                    it</strong>. They sit ahead of the model's output rather than merged into it,
+                    so a hedging model cannot pass a dense or metallic object:
+                </p>
+                <ul style="margin:10px 0 0; padding-left:18px">
+                    <li style="margin-bottom:7px">Density above
+                        <strong>{{ cfg.DENSITY_HAZARD_THRESHOLD }} kg/m³</strong> with C-H absorption
+                        below {{ cfg.NIR_LOW_THRESHOLD }} → <span class="pill pill-hazard">HAZARD</span>
+                        — dense with no polymer signature is stone or concrete.</li>
+                    <li style="margin-bottom:7px">Metal detected above
+                        <strong>{{ cfg.MASS_HEAVY_THRESHOLD }} kg</strong> →
+                        <span class="pill pill-hazard">HAZARD</span> — heavy metal damages the
+                        shredder downstream.</li>
+                    <li>Confidence below
+                        <strong>{{ (cfg.CONFIDENCE_THRESHOLD * 100)|int }}%</strong> →
+                        <span class="pill pill-warn">flagged</span>, decision left as the model made it.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="stack">
+        <div class="card">
+            <div class="card-head">
+                <span class="card-title">Array specification</span>
+            </div>
+            <div class="card-body">
+                <table class="data">
+                    <tbody>
+                        <tr><td>Belt</td><td class="mono">{{ cfg.CONVEYOR_WIDTH_M }} × {{ cfg.CONVEYOR_LENGTH_M }} m</td></tr>
+                        <tr><td>Nominal speed</td><td class="mono">{{ cfg.CONVEYOR_SPEED_MS }} m/s</td></tr>
+                        <tr><td>Scan zone</td><td class="mono">{{ cfg.SCAN_ZONE_START_M }}–{{ cfg.SCAN_ZONE_START_M + cfg.SCAN_ZONE_LENGTH_M }} m</td></tr>
+                        <tr><td>Diverter gate</td><td class="mono">{{ cfg.DIVERTER_GATE_POS_M }} m</td></tr>
+                        <tr><td>Depth camera</td><td class="mono">D435i · {{ cfg.DEPTH_WIDTH }}×{{ cfg.DEPTH_HEIGHT }} @ {{ cfg.DEPTH_FPS }} fps</td></tr>
+                        <tr><td>Depth noise</td><td class="mono">σ {{ cfg.DEPTH_NOISE_SIGMA }} mm @ {{ cfg.DEPTH_BASELINE_MM }} mm</td></tr>
+                        <tr><td>NIR</td><td class="mono">{{ cfg.NIR_CHANNELS }} ch · {{ cfg.NIR_WAVELENGTH_START_NM }}–{{ cfg.NIR_WAVELENGTH_END_NM }} nm</td></tr>
+                        <tr><td>NIR scan rate</td><td class="mono">{{ cfg.NIR_SCAN_RATE_HZ }} Hz · {{ cfg.NIR_SNR_DB }} dB SNR</td></tr>
+                        <tr><td>Throughput</td><td class="mono">{{ cfg.SPAWN_RATE_PER_MIN }} items/min</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-head"><span class="card-title">Where things live</span></div>
+            <div class="card-body kb-prose">
+                <p style="margin-top:0">
+                    <a href="/">Overview</a> — the belt, live counters and Line Control.<br>
+                    <a href="/camera">Vision Feed</a> — RGB, depth and the 3D point cloud.<br>
+                    <a href="/sensors">Sensor Suite</a> — the feature vector and NIR spectra.<br>
+                    <a href="/ntpc">Process Control</a> — P&amp;ID schematic and diagnostics.<br>
+                    <a href="/logs">Audit Log</a> — every classification, plus model analytics.<br>
+                    <a href="/config">Configuration</a> — the full parameter set.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ─── Material table ─────────────────────────────────────────────────── -->
+<div class="card" style="margin-top:14px">
+    <div class="card-head">
+        <span class="card-title">Material Table</span>
+        <div class="card-actions"><span class="pill">{{ materials|length }} classes</span></div>
+    </div>
+    <div class="card-body flush">
+        <div class="table-wrap">
+            <table class="data">
+                <thead>
+                    <tr>
+                        <th>Material</th><th>Class</th>
+                        <th>Density kg/m³</th><th>Mass kg</th>
+                        <th>NIR C-H</th><th>NIR O-H</th><th>Metal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for key, m in materials.items() %}
+                    <tr>
+                        <td>
+                            <span class="color-dot" style="background:rgb{{ m.color_rgb }}"></span>
+                            {{ m.label }}
+                        </td>
+                        <td>
+                            {% if m.is_hazard %}<span class="pill pill-hazard">HAZARD</span>
+                            {% else %}<span class="pill pill-safe">SAFE</span>{% endif %}
+                        </td>
+                        <td class="mono">{{ m.density_range[0] }}–{{ m.density_range[1] }}</td>
+                        <td class="mono">{{ m.weight_range[0] }}–{{ m.weight_range[1] }}</td>
+                        <td class="mono">{{ m.nir_ch_response[0] }}–{{ m.nir_ch_response[1] }}</td>
+                        <td class="mono">{{ m.nir_oh_response[0] }}–{{ m.nir_oh_response[1] }}</td>
+                        <td class="mono">{{ 'yes' if m.metal_present else '—' }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="card-body kb-prose" style="border-top:1px solid var(--border)">
+        This table is the single source of truth for <strong>both</strong> the mock sensors and
+        the classifier's training data — the model is trained at startup on 5,000 vectors
+        generated from these same distributions. Editing a density here changes the
+        classifier's world, not just the simulation's.
+    </div>
+</div>
+
+{% endblock %}

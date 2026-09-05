@@ -1,0 +1,54 @@
+# SMART-SEG — systemd unit for the plain-EC2 deployment.
+#
+#   sudo cp deploy/smartseg.service /etc/systemd/system/
+#   sudo cp deploy/smartseg.env     /etc/smartseg.env   # then edit it
+#   sudo systemctl daemon-reload && sudo systemctl enable --now smartseg
+#
+# Assumes the checkout lives at /opt/smartseg with a virtualenv at
+# /opt/smartseg/.venv, owned by a `smartseg` system user. Adjust the paths below
+# if you put it elsewhere.
+
+[Unit]
+Description=SMART-SEG waste segregation dashboard
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=exec
+User=smartseg
+Group=smartseg
+WorkingDirectory=/opt/smartseg
+
+# SMARTSEG_SECRET_KEY and SMARTSEG_CORS_ORIGINS live here, out of the unit file
+# and out of git. Keep it root-owned and mode 0640.
+EnvironmentFile=/etc/smartseg.env
+
+# -w 1 is mandatory: simulation state is in memory in this one process.
+# Never add --preload — see the note in wsgi.py.
+ExecStart=/opt/smartseg/.venv/bin/gunicorn \
+    -k gthread -w 1 --threads 12 --timeout 120 \
+    --access-logfile - --error-logfile - \
+    -b 127.0.0.1:5000 wsgi:application
+
+# The classifier trains for ~8 s before the socket opens; don't let systemd call
+# that a failed start.
+TimeoutStartSec=180
+Restart=always
+RestartSec=5
+
+# The simulation loop saturates about one core by design. Without this, a busy
+# host schedules it against everything else and the belt visibly stutters.
+Nice=-5
+
+# Hardening. The app writes nothing outside /tmp — there is no database and no
+# model checkpoint on disk.
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectControlGroups=true
+RestrictSUIDSGID=true
+
+[Install]
+WantedBy=multi-user.target

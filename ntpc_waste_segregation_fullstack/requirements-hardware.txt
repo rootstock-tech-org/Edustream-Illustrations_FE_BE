@@ -1,0 +1,5 @@
+# Optional hardware drivers for SENSOR_MODE=HYBRID / REAL.
+# Not installable on every platform (needs a supported OS/Python/arch combo),
+# which is why it is kept out of requirements.txt. The simulation runs fine
+# without it — the camera feed is simply disabled.
+pyrealsense2

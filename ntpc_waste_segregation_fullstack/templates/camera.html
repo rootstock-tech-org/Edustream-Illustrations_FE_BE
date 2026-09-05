@@ -1,0 +1,114 @@
+{% extends "_shell.html" %}
+{% set active_page = 'camera' %}
+
+{% block title %}Vision Feed{% endblock %}
+{% block page_title %}Vision Feed{% endblock %}
+{% block page_sub %}RGB &amp; depth streams with live tracking annotations{% endblock %}
+
+{% block topbar_status %}
+    <button class="btn btn-sm" id="reconnect-btn">Reconnect Sensor</button>
+    <!-- Driven by camera.js from the server's camera status — never hardcoded,
+         because a synthetic frame and a live one look alike on screen. -->
+    <span class="pill" id="camera-state-pill"><span class="dot"></span>Connecting…</span>
+{% endblock %}
+
+{% block head_scripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+{% endblock %}
+
+{% block content %}
+
+<!-- Explains a synthetic or failed feed. camera.js hides this when live. -->
+<div class="callout" id="camera-notice" style="display:none"></div>
+
+<div class="grid grid-2">
+
+    <div class="card">
+        <div class="card-head">
+            <span class="dot dot-live" style="color:var(--accent)"></span>
+            <span class="card-title">RGB + Tracking</span>
+            <div class="card-actions"><span class="pill" id="rgb-source">—</span></div>
+        </div>
+        <div class="card-body">
+            <div class="media" style="min-height:300px">
+                <div class="media-placeholder" id="rgb-placeholder">
+                    Waiting for RGB frames…<br>
+                    <span class="faint" style="font-size:11.5px">Synthetic in MOCK mode, live when a RealSense is attached</span>
+                </div>
+                <img id="rgb-image" style="display:none" alt="RGB camera feed">
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-head">
+            <span class="dot dot-live" style="color:var(--info)"></span>
+            <span class="card-title">Depth + Tracking</span>
+            <div class="card-actions"><span class="pill" id="depth-source">—</span></div>
+        </div>
+        <div class="card-body">
+            <div class="media" style="min-height:300px">
+                <div class="media-placeholder" id="depth-placeholder">Waiting for depth frames…</div>
+                <img id="depth-image" style="display:none" alt="Depth camera feed">
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Moved off the Overview: both are spatial views of the same belt, so they
+     belong beside the camera streams rather than competing with the twin. -->
+<div class="grid grid-2" style="margin-top:14px">
+
+    <div class="card">
+        <div class="card-head">
+            <span class="card-title">ToF Depth Map</span>
+            <div class="card-actions"><span class="pill">Conveyor-wide · segmented</span></div>
+        </div>
+        <div class="card-body">
+            <div class="media" id="depth-media">
+                <div class="sensor-wait" id="tof-placeholder">
+                    <div class="skeleton skeleton-block"></div>
+                    <div class="sensor-wait-label"><span class="dot" style="color:var(--idle)"></span>TOF SENSOR · WAITING FOR FRAME</div>
+                </div>
+                <img id="tof-image" style="display:none" alt="Live depth map with tracked objects">
+            </div>
+        </div>
+    </div>
+
+    <div class="card" id="pointcloud-panel">
+        <div class="card-head">
+            <span class="card-title">3D Spatial · Point Cloud</span>
+            <div class="card-actions">
+                <button class="btn btn-sm" id="btn-reset-view" title="Reset camera view">Reset view</button>
+                <button class="btn btn-sm" id="btn-toggle-3d">Hide</button>
+            </div>
+        </div>
+        <div class="card-body" id="pointcloud-body">
+            <div class="media" id="pointcloud-container" style="height:250px">
+                <canvas id="three-canvas"></canvas>
+            </div>
+            <div class="faint" style="font-size:11.5px; margin-top:8px">Drag to orbit · scroll to zoom</div>
+        </div>
+    </div>
+
+</div>
+
+<div class="card" style="margin-top:14px">
+    <div class="card-head"><span class="card-title">Annotation Legend</span></div>
+    <div class="card-body row" style="gap:22px; flex-wrap:wrap">
+        <span class="row" style="gap:8px"><span class="color-dot" style="background:var(--safe)"></span>
+            <span class="muted" style="font-size:12.5px">Green box — classified <strong>SAFE</strong>, continues to RDF chute</span></span>
+        <span class="row" style="gap:8px"><span class="color-dot" style="background:var(--hazard)"></span>
+            <span class="muted" style="font-size:12.5px">Red box — classified <strong>HAZARD</strong>, diverted to reject</span></span>
+        <span class="muted" style="font-size:12.5px">Each label shows the track ID and measured belt speed.</span>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/three_renderer.js"></script>
+<script src="/static/js/sensor_views.js"></script>
+<script src="/static/js/sensor_panels.js"></script>
+<script src="/static/js/camera.js"></script>
+{% endblock %}

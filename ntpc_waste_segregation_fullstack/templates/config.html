@@ -1,0 +1,96 @@
+{% extends "_shell.html" %}
+{% set active_page = 'config' %}
+
+{% block title %}Configuration{% endblock %}
+{% block page_title %}Configuration{% endblock %}
+{% block page_sub %}Read-only view of the running simulation parameters{% endblock %}
+
+{% block topbar_status %}
+    <a class="btn btn-sm" href="/api/config" target="_blank" rel="noopener">Raw JSON</a>
+{% endblock %}
+
+{% block content %}
+<div class="grid grid-3" id="config-grid">
+    <div class="card"><div class="card-head"><span class="card-title">Conveyor</span></div>
+        <div class="card-body flush"><div class="sensor-wait" style="padding:15px"><div class="skeleton" style="height:130px"></div></div></div></div>
+    <div class="card"><div class="card-head"><span class="card-title">Sensors</span></div>
+        <div class="card-body flush"><div class="sensor-wait" style="padding:15px"><div class="skeleton" style="height:130px"></div></div></div></div>
+    <div class="card"><div class="card-head"><span class="card-title">AI Engine</span></div>
+        <div class="card-body flush"><div class="sensor-wait" style="padding:15px"><div class="skeleton" style="height:130px"></div></div></div></div>
+</div>
+
+<div class="card" style="margin-top:12px">
+    <div class="card-head">
+        <span class="card-title">Material Table</span>
+        <div class="card-actions"><span class="pill">Ground truth for mock sensors &amp; training</span></div>
+    </div>
+    <div class="card-body flush">
+        <div class="table-wrap">
+            <table class="data" id="material-table">
+                <thead><tr>
+                    <th>Material</th><th>Class</th><th>Density (kg/m³)</th><th>Weight (kg)</th>
+                </tr></thead>
+                <tbody>
+                    <tr><td colspan="4"><div class="empty-state"><div class="empty-title">Loading configuration…</div></div></td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function () {
+    'use strict';
+
+    function kvCard(title, entries) {
+        return '<div class="card"><div class="card-head"><span class="card-title">' + title + '</span></div>' +
+            '<div class="card-body flush"><div class="readout" style="border:0; border-radius:0">' +
+            entries.map(function (e) {
+                return '<div class="readout-cell"><div class="t-label">' + e[0] + '</div>' +
+                       '<div class="readout-val">' + e[1] + '</div></div>';
+            }).join('') + '</div></div></div>';
+    }
+
+    fetch('/api/config').then(function (r) { return r.json(); }).then(function (cfg) {
+        var c = cfg.conveyor || {}, s = cfg.sensors || {}, ai = cfg.ai || {};
+        document.getElementById('config-grid').innerHTML =
+            kvCard('Conveyor', [
+                ['Belt width', c.width + ' m'], ['Visible length', c.length + ' m'],
+                ['Speed', c.speed + ' m/s'], ['Scan zone start', c.scan_zone_start + ' m'],
+                ['Scan zone length', c.scan_zone_length + ' m'], ['Diverter position', c.diverter_pos + ' m'],
+            ]) +
+            kvCard('Sensors', [
+                ['Depth resolution', s.depth_resolution], ['NIR channels', s.nir_channels],
+                ['NIR range', s.nir_range], ['Load-cell noise', s.loadcell_noise],
+                ['Spawn rate', cfg.spawn_rate + ' /min'], ['Mode', cfg.sensor_mode || (cfg.use_mock ? 'MOCK' : 'REAL')],
+            ]) +
+            kvCard('AI Engine', [
+                ['Estimators', ai.n_estimators], ['Confidence threshold', (ai.confidence_threshold * 100) + '%'],
+                ['Density failsafe', ai.density_hazard_threshold + ' kg/m³'],
+                ['Mass failsafe', ai.mass_heavy_threshold + ' kg'],
+            ]);
+
+        var rows = Object.keys(cfg.item_types || {}).map(function (k) {
+            var t = cfg.item_types[k];
+            var rgb = 'rgb(' + (t.color || [136,136,136]).join(',') + ')';
+            var cls = t.is_hazard ? '<span class="badge badge-hazard">HAZARD</span>'
+                                  : '<span class="badge badge-safe">SAFE</span>';
+            return '<tr class="' + (t.is_hazard ? 'hazard-row' : 'safe-row') + '">' +
+                '<td><div class="row" style="gap:8px"><span class="color-dot" style="background:' + rgb + '"></span>' + t.label + '</div></td>' +
+                '<td>' + cls + '</td>' +
+                '<td class="mono">' + t.density_range[0] + ' – ' + t.density_range[1] + '</td>' +
+                '<td class="mono">' + t.weight_range[0] + ' – ' + t.weight_range[1] + '</td></tr>';
+        }).join('');
+        document.querySelector('#material-table tbody').innerHTML = rows ||
+            '<tr><td colspan="4"><div class="empty-state"><div class="empty-title">No material table</div></div></td></tr>';
+    }).catch(function (e) {
+        document.getElementById('config-grid').innerHTML =
+            '<div class="card" style="grid-column:1/-1"><div class="empty-state">' +
+            '<div class="empty-title">Configuration unavailable</div>' +
+            '<div class="empty-body">' + e + '</div></div></div>';
+    });
+})();
+</script>
+{% endblock %}

@@ -1,0 +1,22 @@
+flask
+flask-socketio
+numpy
+scipy
+scikit-learn
+
+# Headless OpenCV build: same cv2 API, but no libGL/GTK linkage. Servers have
+# no display and the app never calls cv2.imshow, so this drops ~40 MB and the
+# libgl1/libglib system packages from every install.
+opencv-python-headless
+
+pandas
+seaborn
+matplotlib
+
+# Production WSGI server. The Werkzeug server in app.py is for local dev only;
+# deployments run wsgi.py under gunicorn — see DEPLOYMENT.md.
+gunicorn
+
+# Physical sensor drivers are optional and platform-specific.
+# For a machine with the Intel RealSense D435i attached:
+#   pip install -r requirements-hardware.txt

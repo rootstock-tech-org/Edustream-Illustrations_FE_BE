@@ -1,0 +1,150 @@
+{% extends "_shell.html" %}
+{% set active_page = 'sensors' %}
+
+{% block title %}Sensor Suite{% endblock %}
+{% block page_title %}Sensor Suite{% endblock %}
+{% block page_sub %}Fused sensor vector and NIR spectroscopy for the item under the scanner{% endblock %}
+
+{% block head_scripts %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+{% endblock %}
+
+{% block topbar_status %}
+    <span class="pill pill-accent" id="mode-badge">MOCK SENSORS</span>
+    <span class="status-badge disconnected" id="connection-status"><span id="status-text">CONNECTING</span></span>
+{% endblock %}
+
+{% block content %}
+
+<div class="callout">
+    <strong>What this page shows</strong>
+    <div class="t-meta">
+        The eight-dimensional feature vector the classifier actually sees, plus the raw NIR
+        evidence behind two of its dimensions. These update once per item, when a track
+        crosses the end of the scan zone — not continuously.
+        <a href="/knowledge">How the sensor array works →</a>
+    </div>
+</div>
+
+<div class="main-split">
+
+    <div class="stack">
+
+        <!-- NIR absorption spectrum -->
+        <div class="card">
+            <div class="card-head">
+                <span class="card-title">NIR Absorption Spectrum</span>
+                <div class="card-actions"><span class="pill">C-H &amp; O-H bands</span></div>
+            </div>
+            <div class="card-body">
+                <div style="height:260px"><canvas id="nir-chart"></canvas></div>
+                <div class="faint" style="font-size:11.5px; margin-top:8px">
+                    C-H absorption near 1200 nm marks a polymer; O-H near 1450 nm marks water content.
+                    The classifier reads the peak of each, latched across the scan.
+                </div>
+            </div>
+        </div>
+
+        <!-- NIR line-scan spectrogram -->
+        <div class="card">
+            <div class="card-head">
+                <span class="card-title">NIR Spectrogram</span>
+                <div class="card-actions"><span class="pill">128 ch · 750–2500 nm</span></div>
+            </div>
+            <div class="card-body">
+                <div class="media" id="nir-media">
+                    <div class="sensor-wait" id="nir-section-placeholder">
+                        <div class="skeleton skeleton-block" style="height:70px"></div>
+                        <div class="sensor-wait-label"><span class="dot" style="color:var(--idle)"></span>NIR SCANNER · WAITING FOR LINE</div>
+                    </div>
+                    <img id="nir-section-image" style="display:none" alt="NIR spectrogram of current scan">
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="stack">
+
+        <!-- Sensor fusion (spec §16) -->
+        <div class="card">
+            <div class="card-head">
+                <span class="card-title">Sensor Fusion</span>
+                <div class="card-actions"><span class="pill">8-dim vector</span></div>
+            </div>
+            <div class="card-body" id="sensor-readings">
+                <div class="feature-bar">
+                    <span class="fb-label">Mass</span>
+                    <div class="fb-track"><div class="fb-fill" id="fb-weight"></div></div>
+                    <span class="fb-value" id="fv-weight">0.00 kg</span>
+                </div>
+                <div class="feature-bar">
+                    <span class="fb-label">Density</span>
+                    <div class="fb-track"><div class="fb-fill" id="fb-density"></div></div>
+                    <span class="fb-value" id="fv-density">0 kg/m³</span>
+                </div>
+                <div class="feature-bar">
+                    <span class="fb-label">NIR C-H</span>
+                    <div class="fb-track"><div class="fb-fill" id="fb-nir-ch"></div></div>
+                    <span class="fb-value" id="fv-nir-ch">0.000</span>
+                </div>
+                <div class="feature-bar">
+                    <span class="fb-label">NIR O-H</span>
+                    <div class="fb-track"><div class="fb-fill" id="fb-nir-oh"></div></div>
+                    <span class="fb-value" id="fv-nir-oh">0.000</span>
+                </div>
+                <div class="feature-bar">
+                    <span class="fb-label">Metal (Ind.)</span>
+                    <div class="fb-track"><div class="fb-fill" id="fb-metal"></div></div>
+                    <span class="fb-value" id="fv-metal">0 NO</span>
+                </div>
+                <div class="feature-bar">
+                    <span class="fb-label">Dielectric</span>
+                    <div class="fb-track"><div class="fb-fill" id="fb-dielectric"></div></div>
+                    <span class="fb-value" id="fv-dielectric">0.000</span>
+                </div>
+                <div class="sep"></div>
+                <div class="grid" style="grid-template-columns:1fr 1fr; gap:2px 12px" aria-label="Sensor health">
+                    <div class="health ok"><span class="health-dot"></span><span class="health-name">Mass sensor</span><span class="health-state">OK</span></div>
+                    <div class="health ok"><span class="health-dot"></span><span class="health-name">NIR sensor</span><span class="health-state">OK</span></div>
+                    <div class="health ok"><span class="health-dot"></span><span class="health-name">ToF sensor</span><span class="health-state">OK</span></div>
+                    <div class="health ok"><span class="health-dot"></span><span class="health-name">Metal probe</span><span class="health-state">OK</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Classification hero — the decision these readings produced -->
+        <div class="panel panel-hero">
+            <div class="panel-head">
+                <span class="dot dot-live" style="color:var(--accent)"></span>
+                <span class="panel-title">Current Classification</span>
+                <div class="panel-actions"><span class="pill pill-accent">AI</span></div>
+            </div>
+            <div class="panel-body">
+                <div class="decision-display" id="decision-display">
+                    <div class="decision-icon" aria-hidden="true">◎</div>
+                    <div style="min-width:0">
+                        <div class="decision-label" id="decision-label">STANDBY</div>
+                        <div class="decision-detail" id="decision-detail">Start the line to begin scanning material.</div>
+                    </div>
+                    <div class="decision-confidence">
+                        <div class="decision-confidence-value" id="decision-confidence-value">—</div>
+                        <div class="decision-confidence-label">Confidence</div>
+                    </div>
+                </div>
+                <div class="conf-track" style="margin-top:10px" aria-hidden="true">
+                    <div class="conf-fill" id="decision-conf-fill"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/sensor_views.js"></script>
+<script src="/static/js/sensor_panels.js"></script>
+<script src="/static/js/page_sensors.js"></script>
+{% endblock %}

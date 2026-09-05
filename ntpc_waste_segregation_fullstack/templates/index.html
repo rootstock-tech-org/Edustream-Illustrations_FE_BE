@@ -1,0 +1,236 @@
+{% extends "_shell.html" %}
+{% set active_page = 'overview' %}
+
+{% block title %}Overview{% endblock %}
+{% block page_title %}Segregation Overview{% endblock %}
+{% block page_sub %}Live multi-sensor fusion &amp; hazard classification{% endblock %}
+
+{% block head_scripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+{% endblock %}
+
+{% block topbar_status %}
+    <span class="pill pill-accent" id="mode-badge">MOCK SENSORS</span>
+    <span class="status-badge disconnected" id="connection-status"><span id="status-text">CONNECTING</span></span>
+{% endblock %}
+
+{% block sidebar_foot %}
+    <div class="row" style="justify-content:space-between; font-size:11.5px">
+        <span class="faint">Line status</span>
+        <span class="pill pill-safe" id="line-status-pill" style="padding:2px 8px"><span class="dot dot-live"></span>Running</span>
+    </div>
+{% endblock %}
+
+{% block content %}
+
+<div class="alert-banner" id="alert-banner" role="alert">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" aria-hidden="true">
+        <path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/>
+        <path d="M12 9v4M12 17h.01"/>
+    </svg>
+    <span id="alert-text">Hazard detected</span>
+</div>
+
+<!-- ─── System health strip (spec §22) ─────────────────────────────────── -->
+<div class="strip" style="margin-bottom:12px" aria-label="System health">
+    <div class="strip-cell">
+        <span class="t-label">Vision</span>
+        <span class="strip-val"><span class="health-dot" style="background:var(--safe)"></span>ONLINE</span>
+    </div>
+    <div class="strip-cell">
+        <span class="t-label">ToF Depth</span>
+        <span class="strip-val"><span class="health-dot" style="background:var(--safe)"></span>ONLINE</span>
+    </div>
+    <div class="strip-cell">
+        <span class="t-label">NIR Scanner</span>
+        <span class="strip-val"><span class="health-dot" style="background:var(--safe)"></span>ONLINE</span>
+    </div>
+    <div class="strip-cell">
+        <span class="t-label">AI Engine</span>
+        <span class="strip-val" style="color:var(--accent)"><span class="health-dot" style="background:var(--accent)"></span>ACTIVE</span>
+    </div>
+    <div class="strip-cell">
+        <span class="t-label">Interlock</span>
+        <span class="strip-val" style="color:var(--safe)"><span class="health-dot" style="background:var(--safe)"></span>CLOSED</span>
+    </div>
+    <div class="strip-cell">
+        <span class="t-label">Diverter</span>
+        <span class="strip-val"><span class="health-dot" style="background:var(--safe)"></span>READY</span>
+    </div>
+</div>
+
+<!-- ─── KPI row (spec §8: live metric cards) ───────────────────────────── -->
+<div class="kpi-grid" style="margin-bottom:12px">
+    <div class="kpi kpi-accent-accent">
+        <div class="kpi-label">Total Processed</div>
+        <div class="kpi-value"><span id="total-spawned">0</span><span class="kpi-unit">items</span></div>
+        <div class="kpi-foot"><span id="total-active">0</span> on belt <span class="delta" id="kpi-delta-total" hidden></span></div>
+        <canvas class="kpi-spark" id="spark-total" aria-hidden="true"></canvas>
+    </div>
+    <div class="kpi kpi-safe-accent">
+        <div class="kpi-label"><span class="dot" style="color:var(--safe)"></span>Safe · RDF</div>
+        <div class="kpi-value kpi-safe"><span id="stat-safe-count">0</span><span class="kpi-unit">items</span></div>
+        <div class="kpi-foot"><span id="stat-pass-rate">0%</span> of stream passed</div>
+        <canvas class="kpi-spark" id="spark-safe" aria-hidden="true"></canvas>
+    </div>
+    <div class="kpi kpi-hazard-accent" id="card-hazard">
+        <div class="kpi-label"><span class="dot" style="color:var(--hazard)"></span>Hazard Diverted</div>
+        <div class="kpi-value kpi-hazard"><span id="stat-hazard-count">0</span><span class="kpi-unit">items</span></div>
+        <div class="kpi-foot">Routed to reject chute</div>
+        <canvas class="kpi-spark" id="spark-hazard" aria-hidden="true"></canvas>
+    </div>
+    <div class="kpi">
+        <div class="kpi-label">Belt Speed</div>
+        <div class="kpi-value"><span id="stat-belt-speed">0.50</span><span class="kpi-unit">m/s</span></div>
+        <div class="kpi-foot" id="belt-speed-foot"><span class="pill pill-safe" style="padding:1px 7px; font-size:10px">Normal</span> range 0.4 – 0.7</div>
+        <canvas class="kpi-spark" id="spark-speed" aria-hidden="true"></canvas>
+    </div>
+    <div class="kpi">
+        <div class="kpi-label">Throughput</div>
+        <div class="kpi-value"><span id="stat-items-min">0</span><span class="kpi-unit">items/min</span></div>
+        <div class="kpi-foot"><span id="total-passed">0</span> passed · <span id="total-diverted">0</span> diverted
+            <span class="faint" style="font-size:10.5px">· 30 s avg</span></div>
+        <canvas class="kpi-spark" id="spark-rate" aria-hidden="true"></canvas>
+    </div>
+</div>
+
+<!-- ─── Main split ─────────────────────────────────────────────────────── -->
+<div class="main-split">
+
+    <!-- Left column: spatial intelligence -->
+    <div class="stack">
+
+        <!-- Conveyor digital twin — hero (spec §11) -->
+        <div class="panel panel-hero">
+            <div class="panel-head">
+                <span class="dot dot-live" style="color:var(--accent)"></span>
+                <span class="panel-title">Conveyor · Digital Twin</span>
+                <div class="panel-actions">
+                    <a href="/camera" class="btn btn-sm">Vision feed</a>
+                    <a href="/sensors" class="btn btn-sm">Sensor suite</a>
+                </div>
+            </div>
+            <div class="panel-body flush">
+                <div class="belt-stage">
+                    <canvas id="conveyor-canvas"></canvas>
+                </div>
+                <div class="belt-legend" aria-label="Conveyor legend">
+                    <span class="legend-item"><span class="legend-swatch" style="background:var(--safe)"></span>SAFE → RDF chute</span>
+                    <span class="legend-item"><span class="legend-swatch" style="background:var(--hazard)"></span>HAZARD → reject</span>
+                    <span class="legend-item"><span class="legend-swatch" style="background:var(--accent)"></span>Scan zone 1.0–1.5 m</span>
+                    <span class="legend-item"><span class="legend-swatch" style="background:var(--warn)"></span>Diverter 2.2 m</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-head">
+                <span class="card-title">Decision Feed</span>
+                <div class="card-actions"><a href="/logs" class="btn btn-sm">Full audit log</a></div>
+            </div>
+            <div class="card-body flush">
+                <div class="decision-panel" id="decision-log">
+                    <div class="empty-state">
+                        <div class="empty-icon" aria-hidden="true">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M4 12h4l2 5 4-10 2 5h4"/></svg>
+                        </div>
+                        <div class="empty-title">No classification data</div>
+                        <div class="empty-body">Items will appear here as the AI classifies them on the belt.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Right rail: control first, so belt feedback is visible while adjusting -->
+    <div class="side-rail">
+
+        <!-- Line control -->
+        <div class="card">
+            <div class="card-head"><span class="card-title">Line Control</span></div>
+            <div class="card-body">
+                <div class="row" style="gap:8px; margin-bottom:15px">
+                    <button class="btn btn-safe" id="btn-sim-start" style="flex:1">Start</button>
+                    <button class="btn btn-danger" id="btn-sim-stop" style="flex:1">Stop</button>
+                    <button class="btn" id="btn-sim-reset" style="flex:1">Reset</button>
+                </div>
+                <div class="control-row">
+                    <div class="control-head">
+                        <span class="control-name">Belt speed</span>
+                        <span class="control-value" id="speed-value">0.50 m/s</span>
+                    </div>
+                    <input type="range" id="speed-slider" min="0.2" max="1.0" step="0.05" value="0.5" aria-label="Belt speed">
+                </div>
+                <div class="control-row">
+                    <div class="control-head">
+                        <span class="control-name">Spawn rate</span>
+                        <span class="control-value" id="spawn-rate-value">120 /min</span>
+                    </div>
+                    <input type="range" id="spawn-rate-slider" min="10" max="300" step="10" value="120" aria-label="Spawn rate">
+                </div>
+                <div class="control-row">
+                    <div class="control-head">
+                        <span class="control-name">Belt width</span>
+                        <span class="control-value" id="belt-width-value">1.40 m</span>
+                    </div>
+                    <input type="range" id="belt-width-slider" min="1.0" max="2.0" step="0.1" value="1.4" aria-label="Belt width">
+                </div>
+                <div class="control-row">
+                    <div class="control-head">
+                        <span class="control-name">Sensor noise</span>
+                        <span class="control-value" id="noise-value">1.0×</span>
+                    </div>
+                    <input type="range" id="noise-slider" min="0" max="3" step="0.1" value="1" aria-label="Sensor noise multiplier">
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-head">
+                <span class="card-title">Inject Waste Item</span>
+                <div class="card-actions"><span class="pill">Manual</span></div>
+            </div>
+            <div class="card-body">
+                <div class="spawn-grid" id="spawn-grid"></div>
+            </div>
+        </div>
+
+        <!-- Classification hero (spec §15) -->
+        <div class="panel panel-hero">
+            <div class="panel-head">
+                <span class="dot dot-live" style="color:var(--accent)"></span>
+                <span class="panel-title">Current Classification</span>
+                <div class="panel-actions"><span class="pill pill-accent">AI</span></div>
+            </div>
+            <div class="panel-body">
+                <div class="decision-display" id="decision-display">
+                    <div class="decision-icon" aria-hidden="true">◎</div>
+                    <div style="min-width:0">
+                        <div class="decision-label" id="decision-label">STANDBY</div>
+                        <div class="decision-detail" id="decision-detail">Start the line to begin scanning material.</div>
+                    </div>
+                    <div class="decision-confidence">
+                        <div class="decision-confidence-value" id="decision-confidence-value">—</div>
+                        <div class="decision-confidence-label">Confidence</div>
+                    </div>
+                </div>
+                <div class="conf-track" style="margin-top:10px" aria-hidden="true">
+                    <div class="conf-fill" id="decision-conf-fill"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="metrics-tooltip"></div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/sensor_views.js"></script>
+<script src="/static/js/sensor_panels.js"></script>
+<script src="/static/js/dashboard.js"></script>
+{% endblock %}

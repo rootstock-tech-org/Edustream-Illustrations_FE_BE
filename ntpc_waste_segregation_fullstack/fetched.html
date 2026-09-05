@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NTPC SMART-SEG | SCADA Control</title>
+    <!-- Tailwind CSS for UI -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'Roboto', 'Arial', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', '"Courier New"', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+    <!-- Socket.IO -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.min.js"></script>
+    <style>
+        body { 
+            font-family: 'Inter', 'Roboto', 'Arial', 'sans-serif'; 
+            overflow-x: hidden; 
+        }
+        
+        /* Theme Transition */
+        body, .isa-panel, .isa-header, header {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        .isa-panel { 
+            border: 1px solid; 
+            border-radius: 6px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
+        }
+        
+        .dark .isa-panel {
+            background-color: #1E1E1E;
+            border-color: #333;
+        }
+        .light .isa-panel {
+            background-color: #ffffff;
+            border-color: #e2e8f0;
+        }
+
+        .isa-header { 
+            border-bottom: 1px solid; 
+            padding: 12px 16px; 
+            font-weight: 600; 
+            font-size: 0.85rem; 
+            letter-spacing: 0.05em; 
+            text-transform: uppercase; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+
+        .dark .isa-header { border-color: #333; color: #AAA; }
+        .light .isa-header { border-color: #e2e8f0; color: #475569; background-color: #f8fafc; }
+
+        .btn { padding: 12px 24px; border-radius: 4px; font-weight: 700; font-size: 1rem; cursor: pointer; transition: all 0.2s; border: 1px solid transparent; letter-spacing: 0.5px; }
+        .btn-start { background-color: #1B5E20; color: #A5D6A7; border-color: #2E7D32; }
+        .btn-start:hover { background-color: #2E7D32; color: #FFF; }
+        .btn-stop { background-color: #B71C1C; color: #EF9A9A; border-color: #C62828; }
+        .btn-stop:hover { background-color: #C62828; color: #FFF; }
+        
+        .dark .btn-reset { background-color: #263238; color: #B0BEC5; border-color: #37474F; padding: 8px 16px; font-size: 0.85rem;}
+        .dark .btn-reset:hover { background-color: #37474F; color: #FFF; }
+        .light .btn-reset { background-color: #f1f5f9; color: #475569; border-color: #cbd5e1; padding: 8px 16px; font-size: 0.85rem;}
+        .light .btn-reset:hover { background-color: #e2e8f0; color: #0f172a; }
+
+        .kpi-val { font-size: 2rem; font-weight: 700; line-height: 1; margin: 8px 0; }
+        .kpi-unit { font-size: 0.8rem; font-weight: 400; margin-left: 4px; }
+        .dark .kpi-unit { color: #888; }
+        .light .kpi-unit { color: #64748b; }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        .dark ::-webkit-scrollbar-track { background: #121212; }
+        .dark ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        .dark ::-webkit-scrollbar-thumb:hover { background: #555; }
+        .light ::-webkit-scrollbar-track { background: #f8fafc; }
+        .light ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .light ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="h-screen flex flex-col bg-slate-50 text-slate-900 dark:bg-[#121212] dark:text-[#E0E0E0]">
+
+    <!-- Top Navigation Bar -->
+    <header class="bg-white border-slate-200 dark:bg-[#181818] border-b dark:border-[#333] flex justify-between items-center px-6 py-3 shrink-0">
+        <div class="flex items-center gap-4">
+            <div class="flex items-center gap-2">
+                <span class="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 px-2 py-1 rounded text-xs font-bold tracking-wider border border-blue-300 dark:border-blue-700">NTPC</span>
+                <div class="flex flex-col">
+                    <span class="font-bold text-sm tracking-wide text-slate-800 dark:text-gray-200">SMART-SEG SCADA</span>
+                    <span class="text-[10px] text-slate-500 dark:text-gray-500">NETRA UNIT #1 • ISA-101 HMI</span>
+                </div>
+            </div>
+            <div class="h-6 w-px bg-slate-300 dark:bg-[#333] mx-2"></div>
+            <div class="flex items-center gap-2 bg-slate-100 dark:bg-[#222] px-3 py-1.5 rounded border border-slate-300 dark:border-[#333]">
+                <div id="conn-dot" class="w-2.5 h-2.5 rounded-full bg-yellow-500 animate-pulse"></div>
+                <span id="conn-text" class="text-xs font-bold text-slate-600 dark:text-gray-300">CONNECTING...</span>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-4">
+            <!-- Theme Toggle -->
+            <button id="btn-theme" class="p-2 rounded bg-slate-200 hover:bg-slate-300 dark:bg-[#2A2A2A] dark:hover:bg-[#333] transition" title="Toggle Light/Dark Theme">
+                <svg id="icon-sun" class="w-5 h-5 hidden dark:block text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                <svg id="icon-moon" class="w-5 h-5 block dark:hidden text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+            </button>
+
+            <div class="flex bg-slate-100 dark:bg-[#222] p-1 rounded border border-slate-300 dark:border-[#333]">
+                <a href="/ntpc" class="px-3 py-1 text-xs font-bold rounded bg-blue-600 text-white dark:bg-blue-800">SCADA</a>
+                <a href="/logs" class="px-3 py-1 text-xs font-bold rounded text-slate-500 hover:text-slate-800 dark:text-gray-400 dark:hover:text-gray-200 transition">LOGS</a>
+                <a href="/" class="px-3 py-1 text-xs font-bold rounded text-slate-500 hover:text-slate-800 dark:text-gray-400 dark:hover:text-gray-200 transition">3D VIEW</a>
+            </div>
+            <div class="text-right">
+                <div class="text-xs font-bold text-slate-700 dark:text-gray-300" id="clock-date">--/--/----</div>
+                <div class="text-[10px] text-slate-500 dark:text-gray-500" id="clock-time">--:--:-- IST</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- DASHBOARD VIEW -->
+    <main id="view-dashboard" class="flex-1 overflow-y-auto p-4 md:p-6 grid grid-cols-12 gap-4 md:gap-6">
+        
+        <!-- Main Controls & Interlocks Strip -->
+        <div class="col-span-12 flex flex-col md:flex-row gap-4 justify-between items-center isa-panel p-4 border-l-4 border-l-blue-500 dark:border-l-blue-600">
+            <div class="flex items-center gap-4">
+                <span class="text-sm font-bold text-slate-500 dark:text-gray-500 uppercase tracking-wider mr-2">Conveyor Drive Control:</span>
+                <button id="btn-start" class="btn btn-start flex items-center gap-2 shadow-sm">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    START CONVEYOR
+                </button>
+                <button id="btn-stop" class="btn btn-stop flex items-center gap-2 shadow-sm">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z"></path></svg>
+                    STOP / HOLD
+                </button>
+            </div>
+            
+            <div class="flex items-center gap-4">
+                <div class="flex items-center gap-4 text-sm bg-slate-100 dark:bg-[#121212] px-4 py-2 rounded border border-slate-300 dark:border-[#333]">
+                    <div class="flex items-center gap-2">
+                        <span class="text-slate-500 dark:text-gray-500">SYS_HEALTH:</span>
+                        <span class="text-green-600 dark:text-green-500 font-bold">NOMINAL</span>
+                    </div>
+                    <div class="w-px h-4 bg-slate-300 dark:bg-[#333]"></div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-slate-500 dark:text-gray-500">INTERLOCKS:</span>
+                        <span class="text-green-600 dark:text-green-500 font-bold">CLOSED</span>
+                    </div>
+                </div>
+                <button id="btn-reset" class="btn btn-reset flex items-center gap-2 shadow-sm">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+                    RESET
+                </button>
+            </div>
+        </div>
+
+        <!-- KPI Row -->
+        <div class="col-span-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="isa-panel p-4 relative overflow-hidden group">
+                <div class="absolute top-0 left-0 w-1 h-full bg-blue-500 dark:bg-blue-600"></div>
+                <div class="text-[10px] text-slate-500 dark:text-gray-500 font-bold uppercase tracking-widest mb-1">Total Throughput</div>
+                <div class="kpi-val font-mono text-blue-600 dark:text-blue-400" id="kpi-total">0<span class="kpi-unit font-sans">units</span></div>
+                <div class="text-xs text-slate-400 dark:text-gray-400" id="kpi-tph">0.00 Est. TPH</div>
+            </div>
+            
+            <div class="isa-panel p-4 relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-1 h-full bg-green-500 dark:bg-green-600"></div>
+                <div class="text-[10px] text-slate-500 dark:text-gray-500 font-bold uppercase tracking-widest mb-1">Safe Material (RDF)</div>
+                <div class="kpi-val font-mono text-green-600 dark:text-green-400" id="kpi-safe">0<span class="kpi-unit font-sans">units</span></div>
+                <div class="text-xs text-slate-400 dark:text-gray-400" id="kpi-safe-pct">--% of total</div>
+            </div>
+
+            <div class="isa-panel p-4 relative overflow-hidden" id="card-hazard">
+                <div class="absolute top-0 left-0 w-1 h-full bg-red-500 dark:bg-red-600"></div>
+                <div class="text-[10px] text-slate-500 dark:text-gray-500 font-bold uppercase tracking-widest mb-1">Hazard Diverted</div>
+                <div class="kpi-val font-mono text-red-600 dark:text-red-400" id="kpi-hazard">0<span class="kpi-unit font-sans">units</span></div>
+                <div class="text-xs text-slate-400 dark:text-gray-400" id="kpi-hazard-pct">--% rejection rate</div>
+            </div>
+
+            <div class="isa-panel p-4 relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-1 h-full bg-purple-500 dark:bg-purple-600"></div>
+                <div class="text-[10px] text-slate-500 dark:text-gray-500 font-bold uppercase tracking-widest mb-1">AI Accuracy</div>
+                <div class="kpi-val font-mono text-purple-600 dark:text-purple-400" id="kpi-accuracy">--<span class="kpi-unit font-sans">%</span></div>
+                <div class="text-xs text-slate-400 dark:text-gray-400">Multi-Sensor Confidence</div>
+            </div>
+        </div>
+
+        <!-- P&ID Diagram Row -->
+        <div class="col-span-12 isa-panel flex flex-col">
+            <div class="isa-header">
+                <span class="flex items-center gap-2">
+                    <svg class="w-4 h-4 text-green-600 dark:text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2"></path></svg>
+                    PROCESS FLOW & INSTRUMENTATION DIAGRAM (P&ID)
+                </span>
+                <span class="bg-slate-200 dark:bg-[#2A2A2A] px-2 py-0.5 rounded text-[10px] text-slate-600 dark:text-gray-400 font-bold">ISA-101 / IEC 61850</span>
+            </div>
+            <div class="p-4 flex items-center justify-center overflow-x-auto bg-slate-100 dark:bg-[#1A1A1A]" style="min-height: 220px;">
+                <svg id="pid-schematic" viewBox="0 0 880 230" style="width: 100%; max-width: 880px; max-height: 220px;">
+                    <!-- Floor/Conveyor Base -->
+                    <line x1="40" y1="180" x2="840" y2="180" stroke="currentColor" class="text-slate-400 dark:text-[#444]" stroke-width="1" stroke-dasharray="4,4"/>
+
+                    <!-- 1. FEED HOPPER (HOP-101) -->
+                    <g transform="translate(45, 35)">
+                        <polygon points="0,0 70,0 55,75 15,75" fill="currentColor" class="text-slate-300 dark:text-[#333]" stroke="currentColor" style="stroke: #888;" stroke-width="2"/>
+                        <rect x="25" y="75" width="20" height="25" fill="currentColor" class="text-slate-400 dark:text-[#444]" stroke="currentColor" style="stroke: #888;" stroke-width="2"/>
+                        <text x="35" y="-6" text-anchor="middle" font-size="11" font-weight="700" fill="currentColor" class="text-slate-600 dark:text-[#AAA]">HOP-101</text>
+                        <text x="35" y="42" text-anchor="middle" font-size="9" font-weight="700" fill="currentColor" class="text-slate-500 dark:text-[#888]">FEEDER</text>
+                        <!-- Status text -->
+                        <rect x="5" y="110" width="60" height="18" rx="3" fill="currentColor" class="text-white dark:text-[#111]" stroke="currentColor" style="stroke: #999;"/>
+                        <text id="pid-hopper-state" x="35" y="123" text-anchor="middle" font-size="10" font-weight="700" fill="currentColor" class="text-green-600 dark:text-[#4CAF50]">FEEDING</text>
+                    </g>
+
+                    <!-- 2. CONVEYOR BELT (CV-101) -->
+                    <rect x="115" y="130" width="570" height="16" rx="4" fill="currentColor" class="text-slate-700 dark:text-[#2A2A2A]" stroke="currentColor" style="stroke: #444;" stroke-width="2"/>
+                    <circle cx="125" cy="138" r="10" fill="currentColor" class="text-slate-400 dark:text-[#555]" stroke="currentColor" style="stroke: #222;" stroke-width="2"/>
+                    <circle cx="675" cy="138" r="10" fill="currentColor" class="text-slate-400 dark:text-[#555]" stroke="currentColor" style="stroke: #222;" stroke-width="2"/>
+
+                    <!-- Drive Motor (M-101) -->
+                    <g transform="translate(105, 165)">
+                        <circle cx="18" cy="15" r="14" fill="currentColor" class="text-slate-300 dark:text-[#333]" stroke="currentColor" style="stroke: #555;" stroke-width="2"/>
+                        <text x="18" y="19" text-anchor="middle" font-size="12" font-weight="800" fill="currentColor" class="text-slate-800 dark:text-[#DDD]">M</text>
+                        <text x="38" y="18" font-size="10" font-weight="700" fill="currentColor" class="text-slate-600 dark:text-[#AAA]">M-101</text>
+                        <text id="pid-motor-status" x="38" y="30" font-size="9" font-weight="700" fill="currentColor" class="text-green-600 dark:text-[#4CAF50]">RUN</text>
+                    </g>
+
+                    <!-- 3. INSTRUMENTS -->
+                    <!-- RealSense 3D (SE-101) -->
+                    <g transform="translate(225, 30)">
+                        <line x1="20" y1="50" x2="20" y2="100" stroke="currentColor" class="text-slate-400 dark:text-[#555]" stroke-width="1.5" stroke-dasharray="3,3"/>
+                        <circle cx="20" cy="30" r="18" fill="currentColor" class="text-white dark:text-[#111]" stroke="currentColor" style="stroke: #555;" stroke-width="2"/>
+                        <line x1="2" y1="30" x2="38" y2="30" stroke="currentColor" class="text-slate-600 dark:text-[#555]" stroke-width="1.5"/>
+                        <text x="20" y="24" text-anchor="middle" font-size="8" font-weight="700" fill="currentColor" class="text-slate-800 dark:text-[#DDD]">SE</text>
+                        <text x="20" y="42" text-anchor="middle" font-size="8" font-weight="700" fill="currentColor" class="text-slate-800 dark:text-[#DDD]">101</text>
+                        <text x="20" y="6" text-anchor="middle" font-size="8" font-weight="700" fill="currentColor" class="text-slate-500 dark:text-[#888]">3D Vision</text>
+                        <polygon points="12,100 28,100 38,130 2,130" fill="currentColor" class="text-blue-500 dark:text-[#2196F3]" fill-opacity="0.2"/>
+                        <text id="pid-se-val" x="20" y="118" text-anchor="middle" font-size="9" font-weight="700" fill="currentColor" class="text-blue-600 dark:text-[#2196F3]">ACTIVE</text>
+                    </g>
+
+                    <!-- NIR Spectrometer (AE-101) -->
+                    <g transform="translate(325, 30)">
+                        <line x1="20" y1="50" x2="20" y2="100" stroke="currentColor" class="text-slate-400 dark:text-[#555]" stroke-width="1.5" stroke-dasharray="3,3"/>
+                        <circle cx="20" cy="30" r="18" fill="currentColor" class="text-white dark:text-[#111]" stroke="currentColor" style="stroke: #555;" stroke-width="2"/>
+                        <line x1="2" y1="30" x2="38" y2="30" stroke="currentColor" class="text-slate-600 dark:text-[#555]" stroke-width="1.5"/>
+                        <text x="20" y="24" text-anchor="middle" font-size="8" font-weight="700" fill="currentColor" class="text-slate-800 dark:text-[#DDD]">AE</text>
+                        <text x="20" y="42" text-anchor="middle" font-size="8" font-weight="700" fill="currentColor" class="text-slate-800 dark:text-[#DDD]">101</text>
+                        <text x="20" y="6" text-anchor="middle" font-size="8" font-weight="700" fill="currentColor" class="text-slate-500 dark:text-[#888]">NIR Multi-λ</text>
+                        <polygon points="14,100 26,100 36,130 4,130" fill="currentColor" class="text-purple-500 dark:text-[#9C27B0]" fill-opacity="0.2"/>
+                        <text id="pid-nir-val" x="20" y="118" text-anchor="middle" font-size="9" font-weight="700" fill="currentColor" class="text-purple-600 dark:text-[#9C27B0]">ACTIVE</text>
+                    </g>
+
+                    <!-- Inductive Metal Detector (MD-101) -->
+                    <g transform="translate(425, 30)">
+                        <line x1="20" y1="50" x2="20" y2="100" stroke="currentColor" class="text-slate-400 dark:text-[#555]" stroke-width="1.5" stroke-dasharray="3,3"/>
+                        <circle cx="20" cy="30" r="18" fill="currentColor" class="text-white dark:text-[#111]" stroke="currentColor" style="stroke: #555;" stroke-width="2"/>
+                        <line x1="2" y1="30" x2="38" y2="30" stroke="currentColor" class="text-slate-600 dark:text-[#555]" stroke-width="1.5"/>
+                        <text x="20" y="24" text-anchor="middle" font-size="8" font-weight="700" fill="currentColor" class="text-slate-800 dark:text-[#DDD]">MD</text>
+                        <text x="20" y="42" text-anchor="middle" font-size="8" font-weight="700" fill="currentColor" class="text-slate-800 dark:text-[#DDD]">101</text>
+                        <text x="20" y="6" text-anchor="middle" font-size="8" font-weight="700" fill="currentColor" class="text-slate-500 dark:text-[#888]">Inductive</text>
+                        <rect x="8" y="122" width="24" height="8" fill="currentColor" class="text-slate-200 dark:text-[#333]" stroke="currentColor" style="stroke: #555;" stroke-width="1.5"/>
+                        <text id="pid-ind-val" x="20" y="118" text-anchor="middle" font-size="9" font-weight="700" fill="currentColor" class="text-green-600 dark:text-[#4CAF50]">CLEAR</text>
+                    </g>
+
+                    <!-- Load Cell (WE-101) -->
+                    <g transform="translate(515, 30)">
+                        <line x1="20" y1="50" x2="20" y2="130" stroke="currentColor" class="text-slate-400 dark:text-[#555]" stroke-width="1.5" stroke-dasharray="3,3"/>
+                        <circle cx="20" cy="30" r="18" fill="currentColor" class="text-white dark:text-[#111]" stroke="currentColor" style="stroke: #555;" stroke-width="2"/>
+                        <line x1="2" y1="30" x2="38" y2="30" stroke="currentColor" class="text-slate-600 dark:text-[#555]" stroke-width="1.5"/>
+                        <text x="20" y="24" text-anchor="middle" font-size="8" font-weight="700" fill="currentColor" class="text-slate-800 dark:text-[#DDD]">WE</text>
+                        <text x="20" y="42" text-anchor="middle" font-size="8" font-weight="700" fill="currentColor" class="text-slate-800 dark:text-[#DDD]">101</text>
+                        <text x="20" y="6" text-anchor="middle" font-size="8" font-weight="700" fill="currentColor" class="text-slate-500 dark:text-[#888]">Load Cell</text>
+                        <text id="pid-we-val" x="20" y="118" text-anchor="middle" font-size="9" font-weight="700" fill="currentColor" class="text-slate-800 dark:text-[#DDD]">0.0 kg</text>
+                    </g>
+
+                    <!-- Diverter Gate (XV-101) -->
+                    <g id="inst-diverter" transform="translate(630, 75)" style="transition: transform 0.2s;">
+                        <line x1="20" y1="18" x2="20" y2="55" stroke="currentColor" class="text-slate-500 dark:text-[#888]" stroke-width="2"/>
+                        <circle cx="20" cy="10" r="8" fill="currentColor" class="text-slate-300 dark:text-[#333]" stroke="currentColor" class="text-slate-500 dark:text-[#888]" stroke-width="2"/>
+                        <polygon points="5,55 35,55 5,75 35,75" fill="currentColor" class="text-slate-100 dark:text-[#222]" stroke="currentColor" class="text-slate-500 dark:text-[#888]" stroke-width="2"/>
+                        <text x="20" y="-4" text-anchor="middle" font-size="10" font-weight="700" fill="currentColor" class="text-slate-800 dark:text-[#DDD]">XV-101</text>
+                    </g>
+
+                    <!-- Chute 1: RDF (Safe) -->
+                    <g transform="translate(705, 115)">
+                        <polygon points="0,15 70,15 90,65 20,65" fill="#1B5E20" stroke="#2E7D32" stroke-width="2"/>
+                        <text x="45" y="42" text-anchor="middle" font-size="10" font-weight="800" fill="#A5D6A7">CHUTE #1</text>
+                        <text x="45" y="55" text-anchor="middle" font-size="8" font-weight="700" fill="#81C784">RDF / SAFE FUEL</text>
+                    </g>
+
+                    <!-- Chute 2: Hazard (Reject) -->
+                    <g transform="translate(625, 165)">
+                        <polygon points="10,0 50,0 60,45 0,45" fill="#B71C1C" stroke="#C62828" stroke-width="2"/>
+                        <text x="30" y="24" text-anchor="middle" font-size="10" font-weight="800" fill="#EF9A9A">CHUTE #2</text>
+                        <text x="30" y="37" text-anchor="middle" font-size="8" font-weight="700" fill="#E57373">HAZARD / INERT</text>
+                    </g>
+                </svg>
+            </div>
+            <!-- Subsystem Health Overview inline with Diagram -->
+            <div class="grid grid-cols-4 gap-2 border-t border-slate-200 dark:border-[#333] p-3 bg-slate-50 dark:bg-[#181818] text-xs text-center">
+                <div class="flex flex-col border-r border-slate-200 dark:border-[#333] pr-2">
+                    <span class="text-slate-500 dark:text-gray-500 mb-1">CONVEYOR DRIVE</span>
+                    <span id="diag-motor" class="text-green-600 dark:text-green-500 font-bold">RUNNING</span>
+                </div>
+                <div class="flex flex-col border-r border-slate-200 dark:border-[#333] px-2">
+                    <span class="text-slate-500 dark:text-gray-500 mb-1">OPTICAL HOOD</span>
+                    <span class="text-blue-600 dark:text-blue-400 font-bold">READY (30 FPS)</span>
+                </div>
+                <div class="flex flex-col border-r border-slate-200 dark:border-[#333] px-2">
+                    <span class="text-slate-500 dark:text-gray-500 mb-1">PNEUMATIC ACTUATOR</span>
+                    <span id="diag-pneumatics" class="text-slate-700 dark:text-gray-300 font-bold">STANDBY (6.2 BAR)</span>
+                </div>
+                <div class="flex flex-col pl-2">
+                    <span class="text-slate-500 dark:text-gray-500 mb-1">SAFETY INTERLOCK</span>
+                    <span class="text-green-600 dark:text-green-500 font-bold">CLOSED (NORMAL)</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Left Column: Charts -->
+        <div class="col-span-12 lg:col-span-8 flex flex-col gap-6">
+            
+            <!-- Real-Time Trend -->
+            <div class="isa-panel flex flex-col h-[300px]">
+                <div class="isa-header">
+                    <span>Feed Throughput Trend (Items / Min)</span>
+                    <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-500"></span> Live Data</span>
+                </div>
+                <div class="flex-1 p-4 relative bg-white dark:bg-[#1E1E1E] rounded-b">
+                    <canvas id="trend-chart"></canvas>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Right Column: Breakdown & System Health Panel -->
+        <div class="col-span-12 lg:col-span-4 flex flex-col gap-6">
+            
+            <!-- Material Classification Breakdown -->
+            <div class="isa-panel flex flex-col">
+                <div class="isa-header">
+                    <span>Material Composition</span>
+                </div>
+                <div class="p-4 flex justify-center h-[220px] bg-white dark:bg-[#1E1E1E]">
+                    <canvas id="donut-chart"></canvas>
+                </div>
+                <div class="p-4 pt-0 border-t border-slate-200 dark:border-[#333] bg-white dark:bg-[#1E1E1E] rounded-b" id="breakdown-list">
+                    <div class="text-center text-sm text-slate-500 dark:text-gray-500 py-4">No data yet</div>
+                </div>
+            </div>
+
+            <!-- Detailed Subsystem Health Panel -->
+            <div class="isa-panel flex flex-col flex-1">
+                <div class="isa-header flex justify-between items-center bg-slate-100 dark:bg-[#252525]">
+                    <span class="flex items-center gap-2">
+                        <svg class="w-4 h-4 text-blue-500 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                        DETAILED SYSTEM HEALTH
+                    </span>
+                    <span class="text-green-600 dark:text-green-500 font-bold text-xs bg-green-100 dark:bg-green-900/30 px-2 py-1 rounded">ALL ONLINE</span>
+                </div>
+                <div class="p-4 flex flex-col gap-3 text-xs bg-white dark:bg-[#1E1E1E] rounded-b">
+                    
+                    <div class="flex justify-between items-center bg-slate-50 dark:bg-[#121212] p-3 border border-slate-200 dark:border-[#333] rounded">
+                        <div>
+                            <div class="font-bold text-slate-800 dark:text-gray-200 text-sm">Intel RealSense D435i</div>
+                            <div class="text-slate-500 dark:text-gray-500 text-[10px] tracking-wide mt-1">3D Spatial RGB-D Point Cloud</div>
+                        </div>
+                        <span class="text-green-600 dark:text-green-500 font-bold bg-green-100 dark:bg-green-900/30 border border-green-200 dark:border-green-800 px-2 py-0.5 rounded">OK</span>
+                    </div>
+
+                    <div class="flex justify-between items-center bg-slate-50 dark:bg-[#121212] p-3 border border-slate-200 dark:border-[#333] rounded">
+                        <div>
+                            <div class="font-bold text-slate-800 dark:text-gray-200 text-sm">NIR Spectrometer</div>
+                            <div class="text-slate-500 dark:text-gray-500 text-[10px] tracking-wide mt-1">Polymer Identification Scanner</div>
+                        </div>
+                        <span class="text-green-600 dark:text-green-500 font-bold bg-green-100 dark:bg-green-900/30 border border-green-200 dark:border-green-800 px-2 py-0.5 rounded">OK</span>
+                    </div>
+
+                    <div class="flex justify-between items-center bg-slate-50 dark:bg-[#121212] p-3 border border-slate-200 dark:border-[#333] rounded">
+                        <div>
+                            <div class="font-bold text-slate-800 dark:text-gray-200 text-sm">Inductive Proximity</div>
+                            <div class="text-slate-500 dark:text-gray-500 text-[10px] tracking-wide mt-1">Ferrous Metal Detection Array</div>
+                        </div>
+                        <span class="text-green-600 dark:text-green-500 font-bold bg-green-100 dark:bg-green-900/30 border border-green-200 dark:border-green-800 px-2 py-0.5 rounded">OK</span>
+                    </div>
+
+                    <div class="flex justify-between items-center bg-slate-50 dark:bg-[#121212] p-3 border border-slate-200 dark:border-[#333] rounded">
+                        <div>
+                            <div class="font-bold text-slate-800 dark:text-gray-200 text-sm">Dynamic Load Cell</div>
+                            <div class="text-slate-500 dark:text-gray-500 text-[10px] tracking-wide mt-1">Mass Calibration & Density</div>
+                        </div>
+                        <span class="text-green-600 dark:text-green-500 font-bold bg-green-100 dark:bg-green-900/30 border border-green-200 dark:border-green-800 px-2 py-0.5 rounded">OK</span>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Scripts -->
+    <script src="/static/js/ntpc.js"></script>
+</body>
+</html>

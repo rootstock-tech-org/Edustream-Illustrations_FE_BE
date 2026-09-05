@@ -1,0 +1,60 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Python ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      # No apt step: requirements.txt pins opencv-python-headless, which does not
+      # link against libGL or glib. If that is ever switched back to the plain
+      # opencv-python wheel, this job will need libgl1 and libglib2.0-0 again.
+
+      # Installing from requirements.txt unmodified is itself a test: it is
+      # what a new contributor runs, and it is what pyrealsense2 used to break.
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Byte-compile all sources
+        run: python -m compileall -q ai_core conveyor sensors server app.py wsgi.py config.py extract.py scripts
+
+      # Deliberately a narrow rule set: real errors (syntax, undefined names,
+      # broken comparisons) fail the build, while style opinions do not.
+      - name: Lint
+        run: |
+          pip install ruff
+          ruff check --select E9,F63,F7,F82 --output-format github .
+
+      - name: Smoke test (app.py, development server)
+        run: python scripts/smoke_test.py
+
+      # wsgi.py is what gunicorn imports in every deployment, and it is a
+      # different startup path from app.py's __main__ block — it has to train the
+      # classifier and start the simulation thread itself. Untested, it would
+      # break silently and only in production.
+      - name: Smoke test (wsgi.py under gunicorn, the deployed path)
+        run: python scripts/smoke_test.py --server gunicorn

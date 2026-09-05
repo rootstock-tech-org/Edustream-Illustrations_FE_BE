@@ -1,0 +1,110 @@
+{% extends "_shell.html" %}
+{% set active_page = 'logs' %}
+
+{% block title %}Audit Log{% endblock %}
+{% block body_attrs %}data-theme-owner="page"{% endblock %}
+{% block page_title %}Audit Log{% endblock %}
+{% block page_sub %}Full classification history for this run{% endblock %}
+
+{% block head_scripts %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+{% endblock %}
+
+{% block topbar_status %}
+    <span class="pill" id="log-counter">0 records</span>
+    <span class="row" style="gap:7px; font-size:12px">
+        <span id="conn-dot" class="w-3 h-3 rounded-full bg-gray-500"></span>
+        <span id="conn-text" class="muted">DISCONNECTED</span>
+    </span>
+{% endblock %}
+
+{% block content %}
+
+<!-- Summary chips (spec §23) -->
+<div class="kpi-grid" style="grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); margin-bottom:12px">
+    <div class="kpi kpi-accent-accent">
+        <div class="kpi-label">Events</div>
+        <div class="kpi-value" style="font-size:24px"><span id="audit-sum-total">0</span></div>
+    </div>
+    <div class="kpi kpi-safe-accent">
+        <div class="kpi-label">Safe</div>
+        <div class="kpi-value kpi-safe" style="font-size:24px"><span id="audit-sum-safe">0</span></div>
+    </div>
+    <div class="kpi kpi-hazard-accent">
+        <div class="kpi-label">Hazard</div>
+        <div class="kpi-value kpi-hazard" style="font-size:24px"><span id="audit-sum-hazard">0</span></div>
+    </div>
+    <div class="kpi kpi-warn-accent">
+        <div class="kpi-label">Low confidence</div>
+        <div class="kpi-value" style="font-size:24px; color:var(--warn)"><span id="audit-sum-warn">0</span></div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-head">
+        <span class="card-title">Classification Records</span>
+        <div class="card-actions" style="gap:8px">
+            <input type="search" id="audit-search" class="field" placeholder="Search item ID or material…"
+                   style="width:220px; padding:5px 10px; font-size:12px" aria-label="Search records">
+            <button class="btn btn-sm btn-primary" data-audit-filter="ALL">All</button>
+            <button class="btn btn-sm" data-audit-filter="SAFE">Safe</button>
+            <button class="btn btn-sm" data-audit-filter="HAZARD">Hazard</button>
+        </div>
+    </div>
+    <div class="card-body flush">
+        <div class="table-wrap" style="max-height:calc(100vh - 320px); overflow-y:auto">
+            <table class="data">
+                <thead>
+                    <tr>
+                        <th>Time</th><th>Item ID</th><th>Material</th><th>Decision</th>
+                        <th>Confidence</th><th style="text-align:right">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="full-audit-tbody">
+                    <tr><td colspan="6">
+                        <div class="empty-state">
+                            <div class="empty-icon" aria-hidden="true">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h5"/></svg>
+                            </div>
+                            <div class="empty-title">No classification data</div>
+                            <div class="empty-body">Start the conveyor to begin scanning material — every decision lands here.</div>
+                        </div>
+                    </td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Model analytics, moved off the Overview: it describes the classifier over the
+     whole run, which is the same timeframe this page's records cover. -->
+<div class="card" style="margin-top:14px">
+    <div class="card-head">
+        <span class="card-title">Model Analytics</span>
+        <div class="card-actions">
+            <span class="pill pill-accent">Random Forest</span>
+            <span class="faint" id="ai-model-info" style="font-size:11.5px">Random Forest · initialising…</span>
+        </div>
+    </div>
+    <div class="card-body grid grid-2">
+        <div class="media" style="min-height:220px">
+            <div class="sensor-wait" id="analytics-loading">
+                <div class="skeleton skeleton-block" style="height:150px"></div>
+                <div class="sensor-wait-label">RENDERING DENSITY DISTRIBUTION</div>
+            </div>
+            <img id="analytics-plot" style="display:none" alt="Density distribution by class">
+        </div>
+        <div>
+            <div class="card-title" style="margin-bottom:10px">Feature Importance</div>
+            <div id="ai-feature-importance">
+                <div class="faint" style="font-size:12px">Awaiting model statistics…</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/sensor_panels.js"></script>
+<script src="/static/js/ntpc.js"></script>
+{% endblock %}

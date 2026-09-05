@@ -1,0 +1,434 @@
+{% extends "_shell.html" %}
+{% set active_page = 'learning' %}
+
+{% block title %}Simulation Lab{% endblock %}
+{% block page_title %}Simulation Lab{% endblock %}
+{% block page_sub %}Interactive Sensor Playground &middot; Module 1/3{% endblock %}
+
+{% block head_scripts %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.css"/>
+    <style>
+        .conveyor-diagram {
+            display: flex;
+            align-items: stretch;
+            gap: 0;
+            width: 100%;
+            min-height: 160px;
+            position: relative;
+            overflow-x: auto;
+        }
+        .conv-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            flex: 1;
+            min-width: 100px;
+            position: relative;
+            padding-bottom: 36px;
+        }
+        .conv-block .sensor-box {
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            padding: 10px 8px;
+            text-align: center;
+            background: var(--panel);
+            cursor: pointer;
+            transition: all 0.25s ease;
+            width: 90%;
+            max-width: 110px;
+        }
+        .conv-block .sensor-box:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .conv-block .sensor-box.active {
+            border-color: var(--sensor-color, var(--accent));
+        }
+        .conv-block .sensor-box.off {
+            border-color: var(--hazard);
+            opacity: 0.45;
+            background: rgba(210,59,65,0.06);
+        }
+        .conv-block .sensor-box.off .sensor-name {
+            text-decoration: line-through;
+        }
+        .sensor-name {
+            font-size: 11px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+        .sensor-sub {
+            font-size: 9px;
+            color: var(--muted);
+        }
+        .sensor-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-bottom: 4px;
+        }
+        .connector {
+            width: 2px;
+            height: 20px;
+            background: var(--border);
+            margin: 4px auto;
+        }
+        .conv-block .sensor-box.off .connector-line {
+            background: var(--hazard);
+            opacity: 0.3;
+        }
+        /* The belt itself */
+        .belt-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 30px;
+            background: var(--border);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+        .belt-bar::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: repeating-linear-gradient(90deg, var(--muted) 0, var(--muted) 8px, transparent 8px, transparent 16px);
+            opacity: 0.3;
+            animation: belt-scroll 2s linear infinite;
+        }
+        @keyframes belt-scroll {
+            from { transform: translateX(0); }
+            to { transform: translateX(16px); }
+        }
+        .belt-label {
+            font-size: 9px;
+            font-weight: 600;
+            color: var(--muted);
+            padding: 0 10px;
+            z-index: 1;
+        }
+        /* Endpoints */
+        .conv-endpoint {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-width: 80px;
+            padding-bottom: 36px;
+        }
+        .endpoint-box {
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            padding: 12px 10px;
+            text-align: center;
+            background: var(--panel);
+            width: 80px;
+        }
+        .endpoint-box.safe {
+            border-color: var(--safe);
+            background: rgba(22,133,77,0.08);
+        }
+        .endpoint-box.hazard {
+            border-color: var(--hazard);
+            background: rgba(210,59,65,0.08);
+        }
+        .endpoint-name {
+            font-size: 11px;
+            font-weight: 700;
+        }
+        .endpoint-sub {
+            font-size: 9px;
+            color: var(--muted);
+        }
+        .arrow-right {
+            font-size: 16px;
+            color: var(--muted);
+            padding: 0 4px;
+            align-self: center;
+            margin-bottom: 36px;
+        }
+
+        /* Hover Tooltips (JS powered to escape overflow:auto) */
+        .custom-tooltip {
+            position: fixed;
+            transform: translate(-50%, -100%);
+            background: var(--surface);
+            color: var(--text);
+            padding: 8px 12px;
+            border-radius: var(--radius-sm);
+            font-size: 12px;
+            font-weight: 500;
+            white-space: pre-wrap;
+            width: max-content;
+            max-width: 220px;
+            box-shadow: var(--sh-2);
+            z-index: 9999;
+            pointer-events: none;
+            border: 1px solid var(--border);
+            text-align: center;
+            line-height: 1.4;
+        }
+        }
+    </style>
+{% endblock %}
+
+{% block topbar_status %}
+    <span class="row" style="gap:7px; font-size:12px">
+        <span id="conn-dot" class="w-3 h-3 rounded-full bg-gray-500"></span>
+        <span id="conn-text" class="muted">DISCONNECTED</span>
+    </span>
+{% endblock %}
+
+{% block content %}
+
+<!-- Conveyor Block Diagram -->
+<div class="card" style="margin-bottom:14px" id="tour-pid">
+    <div class="card-head">
+        <span class="card-title">Conveyor &amp; Sensor Layout</span>
+        <div class="card-actions">
+            <span class="pill" id="tour-throughput">Throughput: <span id="kpi-total">0</span>/m</span>
+            <span class="pill kpi-accent" id="tour-confidence">AI Confidence: <span id="kpi-accuracy">0</span>% <span id="conf-arrow" style="font-size:14px; font-weight:bold; opacity:0.3; transition:all 0.3s;">▲</span></span>
+        </div>
+    </div>
+    <div class="card-body" style="padding: 20px 16px;">
+        <div class="conveyor-diagram">
+            <!-- Hopper -->
+            <div class="conv-endpoint">
+                <div class="endpoint-box" data-tooltip="Hopper&#10;Intakes the raw mixed waste stream onto the conveyor.">
+                    <div class="endpoint-name">Hopper</div>
+                    <div class="endpoint-sub">Feed intake</div>
+                </div>
+            </div>
+            <div class="arrow-right">→</div>
+
+            <!-- 3D Depth Vision -->
+            <div class="conv-block">
+                <div class="sensor-box active" id="svg-3d" data-sensor="chk-vision" style="--sensor-color: #041B4C;" data-tooltip="3D Depth Camera&#10;Measures volume and shape. Used alongside mass to calculate density. (Click to toggle)">
+                    <div class="sensor-dot" style="background: #041B4C;"></div>
+                    <div class="sensor-name" style="color: #041B4C;">3D Depth</div>
+                    <div class="sensor-sub">RealSense D435i</div>
+                    <div class="sensor-reading" id="reading-vision" style="font-size:10px; font-family:monospace; margin-top:4px; color:var(--fg);">-- cm³</div>
+                </div>
+                <div class="connector"></div>
+            </div>
+
+            <!-- NIR Spectrometer -->
+            <div class="conv-block">
+                <div class="sensor-box active" id="svg-nir" data-sensor="chk-nir" style="--sensor-color: #465889;" data-tooltip="NIR Spectrometer&#10;Detects polymer signatures (C-H/O-H bonds) to classify plastics vs organics. (Click to toggle)">
+                    <div class="sensor-dot" style="background: #465889;"></div>
+                    <div class="sensor-name" style="color: #465889;">NIR</div>
+                    <div class="sensor-sub">Spectrometer</div>
+                    <div class="sensor-reading" id="reading-nir" style="font-size:10px; font-family:monospace; margin-top:4px; color:var(--fg);">-- nm</div>
+                </div>
+                <div class="connector"></div>
+            </div>
+
+            <!-- Inductive Sensor -->
+            <div class="conv-block">
+                <div class="sensor-box active" id="svg-ind" data-sensor="chk-ind" style="--sensor-color: #767E95;" data-tooltip="Inductive Sensor&#10;Detects presence of metallic objects (ferrous and non-ferrous). (Click to toggle)">
+                    <div class="sensor-dot" style="background: #767E95;"></div>
+                    <div class="sensor-name" style="color: #767E95;">Inductive</div>
+                    <div class="sensor-sub">Metal detector</div>
+                    <div class="sensor-reading" id="reading-ind" style="font-size:10px; font-family:monospace; margin-top:4px; color:var(--fg);">--</div>
+                </div>
+                <div class="connector"></div>
+            </div>
+
+            <!-- Load Cell -->
+            <div class="conv-block">
+                <div class="sensor-box active" id="svg-load" data-sensor="chk-load" style="--sensor-color: #B78369;" data-tooltip="Load Cell&#10;Measures the mass of the object in real-time. Used for density calculation. (Click to toggle)">
+                    <div class="sensor-dot" style="background: #B78369;"></div>
+                    <div class="sensor-name" style="color: #B78369;">Load Cell</div>
+                    <div class="sensor-sub">HX711 weighing</div>
+                    <div class="sensor-reading" id="reading-load" style="font-size:10px; font-family:monospace; margin-top:4px; color:var(--fg);">-- g</div>
+                </div>
+                <div class="connector"></div>
+            </div>
+
+            <!-- Capacitive Sensor -->
+            <div class="conv-block">
+                <div class="sensor-box active" id="svg-cap" data-sensor="chk-cap" style="--sensor-color: #1F5A3A;" data-tooltip="Capacitive Sensor&#10;Measures dielectric properties to distinguish material composition. (Click to toggle)">
+                    <div class="sensor-dot" style="background: #1F5A3A;"></div>
+                    <div class="sensor-name" style="color: #1F5A3A;">Capacitive</div>
+                    <div class="sensor-sub">Dielectric</div>
+                    <div class="sensor-reading" id="reading-cap" style="font-size:10px; font-family:monospace; margin-top:4px; color:var(--fg);">-- pF</div>
+                </div>
+                <div class="connector"></div>
+            </div>
+
+            <div class="arrow-right">→</div>
+
+            <!-- Diverter -->
+            <div class="conv-endpoint">
+                <div class="endpoint-box" data-tooltip="Diverter Gate&#10;Mechanically separates hazardous items from the safe stream based on AI decisions.">
+                    <div class="endpoint-name">Diverter</div>
+                    <div class="endpoint-sub">Pneumatic arm</div>
+                </div>
+            </div>
+            <div class="arrow-right">→</div>
+
+            <!-- Output chutes -->
+            <div class="conv-endpoint" style="gap: 8px; display:flex; flex-direction:column; justify-content:center;">
+                <div class="endpoint-box safe" data-tooltip="SAFE Output&#10;Processed material confirmed free of hazards (e.g. ready for RDF).">
+                    <div class="endpoint-name" style="color:var(--safe)">SAFE</div>
+                    <div class="endpoint-sub">→ RDF</div>
+                </div>
+                <div class="endpoint-box hazard" data-tooltip="HAZARD Output&#10;Rejected items that are dangerous or non-compliant.">
+                    <div class="endpoint-name" style="color:var(--hazard)">REJECT</div>
+                    <div class="endpoint-sub">→ Hazard</div>
+                </div>
+            </div>
+
+            <!-- The belt bar running underneath everything -->
+            <div class="belt-bar">
+                <span class="belt-label">◀ CONVEYOR BELT — 0.5 m/s ▶</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="grid grid-2">
+    <div class="stack">
+        <!-- Line Controls -->
+        <div class="card" id="tour-line">
+            <div class="card-head"><span class="card-title">Line Control</span></div>
+            <div class="card-body">
+                <div class="row" style="gap:8px; margin-bottom:15px">
+                    <button class="btn btn-safe" id="btn-start" style="flex:1">Start</button>
+                    <button class="btn btn-danger" id="btn-stop" style="flex:1">Stop</button>
+                    <button class="btn" id="btn-reset" style="flex:1">Reset</button>
+                </div>
+                <div class="control-row">
+                    <div class="control-head"><span class="control-name">Belt speed</span></div>
+                    <input type="range" id="speed-slider" min="0.2" max="1.0" step="0.05" value="0.5">
+                </div>
+                <div class="control-row">
+                    <div class="control-head"><span class="control-name">Spawn rate</span></div>
+                    <input type="range" id="spawn-rate-slider" min="10" max="300" step="10" value="120">
+                </div>
+                <div class="control-row">
+                    <div class="control-head"><span class="control-name">Belt width</span></div>
+                    <input type="range" id="belt-width-slider" min="1.0" max="2.0" step="0.1" value="1.4">
+                </div>
+                <div class="control-row">
+                    <div class="control-head"><span class="control-name">Sensor noise</span></div>
+                    <input type="range" id="noise-slider" min="0" max="3" step="0.1" value="1">
+                </div>
+                <div class="control-row" style="margin-top:15px; padding-top:15px; border-top:1px solid var(--border);">
+                    <label style="display:flex; align-items:center; gap:8px; color:var(--hazard); font-size:12px; font-weight:600;">
+                        <input type="checkbox" id="chk-dust"> ⚠ Inject Dust Fault (Blinds NIR)
+                    </label>
+                </div>
+            </div>
+        </div>
+        <!-- Metrics Chart -->
+        <div class="card" id="tour-metrics">
+            <div class="card-head">
+                <span class="card-title">Live Model Accuracy</span>
+            </div>
+            <div class="card-body" style="padding: 16px;">
+                <canvas id="accuracyChart" style="width:100%; max-height:200px;"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="stack">
+        <!-- Conveyor Digital Twin -->
+        <div class="panel panel-hero" id="tour-digital-twin" style="height: 100%; display: flex; flex-direction: column;">
+            <div class="panel-head">
+                <span class="dot dot-live" style="color:var(--accent)"></span>
+                <span class="panel-title">Conveyor · Digital Twin</span>
+            </div>
+            <div class="panel-body flush" style="flex-grow: 1; display: flex; flex-direction: column;">
+                <div class="belt-stage" style="flex-grow: 1; position:relative; min-height: 400px;">
+                    <canvas id="conveyor-canvas" style="position: absolute; top:0; left:0; width:100%; height:100%;"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- AI Tutor Floating Bubble -->
+<button class="btn btn-primary" id="btn-tutor-bubble" style="position:fixed; bottom:20px; right:20px; z-index:101; border-radius:50px; padding:12px 20px; box-shadow:var(--sh-3);">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:8px;">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+    </svg>
+    AI Tutor
+</button>
+
+<div class="card" id="tour-tutor" style="display:none; position:fixed; bottom:70px; right:20px; width:350px; height:450px; z-index:100; box-shadow:var(--sh-3); flex-direction:column;">
+    <div class="card-head" style="display:flex; justify-content:space-between; align-items:center; cursor:pointer;" id="btn-collapse-tutor" title="Click to collapse/expand">
+        <span class="card-title">AI Tutor</span>
+        <span id="tutor-collapse-icon" style="font-size:12px;">▼</span>
+    </div>
+    <div class="card-body" id="tutor-body" style="padding:16px; display:flex; flex-direction:column; gap:16px; flex:1;">
+        <div id="tutor-dialogue" style="flex-grow:1; overflow-y:auto; display:flex; flex-direction:column; gap:8px; font-family:monospace; font-size:13px; padding-bottom:10px;">
+            <div style="color:var(--accent)">"Welcome to the SMART-SEG Sensor Lab."</div>
+            <div style="color:var(--accent)">"All 5 sensors are active. AI Confidence is typically &gt;95%."</div>
+            <div style="color:var(--accent)">"Click any sensor on the conveyor diagram above (or use the checkboxes) to disable it and see the effect."</div>
+        </div>
+        <div style="display:flex; gap:8px; margin-top:auto;">
+            <input type="text" id="tutor-input" class="input" style="flex-grow:1; background:var(--bg); color:var(--fg); border:1px solid var(--border); padding:8px;" placeholder="Type your answer...">
+            <button class="btn" id="btn-tutor-send">Send</button>
+        </div>
+    </div>
+</div>
+
+<!-- Guided Missions Toggle -->
+<button class="btn btn-primary" id="btn-quest-toggle" style="position:fixed; bottom:20px; left:20px; z-index:101; border-radius:var(--radius-sm); box-shadow:var(--sh-3); display:flex; align-items:center; gap:8px;">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+        <polyline points="2 17 12 22 22 17"></polyline>
+        <polyline points="2 12 12 17 22 12"></polyline>
+    </svg>
+    <span id="quest-toggle-text">Guided Missions</span>
+</button>
+
+<!-- Guided Missions Panel (ISA-101 Style) -->
+<div class="card" id="panel-quest" style="display:none; position:fixed; bottom:70px; left:20px; width:380px; z-index:100; box-shadow:var(--sh-3); flex-direction:column;">
+    <div class="card-head" style="display:flex; justify-content:space-between; align-items:center;">
+        <div style="display:flex; flex-direction:column;">
+            <span id="quest-label" style="font-size:10px; color:var(--text-muted); text-transform:uppercase; letter-spacing:1px; margin-bottom:2px;">Mission</span>
+            <span id="quest-title" class="card-title">Loading...</span>
+        </div>
+        <button id="btn-quest-close" style="background:none; border:none; color:var(--text-muted); cursor:pointer; padding:4px;">✕</button>
+    </div>
+    
+    <div class="card-body" style="padding:16px; display:flex; flex-direction:column; gap:16px;">
+        <div id="quest-theory" style="background:var(--surface-inset); border-left:3px solid var(--info); padding:12px; font-size:12px; color:var(--text); line-height:1.5;">
+            <!-- Theory text injected by JS -->
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:6px;">
+            <div style="display:flex; justify-content:space-between; font-size:11px; color:var(--text-muted); font-weight:600; text-transform:uppercase;">
+                <span>Progress</span>
+                <span id="quest-pct" class="tnum">0%</span>
+            </div>
+            <div style="height:6px; background:var(--surface-sunk); border-radius:3px; overflow:hidden;">
+                <div id="quest-progress" style="height:100%; width:0%; background:var(--info); transition:width 0.3s var(--ease);"></div>
+            </div>
+        </div>
+        
+        <div id="quest-steps-container" style="display:flex; flex-direction:column; gap:8px;">
+            <!-- Steps injected by JS -->
+        </div>
+        
+        <button class="btn btn-primary" id="btn-quest-next" style="width:100%; opacity:0.5; pointer-events:none;">Next Mission</button>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/sensor_views.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/driver.js@1.0.1/dist/driver.js.iife.js"></script>
+<script src="/static/js/learning_mode.js"></script>
+{% endblock %}
