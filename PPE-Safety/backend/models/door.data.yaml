@@ -1,0 +1,13 @@
+names:
+- closed
+- open
+nc: 2
+roboflow:
+  license: MIT
+  project: more-door-auihw-qsmam
+  url: https://universe.roboflow.com/palak-goel/more-door-auihw-qsmam/dataset/1
+  version: 1
+  workspace: palak-goel
+test: ../test/images
+train: ../train/images
+val: ../valid/images

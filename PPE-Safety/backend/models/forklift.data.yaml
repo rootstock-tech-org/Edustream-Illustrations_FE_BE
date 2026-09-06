@@ -1,0 +1,18 @@
+# Forklift Detection Dataset Configuration
+# Model class information
+#
+# Supplied with the trained weights. Recorded here beside them, as for every
+# other model, so what the weights can and cannot report is readable without
+# loading them: one class, and it is not "vehicle" — a forklift is the only
+# thing these weights were taught to find.
+
+path: .
+
+train: train/images
+val: valid/images
+test: test/images
+
+nc: 1
+
+names:
+  0: forklift

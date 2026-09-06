@@ -1,0 +1,43 @@
+# Backend dependencies — derived from the imports actually used in app/.
+#
+# The original file shipped in the source zip was a UTF-16 `pip freeze` dump of a
+# global Windows environment. It listed streamlit, Flask, pywhatkit, pyjokes,
+# PyAutoGUI and pywin32, and contained none of fastapi, uvicorn, ultralytics or
+# torch — so it could not install this application on any platform. Replaced.
+#
+# See SETUP.md for install and run instructions.
+
+# --- Web framework ---
+fastapi==0.115.6
+openpyxl==3.1.5
+uvicorn[standard]==0.34.0
+pydantic==2.10.4
+python-multipart==0.0.20      # required by FastAPI for UploadFile / File()
+
+# --- Computer vision + inference ---
+ultralytics==8.3.58           # YOLOv8; pulls in torch and torchvision
+opencv-contrib-python==4.12.0.88
+numpy==2.2.6
+insightface==1.0.1            # face recognition (buffalo_l pack, app/modules/face)
+onnxruntime==1.28.0           # runs the insightface models on CPU
+
+# --- System metrics (app/services/system_service.py) ---
+psutil==7.2.2
+
+# --- AI Tutor (app/api/tutor_routes.py) ---
+# Only imported once ANTHROPIC_API_KEY is actually set; installed ahead of
+# time so adding the key is the only step left when that day comes.
+anthropic==1.3.0
+
+# --- Burned-in timestamp OCR (app/vision/frame_clock.py) ---
+# rapidocr-onnxruntime is deliberately NOT listed here: a plain install would
+# drag its declared opencv-python over the opencv-contrib build above and a
+# CPU onnxruntime over Colab's GPU one, corrupting the shared cv2/onnxruntime
+# packages. Install it dependency-free, after the rest:
+#
+#     pip install --no-deps rapidocr-onnxruntime==1.4.4
+#
+# Its two runtime deps that nothing else provides are pinned normally below.
+# Without the engine the app still runs — events carry the system clock.
+pyclipper==1.3.0.post6
+shapely==2.0.7

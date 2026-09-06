@@ -1,0 +1,408 @@
+@import "tailwindcss";
+
+/* --------------------------------------------------------------------------
+   AI Safety Lab — design tokens (IRIS design system)
+
+   Built to IRIS's own product design theory: a technical research-and-
+   skilling platform that reads as warm white and instrument blue, not a
+   generic light theme — engineering precision with the warmth taken off
+   neither the navy nor the page. Light is the default surface for exactly
+   that reason and stays it; dark (below) is a deliberately designed second
+   theme a learner opts into from the header — see shell/ThemeToggle.jsx —
+   never guessed from the OS, and never a plain inversion of the light
+   values (IRIS's own rule: a dark theme "must be designed as a deliberate
+   IRIS theme rather than simply inverting colours").
+
+   Colour still never decorates. Interactive blue is the one accent for
+   "press this" and "the AI produced this" alike; indigo is reserved for
+   learning progress specifically, the use IRIS's own token names it for;
+   copper is the small, secondary warmth this file's own decorative surfaces
+   reach for — never critical text. Warning, error and success map onto
+   IRIS's semantic triplets directly, which is also why a confirmed-clear
+   verdict is allowed to be the brand's own green: IRIS reserves green for
+   "occasional success states where appropriate," and a clear verdict is
+   exactly that state, not a rebrand of the palette.
+
+   Every one of these tokens is redefined again below for the dark theme,
+   same names, same meanings — never a different set of variables the rest
+   of the app would have to know about. Tailwind's generated utilities
+   (bg-ground, text-ink, border-line, …) read the custom property at paint
+   time rather than a value baked in at build time, so redefining the
+   properties under `:root[data-theme="dark"]` is the entire retheming
+   mechanism: nothing downstream of this file changes.
+   -------------------------------------------------------------------------- */
+
+@theme {
+  /* The room. Warm white and a warm technical surface, IRIS's own two-tier
+     neutral system — pure white reads sterile at length, this reads
+     considered instead. */
+  --color-ground: #FDFDFD;
+  --color-panel: #F6F2EE;
+  --color-panel-raised: #EAE4E0;
+  --color-inset: #EAE4E0;
+
+  --color-line: #D1CFD2;
+  --color-line-strong: #B5B6C0;
+
+  /* Type. IRIS navy replaces generic black outright — the document is
+     explicit that plain #000 has no place in this system. Slate and
+     blue-gray step down from there for supporting text and the quietest
+     metadata, never a flat opacity fade off the same navy. */
+  --color-ink: #041B4C;
+  --color-ink-dim: #2F3E56;
+  --color-ink-faint: #767E95;
+
+  /* Interactive blue. Every "press this, follow this, this is live" moment
+     in the lab — buttons, active nav, focus, links — and everything the AI
+     itself produced (detections, boxes, confidence, the pipeline) share this
+     one accent, the same way a single cyan did before this system: one
+     colour, one meaning, so it never has to compete with itself. */
+  --color-vision: #1D4ED8;
+  --color-vision-dim: #E8EEFC;
+
+  /* Hazard: zones, thresholds, anything the operator configures as
+     dangerous. IRIS's own warning colour — a muted copper-brown, not a
+     saturated amber, so it reads as "engineering caution" rather than a
+     dashboard klaxon. */
+  --color-hazard: #A66A32;
+  --color-hazard-dim: #FBF3EA;
+
+  /* The three verdicts. Mapped straight onto IRIS's semantic triplets —
+     error, success and, for the one state that is neither, the same
+     blue-gray metadata already carries elsewhere, since "cannot check" is
+     a muted admission, not a third alarm colour. */
+  --color-violation: #A33A3A;
+  --color-violation-dim: #FAEEEE;
+  --color-clear: #1F5A3A;
+  --color-clear-dim: #EEF5F0;
+  --color-unknown: #767E95;
+  --color-unknown-dim: #EAE4E0;
+
+  /* Progression. IRIS names indigo for exactly this — learning progress
+     indicators — so it is the one place in the lab indigo appears rather
+     than interactive blue, keeping "you are advancing" visually distinct
+     from "press this" or "the model said this." */
+  --color-progress: #465889;
+
+  /* Technical linework — IRIS's indigo for circuit traces, technical
+     illustration and data paths: the sensor cone, a marked area at rest,
+     every symbol's outline, the control-loop diagram. The same hue as
+     progress, named for what it draws rather than what it measures, so a
+     floor plan and a progress bar never have to share a token. `trace-dim`
+     is IRIS's information background — a duration still inside its
+     allowance is information, not a warning. */
+  --color-trace: #465889;
+  --color-trace-dim: #F0F2F7;
+
+  /* Copper — IRIS's secondary technical accent, "the warm thing against the
+     blue instrument palette." The one warm fill on the floor (a hi-vis
+     vest, which is also what the model finds easiest to see) and the return
+     path of the control loop. Never critical text. */
+  --color-copper: #B78369;
+  --color-copper-light: #E7C7AD;
+
+  /* ----------------------------------------------------------------------
+     The floor's own surfaces.
+
+     Everything above describes the console — panels, type, verdicts. These
+     describe the picture inside it: concrete, the joints across it, the
+     walls around it, the cards drawn over it. They are separate because
+     they answer to a different question. A panel is chrome and follows the
+     theme; the floor is a photograph of a place, and a place has its own
+     colours. Concrete is pale grey in a lit bay and near-black on a night
+     camera, and both are the same concrete.
+
+     Kept as their own tokens rather than reusing the panel palette so that
+     restyling the console never silently repaints the floor, and so the
+     verdict colours — which are chosen for contrast against the concrete,
+     not against a panel — keep the ground they were picked for.
+     ---------------------------------------------------------------------- */
+  --floor-bg: #C9CBD0;
+  --floor-slab: #D6D8DC;
+  --floor-joint: #B4B7BE;
+  --floor-stain: #A8ABB3;
+  --floor-wall: #9EA2AB;
+  --floor-wall-line: #7C818C;
+  --floor-mark: #4A5060;
+  --floor-card: #FFFFFF;
+  --floor-card-ink: #1B2233;
+  --floor-card-dim: #4A5060;
+  --floor-vignette: #6B7280;
+  --floor-vignette-alpha: 0.16;
+  --floor-scrim: #1F2430;
+  --floor-fixture: #AFB3BB;
+  --floor-fixture-dark: #8B909A;
+  --floor-fixture-light: #CFD3DA;
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas,
+    monospace;
+}
+
+/* Dark theme — the same custom properties, the same meanings, redefined
+   under an attribute selector rather than a second set of names. This block
+   is deliberately unlayered (outside every @layer), so it wins the cascade
+   over the @theme block above regardless of which layer Tailwind's build
+   places that in — attribute-selector specificity alone would already beat
+   plain :root, but staying unlayered makes that not matter.
+
+   Designed from IRIS's own suggested dark foundation (background, surface,
+   the two text tones, one blue, one copper, one green) rather than inverted
+   from the light values — a mechanical invert is exactly what the design
+   system warns against. Everything IRIS's foundation does not name outright
+   (a second panel depth, both border weights, the warning/error tones, a
+   progress indigo distinct from the interactive blue) is extrapolated to
+   sit in the same family and hold the same ~4.5:1 contrast floor the light
+   palette clears, so the two themes read as one considered system rather
+   than a designed half and a guessed half. */
+:root[data-theme="dark"] {
+  --color-ground: #0B1220;
+  --color-panel: #111A2E;
+  --color-panel-raised: #172239;
+  --color-inset: #0A1020;
+
+  --color-line: #1F2A44;
+  --color-line-strong: #2E3B58;
+
+  --color-ink: #E6E9F0;
+  --color-ink-dim: #A8B0C2;
+  --color-ink-faint: #6B7590;
+
+  --color-vision: #3B82F6;
+  --color-vision-dim: #172554;
+
+  /* IRIS's own dark-mode copper stands in for hazard here — copper and
+     "engineering caution" are already the same warm brown-orange family in
+     the light theme's own warning colour, so this is the one value IRIS's
+     foundation already hands over rather than one this file has to invent. */
+  --color-hazard: #F59E0B;
+  --color-hazard-dim: #3A2A0E;
+
+  --color-violation: #EF4444;
+  --color-violation-dim: #3F1A1A;
+  --color-clear: #22C55E;
+  --color-clear-dim: #12321F;
+  --color-unknown: #94A3B8;
+  --color-unknown-dim: #1B2740;
+
+  --color-progress: #8C9FD6;
+
+  --color-trace: #8C9FD6;
+  --color-trace-dim: #16244A;
+
+  --color-copper: #C58F70;
+  --color-copper-light: #5A4032;
+
+  /* ----------------------------------------------------------------------
+     The floor's own surfaces.
+
+     Everything above describes the console — panels, type, verdicts. These
+     describe the picture inside it: concrete, the joints across it, the
+     walls around it, the cards drawn over it. They are separate because
+     they answer to a different question. A panel is chrome and follows the
+     theme; the floor is a photograph of a place, and a place has its own
+     colours. Concrete is pale grey in a lit bay and near-black on a night
+     camera, and both are the same concrete.
+
+     Kept as their own tokens rather than reusing the panel palette so that
+     restyling the console never silently repaints the floor, and so the
+     verdict colours — which are chosen for contrast against the concrete,
+     not against a panel — keep the ground they were picked for.
+     ---------------------------------------------------------------------- */
+  --floor-bg: #1B1F26;
+  --floor-slab: #4A4E56;
+  --floor-joint: #3A3E46;
+  --floor-stain: #23262C;
+  --floor-wall: #20242B;
+  --floor-wall-line: #6B717C;
+  --floor-mark: #C7CDD6;
+  --floor-card: #0F172A;
+  --floor-card-ink: #E6E9F0;
+  --floor-card-dim: #CBD5E1;
+  --floor-vignette: #000000;
+  --floor-vignette-alpha: 0.62;
+  --floor-scrim: #020617;
+  --floor-fixture: #525965;
+  --floor-fixture-dark: #2F343C;
+  --floor-fixture-light: #9AA3AE;
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    background: var(--color-ground);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    margin: 0;
+  }
+
+  /* A laboratory floor rather than a flat void: a faint grid, and one cool
+     pool of light behind the content. Both are nearly invisible on their own
+     and are what stop the page from reading as an empty sheet. */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+      linear-gradient(var(--color-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-line) 1px, transparent 1px);
+    background-size: 56px 56px;
+    opacity: 0.16;
+    mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, #000 25%, transparent 78%);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-vision);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: var(--color-vision-dim);
+    color: var(--color-ink);
+  }
+}
+
+@layer components {
+  /* A milled panel: warm white, hairline edge, one soft ambient shadow —
+     IRIS's own preferred card treatment, a navy-tinted shadow rather than a
+     plain black one, so a panel reads as lifted off the page instead of
+     merely darkened. */
+  .panel {
+    background: var(--color-panel);
+    border: 1px solid var(--color-line);
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgb(4 27 76 / 0.06);
+  }
+
+  .panel-raised {
+    background: var(--color-panel-raised);
+    border: 1px solid var(--color-line-strong);
+    border-radius: 16px;
+    box-shadow: 0 8px 28px rgb(4 27 76 / 0.10);
+  }
+
+  /* Where a value is displayed rather than a surface presented: readouts,
+     code, the inside of a control. Recessed, not raised. */
+  .inset {
+    background: var(--color-inset);
+    border: 1px solid var(--color-line);
+    border-radius: 12px;
+  }
+
+  /* Small uppercase label above a group. The lab's most repeated typographic
+     device, so it is defined once. */
+  .eyebrow {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--color-ink-faint);
+  }
+
+  /* Anything the AI produced carries the vision colour and a mono face —
+     machine output should not look like prose. */
+  .machine {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* Dark theme's own surface treatment: a panel on a near-black ground reads
+   as a surface from a single hairline of light along its own top edge, the
+   way a milled metal panel catches light, rather than from a shadow it has
+   nowhere light enough to cast. Unlayered for the same reason the palette
+   block above is — .panel/.panel-raised live in @layer components. */
+:root[data-theme="dark"] .panel {
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.045),
+    0 1px 2px rgb(0 0 0 / 0.4);
+}
+
+:root[data-theme="dark"] .panel-raised {
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.06),
+    0 4px 16px rgb(0 0 0 / 0.45);
+}
+
+@layer utilities {
+  /* Motion is subtle and, where it conveys nothing, absent for anyone who
+     asked for less of it. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+
+  .rise {
+    animation: rise 260ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .scan {
+    animation: scan 1.6s ease-in-out infinite;
+  }
+
+  @keyframes scan {
+    0%,
+    100% {
+      opacity: 0.25;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  /* A confirmed breach breathes — the one moving thing on the floor, so the
+     eye lands on it. */
+  .zone-alarm {
+    animation: zone-alarm 1.4s ease-in-out infinite;
+  }
+
+  @keyframes zone-alarm {
+    0%,
+    100% {
+      fill-opacity: 0.22;
+    }
+    50% {
+      fill-opacity: 0.42;
+    }
+  }
+
+  /* "Look here": a ring that swells and fades three times over the thing a
+     control just acted on. */
+  .pulse-ring {
+    animation: pulse-ring 1s ease-out 3;
+  }
+
+  @keyframes pulse-ring {
+    0% {
+      opacity: 0.95;
+      stroke-width: 4;
+    }
+    100% {
+      opacity: 0;
+      stroke-width: 14;
+    }
+  }
+}

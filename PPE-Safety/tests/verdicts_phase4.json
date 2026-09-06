@@ -1,0 +1,1507 @@
+{
+  "door": {
+    "baseline": {
+      "alert": false,
+      "people_unverified": 0,
+      "readable": true,
+      "severity": null,
+      "status": "idle",
+      "summary": "No doors marked",
+      "unreadable_reason": null
+    },
+    "blur_k11": {
+      "alert": false,
+      "people_unverified": 0,
+      "readable": true,
+      "severity": null,
+      "status": "idle",
+      "summary": "No doors marked",
+      "unreadable_reason": null
+    },
+    "blur_k13": {
+      "alert": false,
+      "people_unverified": 0,
+      "readable": true,
+      "severity": null,
+      "status": "idle",
+      "summary": "No doors marked",
+      "unreadable_reason": null
+    },
+    "blur_k21": {
+      "alert": false,
+      "people_unverified": 0,
+      "readable": true,
+      "severity": null,
+      "status": "idle",
+      "summary": "No doors marked",
+      "unreadable_reason": null
+    },
+    "blur_k31": {
+      "alert": false,
+      "people_unverified": 0,
+      "readable": true,
+      "severity": null,
+      "status": "idle",
+      "summary": "No doors marked",
+      "unreadable_reason": null
+    },
+    "blur_k5": {
+      "alert": false,
+      "people_unverified": 0,
+      "readable": true,
+      "severity": null,
+      "status": "idle",
+      "summary": "No doors marked",
+      "unreadable_reason": null
+    },
+    "blur_k9": {
+      "alert": false,
+      "people_unverified": 0,
+      "readable": true,
+      "severity": null,
+      "status": "idle",
+      "summary": "No doors marked",
+      "unreadable_reason": null
+    },
+    "brightness_0.08": {
+      "alert": false,
+      "people_unverified": 0,
+      "readable": true,
+      "severity": null,
+      "status": "idle",
+      "summary": "No doors marked",
+      "unreadable_reason": null
+    },
+    "brightness_0.10": {
+      "alert": false,
+      "people_unverified": 0,
+      "readable": true,
+      "severity": null,
+      "status": "idle",
+      "summary": "No doors marked",
+      "unreadable_reason": null
+    },
+    "brightness_0.16": {
+      "alert": false,
+      "people_unverified": 0,
+      "readable": true,
+      "severity": null,
+      "status": "idle",
+      "summary": "No doors marked",
+      "unreadable_reason": null
+    },
+    "brightness_0.17": {
+      "alert": false,
+      "people_unverified": 0,
+      "readable": true,
+      "severity": null,
+      "status": "idle",
+      "summary": "No doors marked",
+      "unreadable_reason": null
+    },
+    "brightness_0.20": {
+      "alert": false,
+      "people_unverified": 0,
+      "readable": true,
+      "severity": null,
+      "status": "idle",
+      "summary": "No doors marked",
+      "unreadable_reason": null
+    },
+    "brightness_0.25": {
+      "alert": false,
+      "people_unverified": 0,
+      "readable": true,
+      "severity": null,
+      "status": "idle",
+      "summary": "No doors marked",
+      "unreadable_reason": null
+    },
+    "brightness_0.35": {
+      "alert": false,
+      "people_unverified": 0,
+      "readable": true,
+      "severity": null,
+      "status": "idle",
+      "summary": "No doors marked",
+      "unreadable_reason": null
+    },
+    "brightness_0.50": {
+      "alert": false,
+      "people_unverified": 0,
+      "readable": true,
+      "severity": null,
+      "status": "idle",
+      "summary": "No doors marked",
+      "unreadable_reason": null
+    },
+    "jpeg_q10": {
+      "alert": false,
+      "people_unverified": 0,
+      "readable": true,
+      "severity": null,
+      "status": "idle",
+      "summary": "No doors marked",
+      "unreadable_reason": null
+    },
+    "jpeg_q17": {
+      "alert": false,
+      "people_unverified": 0,
+      "readable": true,
+      "severity": null,
+      "status": "idle",
+      "summary": "No doors marked",
+      "unreadable_reason": null
+    },
+    "jpeg_q19": {
+      "alert": false,
+      "people_unverified": 0,
+      "readable": true,
+      "severity": null,
+      "status": "idle",
+      "summary": "No doors marked",
+      "unreadable_reason": null
+    },
+    "jpeg_q21": {
+      "alert": false,
+      "people_unverified": 0,
+      "readable": true,
+      "severity": null,
+      "status": "idle",
+      "summary": "No doors marked",
+      "unreadable_reason": null
+    },
+    "jpeg_q30": {
+      "alert": false,
+      "people_unverified": 0,
+      "readable": true,
+      "severity": null,
+      "status": "idle",
+      "summary": "No doors marked",
+      "unreadable_reason": null
+    },
+    "jpeg_q5": {
+      "alert": false,
+      "people_unverified": 0,
+      "readable": true,
+      "severity": null,
+      "status": "idle",
+      "summary": "No doors marked",
+      "unreadable_reason": null
+    }
+  },
+  "face": {
+    "baseline": {
+      "alert": false,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "clear",
+      "summary": "2 faces in view, nobody recognized",
+      "unreadable_reason": null
+    },
+    "blur_k11": {
+      "alert": false,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "clear",
+      "summary": "2 faces in view, nobody recognized",
+      "unreadable_reason": null
+    },
+    "blur_k13": {
+      "alert": false,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "clear",
+      "summary": "2 faces in view, nobody recognized",
+      "unreadable_reason": null
+    },
+    "blur_k21": {
+      "alert": false,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "clear",
+      "summary": "2 faces in view, nobody recognized",
+      "unreadable_reason": null
+    },
+    "blur_k31": {
+      "alert": false,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "clear",
+      "summary": "2 faces in view, nobody recognized",
+      "unreadable_reason": null
+    },
+    "blur_k5": {
+      "alert": false,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "clear",
+      "summary": "2 faces in view, nobody recognized",
+      "unreadable_reason": null
+    },
+    "blur_k9": {
+      "alert": false,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "clear",
+      "summary": "2 faces in view, nobody recognized",
+      "unreadable_reason": null
+    },
+    "brightness_0.08": {
+      "alert": false,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "clear",
+      "summary": "2 faces in view, nobody recognized",
+      "unreadable_reason": null
+    },
+    "brightness_0.10": {
+      "alert": false,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "clear",
+      "summary": "2 faces in view, nobody recognized",
+      "unreadable_reason": null
+    },
+    "brightness_0.16": {
+      "alert": false,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "clear",
+      "summary": "2 faces in view, nobody recognized",
+      "unreadable_reason": null
+    },
+    "brightness_0.17": {
+      "alert": false,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "clear",
+      "summary": "2 faces in view, nobody recognized",
+      "unreadable_reason": null
+    },
+    "brightness_0.20": {
+      "alert": false,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "clear",
+      "summary": "2 faces in view, nobody recognized",
+      "unreadable_reason": null
+    },
+    "brightness_0.25": {
+      "alert": false,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "clear",
+      "summary": "2 faces in view, nobody recognized",
+      "unreadable_reason": null
+    },
+    "brightness_0.35": {
+      "alert": false,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "clear",
+      "summary": "2 faces in view, nobody recognized",
+      "unreadable_reason": null
+    },
+    "brightness_0.50": {
+      "alert": false,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "clear",
+      "summary": "2 faces in view, nobody recognized",
+      "unreadable_reason": null
+    },
+    "jpeg_q10": {
+      "alert": false,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "clear",
+      "summary": "2 faces in view, nobody recognized",
+      "unreadable_reason": null
+    },
+    "jpeg_q17": {
+      "alert": false,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "clear",
+      "summary": "2 faces in view, nobody recognized",
+      "unreadable_reason": null
+    },
+    "jpeg_q19": {
+      "alert": false,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "clear",
+      "summary": "2 faces in view, nobody recognized",
+      "unreadable_reason": null
+    },
+    "jpeg_q21": {
+      "alert": false,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "clear",
+      "summary": "2 faces in view, nobody recognized",
+      "unreadable_reason": null
+    },
+    "jpeg_q30": {
+      "alert": false,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "clear",
+      "summary": "2 faces in view, nobody recognized",
+      "unreadable_reason": null
+    },
+    "jpeg_q5": {
+      "alert": false,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "clear",
+      "summary": "1 face in view, nobody recognized",
+      "unreadable_reason": null
+    }
+  },
+  "gloves": {
+    "baseline": {
+      "alert": false,
+      "people_total": 2,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "clear",
+      "summary": "Everyone is wearing gloves",
+      "unreadable_reason": null
+    },
+    "blur_k11": {
+      "alert": false,
+      "people_total": 2,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "clear",
+      "summary": "Everyone is wearing gloves",
+      "unreadable_reason": null
+    },
+    "blur_k13": {
+      "alert": false,
+      "people_total": 2,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "clear",
+      "summary": "Everyone is wearing gloves",
+      "unreadable_reason": null
+    },
+    "blur_k21": {
+      "alert": false,
+      "people_total": 2,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "clear",
+      "summary": "Everyone is wearing gloves",
+      "unreadable_reason": null
+    },
+    "blur_k31": {
+      "alert": false,
+      "people_total": 2,
+      "people_unverified": 2,
+      "readable": false,
+      "status": "unverified",
+      "summary": "Too blurred to check \u2014 2 people unverified",
+      "unreadable_reason": "Too blurred to check."
+    },
+    "blur_k5": {
+      "alert": false,
+      "people_total": 2,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "clear",
+      "summary": "Everyone is wearing gloves",
+      "unreadable_reason": null
+    },
+    "blur_k9": {
+      "alert": false,
+      "people_total": 2,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "clear",
+      "summary": "Everyone is wearing gloves",
+      "unreadable_reason": null
+    },
+    "brightness_0.08": {
+      "alert": false,
+      "people_total": 2,
+      "people_unverified": 2,
+      "readable": false,
+      "status": "unverified",
+      "summary": "Too dark to check \u2014 2 people unverified",
+      "unreadable_reason": "Too dark to check."
+    },
+    "brightness_0.10": {
+      "alert": false,
+      "people_total": 2,
+      "people_unverified": 2,
+      "readable": false,
+      "status": "unverified",
+      "summary": "Too flat to check \u2014 almost no detail in the picture \u2014 2 people unverified",
+      "unreadable_reason": "Too flat to check \u2014 almost no detail in the picture."
+    },
+    "brightness_0.16": {
+      "alert": false,
+      "people_total": 2,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "clear",
+      "summary": "Everyone is wearing gloves",
+      "unreadable_reason": null
+    },
+    "brightness_0.17": {
+      "alert": false,
+      "people_total": 2,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "clear",
+      "summary": "Everyone is wearing gloves",
+      "unreadable_reason": null
+    },
+    "brightness_0.20": {
+      "alert": false,
+      "people_total": 2,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "clear",
+      "summary": "Everyone is wearing gloves",
+      "unreadable_reason": null
+    },
+    "brightness_0.25": {
+      "alert": false,
+      "people_total": 2,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "clear",
+      "summary": "Everyone is wearing gloves",
+      "unreadable_reason": null
+    },
+    "brightness_0.35": {
+      "alert": false,
+      "people_total": 2,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "clear",
+      "summary": "Everyone is wearing gloves",
+      "unreadable_reason": null
+    },
+    "brightness_0.50": {
+      "alert": false,
+      "people_total": 2,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "clear",
+      "summary": "Everyone is wearing gloves",
+      "unreadable_reason": null
+    },
+    "jpeg_q10": {
+      "alert": false,
+      "people_total": 2,
+      "people_unverified": 2,
+      "readable": false,
+      "status": "unverified",
+      "summary": "Picture quality too low to check \u2014 2 people unverified",
+      "unreadable_reason": "Picture quality too low to check."
+    },
+    "jpeg_q17": {
+      "alert": false,
+      "people_total": 2,
+      "people_unverified": 2,
+      "readable": false,
+      "status": "unverified",
+      "summary": "Picture quality too low to check \u2014 2 people unverified",
+      "unreadable_reason": "Picture quality too low to check."
+    },
+    "jpeg_q19": {
+      "alert": false,
+      "people_total": 2,
+      "people_unverified": 2,
+      "readable": false,
+      "status": "unverified",
+      "summary": "Picture quality too low to check \u2014 2 people unverified",
+      "unreadable_reason": "Picture quality too low to check."
+    },
+    "jpeg_q21": {
+      "alert": false,
+      "people_total": 2,
+      "people_unverified": 2,
+      "readable": false,
+      "status": "unverified",
+      "summary": "Picture quality too low to check \u2014 2 people unverified",
+      "unreadable_reason": "Picture quality too low to check."
+    },
+    "jpeg_q30": {
+      "alert": false,
+      "people_total": 2,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "clear",
+      "summary": "Everyone is wearing gloves",
+      "unreadable_reason": null
+    },
+    "jpeg_q5": {
+      "alert": false,
+      "people_total": 0,
+      "people_unverified": 0,
+      "readable": false,
+      "status": "unverified",
+      "summary": "Picture quality too low to check",
+      "unreadable_reason": "Picture quality too low to check."
+    }
+  },
+  "mask": {
+    "baseline": {
+      "alert": true,
+      "missing_mask": 2,
+      "people_not_checked": 0,
+      "people_total": 2,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "alert",
+      "summary": "2 people without masks",
+      "unreadable_reason": null,
+      "wearing_mask": 0
+    },
+    "blur_k11": {
+      "alert": true,
+      "missing_mask": 2,
+      "people_not_checked": 0,
+      "people_total": 2,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "alert",
+      "summary": "2 people without masks",
+      "unreadable_reason": null,
+      "wearing_mask": 0
+    },
+    "blur_k13": {
+      "alert": true,
+      "missing_mask": 2,
+      "people_not_checked": 0,
+      "people_total": 2,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "alert",
+      "summary": "2 people without masks",
+      "unreadable_reason": null,
+      "wearing_mask": 0
+    },
+    "blur_k21": {
+      "alert": false,
+      "missing_mask": 0,
+      "people_not_checked": 1,
+      "people_total": 1,
+      "people_unverified": 1,
+      "readable": false,
+      "status": "unverified",
+      "summary": "Too blurred to check \u2014 1 person unverified",
+      "unreadable_reason": "Too blurred to check.",
+      "wearing_mask": 0
+    },
+    "blur_k31": {
+      "alert": false,
+      "missing_mask": 0,
+      "people_not_checked": 0,
+      "people_total": 0,
+      "people_unverified": 0,
+      "readable": false,
+      "status": "unverified",
+      "summary": "Too blurred to check",
+      "unreadable_reason": "Too blurred to check.",
+      "wearing_mask": 0
+    },
+    "blur_k5": {
+      "alert": true,
+      "missing_mask": 2,
+      "people_not_checked": 0,
+      "people_total": 2,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "alert",
+      "summary": "2 people without masks",
+      "unreadable_reason": null,
+      "wearing_mask": 0
+    },
+    "blur_k9": {
+      "alert": true,
+      "missing_mask": 2,
+      "people_not_checked": 0,
+      "people_total": 2,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "alert",
+      "summary": "2 people without masks",
+      "unreadable_reason": null,
+      "wearing_mask": 0
+    },
+    "brightness_0.08": {
+      "alert": false,
+      "missing_mask": 0,
+      "people_not_checked": 0,
+      "people_total": 0,
+      "people_unverified": 0,
+      "readable": false,
+      "status": "unverified",
+      "summary": "Too dark to check",
+      "unreadable_reason": "Too dark to check.",
+      "wearing_mask": 0
+    },
+    "brightness_0.10": {
+      "alert": false,
+      "missing_mask": 0,
+      "people_not_checked": 2,
+      "people_total": 2,
+      "people_unverified": 2,
+      "readable": false,
+      "status": "unverified",
+      "summary": "Too dark to check \u2014 2 people unverified",
+      "unreadable_reason": "Too dark to check.",
+      "wearing_mask": 0
+    },
+    "brightness_0.16": {
+      "alert": true,
+      "missing_mask": 2,
+      "people_not_checked": 0,
+      "people_total": 2,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "alert",
+      "summary": "2 people without masks",
+      "unreadable_reason": null,
+      "wearing_mask": 0
+    },
+    "brightness_0.17": {
+      "alert": true,
+      "missing_mask": 2,
+      "people_not_checked": 0,
+      "people_total": 2,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "alert",
+      "summary": "2 people without masks",
+      "unreadable_reason": null,
+      "wearing_mask": 0
+    },
+    "brightness_0.20": {
+      "alert": true,
+      "missing_mask": 2,
+      "people_not_checked": 0,
+      "people_total": 2,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "alert",
+      "summary": "2 people without masks",
+      "unreadable_reason": null,
+      "wearing_mask": 0
+    },
+    "brightness_0.25": {
+      "alert": true,
+      "missing_mask": 2,
+      "people_not_checked": 0,
+      "people_total": 2,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "alert",
+      "summary": "2 people without masks",
+      "unreadable_reason": null,
+      "wearing_mask": 0
+    },
+    "brightness_0.35": {
+      "alert": true,
+      "missing_mask": 2,
+      "people_not_checked": 0,
+      "people_total": 2,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "alert",
+      "summary": "2 people without masks",
+      "unreadable_reason": null,
+      "wearing_mask": 0
+    },
+    "brightness_0.50": {
+      "alert": true,
+      "missing_mask": 2,
+      "people_not_checked": 0,
+      "people_total": 2,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "alert",
+      "summary": "2 people without masks",
+      "unreadable_reason": null,
+      "wearing_mask": 0
+    },
+    "jpeg_q10": {
+      "alert": false,
+      "missing_mask": 0,
+      "people_not_checked": 3,
+      "people_total": 3,
+      "people_unverified": 3,
+      "readable": false,
+      "status": "unverified",
+      "summary": "Picture quality too low to check \u2014 3 people unverified",
+      "unreadable_reason": "Picture quality too low to check.",
+      "wearing_mask": 0
+    },
+    "jpeg_q17": {
+      "alert": false,
+      "missing_mask": 0,
+      "people_not_checked": 3,
+      "people_total": 3,
+      "people_unverified": 3,
+      "readable": false,
+      "status": "unverified",
+      "summary": "Picture quality too low to check \u2014 3 people unverified",
+      "unreadable_reason": "Picture quality too low to check.",
+      "wearing_mask": 0
+    },
+    "jpeg_q19": {
+      "alert": false,
+      "missing_mask": 0,
+      "people_not_checked": 2,
+      "people_total": 2,
+      "people_unverified": 2,
+      "readable": false,
+      "status": "unverified",
+      "summary": "Picture quality too low to check \u2014 2 people unverified",
+      "unreadable_reason": "Picture quality too low to check.",
+      "wearing_mask": 0
+    },
+    "jpeg_q21": {
+      "alert": false,
+      "missing_mask": 0,
+      "people_not_checked": 2,
+      "people_total": 2,
+      "people_unverified": 2,
+      "readable": false,
+      "status": "unverified",
+      "summary": "Picture quality too low to check \u2014 2 people unverified",
+      "unreadable_reason": "Picture quality too low to check.",
+      "wearing_mask": 0
+    },
+    "jpeg_q30": {
+      "alert": true,
+      "missing_mask": 2,
+      "people_not_checked": 0,
+      "people_total": 2,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "alert",
+      "summary": "2 people without masks",
+      "unreadable_reason": null,
+      "wearing_mask": 0
+    },
+    "jpeg_q5": {
+      "alert": false,
+      "missing_mask": 0,
+      "people_not_checked": 1,
+      "people_total": 1,
+      "people_unverified": 1,
+      "readable": false,
+      "status": "unverified",
+      "summary": "Picture quality too low to check \u2014 1 person unverified",
+      "unreadable_reason": "Picture quality too low to check.",
+      "wearing_mask": 0
+    }
+  },
+  "ppe": {
+    "baseline": {
+      "alert": false,
+      "missing_helmet": 0,
+      "missing_vest": 0,
+      "people_not_checked": 1,
+      "people_too_dark": 0,
+      "people_total": 2,
+      "people_unverified": 1,
+      "readable": true,
+      "status": "unverified",
+      "summary": "Wearing the right gear \u2014 1 person unverified",
+      "unreadable_reason": null,
+      "wearing_helmet": 1,
+      "wearing_vest": 1
+    },
+    "blur_k11": {
+      "alert": false,
+      "missing_helmet": 0,
+      "missing_vest": 0,
+      "people_not_checked": 1,
+      "people_too_dark": 0,
+      "people_total": 1,
+      "people_unverified": 1,
+      "readable": false,
+      "status": "unverified",
+      "summary": "Too blurred to check \u2014 1 person unverified",
+      "unreadable_reason": "Too blurred to check.",
+      "wearing_helmet": 1,
+      "wearing_vest": 1
+    },
+    "blur_k13": {
+      "alert": false,
+      "missing_helmet": 0,
+      "missing_vest": 0,
+      "people_not_checked": 1,
+      "people_too_dark": 0,
+      "people_total": 1,
+      "people_unverified": 1,
+      "readable": false,
+      "status": "unverified",
+      "summary": "Too blurred to check \u2014 1 person unverified",
+      "unreadable_reason": "Too blurred to check.",
+      "wearing_helmet": 1,
+      "wearing_vest": 1
+    },
+    "blur_k21": {
+      "alert": false,
+      "missing_helmet": 0,
+      "missing_vest": 0,
+      "people_not_checked": 1,
+      "people_too_dark": 0,
+      "people_total": 1,
+      "people_unverified": 1,
+      "readable": false,
+      "status": "unverified",
+      "summary": "Too blurred to check \u2014 1 person unverified",
+      "unreadable_reason": "Too blurred to check.",
+      "wearing_helmet": 1,
+      "wearing_vest": 1
+    },
+    "blur_k31": {
+      "alert": false,
+      "missing_helmet": 0,
+      "missing_vest": 0,
+      "people_not_checked": 1,
+      "people_too_dark": 1,
+      "people_total": 1,
+      "people_unverified": 1,
+      "readable": false,
+      "status": "unverified",
+      "summary": "Too blurred to check \u2014 1 person unverified",
+      "unreadable_reason": "Too blurred to check.",
+      "wearing_helmet": 1,
+      "wearing_vest": 0
+    },
+    "blur_k5": {
+      "alert": false,
+      "missing_helmet": 0,
+      "missing_vest": 0,
+      "people_not_checked": 0,
+      "people_too_dark": 0,
+      "people_total": 1,
+      "people_unverified": 1,
+      "readable": true,
+      "status": "unverified",
+      "summary": "Wearing the right gear \u2014 1 person unverified",
+      "unreadable_reason": null,
+      "wearing_helmet": 1,
+      "wearing_vest": 1
+    },
+    "blur_k9": {
+      "alert": false,
+      "missing_helmet": 0,
+      "missing_vest": 0,
+      "people_not_checked": 0,
+      "people_too_dark": 0,
+      "people_total": 1,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "clear",
+      "summary": "Wearing the right gear",
+      "unreadable_reason": null,
+      "wearing_helmet": 1,
+      "wearing_vest": 1
+    },
+    "brightness_0.08": {
+      "alert": false,
+      "missing_helmet": 0,
+      "missing_vest": 0,
+      "people_not_checked": 1,
+      "people_too_dark": 1,
+      "people_total": 1,
+      "people_unverified": 1,
+      "readable": false,
+      "status": "unverified",
+      "summary": "Too dark to check \u2014 1 person unverified",
+      "unreadable_reason": "Too dark to check.",
+      "wearing_helmet": 0,
+      "wearing_vest": 1
+    },
+    "brightness_0.10": {
+      "alert": false,
+      "missing_helmet": 0,
+      "missing_vest": 0,
+      "people_not_checked": 1,
+      "people_too_dark": 1,
+      "people_total": 1,
+      "people_unverified": 1,
+      "readable": false,
+      "status": "unverified",
+      "summary": "Too dark to check \u2014 1 person unverified",
+      "unreadable_reason": "Too dark to check.",
+      "wearing_helmet": 0,
+      "wearing_vest": 1
+    },
+    "brightness_0.16": {
+      "alert": false,
+      "missing_helmet": 0,
+      "missing_vest": 0,
+      "people_not_checked": 1,
+      "people_too_dark": 1,
+      "people_total": 2,
+      "people_unverified": 2,
+      "readable": true,
+      "status": "unverified",
+      "summary": "Wearing the right gear \u2014 2 people unverified",
+      "unreadable_reason": null,
+      "wearing_helmet": 1,
+      "wearing_vest": 1
+    },
+    "brightness_0.17": {
+      "alert": false,
+      "missing_helmet": 0,
+      "missing_vest": 0,
+      "people_not_checked": 1,
+      "people_too_dark": 0,
+      "people_total": 2,
+      "people_unverified": 1,
+      "readable": true,
+      "status": "unverified",
+      "summary": "Wearing the right gear \u2014 1 person unverified",
+      "unreadable_reason": null,
+      "wearing_helmet": 1,
+      "wearing_vest": 1
+    },
+    "brightness_0.20": {
+      "alert": true,
+      "missing_helmet": 1,
+      "missing_vest": 1,
+      "people_not_checked": 0,
+      "people_too_dark": 0,
+      "people_total": 2,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "alert",
+      "summary": "1 without a helmet, 1 without a vest",
+      "unreadable_reason": null,
+      "wearing_helmet": 1,
+      "wearing_vest": 1
+    },
+    "brightness_0.25": {
+      "alert": false,
+      "missing_helmet": 0,
+      "missing_vest": 0,
+      "people_not_checked": 1,
+      "people_too_dark": 0,
+      "people_total": 2,
+      "people_unverified": 1,
+      "readable": true,
+      "status": "unverified",
+      "summary": "Wearing the right gear \u2014 1 person unverified",
+      "unreadable_reason": null,
+      "wearing_helmet": 1,
+      "wearing_vest": 1
+    },
+    "brightness_0.35": {
+      "alert": false,
+      "missing_helmet": 0,
+      "missing_vest": 0,
+      "people_not_checked": 1,
+      "people_too_dark": 0,
+      "people_total": 2,
+      "people_unverified": 1,
+      "readable": true,
+      "status": "unverified",
+      "summary": "Wearing the right gear \u2014 1 person unverified",
+      "unreadable_reason": null,
+      "wearing_helmet": 1,
+      "wearing_vest": 1
+    },
+    "brightness_0.50": {
+      "alert": false,
+      "missing_helmet": 0,
+      "missing_vest": 0,
+      "people_not_checked": 1,
+      "people_too_dark": 0,
+      "people_total": 2,
+      "people_unverified": 1,
+      "readable": true,
+      "status": "unverified",
+      "summary": "Wearing the right gear \u2014 1 person unverified",
+      "unreadable_reason": null,
+      "wearing_helmet": 1,
+      "wearing_vest": 1
+    },
+    "jpeg_q10": {
+      "alert": false,
+      "missing_helmet": 0,
+      "missing_vest": 0,
+      "people_not_checked": 1,
+      "people_too_dark": 0,
+      "people_total": 1,
+      "people_unverified": 1,
+      "readable": false,
+      "status": "unverified",
+      "summary": "Picture quality too low to check \u2014 1 person unverified",
+      "unreadable_reason": "Picture quality too low to check.",
+      "wearing_helmet": 1,
+      "wearing_vest": 1
+    },
+    "jpeg_q17": {
+      "alert": false,
+      "missing_helmet": 0,
+      "missing_vest": 0,
+      "people_not_checked": 1,
+      "people_too_dark": 0,
+      "people_total": 1,
+      "people_unverified": 1,
+      "readable": false,
+      "status": "unverified",
+      "summary": "Picture quality too low to check \u2014 1 person unverified",
+      "unreadable_reason": "Picture quality too low to check.",
+      "wearing_helmet": 1,
+      "wearing_vest": 1
+    },
+    "jpeg_q19": {
+      "alert": false,
+      "missing_helmet": 0,
+      "missing_vest": 0,
+      "people_not_checked": 1,
+      "people_too_dark": 0,
+      "people_total": 1,
+      "people_unverified": 1,
+      "readable": false,
+      "status": "unverified",
+      "summary": "Picture quality too low to check \u2014 1 person unverified",
+      "unreadable_reason": "Picture quality too low to check.",
+      "wearing_helmet": 1,
+      "wearing_vest": 1
+    },
+    "jpeg_q21": {
+      "alert": false,
+      "missing_helmet": 0,
+      "missing_vest": 0,
+      "people_not_checked": 1,
+      "people_too_dark": 0,
+      "people_total": 1,
+      "people_unverified": 2,
+      "readable": false,
+      "status": "unverified",
+      "summary": "Picture quality too low to check \u2014 1 person unverified",
+      "unreadable_reason": "Picture quality too low to check.",
+      "wearing_helmet": 1,
+      "wearing_vest": 1
+    },
+    "jpeg_q30": {
+      "alert": false,
+      "missing_helmet": 0,
+      "missing_vest": 0,
+      "people_not_checked": 1,
+      "people_too_dark": 0,
+      "people_total": 2,
+      "people_unverified": 1,
+      "readable": true,
+      "status": "unverified",
+      "summary": "Wearing the right gear \u2014 1 person unverified",
+      "unreadable_reason": null,
+      "wearing_helmet": 1,
+      "wearing_vest": 1
+    },
+    "jpeg_q5": {
+      "alert": false,
+      "missing_helmet": 0,
+      "missing_vest": 0,
+      "people_not_checked": 0,
+      "people_too_dark": 0,
+      "people_total": 0,
+      "people_unverified": 1,
+      "readable": false,
+      "status": "unverified",
+      "summary": "Picture quality too low to check",
+      "unreadable_reason": "Picture quality too low to check.",
+      "wearing_helmet": 0,
+      "wearing_vest": 0
+    }
+  },
+  "restricted-zone": {
+    "baseline": {
+      "alert": false,
+      "people_total": 2,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "clear",
+      "summary": "Area clear",
+      "unreadable_reason": null
+    },
+    "blur_k11": {
+      "alert": false,
+      "people_total": 2,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "clear",
+      "summary": "Area clear",
+      "unreadable_reason": null
+    },
+    "blur_k13": {
+      "alert": false,
+      "people_total": 2,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "clear",
+      "summary": "Area clear",
+      "unreadable_reason": null
+    },
+    "blur_k21": {
+      "alert": false,
+      "people_total": 2,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "clear",
+      "summary": "Area clear",
+      "unreadable_reason": null
+    },
+    "blur_k31": {
+      "alert": false,
+      "people_total": 2,
+      "people_unverified": 2,
+      "readable": false,
+      "status": "unverified",
+      "summary": "Too blurred to check.",
+      "unreadable_reason": "Too blurred to check."
+    },
+    "blur_k5": {
+      "alert": false,
+      "people_total": 3,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "clear",
+      "summary": "Area clear",
+      "unreadable_reason": null
+    },
+    "blur_k9": {
+      "alert": false,
+      "people_total": 2,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "clear",
+      "summary": "Area clear",
+      "unreadable_reason": null
+    },
+    "brightness_0.08": {
+      "alert": false,
+      "people_total": 2,
+      "people_unverified": 2,
+      "readable": false,
+      "status": "unverified",
+      "summary": "Too dark to check.",
+      "unreadable_reason": "Too dark to check."
+    },
+    "brightness_0.10": {
+      "alert": false,
+      "people_total": 2,
+      "people_unverified": 2,
+      "readable": false,
+      "status": "unverified",
+      "summary": "Too flat to check \u2014 almost no detail in the picture.",
+      "unreadable_reason": "Too flat to check \u2014 almost no detail in the picture."
+    },
+    "brightness_0.16": {
+      "alert": false,
+      "people_total": 2,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "clear",
+      "summary": "Area clear",
+      "unreadable_reason": null
+    },
+    "brightness_0.17": {
+      "alert": false,
+      "people_total": 2,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "clear",
+      "summary": "Area clear",
+      "unreadable_reason": null
+    },
+    "brightness_0.20": {
+      "alert": false,
+      "people_total": 2,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "clear",
+      "summary": "Area clear",
+      "unreadable_reason": null
+    },
+    "brightness_0.25": {
+      "alert": false,
+      "people_total": 2,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "clear",
+      "summary": "Area clear",
+      "unreadable_reason": null
+    },
+    "brightness_0.35": {
+      "alert": false,
+      "people_total": 2,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "clear",
+      "summary": "Area clear",
+      "unreadable_reason": null
+    },
+    "brightness_0.50": {
+      "alert": false,
+      "people_total": 2,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "clear",
+      "summary": "Area clear",
+      "unreadable_reason": null
+    },
+    "jpeg_q10": {
+      "alert": false,
+      "people_total": 0,
+      "people_unverified": 0,
+      "readable": false,
+      "status": "unverified",
+      "summary": "Picture quality too low to check.",
+      "unreadable_reason": "Picture quality too low to check."
+    },
+    "jpeg_q17": {
+      "alert": false,
+      "people_total": 2,
+      "people_unverified": 2,
+      "readable": false,
+      "status": "unverified",
+      "summary": "Picture quality too low to check.",
+      "unreadable_reason": "Picture quality too low to check."
+    },
+    "jpeg_q19": {
+      "alert": false,
+      "people_total": 2,
+      "people_unverified": 2,
+      "readable": false,
+      "status": "unverified",
+      "summary": "Picture quality too low to check.",
+      "unreadable_reason": "Picture quality too low to check."
+    },
+    "jpeg_q21": {
+      "alert": false,
+      "people_total": 2,
+      "people_unverified": 2,
+      "readable": false,
+      "status": "unverified",
+      "summary": "Picture quality too low to check.",
+      "unreadable_reason": "Picture quality too low to check."
+    },
+    "jpeg_q30": {
+      "alert": false,
+      "people_total": 2,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "clear",
+      "summary": "Area clear",
+      "unreadable_reason": null
+    },
+    "jpeg_q5": {
+      "alert": false,
+      "people_total": 0,
+      "people_unverified": 0,
+      "readable": false,
+      "status": "unverified",
+      "summary": "Picture quality too low to check.",
+      "unreadable_reason": "Picture quality too low to check."
+    }
+  },
+  "workstation": {
+    "baseline": {
+      "alert": false,
+      "people_total": 0,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "idle",
+      "summary": "No workstations marked",
+      "unreadable_reason": null
+    },
+    "blur_k11": {
+      "alert": false,
+      "people_total": 0,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "idle",
+      "summary": "No workstations marked",
+      "unreadable_reason": null
+    },
+    "blur_k13": {
+      "alert": false,
+      "people_total": 0,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "idle",
+      "summary": "No workstations marked",
+      "unreadable_reason": null
+    },
+    "blur_k21": {
+      "alert": false,
+      "people_total": 0,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "idle",
+      "summary": "No workstations marked",
+      "unreadable_reason": null
+    },
+    "blur_k31": {
+      "alert": false,
+      "people_total": 0,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "idle",
+      "summary": "No workstations marked",
+      "unreadable_reason": null
+    },
+    "blur_k5": {
+      "alert": false,
+      "people_total": 0,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "idle",
+      "summary": "No workstations marked",
+      "unreadable_reason": null
+    },
+    "blur_k9": {
+      "alert": false,
+      "people_total": 0,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "idle",
+      "summary": "No workstations marked",
+      "unreadable_reason": null
+    },
+    "brightness_0.08": {
+      "alert": false,
+      "people_total": 0,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "idle",
+      "summary": "No workstations marked",
+      "unreadable_reason": null
+    },
+    "brightness_0.10": {
+      "alert": false,
+      "people_total": 0,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "idle",
+      "summary": "No workstations marked",
+      "unreadable_reason": null
+    },
+    "brightness_0.16": {
+      "alert": false,
+      "people_total": 0,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "idle",
+      "summary": "No workstations marked",
+      "unreadable_reason": null
+    },
+    "brightness_0.17": {
+      "alert": false,
+      "people_total": 0,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "idle",
+      "summary": "No workstations marked",
+      "unreadable_reason": null
+    },
+    "brightness_0.20": {
+      "alert": false,
+      "people_total": 0,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "idle",
+      "summary": "No workstations marked",
+      "unreadable_reason": null
+    },
+    "brightness_0.25": {
+      "alert": false,
+      "people_total": 0,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "idle",
+      "summary": "No workstations marked",
+      "unreadable_reason": null
+    },
+    "brightness_0.35": {
+      "alert": false,
+      "people_total": 0,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "idle",
+      "summary": "No workstations marked",
+      "unreadable_reason": null
+    },
+    "brightness_0.50": {
+      "alert": false,
+      "people_total": 0,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "idle",
+      "summary": "No workstations marked",
+      "unreadable_reason": null
+    },
+    "jpeg_q10": {
+      "alert": false,
+      "people_total": 0,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "idle",
+      "summary": "No workstations marked",
+      "unreadable_reason": null
+    },
+    "jpeg_q17": {
+      "alert": false,
+      "people_total": 0,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "idle",
+      "summary": "No workstations marked",
+      "unreadable_reason": null
+    },
+    "jpeg_q19": {
+      "alert": false,
+      "people_total": 0,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "idle",
+      "summary": "No workstations marked",
+      "unreadable_reason": null
+    },
+    "jpeg_q21": {
+      "alert": false,
+      "people_total": 0,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "idle",
+      "summary": "No workstations marked",
+      "unreadable_reason": null
+    },
+    "jpeg_q30": {
+      "alert": false,
+      "people_total": 0,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "idle",
+      "summary": "No workstations marked",
+      "unreadable_reason": null
+    },
+    "jpeg_q5": {
+      "alert": false,
+      "people_total": 0,
+      "people_unverified": 0,
+      "readable": true,
+      "status": "idle",
+      "summary": "No workstations marked",
+      "unreadable_reason": null
+    }
+  }
+}

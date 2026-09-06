@@ -1,0 +1,18 @@
+# The prototype was authored on Windows and ships with CRLF line endings.
+# Normalize to LF in the repository so Linux/macOS contributors don't produce
+# whole-file diffs; Windows checkouts still get CRLF via core.autocrlf.
+* text=auto eol=lf
+
+# Binary — never touch these.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.ico binary
+*.pt binary
+*.pth binary
+*.onnx binary
+*.mp4 binary
+*.zip binary
+
+# Generated — collapse in PR diffs.
+frontend/package-lock.json linguist-generated=true -diff

@@ -1,0 +1,27 @@
+# Suspended load detection — the classes the detector is being taught.
+#
+# Recorded here beside the training set, as for every other model in this
+# product, so what the weights can and cannot report is readable without
+# loading them.
+#
+# Three classes, and deliberately not a fourth. There is no `load_raised`
+# and there will not be one: raised is geometry — the load's position
+# against a marked floor datum — and a `raised` class would bake one
+# camera's mounting angle into the weights, so the model would have to be
+# retrained for every new view instead of the datum being re-marked.
+#
+# `load` is annotated whether it is hanging or resting. Whether it is
+# attached to a lifter is decided by geometry and by whether the two move
+# together, not by which class was drawn — smuggling "attached" into the
+# class would make the same mistake as a `raised` class, one step earlier.
+
+path: .
+train: train/images
+val: valid/images
+test: test/images
+
+nc: 3
+names:
+  0: jib_head
+  1: crane_hook
+  2: load

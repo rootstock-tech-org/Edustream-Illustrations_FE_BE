@@ -1,0 +1,86 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# --- Node / frontend ---
+node_modules/
+dist/
+dist-ssr/
+.vite/
+*.local
+
+# --- Model weights ---
+# Ultralytics downloads stock yolov8*.pt on first run — never commit those.
+*.pt
+*.pth
+*.onnx
+*.engine
+*.tflite
+
+# Exception: weights trained for this project are project assets, not
+# downloadable artifacts. Losing them loses the training run, so they are
+# tracked here while they stay small. Move to Git LFS if any exceeds ~50 MB.
+!backend/models/*.pt
+!backend/models/*.yaml
+
+# --- Face recognition model pack (backend/data/insightface) ---
+# ~190 MB of downloaded weights, over GitHub's file limit; fetched on first
+# use by the insightface library (app/modules/face/service.py).
+backend/data/insightface/
+
+# --- Runtime artifacts (backend/storage) ---
+# Generated at startup by app.core.config.create_storage_dirs().
+backend/storage/
+backend/logs/
+*.log
+
+# --- Media / datasets ---
+*.mp4
+*.avi
+*.mov
+*.mkv
+
+# --- Secrets & local config ---
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials.json
+
+# --- Databases ---
+*.db
+*.sqlite
+*.sqlite3
+
+# --- Generated tree dumps (shipped in the source zip, not source) ---
+project_structure.txt
+backend_structure.txt
+
+# --- Editors / OS ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Test-run artefacts: screenshots and scratch region stores written by the
+# verification suites. The suites are source; what they produce on one machine
+# is not.
+tests/*.png
+tests/probe_*.json
+tests/*.pt
+tests/baseline_*_after.json
+tests/baseline_scratch*.json
+
+# Scratch captures. The phase baselines (verdicts_phaseN, baseline_phaseN) are
+# committed evidence; a re-capture taken to compare against one is not.
+tests/verdicts_*agent*.json
+tests/verdicts_*_after.json
+tests/verdicts_scratch*.json

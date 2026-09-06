@@ -1,0 +1,455 @@
+{
+  "modules": {
+    "door": {
+      "config": {
+        "confidence": {
+          "half": {
+            "accepted": true,
+            "result": "{'success': True, 'message': 'Settings updated.', 'confidence': 0.5}"
+          },
+          "huge": {
+            "accepted": false,
+            "error": "ValueError",
+            "message": "confidence must be between 0 and 1"
+          },
+          "infinity": {
+            "accepted": false,
+            "error": "ValueError",
+            "message": "confidence must be between 0 and 1"
+          },
+          "nan": {
+            "accepted": false,
+            "error": "ValueError",
+            "message": "confidence must be between 0 and 1"
+          },
+          "negative": {
+            "accepted": false,
+            "error": "ValueError",
+            "message": "confidence must be between 0 and 1"
+          },
+          "none": {
+            "accepted": false,
+            "error": "ValueError",
+            "message": "confidence must be a number"
+          },
+          "one": {
+            "accepted": false,
+            "error": "ValueError",
+            "message": "confidence must be between 0 and 1"
+          },
+          "text": {
+            "accepted": false,
+            "error": "ValueError",
+            "message": "confidence must be a number"
+          },
+          "zero": {
+            "accepted": false,
+            "error": "ValueError",
+            "message": "confidence must be between 0 and 1"
+          }
+        },
+        "open_seconds": {
+          "half": {
+            "accepted": true,
+            "result": "{'success': True, 'message': 'Settings updated.', 'open_seconds': 0.5}"
+          },
+          "huge": {
+            "accepted": true,
+            "result": "{'success': True, 'message': 'Settings updated.', 'open_seconds': 999999.0}"
+          },
+          "infinity": {
+            "accepted": true,
+            "result": "{'success': True, 'message': 'Settings updated.', 'open_seconds': inf}"
+          },
+          "nan": {
+            "accepted": true,
+            "result": "{'success': True, 'message': 'Settings updated.', 'open_seconds': nan}"
+          },
+          "negative": {
+            "accepted": false,
+            "error": "ValueError",
+            "message": "open_seconds must be greater than 0"
+          },
+          "none": {
+            "accepted": false,
+            "error": "ValueError",
+            "message": "open_seconds must be a number"
+          },
+          "one": {
+            "accepted": true,
+            "result": "{'success': True, 'message': 'Settings updated.', 'open_seconds': 1.0}"
+          },
+          "text": {
+            "accepted": false,
+            "error": "ValueError",
+            "message": "open_seconds must be a number"
+          },
+          "zero": {
+            "accepted": false,
+            "error": "ValueError",
+            "message": "open_seconds must be greater than 0"
+          }
+        }
+      },
+      "status": {
+        "configurable": true,
+        "configured": false,
+        "description": "The AI watches every door and alerts when one is left open too long.",
+        "model_loaded": true,
+        "module_id": "door",
+        "name": "Doors",
+        "ready": false,
+        "watching": false
+      }
+    },
+    "face": {
+      "status": {
+        "configurable": false,
+        "configured": true,
+        "description": "The AI recognises registered people the moment they appear on camera.",
+        "model_loaded": true,
+        "module_id": "face",
+        "name": "Face Recognition",
+        "people_registered": 0,
+        "ready": true,
+        "watching": false
+      }
+    },
+    "gloves": {
+      "config": {
+        "confidence": {
+          "half": {
+            "accepted": true,
+            "result": "{'success': True, 'message': 'Sensitivity updated.', 'confidence': 0.5}"
+          },
+          "huge": {
+            "accepted": false,
+            "error": "ValueError",
+            "message": "confidence must be between 0 and 1"
+          },
+          "infinity": {
+            "accepted": false,
+            "error": "ValueError",
+            "message": "confidence must be between 0 and 1"
+          },
+          "nan": {
+            "accepted": false,
+            "error": "ValueError",
+            "message": "confidence must be between 0 and 1"
+          },
+          "negative": {
+            "accepted": false,
+            "error": "ValueError",
+            "message": "confidence must be between 0 and 1"
+          },
+          "none": {
+            "accepted": false,
+            "error": "ValueError",
+            "message": "confidence is required"
+          },
+          "one": {
+            "accepted": false,
+            "error": "ValueError",
+            "message": "confidence must be between 0 and 1"
+          },
+          "text": {
+            "accepted": false,
+            "error": "ValueError",
+            "message": "confidence must be a number"
+          },
+          "zero": {
+            "accepted": false,
+            "error": "ValueError",
+            "message": "confidence must be between 0 and 1"
+          }
+        }
+      },
+      "status": {
+        "configurable": true,
+        "configured": true,
+        "description": "The AI checks that gloves are being worn where they are required.",
+        "model_loaded": true,
+        "module_id": "gloves",
+        "name": "Gloves",
+        "ready": true,
+        "watching": false
+      }
+    },
+    "mask": {
+      "config": {
+        "min_person_height": {
+          "half": {
+            "accepted": true,
+            "result": "{'success': True, 'message': 'Distance setting updated.', 'min_person_height': 0.5}"
+          },
+          "huge": {
+            "accepted": false,
+            "error": "ValueError",
+            "message": "min_person_height must be between 0 and 1"
+          },
+          "infinity": {
+            "accepted": false,
+            "error": "ValueError",
+            "message": "min_person_height must be between 0 and 1"
+          },
+          "nan": {
+            "accepted": false,
+            "error": "ValueError",
+            "message": "min_person_height must be between 0 and 1"
+          },
+          "negative": {
+            "accepted": false,
+            "error": "ValueError",
+            "message": "min_person_height must be between 0 and 1"
+          },
+          "none": {
+            "accepted": false,
+            "error": "ValueError",
+            "message": "min_person_height is required"
+          },
+          "one": {
+            "accepted": true,
+            "result": "{'success': True, 'message': 'Distance setting updated.', 'min_person_height': 1.0}"
+          },
+          "text": {
+            "accepted": false,
+            "error": "ValueError",
+            "message": "min_person_height must be a number"
+          },
+          "zero": {
+            "accepted": true,
+            "result": "{'success': True, 'message': 'Distance setting updated.', 'min_person_height': 0.0}"
+          }
+        }
+      },
+      "status": {
+        "configurable": true,
+        "configured": true,
+        "description": "The AI checks that face masks are being worn.",
+        "model_loaded": true,
+        "module_id": "mask",
+        "name": "Face Masks",
+        "ready": true,
+        "watching": false
+      }
+    },
+    "ppe": {
+      "config": {
+        "min_person_height": {
+          "half": {
+            "accepted": true,
+            "result": "{'success': True, 'message': 'Distance setting updated.', 'min_person_height': 0.5}"
+          },
+          "huge": {
+            "accepted": false,
+            "error": "ValueError",
+            "message": "min_person_height must be between 0 and 1"
+          },
+          "infinity": {
+            "accepted": false,
+            "error": "ValueError",
+            "message": "min_person_height must be between 0 and 1"
+          },
+          "nan": {
+            "accepted": false,
+            "error": "ValueError",
+            "message": "min_person_height must be between 0 and 1"
+          },
+          "negative": {
+            "accepted": false,
+            "error": "ValueError",
+            "message": "min_person_height must be between 0 and 1"
+          },
+          "none": {
+            "accepted": false,
+            "error": "ValueError",
+            "message": "min_person_height is required"
+          },
+          "one": {
+            "accepted": true,
+            "result": "{'success': True, 'message': 'Distance setting updated.', 'min_person_height': 1.0}"
+          },
+          "text": {
+            "accepted": false,
+            "error": "ValueError",
+            "message": "min_person_height must be a number"
+          },
+          "zero": {
+            "accepted": true,
+            "result": "{'success': True, 'message': 'Distance setting updated.', 'min_person_height': 0.0}"
+          }
+        }
+      },
+      "status": {
+        "configurable": true,
+        "configured": true,
+        "description": "The AI checks that helmets and safety vests are being worn.",
+        "model_loaded": true,
+        "module_id": "ppe",
+        "name": "Safety Gear",
+        "ready": true,
+        "watching": false
+      }
+    },
+    "restricted-zone": {
+      "status": {
+        "configurable": true,
+        "configured": true,
+        "description": "The AI watches the marked area and alerts the moment someone steps in.",
+        "model_loaded": true,
+        "module_id": "restricted-zone",
+        "name": "Restricted Zone",
+        "ready": false,
+        "watching": false
+      }
+    },
+    "workstation": {
+      "config": {
+        "empty_seconds": {
+          "half": {
+            "accepted": true,
+            "result": "{'success': True, 'message': 'Allowed time updated.', 'empty_seconds': 0.5}"
+          },
+          "huge": {
+            "accepted": true,
+            "result": "{'success': True, 'message': 'Allowed time updated.', 'empty_seconds': 999999.0}"
+          },
+          "infinity": {
+            "accepted": true,
+            "result": "{'success': True, 'message': 'Allowed time updated.', 'empty_seconds': inf}"
+          },
+          "nan": {
+            "accepted": true,
+            "result": "{'success': True, 'message': 'Allowed time updated.', 'empty_seconds': nan}"
+          },
+          "negative": {
+            "accepted": false,
+            "error": "ValueError",
+            "message": "empty_seconds must be greater than 0"
+          },
+          "none": {
+            "accepted": false,
+            "error": "ValueError",
+            "message": "empty_seconds must be a number"
+          },
+          "one": {
+            "accepted": true,
+            "result": "{'success': True, 'message': 'Allowed time updated.', 'empty_seconds': 1.0}"
+          },
+          "text": {
+            "accepted": false,
+            "error": "ValueError",
+            "message": "empty_seconds must be a number"
+          },
+          "zero": {
+            "accepted": false,
+            "error": "ValueError",
+            "message": "empty_seconds must be greater than 0"
+          }
+        }
+      },
+      "status": {
+        "configurable": true,
+        "configured": true,
+        "description": "The AI watches each marked workstation and alerts when nobody is there.",
+        "model_loaded": true,
+        "module_id": "workstation",
+        "name": "Workstation Absence",
+        "ready": false,
+        "watching": false
+      }
+    }
+  },
+  "regions": {
+    "door": {
+      "boxes": {
+        "infinite": {
+          "accepted": true,
+          "result": "{'id': 3, 'name': 'probe [0.1, 0.1, inf, 0.3]', 'box': [0.1, 0.1, 1.0, 0.3], 'open_seconds': None}"
+        },
+        "nan_left": {
+          "accepted": true,
+          "result": "{'id': 2, 'name': 'probe [nan, 0.1, 0.3, 0.3]', 'box': [nan, 0.1, 0.3, 0.3], 'open_seconds': None}"
+        },
+        "none": {
+          "accepted": false,
+          "error": "ValueError",
+          "message": "That area is too small to be a door. Drag a box over the door."
+        },
+        "not_a_list": {
+          "accepted": false,
+          "error": "ValueError",
+          "message": "That area is too small to be a door. Drag a box over the door."
+        },
+        "ordinary": {
+          "accepted": true,
+          "result": "{'id': 1, 'name': 'probe [0.2, 0.2, 0.5, 0.8]', 'box': [0.2, 0.2, 0.5, 0.8], 'open_seconds': None}"
+        },
+        "outside": {
+          "accepted": true,
+          "result": "{'id': 5, 'name': 'probe [-0.5, -0.5, 1.5, 1.5]', 'box': [0.0, 0.0, 1.0, 1.0], 'open_seconds': None}"
+        },
+        "reversed": {
+          "accepted": true,
+          "result": "{'id': 4, 'name': 'probe [0.8, 0.8, 0.2, 0.2]', 'box': [0.2, 0.2, 0.8, 0.8], 'open_seconds': None}"
+        },
+        "three_long": {
+          "accepted": false,
+          "error": "ValueError",
+          "message": "That area is too small to be a door. Drag a box over the door."
+        },
+        "tiny": {
+          "accepted": false,
+          "error": "ValueError",
+          "message": "That area is too small to be a door. Drag a box over the door."
+        }
+      },
+      "constants": {}
+    },
+    "workstation": {
+      "boxes": {
+        "infinite": {
+          "accepted": true,
+          "result": "{'id': 3, 'name': 'probe [0.1, 0.1, inf, 0.3]', 'box': [0.1, 0.1, 1.0, 0.3], 'empty_seconds': None}"
+        },
+        "nan_left": {
+          "accepted": true,
+          "result": "{'id': 2, 'name': 'probe [nan, 0.1, 0.3, 0.3]', 'box': [nan, 0.1, 0.3, 0.3], 'empty_seconds': None}"
+        },
+        "none": {
+          "accepted": false,
+          "error": "ValueError",
+          "message": "That area is too small to be a workstation. Drag a box over the workstation."
+        },
+        "not_a_list": {
+          "accepted": false,
+          "error": "ValueError",
+          "message": "That area is too small to be a workstation. Drag a box over the workstation."
+        },
+        "ordinary": {
+          "accepted": true,
+          "result": "{'id': 1, 'name': 'probe [0.2, 0.2, 0.5, 0.8]', 'box': [0.2, 0.2, 0.5, 0.8], 'empty_seconds': None}"
+        },
+        "outside": {
+          "accepted": true,
+          "result": "{'id': 5, 'name': 'probe [-0.5, -0.5, 1.5, 1.5]', 'box': [0.0, 0.0, 1.0, 1.0], 'empty_seconds': None}"
+        },
+        "reversed": {
+          "accepted": true,
+          "result": "{'id': 4, 'name': 'probe [0.8, 0.8, 0.2, 0.2]', 'box': [0.2, 0.2, 0.8, 0.8], 'empty_seconds': None}"
+        },
+        "three_long": {
+          "accepted": false,
+          "error": "ValueError",
+          "message": "That area is too small to be a workstation. Drag a box over the workstation."
+        },
+        "tiny": {
+          "accepted": false,
+          "error": "ValueError",
+          "message": "That area is too small to be a workstation. Drag a box over the workstation."
+        }
+      },
+      "constants": {}
+    }
+  }
+}

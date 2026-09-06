@@ -1,0 +1,9 @@
+path: /content/drive/MyDrive/PPE-Compliance-POC/dataset/final
+train: train/images
+val: valid/images
+test: test/images
+names:
+- person
+- helmet
+- vest
+nc: 3

@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%23041B4C'/><circle cx='16' cy='16' r='6' fill='none' stroke='%231D4ED8' stroke-width='2.5'/><circle cx='16' cy='16' r='1.8' fill='%23FDFDFD'/></svg>"
+    />
+    <title>AI Safety Lab</title>
+    <meta
+      name="description"
+      content="Learn how an industrial AI safety system sees, decides and explains itself — by building one."
+    />
+    <!--
+      Sets the theme before the first paint, straight from localStorage —
+      src/state/theme.js is the source of truth for the key and the default,
+      but that only runs once React mounts, and by then the page would
+      already have flashed the other theme for one frame. Kept in sync with
+      that module by hand: same key, same "light unless the stored value is
+      exactly 'dark'" rule.
+    -->
+    <script>
+      (function () {
+        var theme = null;
+        try {
+          theme = localStorage.getItem("ai-safety-lab.theme.v1");
+        } catch (_e) {
+          // Storage blocked — falls through to the default light theme.
+        }
+        if (theme === "dark") document.documentElement.dataset.theme = "dark";
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

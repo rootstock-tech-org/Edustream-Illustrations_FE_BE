@@ -1,0 +1,266 @@
+/* --------------------------------------------------------------------------
+   The AI Safety Lab, inside the dashboard
+
+   The lab is a teaching simulation that lives in its own app under `lab/`,
+   and the Lab page mounts that app's Factory Floor component directly — one
+   copy of the source, imported through the `@lab` alias, so the simulation
+   the dashboard shows and the one the standalone lab shows can never drift
+   apart.
+
+   What it cannot import is the lab's own `theme.css`: that file styles the
+   whole page — the body background, a grid behind everything — and it is
+   built around a palette opposite to this one. So its two halves are split
+   here instead.
+
+   The tokens below go into `@theme` because Tailwind only emits a utility
+   for a token it can see at build time: without `--color-ink` there is no
+   `text-ink` class for the lab's markup to use. They carry the lab's light
+   values, matched to this dashboard: the Lab is one of its pages, and a
+   page that opened near-black beside nine light ones read as a different
+   application rather than a part of this one.
+
+   The floor inside the console keeps its own `--floor-*` tokens, separate
+   from these. A panel is chrome and follows the theme; the floor is a
+   picture of a place, and concrete is pale grey in a lit bay — so the
+   picture stays a picture rather than becoming a diagram, and the verdict
+   colours drawn on it keep the ground they were chosen against.
+
+   Only one token name is shared with the dashboard's own palette —
+   `--color-panel` — so that one is re-pointed inside `.lab-scope` rather
+   than globally, and every dashboard panel outside the lab is untouched.
+
+   Everything else here is scoped under `.lab-scope` for the same reason:
+   the class names are generic enough (`.panel`, `.inset`, `.machine`) that
+   an unscoped copy would be a trap for whoever adds a `.panel` to the
+   dashboard next.
+   -------------------------------------------------------------------------- */
+
+/*
+ * Tailwind generates a utility only for a class it has actually seen, and it
+ * scans this app's own tree — which the lab's source sits outside of. Without
+ * this the lab's markup still carries its classes but the stylesheet has no
+ * rules for the ones the dashboard never uses, so the console silently loses
+ * its layout: every grid collapses to a single stacked column while the
+ * padding and colours, shared with dashboard markup, keep working and hide
+ * what has gone wrong.
+ */
+@source "../../lab/src";
+
+@theme {
+  --color-ground: #FDFDFD;
+  --color-panel-raised: #EAE4E0;
+  --color-inset: #F1EDE9;
+
+  --color-line: #D1CFD2;
+  --color-line-strong: #B5B6C0;
+
+  --color-ink: #041B4C;
+  --color-ink-dim: #2F3E56;
+  --color-ink-faint: #767E95;
+
+  --color-vision: #1D4ED8;
+  --color-vision-dim: #E8EEFC;
+
+  --color-hazard: #A66A32;
+  --color-hazard-dim: #FBF3EA;
+
+  --color-violation: #A33A3A;
+  --color-violation-dim: #FAEEEE;
+  --color-clear: #1F5A3A;
+  --color-clear-dim: #EEF5F0;
+  --color-unknown: #767E95;
+  --color-unknown-dim: #EAE4E0;
+
+  --color-progress: #465889;
+  --color-trace: #465889;
+  --color-trace-dim: #E8EEFC;
+  --color-copper: #8A5A3B;
+  --color-copper-light: #F3E9E1;
+
+  /* The floor's own surfaces — see lab/src/theme.css, kept in step by hand. */
+  --floor-bg: #C9CBD0;
+  --floor-slab: #D6D8DC;
+  --floor-joint: #B4B7BE;
+  --floor-stain: #A8ABB3;
+  --floor-wall: #9EA2AB;
+  --floor-wall-line: #7C818C;
+  --floor-mark: #4A5060;
+  --floor-card: #FFFFFF;
+  --floor-card-ink: #1B2233;
+  --floor-card-dim: #4A5060;
+  --floor-vignette: #6B7280;
+  --floor-vignette-alpha: 0.16;
+  --floor-scrim: #1F2430;
+  --floor-fixture: #AFB3BB;
+  --floor-fixture-dark: #8B909A;
+  --floor-fixture-light: #CFD3DA;
+}
+
+.lab-scope {
+  /* The one name both palettes claim. */
+  --color-panel: #F6F2EE;
+
+  background: var(--color-ground);
+  color: var(--color-ink);
+}
+
+/* On a light ground a panel reads the ordinary way — a soft shadow beneath
+   it. The hairline-of-light treatment the lab uses on near-black is dropped
+   here: it needs a dark surround to read as anything at all. */
+.lab-scope .panel {
+  background: var(--color-panel);
+  border: 1px solid var(--color-line);
+  border-radius: 16px;
+  box-shadow: 0 1px 2px rgb(4 27 76 / 0.06);
+}
+
+.lab-scope .panel-raised {
+  background: var(--color-panel-raised);
+  border: 1px solid var(--color-line-strong);
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgb(4 27 76 / 0.1);
+}
+
+/* Where a value is displayed rather than a surface presented: readouts, the
+   inside of a control. Recessed, not raised. */
+.lab-scope .inset {
+  background: var(--color-inset);
+  border: 1px solid var(--color-line);
+  border-radius: 12px;
+}
+
+/* Small uppercase label above a group — the lab's most repeated device. */
+.lab-scope .eyebrow {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--color-ink-faint);
+}
+
+/* Anything the model produced carries a mono face: machine output should not
+   look like prose, and figures that change every frame should not jitter. */
+.lab-scope .machine {
+  font-family: var(--font-mono, ui-monospace, "SF Mono", Menlo, Consolas, monospace);
+  font-variant-numeric: tabular-nums;
+}
+
+/* A confirmed breach breathes — the one moving thing on the floor, so the eye
+   lands on it. */
+.lab-scope .zone-alarm {
+  animation: lab-zone-alarm 1.4s ease-in-out infinite;
+}
+
+@keyframes lab-zone-alarm {
+  0%,
+  100% {
+    fill-opacity: 0.22;
+  }
+  50% {
+    fill-opacity: 0.42;
+  }
+}
+
+/* "Look here": a ring that swells and fades three times over the thing a
+   control just acted on. */
+.lab-scope .pulse-ring {
+  animation: lab-pulse-ring 1s ease-out 3;
+}
+
+@keyframes lab-pulse-ring {
+  0% {
+    opacity: 0.95;
+    stroke-width: 4;
+  }
+  100% {
+    opacity: 0;
+    stroke-width: 14;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lab-scope .zone-alarm,
+  .lab-scope .pulse-ring {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   The lab, when the dashboard is dark.
+
+   The lab has always had both palettes — it shipped dark first, back when it
+   was an app of its own imitating a CCTV monitor — so this is not a new
+   design, it is the other half of an existing one, restated here for the
+   scoped copy. Same values as `lab/src/theme.css` under its own dark
+   selector, kept in step by hand.
+
+   The floor changes with it, and changes as a picture rather than as chrome:
+   concrete goes from pale grey to near-black, which is the difference
+   between a lit bay and a night camera, not a restyling of the console.
+   -------------------------------------------------------------------------- */
+
+:root[data-theme="dark"] .lab-scope {
+  --color-ground: #0B1220;
+  --color-panel: #111A2E;
+  --color-panel-raised: #172239;
+  --color-inset: #0A1020;
+
+  --color-line: #1F2A44;
+  --color-line-strong: #2E3B58;
+
+  --color-ink: #E6E9F0;
+  --color-ink-dim: #A8B0C2;
+  --color-ink-faint: #6B7590;
+
+  --color-vision: #3B82F6;
+  --color-vision-dim: #172554;
+
+  --color-hazard: #F59E0B;
+  --color-hazard-dim: #3A2A0E;
+
+  --color-violation: #EF4444;
+  --color-violation-dim: #3F1A1A;
+  --color-clear: #22C55E;
+  --color-clear-dim: #12321F;
+  --color-unknown: #94A3B8;
+  --color-unknown-dim: #1B2740;
+
+  --color-progress: #8C9FD6;
+  --color-trace: #8C9FD6;
+  --color-trace-dim: #16244A;
+  --color-copper: #C58F70;
+  --color-copper-light: #5A4032;
+
+  --floor-bg: #1B1F26;
+  --floor-slab: #4A4E56;
+  --floor-joint: #3A3E46;
+  --floor-stain: #23262C;
+  --floor-wall: #20242B;
+  --floor-wall-line: #6B717C;
+  --floor-mark: #C7CDD6;
+  --floor-card: #0F172A;
+  --floor-card-ink: #E6E9F0;
+  --floor-card-dim: #CBD5E1;
+  --floor-vignette: #000000;
+  --floor-vignette-alpha: 0.62;
+  --floor-scrim: #020617;
+  --floor-fixture: #525965;
+  --floor-fixture-dark: #2F343C;
+  --floor-fixture-light: #9AA3AE;
+}
+
+/* On a dark ground a panel reads from a hairline of light along its top edge,
+   the way milled metal catches it, rather than from a shadow it has nowhere
+   light enough to cast. */
+:root[data-theme="dark"] .lab-scope .panel {
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.045),
+    0 1px 2px rgb(0 0 0 / 0.4);
+}
+
+:root[data-theme="dark"] .lab-scope .panel-raised {
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.06),
+    0 4px 16px rgb(0 0 0 / 0.45);
+}

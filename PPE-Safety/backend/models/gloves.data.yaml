@@ -1,0 +1,9 @@
+path: /content/PPE-Compliance-Export/PPE-Compliance-Filtered
+train: train/images
+val: valid/images
+test: test/images
+nc: 3
+names:
+  0: person
+  1: hand_glove
+  2: hand_noglove

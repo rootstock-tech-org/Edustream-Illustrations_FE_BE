@@ -1,0 +1,1066 @@
+{
+  "door": {
+    "baseline": {
+      "alert": false,
+      "severity": null,
+      "status": "idle",
+      "summary": "No doors marked"
+    },
+    "blur_k11": {
+      "alert": false,
+      "severity": null,
+      "status": "idle",
+      "summary": "No doors marked"
+    },
+    "blur_k13": {
+      "alert": false,
+      "severity": null,
+      "status": "idle",
+      "summary": "No doors marked"
+    },
+    "blur_k21": {
+      "alert": false,
+      "severity": null,
+      "status": "idle",
+      "summary": "No doors marked"
+    },
+    "blur_k31": {
+      "alert": false,
+      "severity": null,
+      "status": "idle",
+      "summary": "No doors marked"
+    },
+    "blur_k5": {
+      "alert": false,
+      "severity": null,
+      "status": "idle",
+      "summary": "No doors marked"
+    },
+    "blur_k9": {
+      "alert": false,
+      "severity": null,
+      "status": "idle",
+      "summary": "No doors marked"
+    },
+    "brightness_0.08": {
+      "alert": false,
+      "severity": null,
+      "status": "idle",
+      "summary": "No doors marked"
+    },
+    "brightness_0.10": {
+      "alert": false,
+      "severity": null,
+      "status": "idle",
+      "summary": "No doors marked"
+    },
+    "brightness_0.16": {
+      "alert": false,
+      "severity": null,
+      "status": "idle",
+      "summary": "No doors marked"
+    },
+    "brightness_0.17": {
+      "alert": false,
+      "severity": null,
+      "status": "idle",
+      "summary": "No doors marked"
+    },
+    "brightness_0.20": {
+      "alert": false,
+      "severity": null,
+      "status": "idle",
+      "summary": "No doors marked"
+    },
+    "brightness_0.25": {
+      "alert": false,
+      "severity": null,
+      "status": "idle",
+      "summary": "No doors marked"
+    },
+    "brightness_0.35": {
+      "alert": false,
+      "severity": null,
+      "status": "idle",
+      "summary": "No doors marked"
+    },
+    "brightness_0.50": {
+      "alert": false,
+      "severity": null,
+      "status": "idle",
+      "summary": "No doors marked"
+    },
+    "jpeg_q10": {
+      "alert": false,
+      "severity": null,
+      "status": "idle",
+      "summary": "No doors marked"
+    },
+    "jpeg_q17": {
+      "alert": false,
+      "severity": null,
+      "status": "idle",
+      "summary": "No doors marked"
+    },
+    "jpeg_q19": {
+      "alert": false,
+      "severity": null,
+      "status": "idle",
+      "summary": "No doors marked"
+    },
+    "jpeg_q21": {
+      "alert": false,
+      "severity": null,
+      "status": "idle",
+      "summary": "No doors marked"
+    },
+    "jpeg_q30": {
+      "alert": false,
+      "severity": null,
+      "status": "idle",
+      "summary": "No doors marked"
+    },
+    "jpeg_q5": {
+      "alert": false,
+      "severity": null,
+      "status": "idle",
+      "summary": "No doors marked"
+    }
+  },
+  "face": {
+    "baseline": {
+      "alert": false,
+      "status": "clear",
+      "summary": "2 faces in view, nobody recognized"
+    },
+    "blur_k11": {
+      "alert": false,
+      "status": "clear",
+      "summary": "2 faces in view, nobody recognized"
+    },
+    "blur_k13": {
+      "alert": false,
+      "status": "clear",
+      "summary": "2 faces in view, nobody recognized"
+    },
+    "blur_k21": {
+      "alert": false,
+      "status": "clear",
+      "summary": "2 faces in view, nobody recognized"
+    },
+    "blur_k31": {
+      "alert": false,
+      "status": "clear",
+      "summary": "2 faces in view, nobody recognized"
+    },
+    "blur_k5": {
+      "alert": false,
+      "status": "clear",
+      "summary": "2 faces in view, nobody recognized"
+    },
+    "blur_k9": {
+      "alert": false,
+      "status": "clear",
+      "summary": "2 faces in view, nobody recognized"
+    },
+    "brightness_0.08": {
+      "alert": false,
+      "status": "clear",
+      "summary": "2 faces in view, nobody recognized"
+    },
+    "brightness_0.10": {
+      "alert": false,
+      "status": "clear",
+      "summary": "2 faces in view, nobody recognized"
+    },
+    "brightness_0.16": {
+      "alert": false,
+      "status": "clear",
+      "summary": "2 faces in view, nobody recognized"
+    },
+    "brightness_0.17": {
+      "alert": false,
+      "status": "clear",
+      "summary": "2 faces in view, nobody recognized"
+    },
+    "brightness_0.20": {
+      "alert": false,
+      "status": "clear",
+      "summary": "2 faces in view, nobody recognized"
+    },
+    "brightness_0.25": {
+      "alert": false,
+      "status": "clear",
+      "summary": "2 faces in view, nobody recognized"
+    },
+    "brightness_0.35": {
+      "alert": false,
+      "status": "clear",
+      "summary": "2 faces in view, nobody recognized"
+    },
+    "brightness_0.50": {
+      "alert": false,
+      "status": "clear",
+      "summary": "2 faces in view, nobody recognized"
+    },
+    "jpeg_q10": {
+      "alert": false,
+      "status": "clear",
+      "summary": "2 faces in view, nobody recognized"
+    },
+    "jpeg_q17": {
+      "alert": false,
+      "status": "clear",
+      "summary": "2 faces in view, nobody recognized"
+    },
+    "jpeg_q19": {
+      "alert": false,
+      "status": "clear",
+      "summary": "2 faces in view, nobody recognized"
+    },
+    "jpeg_q21": {
+      "alert": false,
+      "status": "clear",
+      "summary": "2 faces in view, nobody recognized"
+    },
+    "jpeg_q30": {
+      "alert": false,
+      "status": "clear",
+      "summary": "2 faces in view, nobody recognized"
+    },
+    "jpeg_q5": {
+      "alert": false,
+      "status": "clear",
+      "summary": "1 face in view, nobody recognized"
+    }
+  },
+  "gloves": {
+    "baseline": {
+      "alert": false,
+      "people_total": 2,
+      "status": "clear",
+      "summary": "Everyone is wearing gloves"
+    },
+    "blur_k11": {
+      "alert": false,
+      "people_total": 2,
+      "status": "clear",
+      "summary": "Everyone is wearing gloves"
+    },
+    "blur_k13": {
+      "alert": false,
+      "people_total": 2,
+      "status": "clear",
+      "summary": "Everyone is wearing gloves"
+    },
+    "blur_k21": {
+      "alert": false,
+      "people_total": 2,
+      "status": "clear",
+      "summary": "Everyone is wearing gloves"
+    },
+    "blur_k31": {
+      "alert": false,
+      "people_total": 2,
+      "status": "clear",
+      "summary": "Everyone is wearing gloves"
+    },
+    "blur_k5": {
+      "alert": false,
+      "people_total": 2,
+      "status": "clear",
+      "summary": "Everyone is wearing gloves"
+    },
+    "blur_k9": {
+      "alert": false,
+      "people_total": 2,
+      "status": "clear",
+      "summary": "Everyone is wearing gloves"
+    },
+    "brightness_0.08": {
+      "alert": false,
+      "people_total": 2,
+      "status": "clear",
+      "summary": "Everyone is wearing gloves"
+    },
+    "brightness_0.10": {
+      "alert": false,
+      "people_total": 2,
+      "status": "clear",
+      "summary": "Everyone is wearing gloves"
+    },
+    "brightness_0.16": {
+      "alert": false,
+      "people_total": 2,
+      "status": "clear",
+      "summary": "Everyone is wearing gloves"
+    },
+    "brightness_0.17": {
+      "alert": false,
+      "people_total": 2,
+      "status": "clear",
+      "summary": "Everyone is wearing gloves"
+    },
+    "brightness_0.20": {
+      "alert": false,
+      "people_total": 2,
+      "status": "clear",
+      "summary": "Everyone is wearing gloves"
+    },
+    "brightness_0.25": {
+      "alert": false,
+      "people_total": 2,
+      "status": "clear",
+      "summary": "Everyone is wearing gloves"
+    },
+    "brightness_0.35": {
+      "alert": false,
+      "people_total": 2,
+      "status": "clear",
+      "summary": "Everyone is wearing gloves"
+    },
+    "brightness_0.50": {
+      "alert": false,
+      "people_total": 2,
+      "status": "clear",
+      "summary": "Everyone is wearing gloves"
+    },
+    "jpeg_q10": {
+      "alert": true,
+      "people_total": 2,
+      "status": "alert",
+      "summary": "1 person without gloves"
+    },
+    "jpeg_q17": {
+      "alert": false,
+      "people_total": 2,
+      "status": "clear",
+      "summary": "Everyone is wearing gloves"
+    },
+    "jpeg_q19": {
+      "alert": false,
+      "people_total": 2,
+      "status": "clear",
+      "summary": "Everyone is wearing gloves"
+    },
+    "jpeg_q21": {
+      "alert": true,
+      "people_total": 2,
+      "status": "alert",
+      "summary": "1 person without gloves"
+    },
+    "jpeg_q30": {
+      "alert": false,
+      "people_total": 2,
+      "status": "clear",
+      "summary": "Everyone is wearing gloves"
+    },
+    "jpeg_q5": {
+      "alert": false,
+      "people_total": 0,
+      "status": "idle",
+      "summary": "Nobody in view"
+    }
+  },
+  "mask": {
+    "baseline": {
+      "alert": true,
+      "missing_mask": 2,
+      "people_not_checked": 0,
+      "people_total": 2,
+      "status": "alert",
+      "summary": "2 people without masks",
+      "wearing_mask": 0
+    },
+    "blur_k11": {
+      "alert": true,
+      "missing_mask": 2,
+      "people_not_checked": 0,
+      "people_total": 2,
+      "status": "alert",
+      "summary": "2 people without masks",
+      "wearing_mask": 0
+    },
+    "blur_k13": {
+      "alert": true,
+      "missing_mask": 2,
+      "people_not_checked": 0,
+      "people_total": 2,
+      "status": "alert",
+      "summary": "2 people without masks",
+      "wearing_mask": 0
+    },
+    "blur_k21": {
+      "alert": true,
+      "missing_mask": 1,
+      "people_not_checked": 0,
+      "people_total": 1,
+      "status": "alert",
+      "summary": "1 person without a mask",
+      "wearing_mask": 0
+    },
+    "blur_k31": {
+      "alert": false,
+      "missing_mask": 0,
+      "people_not_checked": 0,
+      "people_total": 0,
+      "status": "idle",
+      "summary": "Nobody in view",
+      "wearing_mask": 0
+    },
+    "blur_k5": {
+      "alert": true,
+      "missing_mask": 2,
+      "people_not_checked": 0,
+      "people_total": 2,
+      "status": "alert",
+      "summary": "2 people without masks",
+      "wearing_mask": 0
+    },
+    "blur_k9": {
+      "alert": true,
+      "missing_mask": 2,
+      "people_not_checked": 0,
+      "people_total": 2,
+      "status": "alert",
+      "summary": "2 people without masks",
+      "wearing_mask": 0
+    },
+    "brightness_0.08": {
+      "alert": false,
+      "missing_mask": 0,
+      "people_not_checked": 0,
+      "people_total": 0,
+      "status": "idle",
+      "summary": "Nobody in view",
+      "wearing_mask": 0
+    },
+    "brightness_0.10": {
+      "alert": true,
+      "missing_mask": 2,
+      "people_not_checked": 0,
+      "people_total": 2,
+      "status": "alert",
+      "summary": "2 people without masks",
+      "wearing_mask": 0
+    },
+    "brightness_0.16": {
+      "alert": true,
+      "missing_mask": 2,
+      "people_not_checked": 0,
+      "people_total": 2,
+      "status": "alert",
+      "summary": "2 people without masks",
+      "wearing_mask": 0
+    },
+    "brightness_0.17": {
+      "alert": true,
+      "missing_mask": 2,
+      "people_not_checked": 0,
+      "people_total": 2,
+      "status": "alert",
+      "summary": "2 people without masks",
+      "wearing_mask": 0
+    },
+    "brightness_0.20": {
+      "alert": true,
+      "missing_mask": 2,
+      "people_not_checked": 0,
+      "people_total": 2,
+      "status": "alert",
+      "summary": "2 people without masks",
+      "wearing_mask": 0
+    },
+    "brightness_0.25": {
+      "alert": true,
+      "missing_mask": 2,
+      "people_not_checked": 0,
+      "people_total": 2,
+      "status": "alert",
+      "summary": "2 people without masks",
+      "wearing_mask": 0
+    },
+    "brightness_0.35": {
+      "alert": true,
+      "missing_mask": 2,
+      "people_not_checked": 0,
+      "people_total": 2,
+      "status": "alert",
+      "summary": "2 people without masks",
+      "wearing_mask": 0
+    },
+    "brightness_0.50": {
+      "alert": true,
+      "missing_mask": 2,
+      "people_not_checked": 0,
+      "people_total": 2,
+      "status": "alert",
+      "summary": "2 people without masks",
+      "wearing_mask": 0
+    },
+    "jpeg_q10": {
+      "alert": true,
+      "missing_mask": 3,
+      "people_not_checked": 0,
+      "people_total": 3,
+      "status": "alert",
+      "summary": "3 people without masks",
+      "wearing_mask": 0
+    },
+    "jpeg_q17": {
+      "alert": true,
+      "missing_mask": 3,
+      "people_not_checked": 0,
+      "people_total": 3,
+      "status": "alert",
+      "summary": "3 people without masks",
+      "wearing_mask": 0
+    },
+    "jpeg_q19": {
+      "alert": true,
+      "missing_mask": 2,
+      "people_not_checked": 0,
+      "people_total": 2,
+      "status": "alert",
+      "summary": "2 people without masks",
+      "wearing_mask": 0
+    },
+    "jpeg_q21": {
+      "alert": true,
+      "missing_mask": 2,
+      "people_not_checked": 0,
+      "people_total": 2,
+      "status": "alert",
+      "summary": "2 people without masks",
+      "wearing_mask": 0
+    },
+    "jpeg_q30": {
+      "alert": true,
+      "missing_mask": 2,
+      "people_not_checked": 0,
+      "people_total": 2,
+      "status": "alert",
+      "summary": "2 people without masks",
+      "wearing_mask": 0
+    },
+    "jpeg_q5": {
+      "alert": true,
+      "missing_mask": 1,
+      "people_not_checked": 0,
+      "people_total": 1,
+      "status": "alert",
+      "summary": "1 person without a mask",
+      "wearing_mask": 0
+    }
+  },
+  "ppe": {
+    "baseline": {
+      "alert": false,
+      "missing_helmet": 0,
+      "missing_vest": 0,
+      "people_not_checked": 0,
+      "people_too_dark": 0,
+      "people_total": 1,
+      "status": "clear",
+      "summary": "Wearing the right gear",
+      "wearing_helmet": 1,
+      "wearing_vest": 1
+    },
+    "blur_k11": {
+      "alert": false,
+      "missing_helmet": 0,
+      "missing_vest": 0,
+      "people_not_checked": 0,
+      "people_too_dark": 0,
+      "people_total": 1,
+      "status": "clear",
+      "summary": "Wearing the right gear",
+      "wearing_helmet": 1,
+      "wearing_vest": 1
+    },
+    "blur_k13": {
+      "alert": false,
+      "missing_helmet": 0,
+      "missing_vest": 0,
+      "people_not_checked": 0,
+      "people_too_dark": 0,
+      "people_total": 1,
+      "status": "clear",
+      "summary": "Wearing the right gear",
+      "wearing_helmet": 1,
+      "wearing_vest": 1
+    },
+    "blur_k21": {
+      "alert": false,
+      "missing_helmet": 0,
+      "missing_vest": 0,
+      "people_not_checked": 0,
+      "people_too_dark": 0,
+      "people_total": 1,
+      "status": "clear",
+      "summary": "Wearing the right gear",
+      "wearing_helmet": 1,
+      "wearing_vest": 1
+    },
+    "blur_k31": {
+      "alert": true,
+      "missing_helmet": 0,
+      "missing_vest": 1,
+      "people_not_checked": 0,
+      "people_too_dark": 0,
+      "people_total": 1,
+      "status": "alert",
+      "summary": "1 without a vest",
+      "wearing_helmet": 1,
+      "wearing_vest": 0
+    },
+    "blur_k5": {
+      "alert": false,
+      "missing_helmet": 0,
+      "missing_vest": 0,
+      "people_not_checked": 0,
+      "people_too_dark": 0,
+      "people_total": 1,
+      "status": "clear",
+      "summary": "Wearing the right gear",
+      "wearing_helmet": 1,
+      "wearing_vest": 1
+    },
+    "blur_k9": {
+      "alert": false,
+      "missing_helmet": 0,
+      "missing_vest": 0,
+      "people_not_checked": 0,
+      "people_too_dark": 0,
+      "people_total": 1,
+      "status": "clear",
+      "summary": "Wearing the right gear",
+      "wearing_helmet": 1,
+      "wearing_vest": 1
+    },
+    "brightness_0.08": {
+      "alert": false,
+      "missing_helmet": 0,
+      "missing_vest": 0,
+      "people_not_checked": 0,
+      "people_too_dark": 1,
+      "people_total": 1,
+      "status": "clear",
+      "summary": "Wearing the right gear",
+      "wearing_helmet": 0,
+      "wearing_vest": 1
+    },
+    "brightness_0.10": {
+      "alert": false,
+      "missing_helmet": 0,
+      "missing_vest": 0,
+      "people_not_checked": 0,
+      "people_too_dark": 1,
+      "people_total": 1,
+      "status": "clear",
+      "summary": "Wearing the right gear",
+      "wearing_helmet": 0,
+      "wearing_vest": 1
+    },
+    "brightness_0.16": {
+      "alert": false,
+      "missing_helmet": 0,
+      "missing_vest": 0,
+      "people_not_checked": 0,
+      "people_too_dark": 0,
+      "people_total": 1,
+      "status": "clear",
+      "summary": "Wearing the right gear",
+      "wearing_helmet": 1,
+      "wearing_vest": 1
+    },
+    "brightness_0.17": {
+      "alert": false,
+      "missing_helmet": 0,
+      "missing_vest": 0,
+      "people_not_checked": 0,
+      "people_too_dark": 0,
+      "people_total": 1,
+      "status": "clear",
+      "summary": "Wearing the right gear",
+      "wearing_helmet": 1,
+      "wearing_vest": 1
+    },
+    "brightness_0.20": {
+      "alert": true,
+      "missing_helmet": 1,
+      "missing_vest": 1,
+      "people_not_checked": 0,
+      "people_too_dark": 0,
+      "people_total": 2,
+      "status": "alert",
+      "summary": "1 without a helmet, 1 without a vest",
+      "wearing_helmet": 1,
+      "wearing_vest": 1
+    },
+    "brightness_0.25": {
+      "alert": false,
+      "missing_helmet": 0,
+      "missing_vest": 0,
+      "people_not_checked": 0,
+      "people_too_dark": 0,
+      "people_total": 1,
+      "status": "clear",
+      "summary": "Wearing the right gear",
+      "wearing_helmet": 1,
+      "wearing_vest": 1
+    },
+    "brightness_0.35": {
+      "alert": false,
+      "missing_helmet": 0,
+      "missing_vest": 0,
+      "people_not_checked": 0,
+      "people_too_dark": 0,
+      "people_total": 1,
+      "status": "clear",
+      "summary": "Wearing the right gear",
+      "wearing_helmet": 1,
+      "wearing_vest": 1
+    },
+    "brightness_0.50": {
+      "alert": false,
+      "missing_helmet": 0,
+      "missing_vest": 0,
+      "people_not_checked": 0,
+      "people_too_dark": 0,
+      "people_total": 1,
+      "status": "clear",
+      "summary": "Wearing the right gear",
+      "wearing_helmet": 1,
+      "wearing_vest": 1
+    },
+    "jpeg_q10": {
+      "alert": false,
+      "missing_helmet": 0,
+      "missing_vest": 0,
+      "people_not_checked": 0,
+      "people_too_dark": 0,
+      "people_total": 1,
+      "status": "clear",
+      "summary": "Wearing the right gear",
+      "wearing_helmet": 1,
+      "wearing_vest": 1
+    },
+    "jpeg_q17": {
+      "alert": false,
+      "missing_helmet": 0,
+      "missing_vest": 0,
+      "people_not_checked": 0,
+      "people_too_dark": 0,
+      "people_total": 1,
+      "status": "clear",
+      "summary": "Wearing the right gear",
+      "wearing_helmet": 1,
+      "wearing_vest": 1
+    },
+    "jpeg_q19": {
+      "alert": false,
+      "missing_helmet": 0,
+      "missing_vest": 0,
+      "people_not_checked": 0,
+      "people_too_dark": 0,
+      "people_total": 1,
+      "status": "clear",
+      "summary": "Wearing the right gear",
+      "wearing_helmet": 1,
+      "wearing_vest": 1
+    },
+    "jpeg_q21": {
+      "alert": false,
+      "missing_helmet": 0,
+      "missing_vest": 0,
+      "people_not_checked": 0,
+      "people_too_dark": 0,
+      "people_total": 1,
+      "status": "clear",
+      "summary": "Wearing the right gear",
+      "wearing_helmet": 1,
+      "wearing_vest": 1
+    },
+    "jpeg_q30": {
+      "alert": false,
+      "missing_helmet": 0,
+      "missing_vest": 0,
+      "people_not_checked": 0,
+      "people_too_dark": 0,
+      "people_total": 1,
+      "status": "clear",
+      "summary": "Wearing the right gear",
+      "wearing_helmet": 1,
+      "wearing_vest": 1
+    },
+    "jpeg_q5": {
+      "alert": false,
+      "missing_helmet": 0,
+      "missing_vest": 0,
+      "people_not_checked": 0,
+      "people_too_dark": 0,
+      "people_total": 0,
+      "status": "idle",
+      "summary": "Nobody in view",
+      "wearing_helmet": 0,
+      "wearing_vest": 0
+    }
+  },
+  "restricted-zone": {
+    "baseline": {
+      "alert": false,
+      "people_total": 2,
+      "status": "clear",
+      "summary": "Area clear"
+    },
+    "blur_k11": {
+      "alert": false,
+      "people_total": 2,
+      "status": "clear",
+      "summary": "Area clear"
+    },
+    "blur_k13": {
+      "alert": false,
+      "people_total": 2,
+      "status": "clear",
+      "summary": "Area clear"
+    },
+    "blur_k21": {
+      "alert": false,
+      "people_total": 2,
+      "status": "clear",
+      "summary": "Area clear"
+    },
+    "blur_k31": {
+      "alert": false,
+      "people_total": 2,
+      "status": "clear",
+      "summary": "Area clear"
+    },
+    "blur_k5": {
+      "alert": false,
+      "people_total": 3,
+      "status": "clear",
+      "summary": "Area clear"
+    },
+    "blur_k9": {
+      "alert": false,
+      "people_total": 2,
+      "status": "clear",
+      "summary": "Area clear"
+    },
+    "brightness_0.08": {
+      "alert": false,
+      "people_total": 2,
+      "status": "clear",
+      "summary": "Area clear"
+    },
+    "brightness_0.10": {
+      "alert": false,
+      "people_total": 2,
+      "status": "clear",
+      "summary": "Area clear"
+    },
+    "brightness_0.16": {
+      "alert": false,
+      "people_total": 2,
+      "status": "clear",
+      "summary": "Area clear"
+    },
+    "brightness_0.17": {
+      "alert": false,
+      "people_total": 2,
+      "status": "clear",
+      "summary": "Area clear"
+    },
+    "brightness_0.20": {
+      "alert": false,
+      "people_total": 2,
+      "status": "clear",
+      "summary": "Area clear"
+    },
+    "brightness_0.25": {
+      "alert": false,
+      "people_total": 2,
+      "status": "clear",
+      "summary": "Area clear"
+    },
+    "brightness_0.35": {
+      "alert": false,
+      "people_total": 2,
+      "status": "clear",
+      "summary": "Area clear"
+    },
+    "brightness_0.50": {
+      "alert": false,
+      "people_total": 2,
+      "status": "clear",
+      "summary": "Area clear"
+    },
+    "jpeg_q10": {
+      "alert": false,
+      "people_total": 0,
+      "status": "clear",
+      "summary": "Area clear"
+    },
+    "jpeg_q17": {
+      "alert": false,
+      "people_total": 2,
+      "status": "clear",
+      "summary": "Area clear"
+    },
+    "jpeg_q19": {
+      "alert": false,
+      "people_total": 2,
+      "status": "clear",
+      "summary": "Area clear"
+    },
+    "jpeg_q21": {
+      "alert": false,
+      "people_total": 2,
+      "status": "clear",
+      "summary": "Area clear"
+    },
+    "jpeg_q30": {
+      "alert": false,
+      "people_total": 2,
+      "status": "clear",
+      "summary": "Area clear"
+    },
+    "jpeg_q5": {
+      "alert": false,
+      "people_total": 0,
+      "status": "clear",
+      "summary": "Area clear"
+    }
+  },
+  "workstation": {
+    "baseline": {
+      "alert": false,
+      "people_total": 0,
+      "status": "idle",
+      "summary": "No workstations marked"
+    },
+    "blur_k11": {
+      "alert": false,
+      "people_total": 0,
+      "status": "idle",
+      "summary": "No workstations marked"
+    },
+    "blur_k13": {
+      "alert": false,
+      "people_total": 0,
+      "status": "idle",
+      "summary": "No workstations marked"
+    },
+    "blur_k21": {
+      "alert": false,
+      "people_total": 0,
+      "status": "idle",
+      "summary": "No workstations marked"
+    },
+    "blur_k31": {
+      "alert": false,
+      "people_total": 0,
+      "status": "idle",
+      "summary": "No workstations marked"
+    },
+    "blur_k5": {
+      "alert": false,
+      "people_total": 0,
+      "status": "idle",
+      "summary": "No workstations marked"
+    },
+    "blur_k9": {
+      "alert": false,
+      "people_total": 0,
+      "status": "idle",
+      "summary": "No workstations marked"
+    },
+    "brightness_0.08": {
+      "alert": false,
+      "people_total": 0,
+      "status": "idle",
+      "summary": "No workstations marked"
+    },
+    "brightness_0.10": {
+      "alert": false,
+      "people_total": 0,
+      "status": "idle",
+      "summary": "No workstations marked"
+    },
+    "brightness_0.16": {
+      "alert": false,
+      "people_total": 0,
+      "status": "idle",
+      "summary": "No workstations marked"
+    },
+    "brightness_0.17": {
+      "alert": false,
+      "people_total": 0,
+      "status": "idle",
+      "summary": "No workstations marked"
+    },
+    "brightness_0.20": {
+      "alert": false,
+      "people_total": 0,
+      "status": "idle",
+      "summary": "No workstations marked"
+    },
+    "brightness_0.25": {
+      "alert": false,
+      "people_total": 0,
+      "status": "idle",
+      "summary": "No workstations marked"
+    },
+    "brightness_0.35": {
+      "alert": false,
+      "people_total": 0,
+      "status": "idle",
+      "summary": "No workstations marked"
+    },
+    "brightness_0.50": {
+      "alert": false,
+      "people_total": 0,
+      "status": "idle",
+      "summary": "No workstations marked"
+    },
+    "jpeg_q10": {
+      "alert": false,
+      "people_total": 0,
+      "status": "idle",
+      "summary": "No workstations marked"
+    },
+    "jpeg_q17": {
+      "alert": false,
+      "people_total": 0,
+      "status": "idle",
+      "summary": "No workstations marked"
+    },
+    "jpeg_q19": {
+      "alert": false,
+      "people_total": 0,
+      "status": "idle",
+      "summary": "No workstations marked"
+    },
+    "jpeg_q21": {
+      "alert": false,
+      "people_total": 0,
+      "status": "idle",
+      "summary": "No workstations marked"
+    },
+    "jpeg_q30": {
+      "alert": false,
+      "people_total": 0,
+      "status": "idle",
+      "summary": "No workstations marked"
+    },
+    "jpeg_q5": {
+      "alert": false,
+      "people_total": 0,
+      "status": "idle",
+      "summary": "No workstations marked"
+    }
+  }
+}

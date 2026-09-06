@@ -1,0 +1,448 @@
+@import "tailwindcss";
+
+/* The AI Safety Lab's palette, scoped to the Lab page. See lab.css. */
+@import "./lab.css";
+
+/* --------------------------------------------------------------------------
+   Design tokens
+
+   Single source of truth for the platform's look. Components reference these
+   by name (bg-surface, text-text-secondary, border-border) and never hardcode
+   a colour, so the whole product can be re-themed from this block.
+
+   Navy on white, with panels of frosted glass.
+
+   Glass rather than the soft-extruded alternative, for two reasons that belong
+   to this product rather than to taste. Every monitoring page puts panels over
+   live camera footage, and a translucent surface is the only one that can sit
+   on moving video without either hiding it or being lost in it. And this
+   product's whole job is telling safe from unsafe from *cannot check* at a
+   glance — soft extrusions need low contrast to read as extrusions at all,
+   which is the opposite of what a three-state safety verdict needs.
+
+   Glass on a white page has nothing to refract, so the page carries two very
+   faint navy blooms behind everything. They are what make a panel read as
+   frosted rather than as a flat white card, and they are deliberately too weak
+   to notice as colour.
+   -------------------------------------------------------------------------- */
+
+@theme {
+  /* Surfaces. `surface` and `panel` are translucent — see .glass below, which
+     is what actually paints them, since Tailwind cannot express a backdrop
+     filter as a colour. */
+  --color-background: #FFFFFF;
+  --color-surface: rgba(255, 255, 255, 0.86);
+  --color-panel: rgba(255, 255, 255, 0.80);
+  --color-sidebar: rgba(255, 255, 255, 0.78);
+  --color-hover: rgba(11, 37, 69, 0.045);
+  --color-subtle: rgba(11, 37, 69, 0.028);
+
+  /* Lines. Navy at low alpha rather than a grey: a hairline that shares the
+     text's hue reads as part of the same object, where grey reads as a
+     separate one drawn on top. */
+  --color-border: rgba(11, 37, 69, 0.10);
+  --color-border-strong: rgba(11, 37, 69, 0.20);
+
+  /* Brand */
+  --color-primary: #1B4B8F;
+  --color-primary-hover: #143A6E;
+  --color-primary-soft: #EAF1FB;
+
+  /* Safety semantics.
+     Deepened to sit with navy, and deliberately *not* softened: these three
+     are the only colours in the product that carry meaning rather than
+     decoration, and the frosted surfaces must not be allowed to mute them.
+     Green is a verdict, amber is "we could not look", red is an alarm. */
+  --color-success: #0F7B4F;
+  --color-success-soft: #E7F6EE;
+  --color-warning: #B26A00;
+  --color-warning-soft: #FDF3E2;
+  --color-danger: #C42B1C;
+  --color-danger-soft: #FBEBE9;
+
+  /* Type. Navy through the whole scale, lightening by mixing toward the page
+     rather than toward grey, so secondary text stays in the same family. */
+  --color-text: #0B2545;
+  --color-text-secondary: #3D5A80;
+  --color-text-muted: #8DA2BE;
+
+  /* Inter when the operator's machine has it, otherwise the platform UI face.
+     Deliberately not loaded from a CDN: plant networks are frequently offline,
+     and a blocking webfont request would stall first paint. */
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+
+  /* Elevation, tinted navy rather than black. A neutral shadow on a white
+     page greys the colour beneath it; a shadow that shares the ink's hue
+     deepens it instead. */
+  --shadow-panel:
+    0 1px 2px rgb(11 37 69 / 0.04),
+    0 4px 16px rgb(11 37 69 / 0.05);
+  --shadow-raised:
+    0 2px 6px rgb(11 37 69 / 0.05),
+    0 12px 32px rgb(11 37 69 / 0.08);
+  --shadow-overlay:
+    0 8px 24px rgb(11 37 69 / 0.10),
+    0 24px 64px rgb(11 37 69 / 0.12);
+
+  /* The page behind the glass, and the glass itself.
+
+     These were literals until the product gained a dark theme, and they are
+     the reason it could not have one: the frosting is built out of white,
+     and white frosting over a dark page is fog. Naming them lets the dark
+     palette below restate what "glass" means — a pale film over a light page,
+     a lit film over a dark one — without touching a single component. */
+  --page-wash: #F4F7FC;
+  --glass-fill: rgb(255 255 255 / 0.86);
+  --glass-fill-frosted: rgb(255 255 255 / 0.70);
+  --glass-fill-video: rgb(255 255 255 / 0.52);
+  --glass-fill-raised: rgb(255 255 255 / 0.86);
+  --glass-fill-raised-frosted: rgb(255 255 255 / 0.78);
+  --glass-edge: rgb(255 255 255 / 0.7);
+  --glass-edge-raised: rgb(11 37 69 / 0.10);
+  --glass-inset: rgb(255 255 255 / 0.6);
+  --glass-highlight: rgb(255 255 255 / 0.9);
+  --input-fill: rgb(255 255 255 / 0.70);
+
+  /* The blooms behind the glass, and the marks drawn in ink at low alpha. */
+  --ambient-a: rgb(27 75 143 / 0.16);
+  --ambient-b: rgb(38 132 199 / 0.13);
+  --ambient-c: rgb(27 75 143 / 0.10);
+  --scrollbar-thumb: rgb(11 37 69 / 0.18);
+  --scrollbar-thumb-hover: rgb(11 37 69 / 0.32);
+  --skeleton-base: rgb(11 37 69 / 0.04);
+  --skeleton-sheen: rgb(11 37 69 / 0.09);
+
+  /* How frosted a panel is. One number, so every glass surface in the product
+     agrees and a change is a single edit. */
+  --glass-blur: 18px;
+}
+
+/* -------------------------------------------------------------------------- */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  /* Not pure white.
+     A white panel on a white page is a white rectangle however it is blurred,
+     and the first version of this theme proved it — frosted panels that read
+     as flat cards. The page is washed a few percent toward navy so the panels,
+     which are nearly white, have something to be lighter than. It still reads
+     as a white product; hold a sheet of paper to the screen and the difference
+     is obvious, which is exactly the amount wanted. */
+  background-color: var(--page-wash);
+  color: var(--color-text);
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --------------------------------------------------------------------------
+   Dark
+
+   The same product at night, not a different one: navy stays the family, the
+   three safety colours keep their jobs, and glass is still glass. What
+   changes is what glass is made of. On a white page a panel is a pale film
+   that lets a little of the page through; on a dark one a pale film is fog,
+   so it becomes a *lit* film — a few percent of white over a deep navy — and
+   the hairline that reads as a bevelled edge moves from bright white to a
+   dim one, because a highlight brighter than its surroundings is the whole
+   trick and the surroundings changed.
+
+   Set on `:root[data-theme="dark"]`, outside any layer, so it beats the
+   `@theme` block above whichever layer Tailwind puts that in. Every utility
+   the product uses — `bg-panel`, `text-text-secondary`, `border-border` —
+   compiles to one of these variables, which is why a whole dashboard turns
+   over without a component knowing about it.
+   -------------------------------------------------------------------------- */
+
+:root[data-theme="dark"] {
+  --color-background: #0E1A2B;
+  --color-surface: rgba(23, 36, 56, 0.86);
+  --color-panel: rgba(23, 36, 56, 0.80);
+  --color-sidebar: rgba(18, 29, 46, 0.78);
+  --color-hover: rgba(255, 255, 255, 0.06);
+  --color-subtle: rgba(255, 255, 255, 0.035);
+
+  --color-border: rgba(255, 255, 255, 0.11);
+  --color-border-strong: rgba(255, 255, 255, 0.22);
+
+  /* Lifted off the light theme's navy, which goes muddy on a dark ground:
+     a brand colour has to stay legible as a link and as a focus ring. */
+  --color-primary: #5B9BE8;
+  --color-primary-hover: #7FB4F0;
+  --color-primary-soft: rgba(91, 155, 232, 0.16);
+
+  /* The three that carry meaning. Lightened until each clears the contrast
+     bar on this ground, and no further — they are still a verdict, a
+     "could not look" and an alarm, and must not drift toward decoration. */
+  --color-success: #3DBE85;
+  --color-success-soft: rgba(61, 190, 133, 0.15);
+  --color-warning: #E0A03A;
+  --color-warning-soft: rgba(224, 160, 58, 0.15);
+  --color-danger: #F2705E;
+  --color-danger-soft: rgba(242, 112, 94, 0.15);
+
+  --color-text: #E9EFF8;
+  --color-text-secondary: #AFC1DA;
+  --color-text-muted: #7286A3;
+
+  --page-wash: #0A1422;
+  --glass-fill: rgba(30, 45, 68, 0.86);
+  --glass-fill-frosted: rgba(30, 45, 68, 0.62);
+  --glass-fill-video: rgba(16, 26, 42, 0.55);
+  --glass-fill-raised: rgba(34, 50, 74, 0.92);
+  --glass-fill-raised-frosted: rgba(34, 50, 74, 0.80);
+  --glass-edge: rgb(255 255 255 / 0.09);
+  --glass-edge-raised: rgb(255 255 255 / 0.12);
+  --glass-inset: rgb(255 255 255 / 0.07);
+  --glass-highlight: rgb(255 255 255 / 0.16);
+  --input-fill: rgb(255 255 255 / 0.05);
+
+  --ambient-a: rgb(59 130 246 / 0.16);
+  --ambient-b: rgb(56 189 248 / 0.12);
+  --ambient-c: rgb(99 102 241 / 0.12);
+  --scrollbar-thumb: rgb(255 255 255 / 0.16);
+  --scrollbar-thumb-hover: rgb(255 255 255 / 0.28);
+  --skeleton-base: rgb(255 255 255 / 0.05);
+  --skeleton-sheen: rgb(255 255 255 / 0.11);
+
+  /* On a dark page a shadow does almost nothing; depth has to come from the
+     surface being lighter than what is behind it. Kept, and deepened, so
+     stacked sheets still separate. */
+  --shadow-panel:
+    0 1px 2px rgb(0 0 0 / 0.30),
+    0 4px 16px rgb(0 0 0 / 0.26);
+  --shadow-raised:
+    0 2px 6px rgb(0 0 0 / 0.32),
+    0 12px 32px rgb(0 0 0 / 0.40);
+  --shadow-overlay:
+    0 8px 24px rgb(0 0 0 / 0.44),
+    0 24px 64px rgb(0 0 0 / 0.52);
+}
+
+/* The browser's own widgets — form controls, scrollbars — follow too. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+/* The light behind the glass.
+   Two very faint navy blooms, fixed so they do not slide around as a long page
+   scrolls. They exist for one reason: a frosted panel on a flat white page is
+   indistinguishable from a plain white card, because there is nothing behind
+   it to blur. At this strength they are not readable as colour — cover the
+   panels and the page still looks white — but they are what makes the panels
+   look like glass. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      55rem 38rem at 8% -8%,
+      var(--ambient-a),
+      transparent 62%
+    ),
+    radial-gradient(
+      48rem 34rem at 102% 4%,
+      var(--ambient-b),
+      transparent 64%
+    ),
+    radial-gradient(
+      65rem 45rem at 55% 112%,
+      var(--ambient-c),
+      transparent 66%
+    );
+}
+
+/* --------------------------------------------------------------------------
+   Glass
+
+   One class, used by every panel, card, sidebar and bar in the product. The
+   blur is the whole effect; the rest is what stops it looking cheap — a
+   hairline top edge where the light would catch, and a shadow tinted with the
+   ink rather than with black.
+   -------------------------------------------------------------------------- */
+
+.glass {
+  background: var(--glass-fill);
+  border: 1px solid var(--glass-edge);
+  box-shadow:
+    var(--shadow-panel),
+    inset 0 1px 0 var(--glass-inset);
+}
+
+/* Applied only where the browser can actually frost. Without this the
+   fallback above is a solid-enough white that text stays legible, rather than
+   a washed-out panel with the page showing through it. */
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass {
+    background: var(--glass-fill-frosted);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(150%);
+    backdrop-filter: blur(var(--glass-blur)) saturate(150%);
+  }
+
+  /* Over live video, where the picture behind is the point. Frosted harder
+     and held further back, so a detection drawn underneath is still visible
+     through it. */
+  .glass-over-video {
+    background: var(--glass-fill-video);
+    -webkit-backdrop-filter: blur(24px) saturate(140%);
+    backdrop-filter: blur(24px) saturate(140%);
+  }
+}
+
+/* The light edge. A one-pixel highlight along the top of a panel, which is
+   what the eye reads as a bevelled edge catching the light — and the cheapest
+   thing that separates glass from a translucent rectangle. */
+.glass::after {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--glass-highlight) 18%,
+    var(--glass-highlight) 82%,
+    transparent
+  );
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+/* Anything carrying the highlight has to establish a containing block for it,
+   and most panels are already positioned. This is a safety net for the ones
+   that are not. */
+.glass {
+  position: relative;
+}
+
+/* A raised sheet: dialogs, popovers, anything that sits above the page. */
+.glass-raised {
+  background: var(--glass-fill-raised);
+  border: 1px solid var(--glass-edge-raised);
+  box-shadow: var(--shadow-overlay);
+}
+
+@supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass-raised {
+    background: var(--glass-fill-raised-frosted);
+    -webkit-backdrop-filter: blur(28px) saturate(160%);
+    backdrop-filter: blur(28px) saturate(160%);
+  }
+}
+
+/* Shared form control. Used by every input and select in the app. */
+.input {
+  background: var(--input-fill);
+  @apply w-full border border-border rounded-lg px-3 py-2 text-sm text-text
+         placeholder:text-text-muted transition-colors
+         focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/15
+         disabled:bg-subtle disabled:text-text-muted;
+}
+
+/* Visible keyboard focus everywhere. Removing this fails WCAG 2.4.7. */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border: 3px solid transparent;
+  background-clip: content-box;
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+  background-clip: content-box;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Motion. Every animation is disabled for operators who ask for reduced
+   motion — an alert that pulses is a nuisance, not a feature, for them.       */
+/* -------------------------------------------------------------------------- */
+
+@keyframes pulse-danger {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+.animate-pulse-danger {
+  animation: pulse-danger 1.4s ease-in-out infinite;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: none; }
+}
+.animate-fade-in {
+  animation: fade-in 0.2s ease-out both;
+}
+
+@keyframes shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--skeleton-base) 25%,
+    var(--skeleton-sheen) 37%,
+    var(--skeleton-base) 63%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+
+button,
+[role="button"],
+a,
+input[type="button"],
+input[type="submit"],
+input[type="reset"] {
+  cursor: pointer;
+}
+
+button:disabled,
+input:disabled {
+  cursor: not-allowed;
+}
+
+/* Screen-reader-only text, for icon-only controls. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}

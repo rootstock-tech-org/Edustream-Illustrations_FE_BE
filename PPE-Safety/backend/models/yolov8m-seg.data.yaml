@@ -1,0 +1,21 @@
+# Person detection for the suspended-load module.
+#
+# Stock COCO yolov8m-seg, not trained for this site. Recorded here beside the
+# weights, as for every other model, so what they can and cannot report is
+# readable without loading them.
+#
+# Only class 0 (person) is used. The other 79 COCO classes are never asked
+# for and nothing in this product relies on them.
+#
+# Why the medium model rather than the yolov8n-seg the restricted zone and
+# workstation modules share: measured on the operator's manipulator-bay
+# footage, the nano weights returned zero people on three consecutive
+# samples of frames containing three, at the shipped 0.45 bar. The medium
+# weights find them and return the same answer at 0.45, 0.35 and 0.25.
+# Full table in app/modules/suspended_load/service.py.
+#
+# It still misses a worker standing by the jib arm in one of those frames.
+
+nc: 80
+names:
+  0: person
