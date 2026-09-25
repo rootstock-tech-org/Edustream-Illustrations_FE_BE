@@ -5,6 +5,7 @@ import { getConcept } from '@/domain/education/concepts';
 import type { TutorSnapshot } from '@/ai/context.builder';
 import { useDeviceStore } from './device.store';
 import { useSimulationStore } from './simulation.store';
+import { withBase } from '@/lib/basePath';
 
 export interface ChatMessage {
   readonly role: 'user' | 'assistant';
@@ -81,7 +82,7 @@ export const useTutorStore = create<TutorStore>((set, get) => ({
     }));
 
     try {
-      const res = await fetch('/api/tutor', {
+      const res = await fetch(withBase('/api/tutor'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ snapshot: buildSnapshot(), history, question }),

@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { storageKey } from '@/lib/basePath';
 
 export type Theme = 'light' | 'dark';
 
@@ -10,7 +11,7 @@ function apply(t: Theme) {
   if (typeof document === 'undefined') return;
   document.documentElement.classList.toggle('dark', t === 'dark');
   try {
-    localStorage.setItem('theme', t);
+    localStorage.setItem(storageKey('theme'), t);
   } catch {
     /* ignore */
   }

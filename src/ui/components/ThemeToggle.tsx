@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { useThemeStore } from '@/ui/theme';
+import { storageKey } from '@/lib/basePath';
 
 /** Light/dark theme switch (default light). */
 export function ThemeToggle() {
@@ -13,7 +14,7 @@ export function ThemeToggle() {
     // Store always starts 'light' (matches SSR) — restore the persisted
     // choice only after mount, to avoid a server/client hydration mismatch.
     try {
-      const saved = localStorage.getItem('theme');
+      const saved = localStorage.getItem(storageKey('theme'));
       if (saved === 'dark' || saved === 'light') setTheme(saved);
     } catch {
       /* ignore */

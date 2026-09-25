@@ -21,7 +21,7 @@ export const viewport: Viewport = {
 };
 
 // Set the theme class before paint to avoid a flash (default light).
-const themeScript = `try{if(localStorage.getItem('theme')==='dark')document.documentElement.classList.add('dark');}catch(e){}`;
+const themeScript = `try{if(localStorage.getItem('probe:theme')==='dark')document.documentElement.classList.add('dark');}catch(e){}`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

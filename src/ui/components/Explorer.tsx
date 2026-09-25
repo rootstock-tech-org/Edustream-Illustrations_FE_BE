@@ -5,6 +5,8 @@ import { formatQuantity } from '@/domain/units';
 import { useGateResult, useTransistorResult } from '@/ui/hooks/useSimulation';
 import { useDevice } from '@/ui/hooks/useDevice';
 import { useLabModes } from '@/viz/three/lab-modes';
+import { benchFromSearch, clearBenchParam } from '@/ui/deepLink';
+import { useDeviceStore } from '@/state/device.store';
 import { DeviceMenu } from './DeviceMenu';
 import { PanelResizer } from './PanelResizer';
 import { ParameterPanel } from './ParameterPanel';
@@ -39,6 +41,7 @@ import { SequentialLogicSection } from './sequential/SequentialLogicSection';
 import { CombinationalLogicSection } from './combinational/CombinationalLogicSection';
 import { LogicGatesSection } from './logic/LogicGatesSection';
 import { useMediaQuery } from '@/ui/hooks/useMediaQuery';
+import { storageKey } from '@/lib/basePath';
 
 /** Resizable panel bounds (px). Left keeps its old default; the right panel
  *  is narrowed from 344 so the device stage gets the space back. */
@@ -82,6 +85,31 @@ export function Explorer() {
   const [seqOpen, setSeqOpen] = useState(false);
   const [combOpen, setCombOpen] = useState(false);
   const [gatesOpen, setGatesOpen] = useState(false);
+
+  // `?bench=<id>` — how AVSAR's tutor lands a learner on a SPECIFIC bench
+  // rather than on whatever the app opens with. Runs once, on mount, and then
+  // strips the param; `deepLink.ts` explains why it is an instruction and not
+  // state, and owns the allow-list that keeps a stale link harmless.
+  //
+  // `useDeviceStore.getState()` rather than the `useDevice()` hook: this fires
+  // before first paint and must not re-run when the learner later changes
+  // device by hand, which subscribing to the store would cause.
+  useEffect(() => {
+    const bench = benchFromSearch(window.location.search);
+    if (!bench) return;
+    if (bench.kind === 'device') {
+      useDeviceStore.getState().setDevice(bench.id);
+    } else if (bench.id === 'fabrication') {
+      setFabOpen(true);
+    } else if (bench.id === 'sequential') {
+      setSeqOpen(true);
+    } else if (bench.id === 'combinational') {
+      setCombOpen(true);
+    } else if (bench.id === 'logic-gates') {
+      setGatesOpen(true);
+    }
+    clearBenchParam();
+  }, []);
   const [leftW, setLeftW] = useState(LEFT_DEFAULT);
   const [rightW, setRightW] = useState(RIGHT_DEFAULT);
 
@@ -93,8 +121,8 @@ export function Explorer() {
 
   useEffect(() => {
     try {
-      const l = Number(localStorage.getItem('panel.leftW'));
-      const r = Number(localStorage.getItem('panel.rightW'));
+      const l = Number(localStorage.getItem(storageKey('panel.leftW')));
+      const r = Number(localStorage.getItem(storageKey('panel.rightW')));
       if (l >= LEFT_MIN && l <= LEFT_MAX) setLeftW(l);
       if (r >= RIGHT_MIN && r <= RIGHT_MAX) setRightW(r);
     } catch {
@@ -105,7 +133,7 @@ export function Explorer() {
   const changeLeft = useCallback((v: number) => {
     setLeftW(v);
     try {
-      localStorage.setItem('panel.leftW', String(v));
+      localStorage.setItem(storageKey('panel.leftW'), String(v));
     } catch {
       /* ignore */
     }
@@ -113,7 +141,7 @@ export function Explorer() {
   const changeRight = useCallback((v: number) => {
     setRightW(v);
     try {
-      localStorage.setItem('panel.rightW', String(v));
+      localStorage.setItem(storageKey('panel.rightW'), String(v));
     } catch {
       /* ignore */
     }
@@ -331,12 +359,6 @@ export function Explorer() {
         </div>
       </div>
 
-      {/* feedback pinned to the bottom of the screen: <main> is a fixed-height
-          flex column and the grid above takes flex-1, so a shrink-0 bar here
-          always sits on the bottom edge without position:fixed. */}
-      <div className="glass shrink-0 rounded-2xl px-4 py-2">
-        <FeedbackBar inline id={`device-${device.id}`} />
-      </div>
     </main>
   );
 }
