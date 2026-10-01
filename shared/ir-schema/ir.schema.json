@@ -1,0 +1,508 @@
+{
+  "$defs": {
+    "Annotation": {
+      "additionalProperties": false,
+      "description": "A free-form note attached to the design, optionally pointing at a\nspecific component/port/connection id.",
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        },
+        "target_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Target Id"
+        },
+        "visual": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/VisualMetadata"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "id",
+        "text"
+      ],
+      "title": "Annotation",
+      "type": "object"
+    },
+    "BitRange": {
+      "additionalProperties": false,
+      "description": "An inclusive [lsb, msb] bit slice, e.g. bits 7 down to 0 of a bus.",
+      "properties": {
+        "msb": {
+          "title": "Msb",
+          "type": "integer"
+        },
+        "lsb": {
+          "default": 0,
+          "title": "Lsb",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "msb"
+      ],
+      "title": "BitRange",
+      "type": "object"
+    },
+    "Component": {
+      "additionalProperties": false,
+      "description": "A logical VLSI component (gate, register, module, transistor, etc.).\n\n`kind` is deliberately a plain, open string - NOT a closed enum. This IR\nmust be able to represent any component a future knowledge/whitelist\nservice decides to support, without a schema change every time a new\nVLSI concept is added. Examples: AND, OR, NOT, XOR, NAND, NOR, MUX, DFF,\nREGISTER, COUNTER, ALU, NMOS, PMOS, CMOS_INVERTER, MODULE - but any\nstring is structurally valid here.\n\n`reset` is optional and generic (not DFF-specific in this model) - see\nResetSpec's own docstring. It defaults to None so every existing\ndocument/component built before reset semantics existed remains valid\nand behaves exactly as before.",
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "kind": {
+          "title": "Kind",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "parent_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Parent Id"
+        },
+        "ports": {
+          "items": {
+            "$ref": "#/$defs/Port"
+          },
+          "title": "Ports",
+          "type": "array"
+        },
+        "parameters": {
+          "items": {
+            "$ref": "#/$defs/Parameter"
+          },
+          "title": "Parameters",
+          "type": "array"
+        },
+        "visual": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/VisualMetadata"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "reset": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ResetSpec"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "name"
+      ],
+      "title": "Component",
+      "type": "object"
+    },
+    "Connection": {
+      "additionalProperties": false,
+      "description": "A net wiring one component's port to another's.",
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "source": {
+          "$ref": "#/$defs/ConnectionEndpoint"
+        },
+        "target": {
+          "$ref": "#/$defs/ConnectionEndpoint"
+        }
+      },
+      "required": [
+        "id",
+        "source",
+        "target"
+      ],
+      "title": "Connection",
+      "type": "object"
+    },
+    "ConnectionEndpoint": {
+      "additionalProperties": false,
+      "description": "One side of a Connection: a specific port on a specific component.",
+      "properties": {
+        "component_id": {
+          "title": "Component Id",
+          "type": "string"
+        },
+        "port_id": {
+          "title": "Port Id",
+          "type": "string"
+        },
+        "bit_range": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/BitRange"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "component_id",
+        "port_id"
+      ],
+      "title": "ConnectionEndpoint",
+      "type": "object"
+    },
+    "JsonValue": {},
+    "Parameter": {
+      "additionalProperties": false,
+      "description": "A single named configuration value attached to a Component (e.g.\nbit width, reset polarity, initial value).",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "value": {
+          "$ref": "#/$defs/JsonValue",
+          "default": null
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "Parameter",
+      "type": "object"
+    },
+    "Port": {
+      "additionalProperties": false,
+      "description": "A single named signal terminal on a Component.",
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "direction": {
+          "$ref": "#/$defs/PortDirection"
+        },
+        "width": {
+          "description": "Bit width of this port. Must be a positive integer.",
+          "exclusiveMinimum": 0,
+          "title": "Width",
+          "type": "integer"
+        },
+        "type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Open-ended signal role hint, e.g. 'clock', 'reset', 'data'.",
+          "title": "Type"
+        },
+        "bit_range": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/BitRange"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "direction",
+        "width"
+      ],
+      "title": "Port",
+      "type": "object"
+    },
+    "PortDirection": {
+      "description": "Signal direction of a Port - a real electrical property, so (unlike\nComponent.kind) this is deliberately a small, closed set.",
+      "enum": [
+        "input",
+        "output",
+        "inout"
+      ],
+      "title": "PortDirection",
+      "type": "string"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "description": "Where this IRDocument came from. Never store secrets/API keys/raw\ncredentials here - this is audit metadata, not a secrets store.",
+      "properties": {
+        "source": {
+          "description": "e.g. 'manual', 'ai_generated', 'imported', 'derived'.",
+          "title": "Source",
+          "type": "string"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "created_by": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Created By"
+        },
+        "request_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Request Id"
+        },
+        "parent_version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Parent Version"
+        },
+        "notes": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Notes"
+        }
+      },
+      "required": [
+        "source",
+        "created_at"
+      ],
+      "title": "Provenance",
+      "type": "object"
+    },
+    "ResetPolarity": {
+      "description": "Which logic level actually asserts a reset signal. Deliberately a\nclosed enum (like PortDirection) - a real electrical property, not an\nopen-ended kind string. Never inferred from a port name; a component\neither declares this explicitly via ResetSpec or has no reset at all.",
+      "enum": [
+        "active_high",
+        "active_low"
+      ],
+      "title": "ResetPolarity",
+      "type": "string"
+    },
+    "ResetSpec": {
+      "additionalProperties": false,
+      "description": "Explicit, structural reset semantics for a sequential Component\n(currently DFF only). Presence of this field - not the existence of\nany particular port name - is the sole signal that a component has a\nreset at all: `Component.reset is None` means \"no reset\", full stop.\nGeneric on Component (not DFF-specific) so registers/counters/FSMs\nadded later reuse this exact same field without any IR redesign.",
+      "properties": {
+        "polarity": {
+          "$ref": "#/$defs/ResetPolarity"
+        },
+        "timing": {
+          "$ref": "#/$defs/ResetTiming"
+        }
+      },
+      "required": [
+        "polarity",
+        "timing"
+      ],
+      "title": "ResetSpec",
+      "type": "object"
+    },
+    "ResetTiming": {
+      "description": "Whether a reset takes effect only on a clock edge (synchronous) or\nimmediately, independent of the clock (asynchronous).",
+      "enum": [
+        "synchronous",
+        "asynchronous"
+      ],
+      "title": "ResetTiming",
+      "type": "string"
+    },
+    "VisualMetadata": {
+      "additionalProperties": false,
+      "description": "Optional, non-authoritative rendering hints. Never affects circuit\nsemantics - only future schematic/3D layers may read this.",
+      "properties": {
+        "x": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "X"
+        },
+        "y": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Y"
+        },
+        "label": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Label"
+        }
+      },
+      "title": "VisualMetadata",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "description": "The canonical VLSI Intermediate Representation. Every future service\nin this platform consumes/produces this exact model - never a private,\nincompatible representation of the same circuit.",
+  "properties": {
+    "id": {
+      "title": "Id",
+      "type": "string"
+    },
+    "schema_version": {
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "design_version": {
+      "title": "Design Version",
+      "type": "string"
+    },
+    "parent_version": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Parent Version"
+    },
+    "name": {
+      "title": "Name",
+      "type": "string"
+    },
+    "components": {
+      "items": {
+        "$ref": "#/$defs/Component"
+      },
+      "title": "Components",
+      "type": "array"
+    },
+    "connections": {
+      "items": {
+        "$ref": "#/$defs/Connection"
+      },
+      "title": "Connections",
+      "type": "array"
+    },
+    "annotations": {
+      "items": {
+        "$ref": "#/$defs/Annotation"
+      },
+      "title": "Annotations",
+      "type": "array"
+    },
+    "root_component_ids": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Root Component Ids",
+      "type": "array"
+    },
+    "provenance": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Provenance"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  "required": [
+    "id",
+    "schema_version",
+    "design_version",
+    "name"
+  ],
+  "title": "IRDocument",
+  "type": "object"
+}

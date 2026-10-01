@@ -1,0 +1,1846 @@
+################ TASK 1: GUARDRAILS RULES.PY (FULL) ################
+     1	"""Guardrail-specific rules that sit ON TOP of (and never duplicate)
+     2	Step 2's own app.domain.ir.validation.validate_document(). Only genuinely
+     3	NEW checks live here - anything Step 2 already owns is reused via
+     4	validator.py instead of being reimplemented."""
+     5	
+     6	from __future__ import annotations
+     7	
+     8	from app.domain.guardrails.models import GuardrailIssue, GuardrailSeverity
+     9	from app.domain.ir.models import IRDocument, PortDirection
+    10	
+    11	
+    12	def check_empty_identifiers(document: IRDocument) -> list[GuardrailIssue]:
+    13	    """Reject empty/whitespace-only identifiers. Step 2's Canonical IR
+    14	    models accept any non-None string for an id/name - this guardrail-level
+    15	    policy is intentionally stricter than the schema itself."""
+    16	
+    17	    issues: list[GuardrailIssue] = []
+    18	
+    19	    def _check(value: str, path: str) -> None:
+    20	        if not value.strip():
+    21	            issues.append(
+    22	                GuardrailIssue(
+    23	                    code="EMPTY_IDENTIFIER",
+    24	                    severity=GuardrailSeverity.ERROR,
+    25	                    message=f"'{path}' must not be empty or whitespace-only.",
+    26	                    path=path,
+    27	                )
+    28	            )
+    29	
+    30	    _check(document.id, "id")
+    31	    _check(document.name, "name")
+    32	
+    33	    for component in document.components:
+    34	        _check(component.id, f"components.{component.id or '<empty>'}.id")
+    35	        _check(component.name, f"components.{component.id or '<empty>'}.name")
+    36	        for port in component.ports:
+    37	            _check(port.id, f"components.{component.id}.ports.{port.id or '<empty>'}.id")
+    38	            _check(port.name, f"components.{component.id}.ports.{port.id or '<empty>'}.name")
+    39	
+    40	    for connection in document.connections:
+    41	        _check(connection.id, f"connections.{connection.id or '<empty>'}.id")
+    42	
+    43	    for annotation in document.annotations:
+    44	        _check(annotation.id, f"annotations.{annotation.id or '<empty>'}.id")
+    45	
+    46	    return issues
+    47	
+    48	
+    49	def check_annotation_references(document: IRDocument) -> list[GuardrailIssue]:
+    50	    """Warn (never error - annotations are non-authoritative notes that
+    51	    never affect circuit semantics) about an annotation whose target_id
+    52	    does not match any known component/port/connection id."""
+    53	
+    54	    known_ids: set[str] = set()
+    55	    for component in document.components:
+    56	        known_ids.add(component.id)
+    57	        for port in component.ports:
+    58	            known_ids.add(port.id)
+    59	    for connection in document.connections:
+    60	        known_ids.add(connection.id)
+    61	
+    62	    issues: list[GuardrailIssue] = []
+    63	    for annotation in document.annotations:
+    64	        if annotation.target_id is not None and annotation.target_id not in known_ids:
+    65	            issues.append(
+    66	                GuardrailIssue(
+    67	                    code="DANGLING_ANNOTATION_REFERENCE",
+    68	                    severity=GuardrailSeverity.WARNING,
+    69	                    message=(
+    70	                        f"Annotation '{annotation.id}' references unknown target "
+    71	                        f"'{annotation.target_id}' - harmless, but points at nothing "
+    72	                        f"in the current document."
+    73	                    ),
+    74	                    path=f"annotations.{annotation.id}.target_id",
+    75	                )
+    76	            )
+    77	    return issues
+    78	
+    79	
+    80	def check_floating_input_ports(document: IRDocument) -> list[GuardrailIssue]:
+    81	    """Warn (never error - a floating input is a real design smell but not
+    82	    a structural violation Step 2's own validation already rejects) about
+    83	    any INPUT/INOUT-direction port that is never the `target` of any
+    84	    connection in the document. Deliberately excludes a component's own
+    85	    ports when it legitimately never needs an internal driver: a downward
+    86	    hierarchy boundary port (this component IS some other component's
+    87	    parent) may drive children without ever appearing as a target itself,
+    88	    so such a port is not flagged as floating."""
+    89	
+    90	    driven_targets: set[tuple[str, str]] = {
+    91	        (connection.target.component_id, connection.target.port_id)
+    92	        for connection in document.connections
+    93	    }
+    94	    parent_ids = {
+    95	        component.parent_id for component in document.components if component.parent_id is not None
+    96	    }
+    97	
+    98	    issues: list[GuardrailIssue] = []
+    99	    for component in document.components:
+   100	        is_parent = component.id in parent_ids
+   101	        for port in component.ports:
+   102	            if port.direction not in (PortDirection.INPUT, PortDirection.INOUT):
+   103	                continue
+   104	            if (component.id, port.id) in driven_targets:
+   105	                continue
+   106	            if is_parent:
+   107	                # A parent's own boundary input port may legitimately be
+   108	                # driven only from inside (an upward flow from a child),
+   109	                # which validation.py already permits - not this
+   110	                # guardrail's concern to re-derive that logic.
+   111	                continue
+   112	            issues.append(
+   113	                GuardrailIssue(
+   114	                    code="FLOATING_INPUT_PORT",
+   115	                    severity=GuardrailSeverity.WARNING,
+   116	                    message=(
+   117	                        f"Port '{port.id}' on component '{component.id}' has "
+   118	                        f"direction '{port.direction.value}' but is never driven "
+   119	                        f"by any connection - likely an unconnected input."
+   120	                    ),
+   121	                    path=f"components.{component.id}.ports.{port.id}",
+   122	                )
+   123	            )
+   124	    return issues
+   125	
+   126	
+   127	_DFF_KIND = "DFF"
+   128	
+   129	
+   130	def check_dff_port_shape(document: IRDocument) -> list[GuardrailIssue]:
+   131	    """A "DFF"-kind component (Step 21 follow-up: real sequential logic)
+   132	    must have EXACTLY one 'd' input port, one 'clk' input port (a 1-bit
+   133	    scalar - a multi-bit "clock bus" is never a valid clock signal), and
+   134	    one output port ('q') whose width matches 'd'. This is an ERROR
+   135	    (blocks is_valid), not a warning - a malformed DFF can never be
+   136	    turned into real HDL, so the failure must surface here, before
+   137	    app.domain.hdl.generator ever runs, rather than as a confusing
+   138	    downstream crash/failure."""
+   139	
+   140	    issues: list[GuardrailIssue] = []
+   141	    for component in document.components:
+   142	        if component.kind != _DFF_KIND:
+   143	            continue
+   144	
+   145	        path_prefix = f"components.{component.id}"
+   146	        ports_by_name: dict[str, list] = {}
+   147	        for port in component.ports:
+   148	            ports_by_name.setdefault(port.name, []).append(port)
+   149	
+   150	        for name, ports in ports_by_name.items():
+   151	            if len(ports) > 1:
+   152	                issues.append(
+   153	                    GuardrailIssue(
+   154	                        code="DFF_DUPLICATE_PORT_NAME",
+   155	                        severity=GuardrailSeverity.ERROR,
+   156	                        message=(
+   157	                            f"DFF component '{component.id}' has {len(ports)} "
+   158	                            f"ports named '{name}' - port names must be unique "
+   159	                            "on a DFF."
+   160	                        ),
+   161	                        path=f"{path_prefix}.ports.{name}",
+   162	                    )
+   163	                )
+   164	
+   165	        d_port = ports_by_name.get("d", [None])[0]
+   166	        clk_port = ports_by_name.get("clk", [None])[0]
+   167	        output_ports = [port for port in component.ports if port.direction == PortDirection.OUTPUT]
+   168	        q_port = next((port for port in output_ports if port.name == "q"), None)
+   169	
+   170	        if d_port is None or d_port.direction != PortDirection.INPUT:
+   171	            issues.append(
+   172	                GuardrailIssue(
+   173	                    code="DFF_MISSING_D_PORT",
+   174	                    severity=GuardrailSeverity.ERROR,
+   175	                    message=f"DFF component '{component.id}' must have exactly one INPUT port named 'd'.",
+   176	                    path=f"{path_prefix}.ports.d",
+   177	                )
+   178	            )
+   179	
+   180	        if clk_port is None or clk_port.direction != PortDirection.INPUT:
+   181	            issues.append(
+   182	                GuardrailIssue(
+   183	                    code="DFF_MISSING_CLK_PORT",
+   184	                    severity=GuardrailSeverity.ERROR,
+   185	                    message=f"DFF component '{component.id}' must have exactly one INPUT port named 'clk'.",
+   186	                    path=f"{path_prefix}.ports.clk",
+   187	                )
+   188	            )
+   189	        elif clk_port.width != 1:
+   190	            issues.append(
+   191	                GuardrailIssue(
+   192	                    code="DFF_INVALID_CLK_WIDTH",
+   193	                    severity=GuardrailSeverity.ERROR,
+   194	                    message=(
+   195	                        f"DFF component '{component.id}'s 'clk' port has width "
+   196	                        f"{clk_port.width} - a clock must be a 1-bit scalar signal."
+   197	                    ),
+   198	                    path=f"{path_prefix}.ports.clk",
+   199	                )
+   200	            )
+   201	
+   202	        if q_port is None:
+   203	            issues.append(
+   204	                GuardrailIssue(
+   205	                    code="DFF_MISSING_Q_PORT",
+   206	                    severity=GuardrailSeverity.ERROR,
+   207	                    message=f"DFF component '{component.id}' must have exactly one OUTPUT port named 'q'.",
+   208	                    path=f"{path_prefix}.ports.q",
+   209	                )
+   210	            )
+   211	        elif d_port is not None and q_port.width != d_port.width:
+   212	            issues.append(
+   213	                GuardrailIssue(
+   214	                    code="DFF_WIDTH_MISMATCH",
+   215	                    severity=GuardrailSeverity.ERROR,
+   216	                    message=(
+   217	                        f"DFF component '{component.id}'s 'q' port width "
+   218	                        f"({q_port.width}) does not match its 'd' port width "
+   219	                        f"({d_port.width})."
+   220	                    ),
+   221	                    path=f"{path_prefix}.ports.q",
+   222	                )
+   223	            )
+   224	
+   225	    return issues
+   226	
+   227	
+   228	def check_dff_reset_shape(document: IRDocument) -> list[GuardrailIssue]:
+   229	    """A "DFF"-kind component's reset semantics are declared ONLY via
+   230	    Component.reset (an explicit ResetSpec) - never inferred from the
+   231	    presence of a port named 'reset'. This is an ERROR (blocks is_valid),
+   232	    matching check_dff_port_shape's severity, because a malformed reset
+   233	    declaration can never be turned into real HDL either.
+   234	
+   235	    Two independent shapes are enforced:
+   236	      - reset is None: there must be NO port named 'reset' at all. A port
+   237	        named 'reset' with no declared semantics is ambiguous (is it a
+   238	        real reset wired up incorrectly, or just a stray port with a
+   239	        misleading name?) and is rejected rather than silently ignored
+   240	        or silently treated as a reset.
+   241	      - reset is not None: there must be EXACTLY one port named 'reset',
+   242	        direction INPUT, width 1 (a reset, like a clock, is never a valid
+   243	        multi-bit bus). Invalid polarity/timing *values* can never reach
+   244	        this function at all - ResetPolarity/ResetTiming are closed
+   245	        Pydantic enums validated at IR-construction time, before any
+   246	        guardrail ever runs.
+   247	    """
+   248	
+   249	    issues: list[GuardrailIssue] = []
+   250	    for component in document.components:
+   251	        if component.kind != _DFF_KIND:
+   252	            continue
+   253	
+   254	        path_prefix = f"components.{component.id}"
+   255	        reset_port = next((port for port in component.ports if port.name == "reset"), None)
+   256	
+   257	        if component.reset is None:
+   258	            if reset_port is not None:
+   259	                issues.append(
+   260	                    GuardrailIssue(
+   261	                        code="DFF_UNDECLARED_RESET_PORT",
+   262	                        severity=GuardrailSeverity.ERROR,
+   263	                        message=(
+   264	                            f"DFF component '{component.id}' has a port named 'reset' "
+   265	                            "but no reset semantics declared (component.reset is "
+   266	                            "None). Reset behavior is never inferred from a port "
+   267	                            "name - either declare reset explicitly (polarity + "
+   268	                            "timing) or remove this port."
+   269	                        ),
+   270	                        path=f"{path_prefix}.ports.reset",
+   271	                    )
+   272	                )
+   273	            continue
+   274	
+   275	        # component.reset is not None: a real, correctly-shaped reset
+   276	        # port is required.
+   277	        if reset_port is None:
+   278	            issues.append(
+   279	                GuardrailIssue(
+   280	                    code="DFF_MISSING_RESET_PORT",
+   281	                    severity=GuardrailSeverity.ERROR,
+   282	                    message=(
+   283	                        f"DFF component '{component.id}' declares reset semantics "
+   284	                        "but has no port named 'reset'."
+   285	                    ),
+   286	                    path=f"{path_prefix}.ports.reset",
+   287	                )
+   288	            )
+   289	            continue
+   290	
+   291	        if reset_port.direction != PortDirection.INPUT:
+   292	            issues.append(
+   293	                GuardrailIssue(
+   294	                    code="DFF_INVALID_RESET_DIRECTION",
+   295	                    severity=GuardrailSeverity.ERROR,
+   296	                    message=f"DFF component '{component.id}'s 'reset' port must be an INPUT port.",
+   297	                    path=f"{path_prefix}.ports.reset",
+   298	                )
+   299	            )
+   300	
+   301	        if reset_port.width != 1:
+   302	            issues.append(
+   303	                GuardrailIssue(
+   304	                    code="DFF_INVALID_RESET_WIDTH",
+   305	                    severity=GuardrailSeverity.ERROR,
+   306	                    message=(
+   307	                        f"DFF component '{component.id}'s 'reset' port has width "
+   308	                        f"{reset_port.width} - a reset must be a 1-bit scalar signal."
+   309	                    ),
+   310	                    path=f"{path_prefix}.ports.reset",
+   311	                )
+   312	            )
+   313	
+   314	    return issues
+   315	
+   316	
+   317	def check_dff_reset_shape(document: IRDocument) -> list[GuardrailIssue]:
+   318	    """A "DFF"-kind component's reset semantics are declared ONLY via
+   319	    Component.reset (an explicit ResetSpec) - never inferred from the
+   320	    presence of a port named 'reset'. This is an ERROR (blocks is_valid),
+   321	    matching check_dff_port_shape's severity, because a malformed reset
+   322	    declaration can never be turned into real HDL either.
+   323	
+   324	    Two independent shapes are enforced:
+   325	      - reset is None: there must be NO port named 'reset' at all. A port
+   326	        named 'reset' with no declared semantics is ambiguous (is it a
+   327	        real reset wired up incorrectly, or just a stray port with a
+   328	        misleading name?) and is rejected rather than silently ignored
+   329	        or silently treated as a reset.
+   330	      - reset is not None: there must be EXACTLY one port named 'reset',
+   331	        direction INPUT, width 1 (a reset, like a clock, is never a valid
+   332	        multi-bit bus). Invalid polarity/timing *values* can never reach
+   333	        this function at all - ResetPolarity/ResetTiming are closed
+   334	        Pydantic enums validated at IR-construction time, before any
+   335	        guardrail ever runs.
+   336	    """
+   337	
+   338	    issues: list[GuardrailIssue] = []
+   339	    for component in document.components:
+   340	        if component.kind != _DFF_KIND:
+   341	            continue
+   342	
+   343	        path_prefix = f"components.{component.id}"
+   344	        reset_port = next((port for port in component.ports if port.name == "reset"), None)
+   345	
+   346	        if component.reset is None:
+   347	            if reset_port is not None:
+   348	                issues.append(
+   349	                    GuardrailIssue(
+   350	                        code="DFF_UNDECLARED_RESET_PORT",
+   351	                        severity=GuardrailSeverity.ERROR,
+   352	                        message=(
+   353	                            f"DFF component '{component.id}' has a port named 'reset' "
+   354	                            "but no reset semantics declared (component.reset is "
+   355	                            "None). Reset behavior is never inferred from a port "
+   356	                            "name - either declare reset explicitly (polarity + "
+   357	                            "timing) or remove this port."
+   358	                        ),
+   359	                        path=f"{path_prefix}.ports.reset",
+   360	                    )
+   361	                )
+   362	            continue
+   363	
+   364	        # component.reset is not None: a real, correctly-shaped reset
+   365	        # port is required.
+   366	        if reset_port is None:
+   367	            issues.append(
+   368	                GuardrailIssue(
+   369	                    code="DFF_MISSING_RESET_PORT",
+   370	                    severity=GuardrailSeverity.ERROR,
+   371	                    message=(
+   372	                        f"DFF component '{component.id}' declares reset semantics "
+   373	                        "but has no port named 'reset'."
+   374	                    ),
+   375	                    path=f"{path_prefix}.ports.reset",
+   376	                )
+   377	            )
+   378	            continue
+   379	
+   380	        if reset_port.direction != PortDirection.INPUT:
+   381	            issues.append(
+   382	                GuardrailIssue(
+   383	                    code="DFF_INVALID_RESET_DIRECTION",
+   384	                    severity=GuardrailSeverity.ERROR,
+   385	                    message=f"DFF component '{component.id}'s 'reset' port must be an INPUT port.",
+   386	                    path=f"{path_prefix}.ports.reset",
+   387	                )
+   388	            )
+   389	
+   390	        if reset_port.width != 1:
+   391	            issues.append(
+   392	                GuardrailIssue(
+   393	                    code="DFF_INVALID_RESET_WIDTH",
+   394	                    severity=GuardrailSeverity.ERROR,
+   395	                    message=(
+   396	                        f"DFF component '{component.id}'s 'reset' port has width "
+   397	                        f"{reset_port.width} - a reset must be a 1-bit scalar signal."
+   398	                    ),
+   399	                    path=f"{path_prefix}.ports.reset",
+   400	                )
+   401	            )
+   402	
+   403	    return issues
+################ TASK 1: VALIDATOR.PY (FULL) ################
+"""The guardrails application-service entry point: run_guardrails().
+
+Conceptually:
+
+    Input IR -> Canonical IR validation -> Guardrails/normalization
+             -> Validated canonical IR -> future downstream systems
+
+This is an internal domain/application service - no HTTP API yet.
+"""
+
+from __future__ import annotations
+
+from app.domain.guardrails.models import GuardrailIssue, GuardrailResult, GuardrailSeverity
+from app.domain.guardrails.normalization import normalize_document
+from app.domain.guardrails.rules import check_annotation_references, check_dff_port_shape, check_dff_reset_shape, check_empty_identifiers, check_floating_input_ports
+from app.domain.ir.models import IRDocument
+from app.domain.ir.validation import validate_document
+
+
+def run_guardrails(document: IRDocument) -> GuardrailResult:
+    """Validate the Canonical IR, apply only safe normalization, validate
+    again, and return a deterministic structured result. Never raises.
+
+    If the document already fails canonical validation, normalization is
+    skipped entirely - normalizing (and thereby appearing to "process") an
+    already-broken IR would contradict the "reject unsafe ambiguity rather
+    than guessing" principle.
+    """
+
+    errors, warnings = _collect_issues(document)
+    if errors:
+        return GuardrailResult(is_valid=False, errors=errors, warnings=warnings, normalized_document=None)
+
+    normalized = normalize_document(document)
+    post_errors, post_warnings = _collect_issues(normalized)
+
+    return GuardrailResult(
+        is_valid=len(post_errors) == 0,
+        errors=post_errors,
+        warnings=post_warnings,
+        normalized_document=normalized if not post_errors else None,
+    )
+
+
+def _collect_issues(document: IRDocument) -> tuple[list[GuardrailIssue], list[GuardrailIssue]]:
+    """Run Step 2's canonical validation (reused, never duplicated - every
+    canonical issue becomes an ERROR-severity GuardrailIssue) plus the
+    guardrail-only rules in app.domain.guardrails.rules."""
+
+    errors: list[GuardrailIssue] = []
+    warnings: list[GuardrailIssue] = []
+
+    canonical_result = validate_document(document)
+    for issue in canonical_result.issues:
+        errors.append(
+            GuardrailIssue(
+                code=issue.code,
+                severity=GuardrailSeverity.ERROR,
+                message=issue.message,
+                path=issue.path,
+            )
+        )
+
+    errors.extend(check_empty_identifiers(document))
+    errors.extend(check_dff_port_shape(document))
+    errors.extend(check_dff_reset_shape(document))
+    warnings.extend(check_annotation_references(document))
+    warnings.extend(check_floating_input_ports(document))
+
+    return errors, warnings
+################ TASK 2: FRONTEND api.ts (FULL) ################
+/** Thin fetch wrapper around the existing Step 9 Scene API contract and the
+ * existing Step 8 Physical API contract. Mirrors each backend's shape
+ * exactly - no second, frontend-specific schema is introduced. */
+
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000";
+
+export interface SceneObject {
+  id: string;
+  source_component_id: string;
+  kind: string;
+  x: number;
+  y: number;
+  z: number;
+  width: number;
+  height: number;
+  depth: number;
+}
+
+export interface SceneDocument {
+  source_document_id: string;
+  source_schema_version: string;
+  objects: SceneObject[];
+}
+
+export interface SceneError {
+  code: string;
+  message: string;
+  path: string;
+}
+
+export interface SceneResult {
+  is_valid: boolean;
+  errors: SceneError[];
+  warnings: SceneError[];
+  scene: SceneDocument | null;
+}
+
+export async function generateScene(document: Record<string, unknown>): Promise<SceneResult> {
+  const response = await fetch(`${API_BASE_URL}/api/scene/generate`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ document }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Scene generation request failed with HTTP ${response.status}`);
+  }
+
+  return response.json() as Promise<SceneResult>;
+}
+
+export interface PhysicalPin {
+  id: string;
+  source_port_id: string;
+  name: string;
+  direction: string;
+  x: number;
+  y: number;
+}
+
+export interface PhysicalBlock {
+  id: string;
+  source_component_id: string;
+  kind: string;
+  name: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  area: number;
+  pins: PhysicalPin[];
+}
+
+export interface PhysicalEndpoint {
+  block_id: string;
+  pin_id: string;
+  source_component_id: string;
+  source_port_id: string;
+}
+
+export interface PhysicalNet {
+  id: string;
+  source_connection_id: string;
+  source: PhysicalEndpoint;
+  target: PhysicalEndpoint;
+}
+
+export interface PhysicalDocument {
+  source_document_id: string;
+  source_schema_version: string;
+  die_width: number;
+  die_height: number;
+  blocks: PhysicalBlock[];
+  nets: PhysicalNet[];
+}
+
+export interface PhysicalError {
+  code: string;
+  message: string;
+  path: string;
+}
+
+export interface PhysicalResult {
+  is_valid: boolean;
+  errors: PhysicalError[];
+  warnings: PhysicalError[];
+  physical: PhysicalDocument | null;
+}
+
+export async function getPhysicalLayout(document: Record<string, unknown>): Promise<PhysicalResult> {
+  const response = await fetch(`${API_BASE_URL}/api/physical/generate`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ document }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Physical layout request failed with HTTP ${response.status}`);
+  }
+
+  return response.json() as Promise<PhysicalResult>;
+}
+
+export type PromptFailureReason =
+  | "missing_api_key"
+  | "provider_timeout"
+  | "provider_error"
+  | "malformed_intent"
+  | "unsupported_component_kind"
+  | "invalid_connection"
+  | "guardrails_rejected";
+
+export interface PromptResolution {
+  is_recognized: boolean;
+  circuit_key: string | null;
+  message: string;
+  document: Record<string, unknown> | null;
+  failure_reason: PromptFailureReason | null;
+}
+
+export async function resolvePrompt(prompt: string): Promise<PromptResolution> {
+  const response = await fetch(`${API_BASE_URL}/api/prompt/resolve`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ prompt }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Prompt resolution request failed with HTTP ${response.status}`);
+  }
+
+  return response.json() as Promise<PromptResolution>;
+}
+
+export interface SchematicPort {
+  id: string;
+  source_port_id: string;
+  name: string;
+  direction: string;
+  width: number;
+  x: number;
+  y: number;
+}
+
+export interface SchematicComponent {
+  id: string;
+  source_component_id: string;
+  kind: string;
+  name: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  ports: SchematicPort[];
+}
+
+export interface SchematicEndpoint {
+  component_id: string;
+  port_id: string;
+  source_component_id: string;
+  source_port_id: string;
+  bit_range: { msb: number; lsb: number } | null;
+}
+
+export interface RoutedPoint {
+  x: number;
+  y: number;
+}
+
+export interface SchematicWire {
+  id: string;
+  source_connection_id: string;
+  source: SchematicEndpoint;
+  target: SchematicEndpoint;
+  points: RoutedPoint[];
+}
+
+export interface SchematicDocument {
+  source_document_id: string;
+  source_schema_version: string;
+  components: SchematicComponent[];
+  wires: SchematicWire[];
+}
+
+export interface SchematicError {
+  code: string;
+  message: string;
+  path: string;
+}
+
+export interface SchematicResult {
+  is_valid: boolean;
+  errors: SchematicError[];
+  warnings: SchematicError[];
+  schematic: SchematicDocument | null;
+}
+
+export async function getSchematic(document: Record<string, unknown>): Promise<SchematicResult> {
+  const response = await fetch(`${API_BASE_URL}/api/schematic/generate`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ document }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Schematic generation request failed with HTTP ${response.status}`);
+  }
+
+  return response.json() as Promise<SchematicResult>;
+}
+
+/* Step 20: real Step 19 physical-design job API - job-based (unlike the
+ * synchronous Scene/Physical/Schematic contracts above), since a real
+ * LibreLane build takes minutes. Mirrors app/domain/physical_design's own
+ * Pydantic shapes exactly. */
+
+export type JobStatus = "queued" | "running" | "succeeded" | "failed" | "cancelled" | "timed_out";
+
+export type CellClassification = "canonical" | "tool_generated_fill" | "tool_generated_timing" | "unknown";
+
+export interface PhysicalDesignError {
+  code: string;
+  message: string;
+  path: string;
+}
+
+export interface SignoffStatus {
+  drc_passed: boolean | null;
+  lvs_passed: boolean | null;
+  antenna_passed: boolean | null;
+  drc_error_count: number | null;
+  lvs_error_count: number | null;
+}
+
+export interface ComponentPhysicalMapping {
+  canonical_component_id: string;
+  physical_cell_names: string[];
+  note: string | null;
+}
+
+export interface PortPhysicalMapping {
+  canonical_component_id: string;
+  def_pin_name: string;
+}
+
+export interface UnmappedCell {
+  cell_name: string;
+  cell_type: string;
+  classification: CellClassification;
+}
+
+export interface CellPlacement {
+  cell_name: string;
+  cell_type: string;
+  x: number;
+  y: number;
+  orientation: string;
+  classification: CellClassification;
+  canonical_component_id: string | null;
+}
+
+export interface PhysicalIdentityMapping {
+  component_mappings: ComponentPhysicalMapping[];
+  port_mappings: PortPhysicalMapping[];
+  unmapped_cells: UnmappedCell[];
+  connection_identity_status: "unavailable";
+  cell_placements: CellPlacement[];
+}
+
+export interface ArtifactMetadata {
+  artifact_type: string;
+  file_name: string;
+  size_bytes: number;
+}
+
+export interface PhysicalDesignResult {
+  is_valid: boolean;
+  errors: PhysicalDesignError[];
+  signoff: SignoffStatus | null;
+  identity_mapping: PhysicalIdentityMapping | null;
+  artifacts: ArtifactMetadata[];
+  metrics: Record<string, number | string | boolean | null>;
+  die_width_um: number | null;
+  die_height_um: number | null;
+}
+
+export interface PhysicalDesignJob {
+  job_id: string;
+  status: JobStatus;
+  failure_code: string | null;
+  failure_message: string | null;
+  created_at: string;
+  updated_at: string;
+  result: PhysicalDesignResult | null;
+}
+
+const PHYSICAL_DESIGN_API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000";
+
+export async function startPhysicalDesignBuild(document: Record<string, unknown>): Promise<PhysicalDesignJob> {
+  const response = await fetch(`${PHYSICAL_DESIGN_API_BASE}/api/physical-design/build`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ document }),
+  });
+
+  if (!response.ok) {
+    const detail = await response.text();
+    throw new Error(`Physical design build request failed with HTTP ${response.status}: ${detail}`);
+  }
+
+  return response.json() as Promise<PhysicalDesignJob>;
+}
+
+export async function getPhysicalDesignJob(jobId: string): Promise<PhysicalDesignJob> {
+  const response = await fetch(`${PHYSICAL_DESIGN_API_BASE}/api/physical-design/jobs/${jobId}`);
+
+  if (!response.ok) {
+    throw new Error(`Physical design job status request failed with HTTP ${response.status}`);
+  }
+
+  return response.json() as Promise<PhysicalDesignJob>;
+}
+
+export async function cancelPhysicalDesignJob(jobId: string): Promise<PhysicalDesignJob> {
+  const response = await fetch(`${PHYSICAL_DESIGN_API_BASE}/api/physical-design/jobs/${jobId}/cancel`, {
+    method: "POST",
+  });
+
+  if (!response.ok) {
+    const detail = await response.text();
+    throw new Error(`Physical design cancel request failed with HTTP ${response.status}: ${detail}`);
+  }
+
+  return response.json() as Promise<PhysicalDesignJob>;
+}
+
+export const TERMINAL_JOB_STATUSES: JobStatus[] = ["succeeded", "failed", "cancelled", "timed_out"];
+export const CANCELLABLE_JOB_STATUSES: JobStatus[] = ["queued", "running"];
+
+/* Real GDS/Silicon viewer (Step 20 follow-up). Mirrors
+ * app/domain/physical_design/gds_models.py exactly - every value here
+ * comes from a real klayout parse of the real GDS artifact, never
+ * fabricated/derived from the DEF floorplan. */
+
+export interface GdsBoundingBox {
+  min_x_um: number;
+  min_y_um: number;
+  max_x_um: number;
+  max_y_um: number;
+}
+
+export interface GdsLayerInfo {
+  layer: number;
+  datatype: number;
+  known_name: string | null;
+  shape_count: number;
+}
+
+export interface GdsSummary {
+  dbu_um: number;
+  top_cell_name: string;
+  cell_count: number;
+  bounding_box: GdsBoundingBox;
+  layers: GdsLayerInfo[];
+  total_polygon_count: number;
+  total_path_count: number;
+  total_box_count: number;
+  total_text_count: number;
+  file_size_bytes: number;
+  parse_seconds: number;
+}
+
+export type GdsShapeKind = "polygon" | "path" | "box";
+
+export interface GdsShape {
+  kind: GdsShapeKind;
+  points_um: [number, number][];
+}
+
+export interface GdsRegionResult {
+  layer: number;
+  datatype: number;
+  queried_region: GdsBoundingBox;
+  shapes: GdsShape[];
+  returned_count: number;
+  truncated: boolean;
+}
+
+export async function getGdsSummary(jobId: string): Promise<GdsSummary> {
+  const response = await fetch(`${PHYSICAL_DESIGN_API_BASE}/api/physical-design/jobs/${jobId}/gds/summary`);
+
+  if (!response.ok) {
+    const detail = await response.text();
+    throw new Error(`Real GDS summary request failed with HTTP ${response.status}: ${detail}`);
+  }
+
+  return response.json() as Promise<GdsSummary>;
+}
+
+export interface GdsRegionQuery {
+  layer: number;
+  datatype: number;
+  min_x_um: number;
+  min_y_um: number;
+  max_x_um: number;
+  max_y_um: number;
+  limit?: number;
+}
+
+export async function getGdsRegion(jobId: string, query: GdsRegionQuery): Promise<GdsRegionResult> {
+  const params = new URLSearchParams({
+    layer: String(query.layer),
+    datatype: String(query.datatype),
+    min_x_um: String(query.min_x_um),
+    min_y_um: String(query.min_y_um),
+    max_x_um: String(query.max_x_um),
+    max_y_um: String(query.max_y_um),
+    ...(query.limit !== undefined ? { limit: String(query.limit) } : {}),
+  });
+
+  const response = await fetch(`${PHYSICAL_DESIGN_API_BASE}/api/physical-design/jobs/${jobId}/gds/region?${params.toString()}`);
+
+  if (!response.ok) {
+    const detail = await response.text();
+    throw new Error(`Real GDS region request failed with HTTP ${response.status}: ${detail}`);
+  }
+
+  return response.json() as Promise<GdsRegionResult>;
+}
+
+
+/* Canonical identity/provenance ledger - the unified logical/HDL/physical
+ * identity view. Mirrors app/domain/identity/models.py exactly; every
+ * value comes from the real Step 18 HDL generator + the real Step 19
+ * physical identity mapping, never fabricated. */
+
+export type DesignLayer = "logical" | "hdl" | "physical";
+
+export interface ComponentIdentityRecord {
+  canonical_component_id: string;
+  canonical_kind: string;
+  canonical_name: string;
+  hdl_instance_name: string | null;
+  physical_cell_names: string[];
+  def_pin_name: string | null;
+  layers_present: DesignLayer[];
+  note: string | null;
+}
+
+export interface DesignIdentityLedger {
+  document_id: string;
+  document_name: string;
+  hdl_module_name: string | null;
+  component_count: number;
+  mapped_component_count: number;
+  connection_identity_status: string;
+  unmapped_physical_cell_count: number;
+  records: ComponentIdentityRecord[];
+}
+
+export async function getDesignIdentity(jobId: string): Promise<DesignIdentityLedger> {
+  const response = await fetch(`${PHYSICAL_DESIGN_API_BASE}/api/physical-design/jobs/${jobId}/identity`);
+
+  if (!response.ok) {
+    const detail = await response.text();
+    throw new Error(`Design identity ledger request failed with HTTP ${response.status}: ${detail}`);
+  }
+
+  return response.json() as Promise<DesignIdentityLedger>;
+}
+################ TASK 2: SchematicViewer.tsx (FULL) ################
+"use client";
+
+import { useState } from "react";
+import type { SchematicComponent, SchematicDocument, SchematicPort, SchematicWire } from "@/lib/api";
+import { useSelection } from "@/lib/selection/SelectionContext";
+
+/** Reuses the exact same amber-selected/white-hover convention SceneViewer
+ * (Step 12) already established, for visual consistency across views. */
+const SELECTED_COLOR = "#ffcc00";
+const HOVER_COLOR = "#ffffff";
+const DEFAULT_STROKE = "#666666";
+const DEFAULT_FILL = "#2a2a2a";
+const DEFAULT_WIRE_COLOR = "#888888";
+
+function computeViewBox(components: SchematicComponent[]): string {
+  if (components.length === 0) {
+    return "0 0 400 300";
+  }
+  const minX = Math.min(...components.map((component) => component.x));
+  const minY = Math.min(...components.map((component) => component.y));
+  const maxX = Math.max(...components.map((component) => component.x + component.width));
+  const maxY = Math.max(...components.map((component) => component.y + component.height));
+  const padding = 20;
+  return `${minX - padding} ${minY - padding} ${maxX - minX + padding * 2} ${maxY - minY + padding * 2}`;
+}
+
+/** A single explicit port click-target - the schematic view is the ONLY
+ * view (Step 17) that supports port-level selection, since it's the only
+ * one with a real per-port (x, y) to click on. */
+function SchematicPortDot({ port }: { port: SchematicPort }) {
+  const { selectedPortId, selectPort } = useSelection();
+  const isSelected = port.source_port_id === selectedPortId;
+
+  return (
+    <circle
+      cx={port.x}
+      cy={port.y}
+      r={isSelected ? 4 : 2.5}
+      fill={isSelected ? SELECTED_COLOR : "#999999"}
+      onClick={(event) => {
+        event.stopPropagation();
+        selectPort(port.source_port_id);
+      }}
+      style={{ cursor: "pointer" }}
+    />
+  );
+}
+
+function SchematicComponentBox({ component }: { component: SchematicComponent }) {
+  const { selectedComponentId, selectComponent } = useSelection();
+  const [isHovered, setIsHovered] = useState(false);
+  const isSelected = component.source_component_id === selectedComponentId;
+
+  const stroke = isSelected ? SELECTED_COLOR : isHovered ? HOVER_COLOR : DEFAULT_STROKE;
+
+  return (
+    <g
+      onClick={(event) => {
+        event.stopPropagation();
+        selectComponent(component.source_component_id);
+      }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      style={{ cursor: "pointer" }}
+      data-testid={`schematic-component-${component.source_component_id}`}
+    >
+      <rect
+        x={component.x}
+        y={component.y}
+        width={component.width}
+        height={component.height}
+        fill={DEFAULT_FILL}
+        stroke={stroke}
+        strokeWidth={isSelected ? 3 : 1.5}
+      />
+      <text
+        x={component.x + component.width / 2}
+        y={component.y + component.height / 2}
+        fill="#eeeeee"
+        fontSize={10}
+        textAnchor="middle"
+        dominantBaseline="middle"
+        pointerEvents="none"
+      >
+        {component.name}
+      </text>
+      {component.ports.map((port) => (
+        <SchematicPortDot key={port.id} port={port} />
+      ))}
+    </g>
+  );
+}
+
+function SchematicWireLine({ wire }: { wire: SchematicWire }) {
+  const { selectedConnectionId, selectConnection } = useSelection();
+  const isSelected = wire.source_connection_id === selectedConnectionId;
+  const pointsAttribute = wire.points.map((point) => `${point.x},${point.y}`).join(" ");
+
+  return (
+    <polyline
+      points={pointsAttribute}
+      fill="none"
+      stroke={isSelected ? SELECTED_COLOR : DEFAULT_WIRE_COLOR}
+      strokeWidth={isSelected ? 3 : 1.5}
+      onClick={(event) => {
+        event.stopPropagation();
+        selectConnection(wire.source_connection_id);
+      }}
+      style={{ cursor: "pointer" }}
+      data-testid={`schematic-wire-${wire.source_connection_id}`}
+    />
+  );
+}
+
+interface SchematicViewerProps {
+  schematic: SchematicDocument | null;
+}
+
+/** A minimum, real, deterministic projection of the exact same
+ * SchematicDocument the backend's own (already-tested) layout algorithm
+ * produces - components as rectangles at their real x/y/width/height,
+ * wires as their real routed polyline points. No independent drawing, no
+ * fabricated layout - this IS the same schematic the backend computed,
+ * just rendered as SVG instead of the backend's own SVG compiler output. */
+export default function SchematicViewer({ schematic }: SchematicViewerProps) {
+  const { clearSelection } = useSelection();
+
+  if (!schematic || schematic.components.length === 0) {
+    return <p>No schematic to display.</p>;
+  }
+
+  return (
+    <div style={{ width: "100%", height: 480, border: "1px solid #333", background: "#111" }}>
+      <svg
+        width="100%"
+        height="100%"
+        viewBox={computeViewBox(schematic.components)}
+        onClick={() => clearSelection()}
+      >
+        {schematic.wires.map((wire) => (
+          <SchematicWireLine key={wire.id} wire={wire} />
+        ))}
+        {schematic.components.map((component) => (
+          <SchematicComponentBox key={component.id} component={component} />
+        ))}
+      </svg>
+    </div>
+  );
+}
+################ TASK 2: GdsViewer.tsx (FULL) ################
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import { getGdsRegion, getGdsSummary, type GdsRegionResult, type GdsSummary } from "@/lib/api";
+
+const CANVAS_WIDTH = 640;
+const CANVAS_HEIGHT = 520;
+const VIEWPORT_DEBOUNCE_MS = 250;
+
+/* A small, fixed, deterministic display-only color palette keyed by
+ * layer index (NOT real data - purely cosmetic, same convention as
+ * STATUS_COLORS/CLASSIFICATION_COLORS elsewhere in this project). */
+const LAYER_COLORS = ["#4fbf6b", "#e0a04f", "#5aa9e6", "#e05555", "#c77dff", "#f4d35e", "#38a3a5", "#f28482"];
+
+interface Viewport {
+  minX: number;
+  minY: number;
+  maxX: number;
+  maxY: number;
+}
+
+function layerKey(layer: number, datatype: number): string {
+  return `${layer}/${datatype}`;
+}
+
+function layerLabel(layer: number, datatype: number, knownName: string | null): string {
+  return knownName ? `${knownName} (L${layer}/D${datatype})` : `L${layer}/D${datatype}`;
+}
+
+/** Real GDS/Silicon viewer - renders ACTUAL polygon/path/box geometry
+ * parsed from the real GDS artifact via the real `klayout` library
+ * (backend GET .../gds/summary + .../gds/region), never the DEF
+ * placement-origin markers used by PhysicalFloorplanView. Only ONE
+ * (layer, datatype)'s real shapes are fetched per visible layer, clipped
+ * to the current pan/zoom viewport - a real GDS can have hundreds of
+ * thousands of shapes, so the whole file is never requested at once. */
+export default function GdsViewer({ jobId }: { jobId: string }) {
+  const [summary, setSummary] = useState<GdsSummary | null>(null);
+  const [summaryError, setSummaryError] = useState<string | null>(null);
+  const [loadingSummary, setLoadingSummary] = useState(true);
+
+  const [viewport, setViewport] = useState<Viewport | null>(null);
+  const [visibleLayers, setVisibleLayers] = useState<Set<string>>(new Set());
+  const [regionData, setRegionData] = useState<Map<string, GdsRegionResult>>(new Map());
+  const [regionError, setRegionError] = useState<string | null>(null);
+  const [loadingRegion, setLoadingRegion] = useState(false);
+
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const dragState = useRef<{ dragging: boolean; lastX: number; lastY: number }>({ dragging: false, lastX: 0, lastY: 0 });
+  const debounceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // Guards against a stale (superseded or post-unmount) region fetch
+  // applying its result after a NEWER viewport/layer-selection request
+  // has already started - incremented on every effect run/unmount, only
+  // the fetch matching the CURRENT generation is allowed to update state.
+  const regionRequestGeneration = useRef(0);
+
+  // Reset all per-job state during render when jobId changes (React's own
+  // documented "adjusting state when a prop changes" pattern) rather than
+  // calling setState synchronously at the top of an effect body.
+  const [resetForJobId, setResetForJobId] = useState<string | null>(null);
+  if (resetForJobId !== jobId) {
+    setResetForJobId(jobId);
+    setLoadingSummary(true);
+    setSummaryError(null);
+    setSummary(null);
+    setViewport(null);
+    setVisibleLayers(new Set());
+    setRegionData(new Map());
+  }
+
+  useEffect(() => {
+    let cancelled = false;
+    getGdsSummary(jobId)
+      .then((result) => {
+        if (cancelled) return;
+        setSummary(result);
+        setViewport({
+          minX: result.bounding_box.min_x_um,
+          minY: result.bounding_box.min_y_um,
+          maxX: result.bounding_box.max_x_um,
+          maxY: result.bounding_box.max_y_um,
+        });
+      })
+      .catch((err: unknown) => {
+        if (!cancelled) setSummaryError(err instanceof Error ? err.message : String(err));
+      })
+      .finally(() => {
+        if (!cancelled) setLoadingSummary(false);
+      });
+    return () => {
+      cancelled = true;
+      regionRequestGeneration.current += 1;
+    };
+  }, [jobId]);
+
+  // Debounced real-geometry fetch whenever the viewport or the set of
+  // visible layers changes - never fires on every intermediate pan/zoom
+  // frame.
+  useEffect(() => {
+    if (!viewport || visibleLayers.size === 0) return;
+    if (debounceTimer.current) clearTimeout(debounceTimer.current);
+    regionRequestGeneration.current += 1;
+    const thisGeneration = regionRequestGeneration.current;
+    debounceTimer.current = setTimeout(() => {
+      setLoadingRegion(true);
+      setRegionError(null);
+      const keys = Array.from(visibleLayers);
+      Promise.all(
+        keys.map(async (key) => {
+          const [layerStr, datatypeStr] = key.split("/");
+          const result = await getGdsRegion(jobId, {
+            layer: Number(layerStr),
+            datatype: Number(datatypeStr),
+            min_x_um: viewport.minX,
+            min_y_um: viewport.minY,
+            max_x_um: viewport.maxX,
+            max_y_um: viewport.maxY,
+          });
+          return [key, result] as const;
+        })
+      )
+        .then((entries) => {
+          // A NEWER viewport/layer change (or unmount) may have started
+          // a different request while this one was in flight - never let
+          // a stale response overwrite fresher state.
+          if (regionRequestGeneration.current !== thisGeneration) return;
+          setRegionData(new Map(entries));
+        })
+        .catch((err: unknown) => {
+          if (regionRequestGeneration.current !== thisGeneration) return;
+          setRegionError(err instanceof Error ? err.message : String(err));
+        })
+        .finally(() => {
+          if (regionRequestGeneration.current === thisGeneration) setLoadingRegion(false);
+        });
+    }, VIEWPORT_DEBOUNCE_MS);
+    return () => {
+      if (debounceTimer.current) clearTimeout(debounceTimer.current);
+    };
+  }, [viewport, visibleLayers, jobId]);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas || !viewport) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    ctx.fillStyle = "#0a0a0a";
+    ctx.fillRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+    const spanX = viewport.maxX - viewport.minX || 1;
+    const spanY = viewport.maxY - viewport.minY || 1;
+
+    const toCanvas = (x: number, y: number): [number, number] => {
+      const px = ((x - viewport.minX) / spanX) * CANVAS_WIDTH;
+      const py = CANVAS_HEIGHT - ((y - viewport.minY) / spanY) * CANVAS_HEIGHT;
+      return [px, py];
+    };
+
+    let colorIndex = 0;
+    for (const [key, region] of regionData.entries()) {
+      const color = LAYER_COLORS[colorIndex % LAYER_COLORS.length];
+      colorIndex += 1;
+      if (!visibleLayers.has(key)) continue;
+      ctx.fillStyle = color;
+      ctx.globalAlpha = 0.55;
+      for (const shape of region.shapes) {
+        if (shape.points_um.length < 2) continue;
+        ctx.beginPath();
+        const [startX, startY] = toCanvas(shape.points_um[0][0], shape.points_um[0][1]);
+        ctx.moveTo(startX, startY);
+        for (const [x, y] of shape.points_um.slice(1)) {
+          const [px, py] = toCanvas(x, y);
+          ctx.lineTo(px, py);
+        }
+        ctx.closePath();
+        ctx.fill();
+      }
+    }
+    ctx.globalAlpha = 1;
+  }, [regionData, viewport, visibleLayers]);
+
+  function toggleLayer(key: string) {
+    setVisibleLayers((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
+  }
+
+  function resetView() {
+    if (!summary) return;
+    setViewport({
+      minX: summary.bounding_box.min_x_um,
+      minY: summary.bounding_box.min_y_um,
+      maxX: summary.bounding_box.max_x_um,
+      maxY: summary.bounding_box.max_y_um,
+    });
+  }
+
+  function handleWheel(e: React.WheelEvent<HTMLCanvasElement>) {
+    if (!viewport) return;
+    e.preventDefault();
+    const zoomFactor = e.deltaY > 0 ? 1.15 : 1 / 1.15;
+    const spanX = (viewport.maxX - viewport.minX) * zoomFactor;
+    const spanY = (viewport.maxY - viewport.minY) * zoomFactor;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const cursorFracX = (e.clientX - rect.left) / rect.width;
+    const cursorFracY = 1 - (e.clientY - rect.top) / rect.height;
+    const cursorX = viewport.minX + cursorFracX * (viewport.maxX - viewport.minX);
+    const cursorY = viewport.minY + cursorFracY * (viewport.maxY - viewport.minY);
+    setViewport({
+      minX: cursorX - cursorFracX * spanX,
+      minY: cursorY - cursorFracY * spanY,
+      maxX: cursorX + (1 - cursorFracX) * spanX,
+      maxY: cursorY + (1 - cursorFracY) * spanY,
+    });
+  }
+
+  function handleMouseDown(e: React.MouseEvent<HTMLCanvasElement>) {
+    dragState.current = { dragging: true, lastX: e.clientX, lastY: e.clientY };
+  }
+
+  function handleMouseMove(e: React.MouseEvent<HTMLCanvasElement>) {
+    if (!dragState.current.dragging || !viewport) return;
+    const dxPixels = e.clientX - dragState.current.lastX;
+    const dyPixels = e.clientY - dragState.current.lastY;
+    dragState.current.lastX = e.clientX;
+    dragState.current.lastY = e.clientY;
+    const spanX = viewport.maxX - viewport.minX;
+    const spanY = viewport.maxY - viewport.minY;
+    const dx = -(dxPixels / CANVAS_WIDTH) * spanX;
+    const dy = (dyPixels / CANVAS_HEIGHT) * spanY;
+    setViewport({ minX: viewport.minX + dx, minY: viewport.minY + dy, maxX: viewport.maxX + dx, maxY: viewport.maxY + dy });
+  }
+
+  function handleMouseUp() {
+    dragState.current.dragging = false;
+  }
+
+  if (loadingSummary) {
+    return <p data-testid="gds-viewer-loading">Loading real GDS metadata...</p>;
+  }
+
+  if (summaryError) {
+    return (
+      <p style={{ color: "#e05555" }} data-testid="gds-viewer-error">
+        Error loading real GDS data: {summaryError}
+      </p>
+    );
+  }
+
+  if (!summary) return null;
+
+  const anyTruncated = Array.from(regionData.values()).some((r) => r.truncated);
+
+  return (
+    <div style={{ marginTop: "1rem", border: "1px solid #333", padding: "0.75rem" }} data-testid="gds-viewer">
+      <h3 style={{ fontSize: "0.9rem" }}>Real GDS / Silicon Viewer (klayout-parsed, not the DEF floorplan above)</h3>
+      <p style={{ fontSize: "0.8rem", opacity: 0.75 }}>
+        Real cell &quot;{summary.top_cell_name}&quot; - {summary.cell_count} cells, {summary.total_box_count} real boxes /{" "}
+        {summary.total_polygon_count} real polygons / {summary.total_path_count} real paths across{" "}
+        {summary.layers.length} real GDS layers. Die {(summary.bounding_box.max_x_um - summary.bounding_box.min_x_um).toFixed(1)} x{" "}
+        {(summary.bounding_box.max_y_um - summary.bounding_box.min_y_um).toFixed(1)} um.
+      </p>
+
+      <div style={{ display: "flex", gap: "1rem" }}>
+        <div style={{ maxHeight: CANVAS_HEIGHT, overflowY: "auto", minWidth: "200px" }}>
+          <p style={{ fontSize: "0.75rem", opacity: 0.7 }}>Real layers (select to view real geometry):</p>
+          {summary.layers
+            .slice()
+            .sort((a, b) => b.shape_count - a.shape_count)
+            .map((layer) => {
+              const key = layerKey(layer.layer, layer.datatype);
+              return (
+                <label key={key} style={{ display: "block", fontSize: "0.75rem" }}>
+                  <input type="checkbox" checked={visibleLayers.has(key)} onChange={() => toggleLayer(key)} />{" "}
+                  {layerLabel(layer.layer, layer.datatype, layer.known_name)} ({layer.shape_count})
+                </label>
+              );
+            })}
+        </div>
+
+        <div>
+          <canvas
+            ref={canvasRef}
+            width={CANVAS_WIDTH}
+            height={CANVAS_HEIGHT}
+            style={{ background: "#0a0a0a", border: "1px solid #444", cursor: "grab" }}
+            data-testid="gds-viewer-canvas"
+            onWheel={handleWheel}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseUp}
+          />
+          <div style={{ marginTop: "0.4rem" }}>
+            <button type="button" onClick={resetView} style={{ fontSize: "0.75rem" }}>
+              Reset view
+            </button>
+            {loadingRegion && <span style={{ marginLeft: "0.5rem", fontSize: "0.75rem" }}>Loading real geometry...</span>}
+          </div>
+          {regionError && (
+            <p style={{ color: "#e05555", fontSize: "0.75rem" }} data-testid="gds-viewer-region-error">
+              Error loading real geometry: {regionError}
+            </p>
+          )}
+          {anyTruncated && (
+            <p style={{ fontSize: "0.7rem", opacity: 0.7 }}>
+              Some visible layers have more real shapes in this view than the per-request limit - zoom in for full detail.
+              Scroll to zoom, drag to pan - a real viewport query is issued for each visible layer.
+            </p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+################ TASK 2: PhysicalDesignPanel.tsx (FULL) ################
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import {
+  cancelPhysicalDesignJob,
+  CANCELLABLE_JOB_STATUSES,
+  getDesignIdentity,
+  getPhysicalDesignJob,
+  startPhysicalDesignBuild,
+  TERMINAL_JOB_STATUSES,
+  type CellPlacement,
+  type DesignIdentityLedger,
+  type PhysicalDesignJob,
+} from "@/lib/api";
+import GdsViewer from "@/components/GdsViewer";
+
+const POLL_INTERVAL_MS = 3000;
+
+const STATUS_COLORS: Record<string, string> = {
+  queued: "#e0a04f",
+  running: "#e0a04f",
+  succeeded: "#4fbf6b",
+  failed: "#e05555",
+  cancelled: "#999",
+  timed_out: "#e05555",
+};
+
+const CLASSIFICATION_COLORS: Record<string, string> = {
+  canonical: "#4fbf6b",
+  tool_generated_timing: "#e0a04f",
+  tool_generated_fill: "#555",
+  unknown: "#e05555",
+};
+
+const LAYER_LABELS: Record<string, string> = {
+  logical: "Logical",
+  hdl: "HDL",
+  physical: "Physical",
+};
+
+function formatBytes(bytes: number): string {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+}
+
+function passFailLabel(value: boolean | null): string {
+  if (value === null) return "n/a";
+  return value ? "PASS" : "FAIL";
+}
+
+/** Real, DEF-derived floorplan view - NOT a full GDS/layer renderer.
+ * DEF `PLACED`/`FIXED` lines only give each real cell's ORIGIN point, not
+ * its true footprint polygon (that needs the LEF cell outlines, which
+ * this project does not parse) - every cell is therefore drawn as a
+ * small fixed-size marker at its real, actual placed (x, y) position,
+ * never a fabricated shape/size. Real `tool_generated_fill` cells (fill/
+ * tap/decap - there can be tens of thousands of them on a real die) are
+ * deliberately excluded from the drawing itself (would make the SVG
+ * unusable) but are still counted in the caption and remain fully present
+ * in the raw identity_mapping data returned by the API. */
+function PhysicalFloorplanView({
+  cellPlacements,
+  dieWidthUm,
+  dieHeightUm,
+}: {
+  cellPlacements: CellPlacement[];
+  dieWidthUm: number;
+  dieHeightUm: number;
+}) {
+  const visibleCells = cellPlacements.filter((cell) => cell.classification !== "tool_generated_fill");
+  const omittedFillCount = cellPlacements.length - visibleCells.length;
+  const markerSize = Math.max(dieWidthUm, dieHeightUm) / 60;
+
+  return (
+    <div>
+      <svg
+        viewBox={`0 0 ${dieWidthUm} ${dieHeightUm}`}
+        width="100%"
+        height={320}
+        style={{ background: "#0a0a0a", border: "1px solid #333" }}
+        data-testid="physical-floorplan-svg"
+      >
+        <rect x={0} y={0} width={dieWidthUm} height={dieHeightUm} fill="none" stroke="#444" />
+        {visibleCells.map((cell) => (
+          <rect
+            key={cell.cell_name}
+            data-testid={`floorplan-cell-${cell.cell_name}`}
+            x={cell.x - markerSize / 2}
+            y={dieHeightUm - cell.y - markerSize / 2}
+            width={markerSize}
+            height={markerSize}
+            fill={CLASSIFICATION_COLORS[cell.classification] ?? "#e05555"}
+          >
+            <title>
+              {cell.canonical_component_id ?? cell.cell_name} ({cell.cell_type})
+            </title>
+          </rect>
+        ))}
+      </svg>
+      <p style={{ fontSize: "0.8rem", opacity: 0.7 }}>
+        Real DEF-derived placement points ({visibleCells.length} shown: real logic-gate cells and real
+        timing-repair buffers). {omittedFillCount} real fill/tap/decap cell(s) omitted from the drawing for
+        readability (still present in the raw identity mapping). Markers show each cell&apos;s real placed
+        origin, not its true footprint outline - full GDS/LEF-shape rendering is not implemented (Step 20
+        limitation, not fabricated as more precise than it is).
+      </p>
+    </div>
+  );
+}
+
+/** Canonical identity/provenance ledger - the unified per-component view
+ * across every representation layer this platform can back with real
+ * evidence (logical IR / HDL RTL instance / physical placed cell). Never
+ * a second source of truth: purely a projection of data already shown
+ * elsewhere on this panel, unified into one place. */
+function IdentityLedgerView({ ledger }: { ledger: DesignIdentityLedger }) {
+  return (
+    <div>
+      {ledger.hdl_module_name && (
+        <p style={{ fontSize: "0.8rem", opacity: 0.7 }}>
+          Real HDL module: <code>{ledger.hdl_module_name}</code>
+        </p>
+      )}
+      <table>
+        <thead>
+          <tr>
+            <th style={{ textAlign: "left", paddingRight: "1rem" }}>Component</th>
+            <th style={{ textAlign: "left", paddingRight: "1rem" }}>Kind</th>
+            <th style={{ textAlign: "left", paddingRight: "1rem" }}>HDL instance</th>
+            <th style={{ textAlign: "left", paddingRight: "1rem" }}>Physical cell(s)</th>
+            <th style={{ textAlign: "left" }}>Layers present</th>
+          </tr>
+        </thead>
+        <tbody>
+          {ledger.records.map((record) => (
+            <tr key={record.canonical_component_id}>
+              <td style={{ paddingRight: "1rem" }}>{record.canonical_component_id}</td>
+              <td style={{ paddingRight: "1rem" }}>{record.canonical_kind}</td>
+              <td style={{ paddingRight: "1rem" }}>{record.hdl_instance_name ?? "unavailable"}</td>
+              <td style={{ paddingRight: "1rem" }}>
+                {record.physical_cell_names.length > 0
+                  ? record.physical_cell_names.join(", ")
+                  : (record.def_pin_name ?? record.note ?? "unavailable")}
+              </td>
+              <td>{record.layers_present.map((layer) => LAYER_LABELS[layer] ?? layer).join(" -> ")}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <p style={{ fontSize: "0.8rem", opacity: 0.7 }}>
+        {ledger.mapped_component_count} of {ledger.component_count} canonical components have a real
+        physical identity. Connection identity: {ledger.connection_identity_status} - intentionally never
+        guessed. {ledger.unmapped_physical_cell_count} real placed cell(s) could not be attributed to any
+        canonical component (tool-generated fill/tap/decap/timing cells, always reported honestly, never
+        hidden).
+      </p>
+    </div>
+  );
+}
+
+export default function PhysicalDesignPanel({ circuitDocument }: { circuitDocument: Record<string, unknown> }) {
+  const [job, setJob] = useState<PhysicalDesignJob | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [isStarting, setIsStarting] = useState(false);
+  const [isCancelling, setIsCancelling] = useState(false);
+  const [showGdsViewer, setShowGdsViewer] = useState(false);
+  const [identityLedger, setIdentityLedger] = useState<DesignIdentityLedger | null>(null);
+  const [identityError, setIdentityError] = useState<string | null>(null);
+  const pollTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (pollTimer.current) clearTimeout(pollTimer.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    // Nothing to fetch/reset here for a non-succeeded (or absent) job -
+    // the JSX below already gates the ledger section on `job &&`, so a
+    // stale ledger from a PREVIOUS job simply stays invisible during the
+    // window between a new build starting (job briefly null) and the
+    // new job's own fetch resolving - no separate reset call needed.
+    if (!job || job.status !== "succeeded") {
+      return;
+    }
+    let cancelled = false;
+    getDesignIdentity(job.job_id)
+      .then((ledger) => {
+        if (!cancelled) setIdentityLedger(ledger);
+      })
+      .catch((err: unknown) => {
+        if (!cancelled) setIdentityError(err instanceof Error ? err.message : String(err));
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [job]);
+
+  function schedulePoll(jobId: string) {
+    pollTimer.current = setTimeout(async () => {
+      try {
+        const updated = await getPhysicalDesignJob(jobId);
+        setJob(updated);
+        if (!TERMINAL_JOB_STATUSES.includes(updated.status)) {
+          schedulePoll(jobId);
+        }
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : String(err));
+      }
+    }, POLL_INTERVAL_MS);
+  }
+
+  async function handleBuild() {
+    setError(null);
+    // Clear any previous job's result immediately - otherwise a stale
+    // succeeded/failed result from an earlier build stays visible during
+    // the brief network round-trip before the NEW job's queued response
+    // arrives, which could look like it belongs to the new build.
+    setJob(null);
+    if (pollTimer.current) clearTimeout(pollTimer.current);
+    setIsStarting(true);
+    try {
+      const created = await startPhysicalDesignBuild(circuitDocument);
+      setJob(created);
+      if (!TERMINAL_JOB_STATUSES.includes(created.status)) {
+        schedulePoll(created.job_id);
+      }
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : String(err));
+    } finally {
+      setIsStarting(false);
+    }
+  }
+
+  async function handleCancel() {
+    if (!job) return;
+    setError(null);
+    setIsCancelling(true);
+    try {
+      const updated = await cancelPhysicalDesignJob(job.job_id);
+      setJob(updated);
+      if (TERMINAL_JOB_STATUSES.includes(updated.status) && pollTimer.current) {
+        clearTimeout(pollTimer.current);
+      }
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : String(err));
+    } finally {
+      setIsCancelling(false);
+    }
+  }
+
+  const isPolling = job !== null && !TERMINAL_JOB_STATUSES.includes(job.status);
+  const isCancellable = job !== null && CANCELLABLE_JOB_STATUSES.includes(job.status);
+
+  return (
+    <div style={{ marginTop: "1rem" }}>
+      <h2 style={{ fontSize: "1rem" }}>Physical Design (Step 19: real LibreLane + SKY130 + OpenROAD)</h2>
+      <p style={{ fontSize: "0.85rem", opacity: 0.8 }}>
+        Runs the real LibreLane/OpenROAD/Magic toolchain against the current circuit - typically takes a
+        couple of minutes for a small primitive-only circuit. Never mocked; a real build failure is shown
+        honestly.
+      </p>
+      <button
+        type="button"
+        onClick={handleBuild}
+        disabled={isStarting || isPolling}
+        style={{ padding: "0.5rem 1rem" }}
+      >
+        {isStarting ? "Starting..." : isPolling ? "Building..." : "Build Physical Design"}
+      </button>
+      {isCancellable && (
+        <button
+          type="button"
+          onClick={handleCancel}
+          disabled={isCancelling}
+          style={{ padding: "0.5rem 1rem", marginLeft: "0.5rem" }}
+        >
+          {isCancelling ? "Cancelling..." : "Cancel"}
+        </button>
+      )}
+
+      {error && <p style={{ color: "#e05555" }}>Error: {error}</p>}
+
+      {job && (
+        <div style={{ marginTop: "1rem" }}>
+          <p>
+            Job <code>{job.job_id}</code> -{" "}
+            <strong style={{ color: STATUS_COLORS[job.status] ?? "#eee" }}>{job.status}</strong>
+          </p>
+
+          {job.failure_message && (
+            <p style={{ color: "#e05555" }}>
+              {job.failure_code}: {job.failure_message}
+            </p>
+          )}
+
+          {job.result && (
+            <>
+              {job.result.signoff && (
+                <table style={{ marginTop: "0.5rem" }}>
+                  <tbody>
+                    <tr>
+                      <td style={{ paddingRight: "1rem" }}>DRC</td>
+                      <td>
+                        {passFailLabel(job.result.signoff.drc_passed)} ({job.result.signoff.drc_error_count ?? "n/a"}{" "}
+                        error(s))
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style={{ paddingRight: "1rem" }}>LVS</td>
+                      <td>
+                        {passFailLabel(job.result.signoff.lvs_passed)} ({job.result.signoff.lvs_error_count ?? "n/a"}{" "}
+                        error(s))
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style={{ paddingRight: "1rem" }}>Antenna</td>
+                      <td>{passFailLabel(job.result.signoff.antenna_passed)}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              )}
+
+              {job.result.artifacts.length > 0 && (
+                <>
+                  <h3 style={{ fontSize: "0.9rem", marginTop: "1rem" }}>Real artifacts</h3>
+                  <ul>
+                    {job.result.artifacts.map((artifact) => (
+                      <li key={artifact.file_name}>
+                        {artifact.artifact_type}: {artifact.file_name} ({formatBytes(artifact.size_bytes)})
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
+
+              {job.result.identity_mapping && (
+                <>
+                  <h3 style={{ fontSize: "0.9rem", marginTop: "1rem" }}>Canonical identity mapping</h3>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th style={{ textAlign: "left", paddingRight: "1rem" }}>Component</th>
+                        <th style={{ textAlign: "left" }}>Real physical cell(s)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {job.result.identity_mapping.component_mappings.map((mapping) => (
+                        <tr key={mapping.canonical_component_id}>
+                          <td style={{ paddingRight: "1rem" }}>{mapping.canonical_component_id}</td>
+                          <td>
+                            {mapping.physical_cell_names.length > 0
+                              ? mapping.physical_cell_names.join(", ")
+                              : mapping.note ?? "not found"}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                  <p style={{ fontSize: "0.8rem", opacity: 0.7 }}>
+                    Connection (net-level) identity: {job.result.identity_mapping.connection_identity_status} -
+                    intentionally never guessed.
+                  </p>
+
+                  {job.result.die_width_um && job.result.die_height_um && (
+                    <>
+                      <h3 style={{ fontSize: "0.9rem", marginTop: "1rem" }}>DEF-derived floorplan (placement origins only)</h3>
+                      <PhysicalFloorplanView
+                        cellPlacements={job.result.identity_mapping.cell_placements}
+                        dieWidthUm={job.result.die_width_um}
+                        dieHeightUm={job.result.die_height_um}
+                      />
+                    </>
+                  )}
+                </>
+              )}
+
+              {identityLedger && (
+                <>
+                  <h3 style={{ fontSize: "0.9rem", marginTop: "1rem" }}>
+                    Canonical Identity Ledger (unified logical / HDL / physical view)
+                  </h3>
+                  <IdentityLedgerView ledger={identityLedger} />
+                </>
+              )}
+              {identityError && (
+                <p style={{ color: "#e05555", fontSize: "0.8rem" }}>Identity ledger error: {identityError}</p>
+              )}
+
+              {job.status === "succeeded" && (
+                <>
+                  <button
+                    type="button"
+                    onClick={() => setShowGdsViewer((prev) => !prev)}
+                    style={{ marginTop: "1rem", fontSize: "0.85rem" }}
+                  >
+                    {showGdsViewer ? "Hide Real GDS Viewer" : "Open Real GDS Viewer"}
+                  </button>
+                  {showGdsViewer && <GdsViewer jobId={job.job_id} />}
+                </>
+              )}
+            </>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}

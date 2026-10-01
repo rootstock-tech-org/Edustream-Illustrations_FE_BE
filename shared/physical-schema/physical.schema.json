@@ -1,0 +1,215 @@
+{
+  "$defs": {
+    "PhysicalBlock": {
+      "additionalProperties": false,
+      "description": "A placed physical block, generated 1:1 from exactly one IR\nComponent. `width`/`height`/`area` are illustrative units from a\nsimple synthetic sizing rule (see layout.py) - not real silicon\ndimensions.",
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "source_component_id": {
+          "title": "Source Component Id",
+          "type": "string"
+        },
+        "kind": {
+          "title": "Kind",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "x": {
+          "title": "X",
+          "type": "number"
+        },
+        "y": {
+          "title": "Y",
+          "type": "number"
+        },
+        "width": {
+          "title": "Width",
+          "type": "number"
+        },
+        "height": {
+          "title": "Height",
+          "type": "number"
+        },
+        "area": {
+          "title": "Area",
+          "type": "number"
+        },
+        "pins": {
+          "items": {
+            "$ref": "#/$defs/PhysicalPin"
+          },
+          "title": "Pins",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "source_component_id",
+        "kind",
+        "name",
+        "x",
+        "y",
+        "width",
+        "height",
+        "area"
+      ],
+      "title": "PhysicalBlock",
+      "type": "object"
+    },
+    "PhysicalEndpoint": {
+      "additionalProperties": false,
+      "description": "One side of a PhysicalNet: a specific pin on a specific block,\nplus the exact IR-level reference it was generated from.",
+      "properties": {
+        "block_id": {
+          "title": "Block Id",
+          "type": "string"
+        },
+        "pin_id": {
+          "title": "Pin Id",
+          "type": "string"
+        },
+        "source_component_id": {
+          "title": "Source Component Id",
+          "type": "string"
+        },
+        "source_port_id": {
+          "title": "Source Port Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "block_id",
+        "pin_id",
+        "source_component_id",
+        "source_port_id"
+      ],
+      "title": "PhysicalEndpoint",
+      "type": "object"
+    },
+    "PhysicalNet": {
+      "additionalProperties": false,
+      "description": "Structural connectivity between two physical pins, generated 1:1\nfrom exactly one IR Connection. Deliberately carries NO routed\ngeometry - this records WHICH pins connect, never a real\nDRC-compliant routed path.",
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "source_connection_id": {
+          "title": "Source Connection Id",
+          "type": "string"
+        },
+        "source": {
+          "$ref": "#/$defs/PhysicalEndpoint"
+        },
+        "target": {
+          "$ref": "#/$defs/PhysicalEndpoint"
+        }
+      },
+      "required": [
+        "id",
+        "source_connection_id",
+        "source",
+        "target"
+      ],
+      "title": "PhysicalNet",
+      "type": "object"
+    },
+    "PhysicalPin": {
+      "additionalProperties": false,
+      "description": "A physical pin on a PhysicalBlock's boundary, traced back to\nexactly one Canonical IR Port.",
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "source_port_id": {
+          "title": "Source Port Id",
+          "type": "string"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "direction": {
+          "$ref": "#/$defs/PortDirection"
+        },
+        "x": {
+          "title": "X",
+          "type": "number"
+        },
+        "y": {
+          "title": "Y",
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "source_port_id",
+        "name",
+        "direction",
+        "x",
+        "y"
+      ],
+      "title": "PhysicalPin",
+      "type": "object"
+    },
+    "PortDirection": {
+      "description": "Signal direction of a Port - a real electrical property, so (unlike\nComponent.kind) this is deliberately a small, closed set.",
+      "enum": [
+        "input",
+        "output",
+        "inout"
+      ],
+      "title": "PortDirection",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "description": "The full generated physical floorplan for one IRDocument.",
+  "properties": {
+    "source_document_id": {
+      "title": "Source Document Id",
+      "type": "string"
+    },
+    "source_schema_version": {
+      "title": "Source Schema Version",
+      "type": "string"
+    },
+    "die_width": {
+      "title": "Die Width",
+      "type": "number"
+    },
+    "die_height": {
+      "title": "Die Height",
+      "type": "number"
+    },
+    "blocks": {
+      "items": {
+        "$ref": "#/$defs/PhysicalBlock"
+      },
+      "title": "Blocks",
+      "type": "array"
+    },
+    "nets": {
+      "items": {
+        "$ref": "#/$defs/PhysicalNet"
+      },
+      "title": "Nets",
+      "type": "array"
+    }
+  },
+  "required": [
+    "source_document_id",
+    "source_schema_version",
+    "die_width",
+    "die_height"
+  ],
+  "title": "PhysicalDocument",
+  "type": "object"
+}
